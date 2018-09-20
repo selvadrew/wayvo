@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "3857456744",
+    "firebase_url": "https://phonepal-b61b5.firebaseio.com",
+    "project_id": "phonepal-b61b5",
+    "storage_bucket": "phonepal-b61b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:3857456744:android:deef9d694e36cd85",
+        "android_client_info": {
+          "package_name": "com.maintest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "3857456744-g7jm5u9h2111cv0hr7btc8ch12pn9h6b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.maintest",
+            "certificate_hash": "a989fd86b9d2ff8568cc51bfa132e4f404628dcc"
+          }
+        },
+        {
+          "client_id": "3857456744-micjb05sbcprsp226v04tkigunova4o7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkOGvgB8N7pWTg5Y7rgKAaXzaNG9nWnUc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "3857456744-micjb05sbcprsp226v04tkigunova4o7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "3857456744-4uibdl3aum9ht171cm827r137jd346dh.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.mainTestv1"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
