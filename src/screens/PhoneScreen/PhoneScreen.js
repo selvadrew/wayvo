@@ -20,12 +20,11 @@ import {
 } from "../../store/actions/outgoingCalls";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getFriendRequests } from "../../store/actions/friends";
+import { getPhoneNumber } from "../../store/actions/users";
 import colors from "../../utils/styling";
 import CountDown from "react-native-countdown-component";
 
 import firebase from "react-native-firebase";
-
-import usernameTab from "../../screens/MainTabs/usernameTab";
 
 class PhoneScreen extends Component {
   componentDidMount() {
@@ -166,7 +165,7 @@ class PhoneScreen extends Component {
       .catch(err => alert(err));
 
     this.props.getLastCall();
-    //this.props.storePhoneNumber();
+    this.props.storePhoneNumber();
   }
 
   componentWillUnmount() {
@@ -185,6 +184,13 @@ class PhoneScreen extends Component {
     this.props.onOutgoingCall(this.state.timeSelected);
     this.props.navigator.push({
       screen: "awesome-places.SaidHello"
+    });
+  };
+
+  optionScreen = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.OptionScreen",
+      backButtonTitle: ""
     });
   };
 
@@ -281,7 +287,7 @@ class PhoneScreen extends Component {
       >
         <View style={styles.usernameWrapper}>
           {/* <Text style={styles.usernameStyle}>selvadrew</Text> */}
-          <Button title="username" onPress={() => usernameTab()} />
+          <Button title="username" onPress={() => this.optionScreen()} />
         </View>
 
         {button}
@@ -369,7 +375,8 @@ const mapDispatchToProps = dispatch => {
     onLoadActiveFriends: () => dispatch(getActiveFriends()),
     onLoadFriendRequests: () => dispatch(getFriendRequests()),
     getLastCall: () => dispatch(storeLastCall()),
-    onResetLastCall: () => dispatch(resetLastCall())
+    onResetLastCall: () => dispatch(resetLastCall()),
+    storePhoneNumber: () => dispatch(getPhoneNumber())
   };
 };
 

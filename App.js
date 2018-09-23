@@ -1,11 +1,13 @@
 import { Navigation } from "react-native-navigation";
 import { Provider } from "react-redux";
 
+import LoadingScreen from "./src/screens/Auth/Loading";
 import AuthScreen from "./src/screens/Auth/Auth";
 import Username from "./src/screens/Auth/Username";
 import PhoneNumber from "./src/screens/Auth/PhoneNumber";
 import PhoneScreen from "./src/screens/PhoneScreen/PhoneScreen";
 import SaidHello from "./src/screens/PhoneScreen/SaidHello";
+import OptionScreen from "./src/screens/PhoneScreen/OptionScreen";
 import FriendsScreen from "./src/screens/Friends/Friends";
 import FriendSelectedScreen from "./src/screens/Friends/FriendDetail";
 import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
@@ -15,6 +17,13 @@ import configureStore from "./src/store/configureStore";
 const store = configureStore();
 
 // Register Screens
+Navigation.registerComponent(
+  "awesome-places.LoadingScreen",
+  () => LoadingScreen,
+  store,
+  Provider
+);
+
 Navigation.registerComponent(
   "awesome-places.AuthScreen",
   () => AuthScreen,
@@ -50,6 +59,13 @@ Navigation.registerComponent(
 );
 
 Navigation.registerComponent(
+  "awesome-places.OptionScreen",
+  () => OptionScreen,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
   "awesome-places.FriendsScreen",
   () => FriendsScreen,
   store,
@@ -79,7 +95,7 @@ Navigation.registerComponent(
 // Start App
 Navigation.startSingleScreenApp({
   screen: {
-    screen: "awesome-places.AuthScreen",
-    title: "Login"
+    screen: "awesome-places.LoadingScreen"
+    //title: "Login"
   }
 });

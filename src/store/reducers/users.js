@@ -1,10 +1,11 @@
 import { SET_ACCESS_TOKEN, SET_PROFILE } from "../../store/actions/users";
-import { USERNAME_ERROR } from "../actions/actionTypes";
+import { USERNAME_ERROR, STORE_PHONE_NUMBER } from "../actions/actionTypes";
 
 const initialState = {
   accessToken: null,
   profile: null,
-  username_error: null
+  username_error: null,
+  phoneNumber: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +24,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         username_error: action.error
+      };
+
+    case STORE_PHONE_NUMBER:
+      return {
+        ...state,
+        phoneNumber: action.phoneNumber
       };
 
     default:

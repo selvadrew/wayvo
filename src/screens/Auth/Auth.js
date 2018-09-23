@@ -9,7 +9,7 @@ import { loginWithFacebook, authAutoSignIn } from "../../store/actions/users";
 
 class AuthScreen extends Component {
   componentDidMount() {
-    this.props.onAutoSignIn();
+    //this.props.onAutoSignIn();
   }
 
   onFBAuth = () => {

@@ -3,9 +3,10 @@ import { AsyncStorage } from "react-native";
 import usernameTab from "../../screens/MainTabs/usernameTab";
 import startTabs from "../../screens/MainTabs/startMainTabs";
 import phoneNumberTab from "../../screens/MainTabs/phoneNumberTab";
+import authTab from "../../screens/MainTabs/authTab";
 import firebase from "react-native-firebase";
 import { uiStartLoading, uiStopLoading } from "../../store/actions/ui";
-import { USERNAME_ERROR } from "./actionTypes";
+import { USERNAME_ERROR, STORE_PHONE_NUMBER } from "./actionTypes";
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 
@@ -25,6 +26,7 @@ export function loginWithFacebook(facebookAccessToken) {
         if (json.access_token) {
           dispatch(authStoreToken(json.access_token));
           AsyncStorage.setItem("access_token", json.access_token);
+          AsyncStorage.setItem("login_status", "in");
           dispatch(saveFirebaseToken(json.access_token));
 
           setTimeout(() => {
@@ -132,34 +134,42 @@ export const authGetToken = () => {
 export const authAutoSignIn = () => {
   return dispatch => {
     dispatch(uiStartLoading());
-    dispatch(authGetToken())
-      .then(token => {
-        return AsyncStorage.getItem("pp:username")
-          .catch(err => {
-            dispatch(uiStopLoading());
-            console.log(err);
-          })
-          .then(username => {
-            if (username === null) {
-              dispatch(uiStopLoading());
-              usernameTab();
-            } else {
-              AsyncStorage.getItem("pp:phonenumber").then(phonenumber => {
-                if (phonenumber === null) {
+    return AsyncStorage.getItem("login_status").then(status => {
+      if (status === "in") {
+        dispatch(authGetToken())
+          .then(token => {
+            console.log(token, "hi");
+            return AsyncStorage.getItem("pp:username")
+              .catch(err => {
+                dispatch(uiStopLoading());
+                console.log(err);
+              })
+              .then(username => {
+                if (username === null) {
                   dispatch(uiStopLoading());
-                  phoneNumberTab();
+                  usernameTab();
                 } else {
-                  dispatch(uiStopLoading());
-                  startTabs();
+                  AsyncStorage.getItem("pp:phonenumber").then(phonenumber => {
+                    if (phonenumber === null) {
+                      dispatch(uiStopLoading());
+                      phoneNumberTab();
+                    } else {
+                      dispatch(uiStopLoading());
+                      startTabs();
+                    }
+                  });
                 }
               });
-            }
+          })
+          .catch(err => {
+            dispatch(uiStopLoading());
+            console.log("wtffffff");
           });
-      })
-      .catch(err => {
+      } else {
+        authTab();
         dispatch(uiStopLoading());
-        console.log("wtffffff");
-      });
+      }
+    });
   };
 };
 
@@ -220,10 +230,12 @@ export function usernameError(error) {
 
 export const savePhoneNumber = phoneNumber => {
   return dispatch => {
+    dispatch(uiStartLoading());
     let access_token;
     dispatch(authGetToken())
       .catch(() => {
         alert("No valid token found!");
+        dispatch(uiStopLoading());
       })
       .then(token => {
         access_token = token;
@@ -239,17 +251,88 @@ export const savePhoneNumber = phoneNumber => {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
-
         if (json.is_success) {
           setTimeout(() => {
             startTabs();
+            dispatch(uiStopLoading());
           }, 1000);
-          AsyncStorage.setItem("pp:phonenumber", phoneNumber);
+          dispatch(storePhoneNumber(phoneNumber));
         } else {
           alert(json.error);
+          dispatch(uiStopLoading());
         }
       })
-      .catch(e => alert(e));
+      .catch(e => {
+        dispatch(uiStopLoading());
+        alert(e);
+      });
+  };
+};
+
+export const getPhoneNumber = () => {
+  return dispatch => {
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/get_phone_number`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(storePhoneNumber(json.phone_number));
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+};
+
+export function storePhoneNumber(phoneNumber) {
+  return {
+    type: STORE_PHONE_NUMBER,
+    phoneNumber
+  };
+}
+
+export const logout = () => {
+  return dispatch => {
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/logout`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          authTab();
+          AsyncStorage.setItem("login_status", "out");
+        }
+      })
+      .catch(e => {
+        console.log(e);
+      });
   };
 };
