@@ -1,13 +1,22 @@
 import React, { Component } from "react";
-import { View, Text, Button, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TouchableOpacity,
+  StyleSheet,
+  Platform
+} from "react-native";
 import { connect } from "react-redux";
 
 import { authAutoSignIn } from "../../store/actions/users";
 import colors from "../../utils/styling";
+import SplashScreen from "react-native-splash-screen";
 
 class LoadingScreen extends Component {
   componentDidMount() {
     this.props.onAutoSignIn();
+    //if (Platform.OS === "ios") {SplashScreen.hide()}
   }
 
   static navigatorStyle = {

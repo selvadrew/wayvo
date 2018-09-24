@@ -9,7 +9,7 @@ import com.android.build.OutputFile
  * cycle. By default, bundleDebugJsAndAssets is skipped, as in debug/dev mode we prefer to load the
  * bundle directly from the development server. Below you can see all the possible configurations
  * and their defaults. If you decide to add a configuration block, make sure to add it before the
- * `apply from: "../../node_modules/react-native/react.gradle"` line.
+ * `apply from: "../../node_modules/react-native/react.gradle"` line.d
  *
  * project.ext.react = [
  *   // the name of the generated asset file containing your JS bundle
@@ -31,14 +31,14 @@ import com.android.build.OutputFile
  *   //         'bundleIn${buildType}'
  *   // bundleInFreeDebug: true,
  *   // bundleInPaidRelease: true,
- *   // bundleInBeta: true,
+ *   // bundleInBeta: true,a
  *
  *   // whether to disable dev mode in custom build variants (by default only disabled in release)
  *   // for example: to disable dev mode in the staging build type (if configured)
  *   devDisabledInStaging: true,
  *   // The configuration property can be in the following formats
  *   //         'devDisabledIn${productFlavor}${buildType}'
- *   //         'devDisabledIn${buildType}'
+ *   //         'devDisabledIn${buildType}'s
  *
  *   // the root of your project, i.e. where "package.json" lives
  *   root: "../../",
@@ -139,6 +139,7 @@ android {
 }
 
 dependencies {
+    //implementation project(':react-native-splash-screen')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-navigation')
     implementation project(':react-native-firebase')

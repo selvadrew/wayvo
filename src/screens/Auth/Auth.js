@@ -1,15 +1,25 @@
 import React, { Component } from "react";
-import { View, Text, Button, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TouchableOpacity,
+  StyleSheet,
+  Platform
+} from "react-native";
 import { connect } from "react-redux";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 
 import { loginWithFacebook, authAutoSignIn } from "../../store/actions/users";
+import SplashScreen from "react-native-splash-screen";
 
 class AuthScreen extends Component {
   componentDidMount() {
-    //this.props.onAutoSignIn();
+    if (Platform.OS === "ios") {
+      SplashScreen.hide();
+    }
   }
 
   onFBAuth = () => {

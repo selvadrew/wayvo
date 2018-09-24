@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -43,6 +42,7 @@
 		69FC14C0A19A49ADA7F88502 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37BCA6545B4A490DB6F000A9 /* libRNFirebase.a */; };
 		80C58C3095E84E4AB96F757A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04CBF733CBB54013A955FB53 /* Zocial.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		948600FB9FF0435E917F70A6 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF44D17CCA64C4C95C9F49E /* libSplashScreen.a */; };
 		AAF82D8082B3455E8BCAB1A9 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5230882861D54B44A5C8862D /* MaterialIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B0412F5C6B224BDC9533A0E9 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A1BBD0A74B438A87989609 /* libRCTFBSDK.a */; };
@@ -390,6 +390,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		E6AB7E51215863EB00AEE290 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FEA68BD9BB1848D2A90254E9 /* SplashScreen.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3D7682761D8E76B80014119E;
+			remoteInfo = SplashScreen;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -435,6 +442,7 @@
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		B9F359EAA54A43DB98AA6105 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		D05EB79034A2435BB4B2DDD3 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		DDF44D17CCA64C4C95C9F49E /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
 		E6282B012113A22F004B0733 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		E6282B2D2113A39A004B0733 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		E6282B342113A419004B0733 /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -458,6 +466,7 @@
 		E65898F0212C982A001B6AD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E65899EA212CCDE3001B6AD1 /* module.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		FA8408B0D86F4F71BBEEBD33 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		FEA68BD9BB1848D2A90254E9 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -505,6 +514,7 @@
 				E65898EA212C9705001B6AD1 /* FirebaseCoreDiagnostics.framework in Frameworks */,
 				E65898E9212C9705001B6AD1 /* nanopb.framework in Frameworks */,
 				69FC14C0A19A49ADA7F88502 /* libRNFirebase.a in Frameworks */,
+				948600FB9FF0435E917F70A6 /* libSplashScreen.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,6 +712,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				0C4D0C20D46C43B2836E8B25 /* RCTFBSDK.xcodeproj */,
 				60582F24715C4DF1A28675EC /* RNFirebase.xcodeproj */,
+				FEA68BD9BB1848D2A90254E9 /* SplashScreen.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -805,6 +816,7 @@
 			children = (
 				92A1BBD0A74B438A87989609 /* libRCTFBSDK.a */,
 				37BCA6545B4A490DB6F000A9 /* libRNFirebase.a */,
+				DDF44D17CCA64C4C95C9F49E /* libSplashScreen.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -830,6 +842,14 @@
 			isa = PBXGroup;
 			children = (
 				E65898DA212C9445001B6AD1 /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E6AB7E23215863EB00AEE290 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E6AB7E52215863EB00AEE290 /* libSplashScreen.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1027,6 +1047,10 @@
 				{
 					ProductGroup = E6282B2E2113A39A004B0733 /* Products */;
 					ProjectRef = E6282B2D2113A39A004B0733 /* RNVectorIcons.xcodeproj */;
+				},
+				{
+					ProductGroup = E6AB7E23215863EB00AEE290 /* Products */;
+					ProjectRef = FEA68BD9BB1848D2A90254E9 /* SplashScreen.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -1341,6 +1365,13 @@
 			remoteRef = E65898D9212C9445001B6AD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		E6AB7E52215863EB00AEE290 /* libSplashScreen.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSplashScreen.a;
+			remoteRef = E6AB7E51215863EB00AEE290 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1499,12 +1530,14 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = mainTestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1527,12 +1560,14 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = mainTestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1568,6 +1603,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/Firebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = mainTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1605,6 +1641,7 @@
 					"$(SRCROOT)/../node_modules/react-native/Libraries/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
 					"$(SRCROOT)/Firebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = mainTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1637,11 +1674,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1674,11 +1713,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1710,11 +1751,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1746,11 +1789,13 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-firebase/ios/RNFirebase/**",
+					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);

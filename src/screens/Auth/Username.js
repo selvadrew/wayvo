@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Button,
   ActivityIndicator,
-  Keyboard
+  Keyboard,
+  Platform
 } from "react-native";
 import TextBox from "../../components/TextBox/TextBox";
 import { connect } from "react-redux";
@@ -14,8 +15,15 @@ import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 
 import { createUsername } from "../../store/actions/users";
+import SplashScreen from "react-native-splash-screen";
 
 class Username extends Component {
+  componentDidMount() {
+    if (Platform.OS === "ios") {
+      SplashScreen.hide();
+    }
+  }
+
   static navigatorStyle = {
     navBarHidden: true
   };

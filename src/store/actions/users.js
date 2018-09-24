@@ -30,7 +30,9 @@ export function loginWithFacebook(facebookAccessToken) {
           dispatch(saveFirebaseToken(json.access_token));
 
           if (json.username) {
+            AsyncStorage.setItem("pp:username", json.username);
             if (json.phone_number) {
+              AsyncStorage.setItem("pp:phonenumber", json.phone_number);
               setTimeout(() => {
                 startTabs();
               }, 1000);

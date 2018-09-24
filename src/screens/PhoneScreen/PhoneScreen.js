@@ -8,7 +8,8 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
   RefreshControl,
-  Button
+  Button,
+  StatusBar
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -25,6 +26,7 @@ import colors from "../../utils/styling";
 import CountDown from "react-native-countdown-component";
 
 import firebase from "react-native-firebase";
+import SplashScreen from "react-native-splash-screen";
 
 class PhoneScreen extends Component {
   componentDidMount() {
@@ -166,6 +168,9 @@ class PhoneScreen extends Component {
 
     this.props.getLastCall();
     this.props.storePhoneNumber();
+    if (Platform.OS === "ios") {
+      SplashScreen.hide();
+    }
   }
 
   componentWillUnmount() {
@@ -285,6 +290,10 @@ class PhoneScreen extends Component {
           />
         }
       >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={colors.blueColor}
+        />
         <View style={styles.usernameWrapper}>
           {/* <Text style={styles.usernameStyle}>selvadrew</Text> */}
           <Button title="username" onPress={() => this.optionScreen()} />

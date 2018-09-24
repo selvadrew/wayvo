@@ -14,6 +14,7 @@
 #import <Firebase.h>
 #import "RNFirebaseNotifications.h"
 #import "RNFirebaseMessaging.h"
+#import "RNSplashScreen.h"
 
 
 #import "RCCManager.h"
@@ -68,6 +69,7 @@
   }
   
   [application registerForRemoteNotifications];
+  [RNSplashScreen show];
 
   return YES;
 }

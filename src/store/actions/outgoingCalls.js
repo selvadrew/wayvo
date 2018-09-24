@@ -18,6 +18,8 @@ import {
   uiStopLoading
 } from "../../store/actions/ui";
 
+import SplashScreen from "react-native-splash-screen";
+
 export const outgoingCall = seconds => {
   return dispatch => {
     dispatch(startLoadingHello());
@@ -112,9 +114,11 @@ export const storeLastCall = () => {
           dispatch(
             storeLastCallData(normalizeSayHelloData(json, seconds_left))
           );
+          //if (Platform.OS === "ios") {SplashScreen.hide()}
           dispatch(uiStopLoading());
         } else {
           dispatch(uiStopLoading());
+          //if (Platform.OS === "ios") {SplashScreen.hide()}
         }
       })
       .catch(e => {

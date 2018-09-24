@@ -3,12 +3,11 @@ package com.maintest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-//import com.reactnativenavigation.NavigationReactPackage;
+//import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.RNFirebasePackage;
+//import com.reactnativenavigation.NavigationReactPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -66,7 +65,7 @@ public class MainApplication extends NavigationApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-     //SoLoader.init(this, /* native exopackage */ false); // not sure//////
+    // SoLoader.init(this, /* native exopackage */ false); // not sure//////
 
     setActivityCallbacks(new ActivityCallbacks() {
 
