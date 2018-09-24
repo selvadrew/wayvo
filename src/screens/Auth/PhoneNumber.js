@@ -101,7 +101,7 @@ class PhoneNumber extends Component {
       <View style={styles.container}>
         <View style={styles.topWrapper}>
           <Text style={styles.topText}>
-            Save your phone number to allow friends to call you
+            Save your phone number so friends can contact you
           </Text>
         </View>
         <View style={styles.inputButtonWrapper}>

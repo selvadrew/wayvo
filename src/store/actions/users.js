@@ -29,9 +29,50 @@ export function loginWithFacebook(facebookAccessToken) {
           AsyncStorage.setItem("login_status", "in");
           dispatch(saveFirebaseToken(json.access_token));
 
-          setTimeout(() => {
-            usernameTab();
-          }, 1000);
+          if (json.username) {
+            if (json.phone_number) {
+              setTimeout(() => {
+                startTabs();
+              }, 1000);
+            } else {
+              setTimeout(() => {
+                phoneNumberTab();
+              }, 1000);
+            }
+          } else {
+            setTimeout(() => {
+              usernameTab();
+            }, 1000);
+          }
+
+          // return AsyncStorage.getItem("pp:username")
+          //   .catch(err => {
+          //     //dispatch(uiStopLoading());
+          //     console.log(err);
+          //   })
+          //   .then(username => {
+          //     if (username === null) {
+          //       //dispatch(uiStopLoading());
+          //       setTimeout(() => {
+          //         usernameTab();
+          //       }, 1000);
+          //     } else {
+          //       AsyncStorage.getItem("pp:phonenumber").then(phonenumber => {
+          //         if (phonenumber === null) {
+          //           // dispatch(uiStopLoading());
+          //           setTimeout(() => {
+          //             phoneNumberTab();
+          //           }, 1000);
+          //         } else {
+          //           // dispatch(uiStopLoading());
+          //           setTimeout(() => {
+          //             startTabs();
+          //           }, 1000);
+          //         }
+          //       });
+          //     }
+          //   });
+
           console.log(json.access_token);
         } else {
           alert(json.error);
@@ -257,6 +298,7 @@ export const savePhoneNumber = phoneNumber => {
             dispatch(uiStopLoading());
           }, 1000);
           dispatch(storePhoneNumber(phoneNumber));
+          AsyncStorage.setItem("pp:phonenumber", phoneNumber);
         } else {
           alert(json.error);
           dispatch(uiStopLoading());

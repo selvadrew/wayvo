@@ -88,9 +88,7 @@ class Username extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topWrapper}>
-          <Text style={styles.topText}>
-            Create a username so others can add you
-          </Text>
+          <Text style={styles.topText}>Create a username</Text>
         </View>
         <View style={styles.inputButtonWrapper}>
           <View style={styles.inputWrapper}>
