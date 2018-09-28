@@ -13,7 +13,7 @@ import colors from "../../utils/styling";
 const helloButton = props => {
   const content = (
     <View
-      elevation={5}
+      //elevation={15}
       style={[{ backgroundColor: props.color }, styles.button]}
     >
       <View style={styles.textSayWrapper}>
@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").width * 0.6,
     alignItems: "center",
     justifyContent: "center",
-    shadowColor: "#0076DF",
+    shadowColor: "#0088CA", //"#0076DF",
     shadowOffset: {
-      width: 0,
-      height: 3
+      width: 4,
+      height: 6
     },
-    shadowRadius: 5,
+    shadowRadius: 1,
     shadowOpacity: 1.0
   },
   textSayWrapper: {
@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     flexDirection: "row",
     fontWeight: "bold"
+    // textShadowColor: "#888",
+    // textShadowOffset: { width: -3, height: 3 },
+    // textShadowRadius: 1
   },
   textHelloWrapper: {
     //flex: 1,

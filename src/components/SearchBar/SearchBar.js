@@ -57,6 +57,7 @@ class SearchBar extends Component {
             style={styles.TextBox}
             autoCorrect={false}
             autoCapitalize="none"
+            onSubmitEditing={this.addUsernameHandler}
           />
           {addButton}
         </View>

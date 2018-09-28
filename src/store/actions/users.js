@@ -47,34 +47,6 @@ export function loginWithFacebook(facebookAccessToken) {
             }, 1000);
           }
 
-          // return AsyncStorage.getItem("pp:username")
-          //   .catch(err => {
-          //     //dispatch(uiStopLoading());
-          //     console.log(err);
-          //   })
-          //   .then(username => {
-          //     if (username === null) {
-          //       //dispatch(uiStopLoading());
-          //       setTimeout(() => {
-          //         usernameTab();
-          //       }, 1000);
-          //     } else {
-          //       AsyncStorage.getItem("pp:phonenumber").then(phonenumber => {
-          //         if (phonenumber === null) {
-          //           // dispatch(uiStopLoading());
-          //           setTimeout(() => {
-          //             phoneNumberTab();
-          //           }, 1000);
-          //         } else {
-          //           // dispatch(uiStopLoading());
-          //           setTimeout(() => {
-          //             startTabs();
-          //           }, 1000);
-          //         }
-          //       });
-          //     }
-          //   });
-
           console.log(json.access_token);
         } else {
           alert(json.error);
@@ -334,7 +306,7 @@ export const getPhoneNumber = () => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          dispatch(storePhoneNumber(json.phone_number));
+          dispatch(storePhoneNumber(json.phone_number, json.username));
         }
       })
       .catch(e => {
@@ -343,10 +315,11 @@ export const getPhoneNumber = () => {
   };
 };
 
-export function storePhoneNumber(phoneNumber) {
+export function storePhoneNumber(phoneNumber, username) {
   return {
     type: STORE_PHONE_NUMBER,
-    phoneNumber
+    phoneNumber,
+    username
   };
 }
 

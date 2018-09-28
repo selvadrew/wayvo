@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   ScrollView,
   RefreshControl,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -72,7 +73,8 @@ class FriendsScreen extends Component {
   };
 
   static navigatorStyle = {
-    navBarHidden: true
+    navBarHidden: true,
+    statusBarColor: colors.blueColor
   };
   constructor(props) {
     super(props);
@@ -124,6 +126,10 @@ class FriendsScreen extends Component {
           />
         }
       >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={colors.blueColor}
+        />
         <SearchBar
           searchUsername={this.searchUsernameHandler}
           style={styles.searchBar}

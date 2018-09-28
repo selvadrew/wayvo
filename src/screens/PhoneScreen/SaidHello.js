@@ -26,9 +26,8 @@ class SaidHello extends Component {
             helloStatus = (
               <View>
                 <Text style={styles.successText}>
-                  Hang tight, we've notified all your contacts. You'll receive a
-                  call from the first contact to Say Hello back from their
-                  Active tab.
+                  Hang tight, you will receive a call from the first contact to
+                  Say Hello back.
                 </Text>
                 <GotIt
                   color={colors.greenColor}

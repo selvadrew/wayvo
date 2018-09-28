@@ -3,7 +3,7 @@ import { USERNAME_ERROR, STORE_PHONE_NUMBER } from "../actions/actionTypes";
 
 const initialState = {
   accessToken: null,
-  profile: null,
+  username: null,
   username_error: null,
   phoneNumber: null
 };
@@ -29,7 +29,8 @@ const reducer = (state = initialState, action) => {
     case STORE_PHONE_NUMBER:
       return {
         ...state,
-        phoneNumber: action.phoneNumber
+        phoneNumber: action.phoneNumber,
+        username: action.username
       };
 
     default:

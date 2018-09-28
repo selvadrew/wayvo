@@ -7,7 +7,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 import call from "react-native-phone-call";
@@ -77,9 +78,10 @@ class FriendDetail extends Component {
     if (this.props.ui === false && selectedFriendStatus === false) {
       screen = (
         <View style={styles.failContainer}>
+          <StatusBar barStyle="dark-content" />
           <Text style={styles.failText}>
             Sorry, this call was connected with another person or has expired.
-            Better luck next time :(
+            Better luck next time 😭
           </Text>
         </View>
       );

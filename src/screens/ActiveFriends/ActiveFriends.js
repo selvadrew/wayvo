@@ -40,12 +40,34 @@ class ActiveFriendsScreen extends Component {
     navBarBackgroundColor: colors.yellowColor,
     navBarButtonColor: "#ffffff",
     navBarHidden: true,
-    topBarElevationShadowEnabled: true
+    topBarElevationShadowEnabled: true,
+    statusBarColor: colors.greenColor
   };
 
   render() {
+    let activeExplain = null;
+
+    if (
+      this.props.connected_with === null &&
+      this.props.active_friends.length < 1
+    ) {
+      activeExplain = (
+        <Text style={styles.activeExplain}>
+          When your contacts Say Hello, you'll be able to respond here
+          {/* When your contacts Say Hello, be the first to Say Hello back to start
+          a call */}
+          {/* Be the first to respond when your contacts Say Hello to start a call */}
+          {/* Be the first to respond here when your contacts Say Hello to connect
+          with them. */}
+          {/* When your contacts Say Hello, be the first to respond to connect
+          with them over a phone call. */}
+        </Text>
+      );
+    }
+
     return (
       <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
         style={styles.container}
         refreshControl={
           <RefreshControl
@@ -63,6 +85,7 @@ class ActiveFriendsScreen extends Component {
             onItemSelected={this.onClickFriend}
             style={styles.friends}
           />
+          {activeExplain}
         </View>
       </ScrollView>
     );
@@ -72,7 +95,8 @@ class ActiveFriendsScreen extends Component {
 const mapStateToProps = state => {
   return {
     active_friends: state.active_friends.active_friends,
-    isLoadingActivity: state.ui.isLoadingActivity
+    isLoadingActivity: state.ui.isLoadingActivity,
+    connected_with: state.outgoing.connected_with
   };
 };
 
@@ -89,7 +113,7 @@ const styles = StyleSheet.create({
   },
   friends: {
     margin: 15,
-    marginTop: Platform.OS === "ios" ? 30 : 20,
+    marginTop: Platform.OS === "ios" ? 30 : 10,
     flex: 1
   },
   friendsHeader: {
@@ -104,6 +128,17 @@ const styles = StyleSheet.create({
   friendsHeaderWrapper: {
     borderBottomWidth: 1,
     borderBottomColor: "#eee"
+  },
+  activeExplain: {
+    color: "#fff",
+    fontSize: 20,
+    textAlign: "center",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    fontWeight: "500"
+    //padding: 5
   }
 });
 

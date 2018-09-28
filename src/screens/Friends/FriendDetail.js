@@ -6,7 +6,8 @@ import {
   Button,
   StyleSheet,
   TouchableOpacity,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -30,6 +31,7 @@ class FriendDetail extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle="dark-content" />
         <View>
           <Text style={styles.name}>{this.props.selectedFriend.fullname}</Text>
           <Text style={styles.username}>

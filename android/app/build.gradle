@@ -41,7 +41,7 @@ import com.android.build.OutputFile
  *   //         'devDisabledIn${buildType}'s
  *
  *   // the root of your project, i.e. where "package.json" lives
- *   root: "../../",
+ *   root: "../../",s
  *
  *   // where to put the JS bundle asset in debug mode
  *   jsBundleDirDebug: "$buildDir/intermediates/assets/debug",
