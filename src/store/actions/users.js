@@ -328,7 +328,7 @@ export const logout = () => {
     let access_token;
     dispatch(authGetToken())
       .catch(() => {
-        alert("No valid token found!");
+        authTab();
       })
       .then(token => {
         access_token = token;
@@ -346,10 +346,13 @@ export const logout = () => {
         if (json.is_success) {
           authTab();
           AsyncStorage.setItem("login_status", "out");
+        } else {
+          authTab();
         }
       })
       .catch(e => {
         console.log(e);
+        authTab();
       });
   };
 };

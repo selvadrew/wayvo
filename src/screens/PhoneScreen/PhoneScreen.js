@@ -11,7 +11,10 @@ import {
   Button,
   StatusBar,
   TouchableNativeFeedback,
-  Linking
+  Linking,
+  Dimensions,
+  SafeAreaView,
+  Alert
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -30,6 +33,8 @@ import CountDown from "react-native-countdown-component";
 import firebase from "react-native-firebase";
 import SplashScreen from "react-native-splash-screen";
 import Icon from "react-native-vector-icons/Ionicons";
+import GotIt from "../../components/UI/GotItButton";
+import { AsyncStorage } from "react-native";
 
 class PhoneScreen extends Component {
   componentDidMount() {
@@ -172,36 +177,32 @@ class PhoneScreen extends Component {
     this.props.getLastCall();
     this.props.storePhoneNumber();
     if (Platform.OS === "ios") {
-      SplashScreen.hide();
+      setTimeout(() => {
+        SplashScreen.hide();
+      }, 2500);
     }
 
-    ////////////////// permissions
-    // firebase
-    //   .messaging()
-    //   .hasPermission()
-    //   .then(enabled => {
-    //     if (enabled) {
-    //       alert("yup");
-    //     } else {
-    //       alert("nah");
-    //       Linking.openURL("app-settings:");
-    //     }
-    //   });
+    AsyncStorage.getItem("tour").then(tourStatus => {
+      if (tourStatus === "finished") {
+        this.setState({
+          tapped: 2
+        });
+      } else {
+        this.setState({
+          tapped: 0
+        });
+      }
+    });
 
-    firebase
-      .messaging()
-      .requestPermission()
-      .then(() => {})
-      .catch(error => {
-        alert("nah");
-        //Linking.openURL("app-settings:");
-      });
-
-    //// end permissions
-  }
+    // alert(Dimensions.get("window").height);
+  } //did mount end
 
   appSettings = () => {
     Linking.openURL("app-settings:");
+    // change tab so when they come back, it refreshes
+    this.props.navigator.switchToTab({
+      tabIndex: 1
+    });
   };
 
   componentWillUnmount() {
@@ -217,10 +218,14 @@ class PhoneScreen extends Component {
   }
 
   callbutton = () => {
-    this.props.onOutgoingCall(this.state.timeSelected);
-    this.props.navigator.push({
-      screen: "awesome-places.SaidHello"
-    });
+    if (this.state.tapped === 0) {
+      Alert.alert("Select how long you want to be active first");
+    } else {
+      this.props.onOutgoingCall(this.state.timeSelected);
+      this.props.navigator.push({
+        screen: "awesome-places.SaidHello"
+      });
+    }
   };
 
   optionScreen = () => {
@@ -229,6 +234,16 @@ class PhoneScreen extends Component {
       title: this.props.username,
       backButtonTitle: ""
     });
+  };
+
+  howItWorksScreen = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.HowItWorks",
+      //title: "How Wayvo Works",
+      backButtonTitle: ""
+    });
+
+    this.increaseTap();
   };
 
   static navigatorStyle = {
@@ -252,12 +267,55 @@ class PhoneScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    if (event.type === "ScreenChangedEvent") {
+      if (event.id === "willAppear") {
+        ////////////////// permissions
+
+        firebase
+          .messaging()
+          .hasPermission()
+          .then(enabled => {
+            if (enabled) {
+              this.setState({
+                androidNotificationsEnabled: true
+              });
+            } else {
+              this.setState({
+                androidNotificationsEnabled: false
+              });
+            }
+          });
+
+        firebase
+          .messaging()
+          .requestPermission()
+          .then(() => {
+            this.setState({
+              notificationsEnabled: true
+            });
+          })
+          .catch(error => {
+            this.setState({
+              notificationsEnabled: false
+            });
+
+            //Linking.openURL("app-settings:");
+          });
+
+        //// end permissions
+      }
+    }
+  };
 
   state = {
     timeSelected: 1,
-    notificationsEnables: true,
-    notificationPreference: true
+    notificationsEnabled: true,
+    androidNotificationsEnabled: true,
+    tapped: 2
   };
 
   changeTime = () => {
@@ -270,30 +328,56 @@ class PhoneScreen extends Component {
         timeSelected: this.state.timeSelected + 1
       });
     }
+
+    this.increaseTap();
+  };
+
+  increaseTap = () => {
+    if (this.state.tapped < 2) {
+      this.setState({
+        tapped: this.state.tapped + 1
+      });
+
+      AsyncStorage.setItem("tour", "finished");
+    }
+  };
+
+  lastTap = () => {
+    this.setState({
+      tapped: 6
+    });
   };
 
   render() {
+    let select = null;
     let button = null;
     let content = null;
     let activeSign = null;
     let activeInfo = null;
-    let hello = null;
+    let tapDescription = null;
+    let navCover = null;
+    let helloDescription = null;
+    let helloBottomCover = null;
+    let learnMore = null;
+    let endTour = null;
     const timeOptions = [5, 15, 30, 60];
 
     if (this.props.connected_with) {
       connectedName = (
         <Text style={styles.connectedName}>{this.props.connected_with}</Text>
       );
-      hello = (
-        <View style={styles.hello}>
-          <HelloButton
-            color={colors.yellowColor}
-            onPress={() => this.callbutton()}
-          />
-        </View>
-      );
     } else {
       connectedName = <Text style={styles.connectedName}>...</Text>;
+    }
+
+    if (this.state.tapped === 0) {
+      select = <Text style={styles.timeNumberSelect}> Select... </Text>;
+    } else {
+      select = (
+        <Text style={styles.timeNumber}>
+          {timeOptions[this.state.timeSelected]} minutes
+        </Text>
+      );
     }
 
     if (this.props.isLoadingHello) {
@@ -306,13 +390,10 @@ class PhoneScreen extends Component {
               style={styles.button}
               onPress={this.changeTime}
             >
-              <View>
+              <View style={styles.timeWrapper}>
                 <Text style={styles.timeText}>
-                  The first contact to respond within{" "}
-                  <Text style={styles.timeNumber}>
-                    {timeOptions[this.state.timeSelected]} minutes
-                  </Text>{" "}
-                  can call me
+                  The first contact to Say Hello back within {select} can call
+                  me
                 </Text>
               </View>
             </TouchableWithoutFeedback>
@@ -327,12 +408,52 @@ class PhoneScreen extends Component {
             </View>
           </View>
         );
-        activeInfo = (
-          <View style={styles.connectedWrapper}>
-            <Text style={styles.lastConnected}>Last connected with:</Text>
-            {connectedName}
-          </View>
-        );
+        if (Platform.OS === "ios") {
+          if (this.state.notificationsEnabled) {
+            activeInfo = (
+              <View style={styles.connectedWrapper}>
+                <Text style={styles.lastConnected}>Last connected with:</Text>
+                {connectedName}
+              </View>
+            );
+          } else {
+            activeInfo = (
+              <View style={styles.connectedWrapper}>
+                <TouchableWithoutFeedback
+                  //style={styles.button}
+                  onPress={this.appSettings}
+                >
+                  <View>
+                    <Text style={styles.notificationText}>
+                      <Text style={styles.connectedName}>
+                        Allow Notifications{" "}
+                      </Text>
+                      if you want to be notified when contacts Say Hello
+                    </Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+            );
+          }
+        } else {
+          if (this.state.androidNotificationsEnabled) {
+            activeInfo = (
+              <View style={styles.connectedWrapper}>
+                <Text style={styles.lastConnected}>Last connected with:</Text>
+                {connectedName}
+              </View>
+            );
+          } else {
+            activeInfo = (
+              <View style={styles.connectedWrapper}>
+                <Text style={styles.notificationText}>
+                  <Text style={styles.connectedName}>Allow Notifications </Text>
+                  if you want to be notified when contacts Say Hello
+                </Text>
+              </View>
+            );
+          }
+        }
         // You will not be notified when a contact Says Hello because you have disabled notifications.
         // Do you want to allow notifications from Wayvo?
         //
@@ -356,7 +477,6 @@ class PhoneScreen extends Component {
           <View style={styles.connectedWrapper}>
             <Text style={styles.activeInfo}>
               Contacts will be able to Say Hello back until your time expires.
-              You will receive a call from the first contact to Say Hello back.
             </Text>
           </View>
         );
@@ -374,53 +494,64 @@ class PhoneScreen extends Component {
           />
         }
       >
-        <StatusBar barStyle="light-content" backgroundColor="#0088CA" />
+        <StatusBar barStyle="light-content" backgroundColor={colors.darkBlue} />
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+          {learnMore}
 
-        <View style={styles.navBarWrapper}>
-          <View style={styles.navBarContent}>
-            <TouchableWithoutFeedback
-              style={styles.usernameButton}
-              onPress={() => this.optionScreen()}
-            >
-              <View style={styles.usernameView}>
-                <Text style={styles.usernameText}>Wayvo</Text>
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              style={styles.usernameButton}
-              onPress={() => this.optionScreen()}
-            >
-              <View style={styles.infoButton}>
-                <Icon
-                  size={30}
-                  name={
-                    Platform.OS === "ios"
-                      ? "ios-information-circle-outline"
-                      : "md-information-circle-outline"
-                  }
-                  color="#fff"
-                />
-              </View>
-            </TouchableWithoutFeedback>
+          {navCover}
+          {tapDescription}
+
+          {helloDescription}
+          {helloBottomCover}
+
+          {endTour}
+
+          <View style={styles.navBarWrapper}>
+            <View style={styles.navBarContent}>
+              <TouchableWithoutFeedback
+                style={styles.usernameButton}
+                onPress={() => this.optionScreen()}
+              >
+                <View style={styles.usernameView}>
+                  <Text style={styles.usernameText}>Wayvo</Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                style={styles.usernameButton}
+                onPress={() => this.howItWorksScreen()}
+              >
+                <View style={styles.infoButton}>
+                  <Icon
+                    size={30}
+                    name={
+                      Platform.OS === "ios"
+                        ? "ios-information-circle-outline"
+                        : "md-information-circle-outline"
+                    }
+                    color="#fff"
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
-        </View>
 
-        <View
-          style={[
-            styles.container2,
-            this.props.seconds_left === null ||
-            this.props.can_say_hello === true
-              ? { backgroundColor: colors.blueColor }
-              : { backgroundColor: colors.greenColor }
-          ]}
-        >
-          {/* <View style={styles.usernameWrapper} /> */}
-          <View style={styles.usernameWrapper}>{activeSign}</View>
+          <View
+            style={[
+              styles.container2,
+              this.props.seconds_left === null ||
+              this.props.can_say_hello === true
+                ? { backgroundColor: colors.blueColor }
+                : { backgroundColor: colors.greenColor }
+            ]}
+          >
+            {/* <View style={styles.usernameWrapper} /> */}
+            <View style={styles.usernameWrapper}>{activeSign}</View>
 
-          {button}
+            {button}
 
-          {activeInfo}
-        </View>
+            {activeInfo}
+          </View>
+        </SafeAreaView>
       </ScrollView>
     );
   }
@@ -432,7 +563,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#0088CA"
   },
   navBarWrapper: {
-    height: 80,
+    height: 70,
     backgroundColor: "#0088CA"
   },
   navBarContent: {
@@ -445,18 +576,111 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
     flexDirection: "row",
-    marginTop: Platform.OS === "ios" ? 20 : 0,
+    //marginTop: Platform.OS === "ios" ? 20 : 0,
     paddingRight: 15
   },
   container2: {
     flex: 1,
-    padding: 20,
+    paddingBottom: 20,
+    paddingTop: 20,
+    padding: Dimensions.get("window").width > 330 ? 10 : 10,
     backgroundColor: colors.blueColor
   },
   hello: {
     alignItems: "center",
     justifyContent: "center",
     flex: 1
+  },
+  helloDescription: {
+    position: "absolute",
+    //justifyContent: "center",
+    zIndex: 100,
+    backgroundColor: "rgba(0,0,0,0.90)",
+    width: "100%",
+    justifyContent: "flex-end",
+    height:
+      Platform.OS === "ios"
+        ? 80 + (Dimensions.get("window").height * 2) / 9
+        : 60 + (Dimensions.get("window").height * 2) / 9
+  },
+  learnMore: {
+    position: "absolute",
+    zIndex: 100,
+    backgroundColor: "rgba(0,0,0,0.90)",
+    width: "100%",
+    height: "100%",
+    justifyContent: "flex-start",
+    marginTop: 80,
+    textAlign: "right"
+  },
+  tapDescription: {
+    position: "absolute",
+    zIndex: 100,
+    backgroundColor: "rgba(0,0,0,0.90)",
+    marginTop:
+      Platform.OS === "ios"
+        ? 75 + (Dimensions.get("window").height * 2) / 9
+        : 55 + (Dimensions.get("window").height * 2) / 9,
+    width: "100%",
+    height: "100%"
+  },
+  navCover: {
+    position: "absolute",
+    //justifyContent: "center",
+    zIndex: 100,
+    backgroundColor: "rgba(0,0,0,0.9)",
+    width: "100%",
+    height: 70
+  },
+  helloBottomCover: {
+    position: "absolute",
+    zIndex: 100,
+    backgroundColor: "rgba(0,0,0,0.90)",
+    marginTop:
+      Platform.OS === "ios"
+        ? 90 +
+          (Dimensions.get("window").height * 2) / 9 +
+          Dimensions.get("window").width * 0.6
+        : 70 +
+          (Dimensions.get("window").height * 2) / 9 +
+          Dimensions.get("window").width * 0.6,
+    width: "100%",
+    height: "100%"
+  },
+  firstHello: {
+    alignItems: "center"
+  },
+  showTapText: {
+    color: "#fff",
+    fontSize: 25,
+    textAlign: "center",
+    padding: 5,
+    fontWeight: "500"
+  },
+  learnTapText: {
+    color: "#fff",
+    fontSize: 25,
+    textAlign: "right",
+    fontWeight: "500",
+    paddingRight: 15
+  },
+  endTour: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    position: "absolute",
+    //justifyContent: "center",
+    zIndex: 100,
+    backgroundColor: "rgba(0,0,0,0.92)",
+    width: "100%",
+    height: "100%"
+  },
+  tourText: {
+    color: "#FFF",
+    fontSize: 30,
+    fontWeight: "800",
+    marginBottom: 40
   },
   usernameWrapper: {
     width: "100%",
@@ -467,7 +691,7 @@ const styles = StyleSheet.create({
   },
   youActive: {
     color: "#fff",
-    fontSize: 40,
+    fontSize: Dimensions.get("window").width > 330 ? 40 : 35,
     fontWeight: "900",
     backgroundColor: colors.greenColor,
     padding: 15
@@ -479,15 +703,15 @@ const styles = StyleSheet.create({
   usernameText: {
     fontSize: 25,
     color: "#fff",
-    marginTop: Platform.OS === "ios" ? 20 : 0,
+    //marginTop: Platform.OS === "ios" ? 20 : 0,
     padding: 10,
     fontWeight: "600"
   },
   usernameStyle: {
     color: colors.usernameColor,
     fontWeight: "bold",
-    fontSize: 40,
-    marginTop: Platform.OS === "ios" ? 20 : 0
+    fontSize: 40
+    //marginTop: Platform.OS === "ios" ? 20 : 0
   },
   button: {
     alignItems: "center",
@@ -500,17 +724,32 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center"
   },
+  timeWrapper: {
+    // borderRadius: 10,
+    // backgroundColor: colors.darkBlue,
+    // padding: 6
+  },
   timeText: {
     //marginTop: 30,
-    fontSize: 23,
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 18,
     fontWeight: "700",
     color: "white",
     textAlign: "center"
+    //borderColor: "#FFF",
+    //borderWidth: 1,
+
+    //padding: 2
   },
   timeNumber: {
     color: colors.yellowColor,
     fontWeight: "900",
-    fontSize: 23
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 18
+  },
+  timeNumberSelect: {
+    color: "#555",
+    fontWeight: "900",
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 18,
+    backgroundColor: colors.yellowColor
   },
   connectedWrapper: {
     flex: 3,
@@ -521,9 +760,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center"
   },
+  notificationText: {
+    color: "#fff",
+    fontSize: 20,
+    textAlign: "center"
+  },
   activeInfo: {
     color: "#fff",
-    fontSize: 17,
+    fontSize: Dimensions.get("window").width > 330 ? 17 : 15,
     fontWeight: "400"
   },
   connectedName: {

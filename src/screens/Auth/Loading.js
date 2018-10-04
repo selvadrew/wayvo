@@ -16,7 +16,6 @@ import SplashScreen from "react-native-splash-screen";
 class LoadingScreen extends Component {
   componentDidMount() {
     this.props.onAutoSignIn();
-    //if (Platform.OS === "ios") {SplashScreen.hide()}
   }
 
   static navigatorStyle = {

@@ -6,7 +6,9 @@ import {
   ActivityIndicator,
   ScrollView,
   RefreshControl,
-  Platform
+  Platform,
+  SafeAreaView,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
@@ -53,7 +55,7 @@ class ActiveFriendsScreen extends Component {
     ) {
       activeExplain = (
         <Text style={styles.activeExplain}>
-          When your contacts Say Hello, you'll be able to respond here
+          When contacts Say Hello, you will be able to Say Hello back here
           {/* When your contacts Say Hello, be the first to Say Hello back to start
           a call */}
           {/* Be the first to respond when your contacts Say Hello to start a call */}
@@ -76,17 +78,19 @@ class ActiveFriendsScreen extends Component {
           />
         }
       >
-        <View style={styles.friends}>
-          <View style={styles.friendsHeaderWrapper}>
-            <Text style={styles.friendsHeader}>Active Contacts 🔥🙌🔥</Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.greenColor }}>
+          <View style={styles.friends}>
+            <View style={styles.friendsHeaderWrapper}>
+              <Text style={styles.friendsHeader}>Active Contacts</Text>
+            </View>
+            <CallStatus
+              friends={this.props.active_friends}
+              onItemSelected={this.onClickFriend}
+              style={styles.friends}
+            />
+            {activeExplain}
           </View>
-          <CallStatus
-            friends={this.props.active_friends}
-            onItemSelected={this.onClickFriend}
-            style={styles.friends}
-          />
-          {activeExplain}
-        </View>
+        </SafeAreaView>
       </ScrollView>
     );
   }
@@ -113,7 +117,7 @@ const styles = StyleSheet.create({
   },
   friends: {
     margin: 15,
-    marginTop: Platform.OS === "ios" ? 30 : 10,
+    marginTop: Platform.OS === "ios" ? 10 : 10,
     flex: 1
   },
   friendsHeader: {
@@ -131,14 +135,14 @@ const styles = StyleSheet.create({
   },
   activeExplain: {
     color: "#fff",
-    fontSize: 20,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     textAlign: "center",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    fontWeight: "500"
-    //padding: 5
+    fontWeight: "500",
+    padding: 5
   }
 });
 

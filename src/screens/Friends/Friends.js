@@ -7,7 +7,8 @@ import {
   ScrollView,
   RefreshControl,
   Platform,
-  StatusBar
+  StatusBar,
+  SafeAreaView
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -126,21 +127,23 @@ class FriendsScreen extends Component {
           />
         }
       >
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor={colors.blueColor}
-        />
-        <SearchBar
-          searchUsername={this.searchUsernameHandler}
-          style={styles.searchBar}
-        />
-        {friendRequests}
-        <View style={styles.friends}>
-          <View style={styles.friendsHeaderWrapper}>
-            <Text style={styles.friendsHeader}>Contacts</Text>
+        <SafeAreaView style={{ flex: 1, backgroundColor: colors.blueColor }}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={colors.blueColor}
+          />
+          <SearchBar
+            searchUsername={this.searchUsernameHandler}
+            style={styles.searchBar}
+          />
+          {friendRequests}
+          <View style={styles.friends}>
+            <View style={styles.friendsHeaderWrapper}>
+              <Text style={styles.friendsHeader}>Contacts</Text>
+            </View>
+            {friends}
           </View>
-          {friends}
-        </View>
+        </SafeAreaView>
       </ScrollView>
     );
   }

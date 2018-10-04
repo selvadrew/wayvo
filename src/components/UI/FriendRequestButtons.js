@@ -12,9 +12,11 @@ import colors from "../../utils/styling";
 
 const FriendRequestButton = props => {
   const content = (
-    <View style={[{ backgroundColor: props.color }, styles.button]}>
+    <View style={[{ backgroundColor: props.backgroundColor }, styles.button]}>
       <View style={styles.textWrapper}>
-        <Text style={styles.text}>{props.children}</Text>
+        <Text style={[{ color: props.color }, styles.text]}>
+          {props.children}
+        </Text>
       </View>
     </View>
   );
@@ -34,20 +36,23 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: "100%",
     flex: 1,
-    flexDirection: "row"
+    flexDirection: "row",
+    color: "black"
   },
   textWrapper: {
     flex: 1,
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: "center"
-    // borderWidth: 1,
-    // borderColor: "#fff"
+    justifyContent: "center",
+    width: "100%",
+    borderRightWidth: 1,
+    borderColor: colors.blueColor
   },
   text: {
     fontSize: 18,
-    color: "#fff",
-    padding: 10
+    //color: "#fff",
+    padding: 10,
+    fontWeight: "900"
   }
 });
 

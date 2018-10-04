@@ -43,8 +43,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     shadowColor: "#0088CA", //"#0076DF",
     shadowOffset: {
-      width: 4,
-      height: 6
+      width: 0,
+      height: 8
     },
     shadowRadius: 1,
     shadowOpacity: 1.0
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   textSay: {
-    fontSize: 40,
+    fontSize: Dimensions.get("window").width > 330 ? 40 : 35,
     color: "#333",
     alignItems: "flex-end",
     flexDirection: "row",
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   textHello: {
-    fontSize: 40,
+    fontSize: Dimensions.get("window").width > 330 ? 40 : 35,
     fontWeight: "bold",
     color: "#333"
   }

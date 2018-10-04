@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: Platform.OS === "ios" ? 30 : 15,
+    marginTop: 10,
     // backgroundColor: colors.pinkColor,
     height: 50
   },

@@ -38,15 +38,23 @@ class OptionScreen extends Component {
     });
   };
 
+  howItWorksScreen = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.HowItWorks",
+      //title: "How Wayvo Works",
+      backButtonTitle: ""
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor={colors.darkBlue} />
-        <TouchableWithoutFeedback onPress={() => phoneNumberTab()}>
+        {/* <TouchableWithoutFeedback onPress={() => this.howItWorksScreen()}>
           <View>
             <Text style={[styles.logoutText]}>How Wayvo works</Text>
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback> */}
 
         <TouchableWithoutFeedback onPress={() => phoneNumberTab()}>
           <View>

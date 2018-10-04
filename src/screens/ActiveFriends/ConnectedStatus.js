@@ -34,7 +34,7 @@ class FriendDetail extends Component {
   }
 
   render() {
-    let number = this.props.phone_number;
+    let number = "1" + this.props.phone_number;
     const args = {
       number: number, // String value with the number to call
       prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call

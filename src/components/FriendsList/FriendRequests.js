@@ -15,13 +15,15 @@ const friendRequests = props => {
           </View>
           <View style={styles.buttonsWrapper}>
             <FriendRequestButtons
-              color="transparent"
+              backgroundColor={colors.darkBlue}
+              color="#444"
               style={styles.rejectButton}
               onPress={() => props.onRejectFriendDecision(info.item)}
             >
               Reject
             </FriendRequestButtons>
             <FriendRequestButtons
+              backgroundColor={colors.darkBlue}
               color={colors.greenColor}
               style={styles.addButton}
               onPress={() => props.onAddFriendDecision(info.item.username)}
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   requestSection: {
-    backgroundColor: "#0269b8",
+    backgroundColor: colors.darkBlue, //"#0269b8",
     marginBottom: 20,
     borderRadius: 5
   },
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     flex: 1,
-    flexDirection: "column"
+    flexDirection: "row"
     // borderBottomColor: "#fff",
     // borderBottomWidth: 2,
   },
