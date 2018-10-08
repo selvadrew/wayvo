@@ -16,6 +16,16 @@ class HowItWorks extends Component {
   }
 
   render() {
+    const start_bracket = "(";
+    const end_bracket = ")";
+    const dash = "-";
+
+    let phone_number = this.props.phone_number;
+    formatted_phone_number = phone_number.replace(
+      /(\d{3})(\d{3})(\d{4})/,
+      "$1-$2-$3"
+    );
+
     return (
       <View style={styles.container}>
         <View style={styles.wrapper}>
@@ -26,35 +36,39 @@ class HowItWorks extends Component {
 
         <View style={styles.wrapper}>
           <View style={styles.numberHolder}>
-            <View style={styles.numberWrapper}>
+            <View style={styles.numberWrapper1}>
               <Text style={styles.numberText}>1</Text>
             </View>
           </View>
           <View style={styles.textWrapper}>
             <Text style={styles.text}>
-              All your contacts will receive a notification (only if they have
-              you as a contact as well)
+              All your contacts who have{" "}
+              <Text style={{ color: colors.pinkColor }}>
+                {this.props.username}
+              </Text>{" "}
+              in their contact list will receive a notification
             </Text>
           </View>
         </View>
 
         <View style={styles.wrapper}>
           <View style={styles.numberHolder}>
-            <View style={styles.numberWrapper}>
-              <Text style={styles.numberText}>2a</Text>
+            <View style={styles.numberWrapper2}>
+              <Text style={styles.numberText}>2</Text>
             </View>
           </View>
           <View style={styles.textWrapper}>
             <Text style={styles.text}>
-              You will receive a phone call from the first contact to open the
-              notification and Say Hello back
-              {/* The first contact to open your notification and Say Hello back,
-              gets connected with you over a phone call. */}
+              You will receive a call at{" "}
+              <Text style={{ color: colors.greenColor }}>
+                {formatted_phone_number}
+              </Text>{" "}
+              from the first contact to open Wayvo and Say Hello Back
             </Text>
           </View>
         </View>
 
-        <View style={styles.wrapper}>
+        {/* <View style={styles.wrapper}>
           <View style={styles.numberHolder}>
             <View style={styles.numberWrapper}>
               <Text style={styles.numberText}>2b</Text>
@@ -66,7 +80,7 @@ class HowItWorks extends Component {
               nothing happens
             </Text>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }
@@ -101,9 +115,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10
   },
-  numberWrapper: {
+  numberWrapper1: {
     width: "90%",
-    backgroundColor: colors.yellowColor,
+    backgroundColor: colors.pinkColor,
+    alignItems: "center",
+    borderRadius: 100
+  },
+  numberWrapper2: {
+    width: "90%",
+    backgroundColor: colors.greenColor,
     alignItems: "center",
     borderRadius: 100
   },
@@ -112,7 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: "center",
     alignItems: "center",
-    color: "#333",
+    color: "#fff",
     justifyContent: "center",
     paddingTop: 5,
     paddingBottom: 5
@@ -123,9 +143,9 @@ const styles = StyleSheet.create({
   text: {
     paddingRight: 20,
     fontWeight: "600",
-    fontSize: Dimensions.get("window").width > 330 ? 16 : 15,
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
     color: "#333",
-    marginRight: 5
+    marginRight: 10
   }
 });
 

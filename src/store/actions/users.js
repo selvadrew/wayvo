@@ -306,7 +306,9 @@ export const getPhoneNumber = () => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          dispatch(storePhoneNumber(json.phone_number, json.username));
+          dispatch(
+            storePhoneNumber(json.fullname, json.phone_number, json.username)
+          );
         }
       })
       .catch(e => {
@@ -315,9 +317,10 @@ export const getPhoneNumber = () => {
   };
 };
 
-export function storePhoneNumber(phoneNumber, username) {
+export function storePhoneNumber(fullname, phoneNumber, username) {
   return {
     type: STORE_PHONE_NUMBER,
+    fullname,
     phoneNumber,
     username
   };

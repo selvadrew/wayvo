@@ -41,7 +41,6 @@ class OptionScreen extends Component {
   howItWorksScreen = () => {
     this.props.navigator.push({
       screen: "awesome-places.HowItWorks",
-      //title: "How Wayvo Works",
       backButtonTitle: ""
     });
   };
@@ -50,29 +49,33 @@ class OptionScreen extends Component {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor={colors.darkBlue} />
-        {/* <TouchableWithoutFeedback onPress={() => this.howItWorksScreen()}>
-          <View>
-            <Text style={[styles.logoutText]}>How Wayvo works</Text>
-          </View>
-        </TouchableWithoutFeedback> */}
 
-        <TouchableWithoutFeedback onPress={() => phoneNumberTab()}>
+        <View style={styles.topBox}>
           <View>
-            <Text style={[styles.logoutText]}>Wayvo would be better if...</Text>
+            <Text style={styles.name}>{this.props.fullname}</Text>
+            <Text style={styles.username}>{this.props.username}</Text>
           </View>
-        </TouchableWithoutFeedback>
+        </View>
 
-        <TouchableWithoutFeedback onPress={() => this.phoneNumberScreen()}>
-          <View>
-            <Text style={[styles.logoutText]}>Change phone number</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <View style={styles.bottomBox}>
+          <TouchableWithoutFeedback onPress={() => phoneNumberTab()}>
+            <View>
+              <Text style={[styles.logoutText]}>Feedback</Text>
+            </View>
+          </TouchableWithoutFeedback>
 
-        <TouchableWithoutFeedback onPress={() => this.props.onLogout()}>
-          <View>
-            <Text style={[styles.logoutText]}>Logout</Text>
-          </View>
-        </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={() => this.phoneNumberScreen()}>
+            <View>
+              <Text style={[styles.logoutText]}>Change phone number</Text>
+            </View>
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback onPress={() => this.props.onLogout()}>
+            <View>
+              <Text style={[styles.logoutText]}>Logout</Text>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
       </View>
     );
   }
@@ -81,8 +84,20 @@ class OptionScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
+    flexDirection: "column"
+  },
+  topBox: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    flexDirection: "column"
+  },
+  bottomBox: {
+    flex: 2,
+    alignItems: "center",
+    justifyContent: "flex-start",
     flexDirection: "column"
   },
   text: {
@@ -96,14 +111,26 @@ const styles = StyleSheet.create({
   },
   logoutText: {
     color: "#444",
-    padding: 15,
-    width: 300,
+    padding: 10,
+    width: 250,
     fontWeight: "600",
     fontSize: 18,
     textAlign: "center",
     marginBottom: 20,
     borderWidth: 1,
     borderColor: "#333"
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: colors.blueColor,
+    textAlign: "center"
+  },
+  username: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: colors.pinkColor,
+    textAlign: "center"
   }
 });
 

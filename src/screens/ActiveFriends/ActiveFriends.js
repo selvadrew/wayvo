@@ -8,7 +8,8 @@ import {
   RefreshControl,
   Platform,
   SafeAreaView,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
@@ -37,12 +38,10 @@ class ActiveFriendsScreen extends Component {
   };
 
   static navigatorStyle = {
-    drawUnderNavBar: true,
-    navBarTranslucent: true,
+    navBarNoBorder: true,
     navBarBackgroundColor: colors.yellowColor,
     navBarButtonColor: "#ffffff",
     navBarHidden: true,
-    topBarElevationShadowEnabled: true,
     statusBarColor: colors.greenColor
   };
 
@@ -55,14 +54,7 @@ class ActiveFriendsScreen extends Component {
     ) {
       activeExplain = (
         <Text style={styles.activeExplain}>
-          When contacts Say Hello, you will be able to Say Hello back here
-          {/* When your contacts Say Hello, be the first to Say Hello back to start
-          a call */}
-          {/* Be the first to respond when your contacts Say Hello to start a call */}
-          {/* Be the first to respond here when your contacts Say Hello to connect
-          with them. */}
-          {/* When your contacts Say Hello, be the first to respond to connect
-          with them over a phone call. */}
+          When contacts Say Hello, you can Say Hello Back on this screen
         </Text>
       );
     }
@@ -78,6 +70,10 @@ class ActiveFriendsScreen extends Component {
           />
         }
       >
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={colors.greenColor}
+        />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.greenColor }}>
           <View style={styles.friends}>
             <View style={styles.friendsHeaderWrapper}>

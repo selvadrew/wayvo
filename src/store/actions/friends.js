@@ -24,7 +24,7 @@ export const addFriend = username => {
     let access_token;
     dispatch(authGetToken())
       .catch(() => {
-        alert("Not authenticated");
+        Alert.alert("Not authenticated");
         dispatch(stopAddingFriend());
       })
       .then(token => {
@@ -42,17 +42,20 @@ export const addFriend = username => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          Alert.alert(`Successfully added ${json.friend} to your contact list`);
+          Alert.alert(
+            "Successfully Added",
+            `${json.friend} was added to your contact list`
+          );
           dispatch(getFriends());
           dispatch(stopAddingFriend());
         } else {
-          alert(json.error);
+          Alert.alert(json.error);
           dispatch(stopAddingFriend());
         }
       })
       .catch(e => {
         dispatch(stopAddingFriend());
-        alert(e);
+        Alert.alert(e);
       });
   };
 };
@@ -122,7 +125,10 @@ export const deleteFriend = id => {
         console.log("success json", json);
         if (json.ok) {
           dispatch(getFriends());
-          alert("Successfully deleted!");
+          Alert.alert(
+            "Contact Deleted",
+            "Contact has been removed from your contact list"
+          );
         } else {
           console.log("new error");
           throw new Error();

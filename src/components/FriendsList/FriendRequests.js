@@ -20,7 +20,7 @@ const friendRequests = props => {
               style={styles.rejectButton}
               onPress={() => props.onRejectFriendDecision(info.item)}
             >
-              Reject
+              Ignore
             </FriendRequestButtons>
             <FriendRequestButtons
               backgroundColor={colors.darkBlue}

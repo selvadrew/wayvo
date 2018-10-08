@@ -3,4 +3,4 @@
 
 //aainin = "http://172.28.98.6:3000"
 
-export const HOST = "http://192.168.1.13:3000";
+export const HOST = "http://138.51.91.176:3000";

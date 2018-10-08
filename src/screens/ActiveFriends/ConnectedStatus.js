@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   Platform,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 import call from "react-native-phone-call";
@@ -22,12 +23,16 @@ class FriendDetail extends Component {
   }
 
   static navigatorStyle = {
-    drawUnderNavBar: true,
-    navBarTransparent: true,
-    navBarTranslucent: Platform.OS === "ios" ? true : false,
+    navBarNoBorder: true,
+    navBarHidden: false,
+    //drawUnderNavBar: true,
+    //navBarTransparent: true,
+    //navBarTranslucent: Platform.OS === "ios" ? false : false,
     topBarElevationShadowEnabled: false,
-    navBarButtonColor: "#000"
-    //navBarBackgroundColor: "transparent"
+    //navBarButtonColor: "#000",
+    statusBarColor: colors.greenColor,
+    navBarBackgroundColor: colors.greenColor,
+    navBarButtonColor: "#FFF"
   };
   constructor(props) {
     super(props);
@@ -62,7 +67,7 @@ class FriendDetail extends Component {
           <View>
             <Text style={styles.successText}>
               WOOHOO! You've been connected with {"\n"}
-              {this.props.fullname}.
+              {this.props.fullname}
             </Text>
           </View>
           <GotIt
@@ -78,15 +83,22 @@ class FriendDetail extends Component {
     if (this.props.ui === false && selectedFriendStatus === false) {
       screen = (
         <View style={styles.failContainer}>
-          <StatusBar barStyle="dark-content" />
           <Text style={styles.failText}>
             Sorry, this call was connected with another person or has expired.
-            Better luck next time 😭
+            Better luck next time.
           </Text>
         </View>
       );
     }
-    return <View style={styles.container}>{screen}</View>;
+    return (
+      <View style={styles.container}>
+        <StatusBar
+          barStyle="light-content"
+          //backgroundColor={colors.greenColor}
+        />
+        {screen}
+      </View>
+    );
   }
 }
 
@@ -119,14 +131,15 @@ const styles = StyleSheet.create({
   successText: {
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 28,
+    fontSize: Dimensions.get("window").width > 330 ? 28 : 24,
     color: "#fff",
     marginBottom: 40
   },
   failText: {
     fontWeight: "bold",
     textAlign: "center",
-    fontSize: 28
+    fontSize: 28,
+    color: "#808080"
   },
   deleteButton: {
     alignItems: "center"

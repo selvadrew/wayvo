@@ -231,8 +231,12 @@ class PhoneScreen extends Component {
   optionScreen = () => {
     this.props.navigator.push({
       screen: "awesome-places.OptionScreen",
-      title: this.props.username,
-      backButtonTitle: ""
+      backButtonTitle: "",
+      passProps: {
+        fullname: this.props.fullname,
+        username: this.props.username,
+        phone_number: this.props.phone_number
+      }
     });
   };
 
@@ -240,7 +244,11 @@ class PhoneScreen extends Component {
     this.props.navigator.push({
       screen: "awesome-places.HowItWorks",
       //title: "How Wayvo Works",
-      backButtonTitle: ""
+      backButtonTitle: "",
+      passProps: {
+        username: this.props.username,
+        phone_number: this.props.phone_number
+      }
     });
 
     this.increaseTap();
@@ -392,7 +400,7 @@ class PhoneScreen extends Component {
             >
               <View style={styles.timeWrapper}>
                 <Text style={styles.timeText}>
-                  The first contact to Say Hello back within {select} can call
+                  The first contact to Say Hello Back within {select} can call
                   me
                 </Text>
               </View>
@@ -464,6 +472,11 @@ class PhoneScreen extends Component {
           <CountDown
             until={this.props.seconds_left}
             onFinish={() => this.props.getLastCall()}
+            // onPress={() =>
+            //   Alert.alert(
+            //     "Expect a call from the first contact to Say Hello back before this timer expires"
+            //   )
+            // }
             size={40}
             digitBgColor={colors.yellowColor}
             digitTxtColor="#333"
@@ -471,12 +484,12 @@ class PhoneScreen extends Component {
             timeToShow={["M", "S"]}
           />
         );
-        activeSign = <Text style={styles.youActive}>You're Active!</Text>;
+        activeSign = <Text style={styles.youActive}>You're Active</Text>;
 
         activeInfo = (
           <View style={styles.connectedWrapper}>
             <Text style={styles.activeInfo}>
-              Contacts will be able to Say Hello back until your time expires.
+              Contacts can Say Hello Back until time expires
             </Text>
           </View>
         );
@@ -508,30 +521,34 @@ class PhoneScreen extends Component {
 
           <View style={styles.navBarWrapper}>
             <View style={styles.navBarContent}>
-              <TouchableWithoutFeedback
-                style={styles.usernameButton}
-                onPress={() => this.optionScreen()}
-              >
-                <View style={styles.usernameView}>
-                  <Text style={styles.usernameText}>Wayvo</Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                style={styles.usernameButton}
-                onPress={() => this.howItWorksScreen()}
-              >
-                <View style={styles.infoButton}>
-                  <Icon
-                    size={30}
-                    name={
-                      Platform.OS === "ios"
-                        ? "ios-information-circle-outline"
-                        : "md-information-circle-outline"
-                    }
-                    color="#fff"
-                  />
-                </View>
-              </TouchableWithoutFeedback>
+              <View style={styles.usernameView}>
+                <TouchableWithoutFeedback
+                  style={styles.usernameButton}
+                  onPress={() => this.optionScreen()}
+                >
+                  <View>
+                    <Text style={styles.usernameText}>Wayvo</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
+              <View style={styles.infoButton}>
+                <TouchableWithoutFeedback
+                  style={styles.usernameButton}
+                  onPress={() => this.howItWorksScreen()}
+                >
+                  <View>
+                    <Icon
+                      size={30}
+                      name={
+                        Platform.OS === "ios"
+                          ? "ios-information-circle-outline"
+                          : "md-information-circle-outline"
+                      }
+                      color="#fff"
+                    />
+                  </View>
+                </TouchableWithoutFeedback>
+              </View>
             </View>
           </View>
 
@@ -570,7 +587,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    height: "100%"
   },
   infoButton: {
     flex: 1,
@@ -698,7 +716,9 @@ const styles = StyleSheet.create({
   },
   usernameView: {
     flex: 1,
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    //alignSelf: "flex-start",
+    flexDirection: "row"
   },
   usernameText: {
     fontSize: 25,
@@ -725,13 +745,16 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   timeWrapper: {
-    // borderRadius: 10,
-    // backgroundColor: colors.darkBlue,
-    // padding: 6
+    borderRadius: 10,
+    backgroundColor: colors.darkBlue,
+    paddingRight: 8,
+    paddingLeft: 8,
+    paddingTop: 10,
+    paddingBottom: 10
   },
   timeText: {
     //marginTop: 30,
-    fontSize: Dimensions.get("window").width > 330 ? 22 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 21 : 17,
     fontWeight: "700",
     color: "white",
     textAlign: "center"
@@ -743,7 +766,7 @@ const styles = StyleSheet.create({
   timeNumber: {
     color: colors.yellowColor,
     fontWeight: "900",
-    fontSize: Dimensions.get("window").width > 330 ? 22 : 18
+    fontSize: Dimensions.get("window").width > 330 ? 21 : 17
   },
   timeNumberSelect: {
     color: "#555",
@@ -769,12 +792,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 17 : 15,
     fontWeight: "400"
+    //textAlign: "center"
   },
   connectedName: {
     color: colors.greenColor,
     fontSize: 20,
     fontWeight: "900",
     textAlign: "center"
+  },
+  usernameButton: {
+    //alignSelf: "baseline"
   }
 });
 
@@ -785,7 +812,9 @@ const mapStateToProps = state => {
     seconds_left: state.outgoing.seconds_left,
     can_say_hello: state.outgoing.can_say_hello,
     connected_with: state.outgoing.connected_with,
-    username: state.users.username
+    username: state.users.username,
+    fullname: state.users.fullname,
+    phone_number: state.users.phoneNumber
   };
 };
 

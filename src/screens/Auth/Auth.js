@@ -5,7 +5,8 @@ import {
   Button,
   TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -28,7 +29,7 @@ class AuthScreen extends Component {
     LoginManager.logInWithReadPermissions(["public_profile", "email"]).then(
       result => {
         if (result.isCancelled) {
-          alert("Login cancelled");
+          Alert.alert("Login cancelled");
         } else {
           AccessToken.getCurrentAccessToken().then(data => {
             this.props.loginWithFacebook(data.accessToken.toString());

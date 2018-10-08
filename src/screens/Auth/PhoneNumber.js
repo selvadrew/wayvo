@@ -123,6 +123,7 @@ class PhoneNumber extends Component {
               keyboardType="numeric"
               //textContentType="telephoneNumber"
               maxLength={10}
+              textContentType="telephoneNumber"
             />
           </View>
 

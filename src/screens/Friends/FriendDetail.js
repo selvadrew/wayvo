@@ -18,7 +18,11 @@ import colors from "../../utils/styling";
 
 class FriendDetail extends Component {
   static navigatorStyle = {
-    navBarHidden: false
+    navBarHidden: false,
+    statusBarColor: colors.blueColor,
+    navBarBackgroundColor: colors.blueColor,
+    navBarButtonColor: "#fff",
+    navBarTextColor: "#fff"
   };
   constructor(props) {
     super(props);
@@ -31,7 +35,10 @@ class FriendDetail extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar
+          barStyle="light-content"
+          backgroundColor={colors.blueColor}
+        />
         <View>
           <Text style={styles.name}>{this.props.selectedFriend.fullname}</Text>
           <Text style={styles.username}>
@@ -43,6 +50,13 @@ class FriendDetail extends Component {
             DELETE CONTACT
           </DeleteButton>
         </View>
+        {/* <View>
+          <Text>
+            Protip: Contacts will not know if you delete them. If you are
+            currently in their contact list, you will still remain in their
+            contact list once you delete them.
+          </Text>
+        </View> */}
       </View>
     );
   }

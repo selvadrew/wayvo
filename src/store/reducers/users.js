@@ -5,7 +5,8 @@ const initialState = {
   accessToken: null,
   username: null,
   username_error: null,
-  phoneNumber: null
+  phoneNumber: null,
+  fullname: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +30,7 @@ const reducer = (state = initialState, action) => {
     case STORE_PHONE_NUMBER:
       return {
         ...state,
+        fullname: action.fullname,
         phoneNumber: action.phoneNumber,
         username: action.username
       };

@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions
+} from "react-native";
 
 const listItem = props => (
   <TouchableOpacity onPress={props.onItemPressed}>
@@ -21,7 +28,7 @@ const styles = StyleSheet.create({
   names: {
     color: "white",
     fontWeight: "bold",
-    fontSize: 20
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18
   }
 });
 

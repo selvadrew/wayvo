@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Dimensions
+} from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
@@ -27,7 +33,7 @@ class SaidHello extends Component {
               <View>
                 <Text style={styles.successText}>
                   Hang tight, you will receive a call from the first contact to
-                  Say Hello back.
+                  Say Hello Back
                 </Text>
                 <GotIt
                   color={colors.greenColor}
@@ -82,8 +88,8 @@ const styles = StyleSheet.create({
   },
   successText: {
     color: "white",
-    fontSize: 22,
-    margin: 40,
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 20,
+    margin: Dimensions.get("window").width > 330 ? 40 : 20,
     fontWeight: "800",
     textAlign: "center"
   }
