@@ -2,10 +2,11 @@ import { HOST } from "../../constants/index";
 import { normalizeFriends, normalizeFriendRequests } from "../../utils/index";
 
 import { authGetToken } from "../actions/users";
-import { Alert } from "react-native";
+import { Alert, AsyncStorage } from "react-native";
 
 export const SET_FRIENDS = "SET_FRIENDS";
 export const REMOVE_FRIEND = "REMOVE_FRIEND";
+export const INSERT_FRIEND = "INSERT_FRIEND";
 export const SET_FRIEND_REQUESTS = "SET_FRIEND_REQUESTS";
 export const REFRESH_REQUESTS = "REFRESH_REQUESTS";
 
@@ -29,7 +30,6 @@ export const addFriend = username => {
       })
       .then(token => {
         access_token = token;
-
         return fetch(`${HOST}/api/v1/friendship`, {
           method: "POST",
           body: JSON.stringify({
@@ -44,9 +44,17 @@ export const addFriend = username => {
         if (json.is_success) {
           Alert.alert(
             "Successfully Added",
-            `${json.friend} was added to your contact list`
+            `${json.fullname} was added to your contact list`
           );
-          dispatch(getFriends());
+          dispatch(
+            insertFriend(
+              json.id,
+              json.fullname,
+              json.username,
+              json.phone_number
+            )
+          );
+          //dispatch(getFriends());
           dispatch(stopAddingFriend());
         } else {
           Alert.alert(json.error);
@@ -55,7 +63,34 @@ export const addFriend = username => {
       })
       .catch(e => {
         dispatch(stopAddingFriend());
-        Alert.alert(e);
+        Alert.alert("Oops, we couldn't connect, please try again");
+        console.log(e);
+      });
+  };
+};
+
+export const insertFriend = (id, fullname, username, phone_number) => {
+  return {
+    type: INSERT_FRIEND,
+    payload: {
+      id: id,
+      fullname: fullname,
+      username: username,
+      phone_number: phone_number
+    }
+  };
+};
+
+export const friendsFromStorage = () => {
+  return dispatch => {
+    return AsyncStorage.getItem("pp:friends")
+      .then(response => {
+        if (response) {
+          dispatch(setFriends(normalizeFriends(JSON.parse(response))));
+        }
+      })
+      .catch(e => {
+        console.log("error friends from storage");
       });
   };
 };
@@ -84,13 +119,15 @@ export const getFriends = () => {
         if (json.is_success) {
           dispatch(setFriends(normalizeFriends(json.friends)));
           dispatch(stopLoadingFriends());
+          AsyncStorage.setItem("pp:friends", JSON.stringify(json.friends));
         } else {
           dispatch(stopLoadingFriends());
         }
       })
       .catch(e => {
         dispatch(stopLoadingFriends());
-        alert(e);
+        dispatch(friendsFromStorage());
+        console.log(e);
       });
   };
 };
@@ -111,7 +148,6 @@ export const deleteFriend = id => {
       })
       .then(token => {
         access_token = token;
-        dispatch(removeFriend(id));
         return fetch(`${HOST}/api/v1/friendships`, {
           method: "DELETE",
           body: JSON.stringify({
@@ -122,8 +158,8 @@ export const deleteFriend = id => {
         });
       })
       .then(json => {
-        console.log("success json", json);
         if (json.ok) {
+          dispatch(removeFriend(id));
           dispatch(getFriends());
           Alert.alert(
             "Contact Deleted",
@@ -135,7 +171,7 @@ export const deleteFriend = id => {
         }
       })
       .catch(err => {
-        alert("Already deleted friend.");
+        Alert.alert("Oops, we couldn't connect, please try again");
         console.log(err);
       });
   };
@@ -181,7 +217,8 @@ export const getFriendRequests = () => {
       })
       .catch(e => {
         dispatch(uiStopLoading());
-        alert(e);
+        //1 alert(e);
+        console.log(e);
       });
   };
 };

@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   spinnerStyle: {
     marginRight: 10,
-    color: colors.greenColor
+    color: "#fff"
   }
 });
 

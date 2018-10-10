@@ -18,12 +18,15 @@ import FriendRequests from "../../components/FriendsList/FriendRequests";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import colors from "../../utils/styling";
 
+import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice";
+
 import {
   addFriend,
   getFriends,
   getFriendRequests,
   refreshFriendRequests,
-  rejectFriend
+  rejectFriend,
+  friendsFromStorage
 } from "../../store/actions/friends";
 
 class FriendsScreen extends Component {
@@ -42,6 +45,7 @@ class FriendsScreen extends Component {
 
   componentDidMount() {
     this.props.onLoadFriends();
+    //this.props.friendsFromStorage();
     this.props.onLoadFriendRequests();
   }
 
@@ -84,7 +88,7 @@ class FriendsScreen extends Component {
   render() {
     let friends = null;
     if (this.props.isLoadingFriends) {
-      friends = <ActivityIndicator />;
+      friends = <ActivityIndicator size="small" color="#fff" marginTop={10} />;
     } else {
       friends = (
         <FriendsList
@@ -132,6 +136,7 @@ class FriendsScreen extends Component {
             barStyle="light-content"
             backgroundColor={colors.blueColor}
           />
+          {/* <OfflineNotice /> */}
           <SearchBar
             searchUsername={this.searchUsernameHandler}
             style={styles.searchBar}
@@ -162,6 +167,7 @@ const mapDispatchToProps = dispatch => {
   return {
     onCheckUsername: username => dispatch(addFriend(username)),
     onLoadFriends: () => dispatch(getFriends()),
+    friendsFromStorage: () => dispatch(friendsFromStorage()),
     onLoadFriendRequests: () => dispatch(getFriendRequests()),
     onRefreshRequests: username => dispatch(refreshFriendRequests(username)),
     onRejectFriend: id => dispatch(rejectFriend(id))

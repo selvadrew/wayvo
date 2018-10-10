@@ -15,6 +15,7 @@ import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import colors from "../../utils/styling";
+import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice";
 
 class ActiveFriendsScreen extends Component {
   constructor(props) {
@@ -46,6 +47,13 @@ class ActiveFriendsScreen extends Component {
   };
 
   render() {
+    // changes tab to active friends ifmsomeone is active
+    // if (this.props.active_friends.length > 0) {
+    //   this.props.navigator.switchToTab({
+    //     tabIndex: 2
+    //   });
+    // }
+
     let activeExplain = null;
 
     if (
@@ -75,6 +83,7 @@ class ActiveFriendsScreen extends Component {
           backgroundColor={colors.greenColor}
         />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.greenColor }}>
+          {/* <OfflineNotice /> */}
           <View style={styles.friends}>
             <View style={styles.friendsHeaderWrapper}>
               <Text style={styles.friendsHeader}>Active Contacts</Text>

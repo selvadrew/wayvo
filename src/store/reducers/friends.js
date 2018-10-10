@@ -1,6 +1,7 @@
 import {
   SET_FRIENDS,
   REMOVE_FRIEND,
+  INSERT_FRIEND,
   SET_FRIEND_REQUESTS,
   REFRESH_REQUESTS
 } from "../actions/friends";
@@ -9,6 +10,12 @@ const initialState = {
   friends: [],
   friend_requests: []
 };
+
+// function keysrt(key, desc) {
+//   return function(a, b) {
+//     return desc ? ~~(a[key] < b[key]) : ~~(a[key] > b[key]);
+//   };
+// }
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -36,6 +43,14 @@ const reducer = (state = initialState, action) => {
         friends: state.friends.filter(friend => {
           return friend.id !== action.id;
         })
+      };
+
+    case INSERT_FRIEND:
+      return {
+        ...state,
+        friends: [...state.friends, action.payload].sort((a, b) =>
+          a.fullname.localeCompare(b.fullname)
+        )
       };
 
     default:

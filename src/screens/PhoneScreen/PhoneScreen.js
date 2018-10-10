@@ -14,7 +14,8 @@ import {
   Linking,
   Dimensions,
   SafeAreaView,
-  Alert
+  Alert,
+  NetInfo
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -26,7 +27,7 @@ import {
 } from "../../store/actions/outgoingCalls";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getFriendRequests } from "../../store/actions/friends";
-import { getPhoneNumber } from "../../store/actions/users";
+import { getPhoneNumber, getUserInfo } from "../../store/actions/users";
 import colors from "../../utils/styling";
 import CountDown from "react-native-countdown-component";
 
@@ -36,13 +37,15 @@ import Icon from "react-native-vector-icons/Ionicons";
 import GotIt from "../../components/UI/GotItButton";
 import { AsyncStorage } from "react-native";
 
+import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice.js";
+
 class PhoneScreen extends Component {
   componentDidMount() {
     const channel = new firebase.notifications.Android.Channel(
       "Contacts",
-      "Contact Says Hello",
+      "Contacts Say Hello",
       firebase.notifications.Android.Importance.Max
-    ).setDescription("Contact Says Hello");
+    ).setDescription("Contacts Say Hello");
     firebase.notifications().android.createChannel(channel);
 
     // the listener returns a function you can use to unsubscribe
@@ -175,7 +178,9 @@ class PhoneScreen extends Component {
       .catch(err => alert(err));
 
     this.props.getLastCall();
-    this.props.storePhoneNumber();
+    //this.props.storePhoneNumber();
+    this.props.getUserInfo();
+
     if (Platform.OS === "ios") {
       setTimeout(() => {
         SplashScreen.hide();
@@ -518,7 +523,7 @@ class PhoneScreen extends Component {
           {helloBottomCover}
 
           {endTour}
-
+          {/* <OfflineNotice /> */}
           <View style={styles.navBarWrapper}>
             <View style={styles.navBarContent}>
               <View style={styles.usernameView}>
@@ -531,6 +536,7 @@ class PhoneScreen extends Component {
                   </View>
                 </TouchableWithoutFeedback>
               </View>
+
               <View style={styles.infoButton}>
                 <TouchableWithoutFeedback
                   style={styles.usernameButton}
@@ -745,7 +751,7 @@ const styles = StyleSheet.create({
     alignSelf: "center"
   },
   timeWrapper: {
-    borderRadius: 10,
+    borderRadius: 3,
     backgroundColor: colors.darkBlue,
     paddingRight: 8,
     paddingLeft: 8,
@@ -825,7 +831,8 @@ const mapDispatchToProps = dispatch => {
     onLoadFriendRequests: () => dispatch(getFriendRequests()),
     getLastCall: () => dispatch(storeLastCall()),
     onResetLastCall: () => dispatch(resetLastCall()),
-    storePhoneNumber: () => dispatch(getPhoneNumber())
+    storePhoneNumber: () => dispatch(getPhoneNumber()),
+    getUserInfo: () => dispatch(getUserInfo())
   };
 };
 

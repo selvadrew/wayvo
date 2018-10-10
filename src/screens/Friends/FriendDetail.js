@@ -30,6 +30,7 @@ class FriendDetail extends Component {
 
   friendDeletedHandler = () => {
     this.props.onDeleteFriend(this.props.selectedFriend.id);
+    this.props.navigator.pop();
   };
 
   render() {

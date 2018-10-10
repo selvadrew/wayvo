@@ -1,5 +1,5 @@
 import { HOST } from "../../constants/index";
-import { AsyncStorage } from "react-native";
+import { AsyncStorage, Alert } from "react-native";
 import usernameTab from "../../screens/MainTabs/usernameTab";
 import startTabs from "../../screens/MainTabs/startMainTabs";
 import phoneNumberTab from "../../screens/MainTabs/phoneNumberTab";
@@ -55,7 +55,7 @@ export function loginWithFacebook(facebookAccessToken) {
       })
       .catch(e => {
         console.log(e);
-        alert(e);
+        Alert.alert("Oops, we couldn't connect, please try again");
       });
   };
 }
@@ -153,7 +153,6 @@ export const authAutoSignIn = () => {
       if (status === "in") {
         dispatch(authGetToken())
           .then(token => {
-            console.log(token, "hi");
             return AsyncStorage.getItem("pp:username")
               .catch(err => {
                 dispatch(uiStopLoading());
@@ -231,7 +230,7 @@ export const createUsername = username => {
       })
       .catch(e => {
         dispatch(uiStopLoading());
-        alert(e);
+        Alert.alert("Oops, we couldn't connect, please try again");
       });
   };
 };
@@ -280,7 +279,29 @@ export const savePhoneNumber = phoneNumber => {
       })
       .catch(e => {
         dispatch(uiStopLoading());
-        alert(e);
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
+export const getUserInfo = () => {
+  return dispatch => {
+    return AsyncStorage.multiGet([
+      "pp:fullname",
+      "pp:phonenumber",
+      "pp:username"
+    ])
+      .then(response => {
+        if (response[0][1] && response[1][1] && response[2][1]) {
+          dispatch(
+            storePhoneNumber(response[0][1], response[1][1], response[2][1])
+          );
+        } else {
+          dispatch(getPhoneNumber());
+        }
+      })
+      .catch(e => {
+        dispatch(getPhoneNumber());
       });
   };
 };
@@ -309,6 +330,7 @@ export const getPhoneNumber = () => {
           dispatch(
             storePhoneNumber(json.fullname, json.phone_number, json.username)
           );
+          AsyncStorage.setItem("pp:fullname", json.fullname);
         }
       })
       .catch(e => {
@@ -354,8 +376,8 @@ export const logout = () => {
         }
       })
       .catch(e => {
-        console.log(e);
-        authTab();
+        Alert.alert("Oops, we couldn't connect, please try again");
+        //authTab();
       });
   };
 };

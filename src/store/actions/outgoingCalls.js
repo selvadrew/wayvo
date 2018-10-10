@@ -1,6 +1,7 @@
 import { HOST } from "../../constants/index";
 import { AsyncStorage } from "react-native";
 import { authGetToken } from "./users";
+import { Alert } from "react-native";
 
 export const OUTGOING_CALL = "OUTGOING_CALL";
 
@@ -44,7 +45,6 @@ export const outgoingCall = seconds => {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
         if (json.is_success) {
           let seconds_left;
           if (json.last_said_hello && json.countdown_timer) {
@@ -69,7 +69,9 @@ export const outgoingCall = seconds => {
         }
       })
       .catch(e => {
-        dispatch(stopLoadingHello(json.is_success));
+        dispatch(
+          stopLoadingHello(false, "Oops, we couldn't connect, please try again")
+        );
       });
   };
 };
@@ -123,7 +125,7 @@ export const storeLastCall = () => {
       })
       .catch(e => {
         dispatch(uiStopLoading());
-        alert(e);
+        //Alert.alert("Oops, we couldn't connect, please try again");
       });
   };
 };

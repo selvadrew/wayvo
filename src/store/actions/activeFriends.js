@@ -44,7 +44,7 @@ export const getActiveFriends = () => {
         }
       })
       .catch(e => {
-        alert(e);
+        console.log(e);
         dispatch(stopLoadingActivity());
       });
   };
