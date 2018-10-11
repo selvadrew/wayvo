@@ -54,7 +54,8 @@ export const addFriend = username => {
               json.phone_number
             )
           );
-          //dispatch(getFriends());
+          dispatch(getFriends());
+          dispatch(stopLoadingFriends());
           dispatch(stopAddingFriend());
         } else {
           Alert.alert(json.error);
@@ -161,6 +162,7 @@ export const deleteFriend = id => {
         if (json.ok) {
           dispatch(removeFriend(id));
           dispatch(getFriends());
+          dispatch(stopLoadingFriends());
           Alert.alert(
             "Contact Deleted",
             "Contact has been removed from your contact list"

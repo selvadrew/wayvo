@@ -140,13 +140,13 @@ const styles = StyleSheet.create({
   },
   activeExplain: {
     color: "#fff",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
     textAlign: "center",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    fontWeight: "500",
+    fontWeight: "normal",
     padding: 5
   }
 });

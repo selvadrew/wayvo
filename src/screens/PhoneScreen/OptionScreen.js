@@ -33,7 +33,11 @@ class OptionScreen extends Component {
       backButtonTitle: "",
       backButtonHidden: false,
       navigatorStyle: {
-        navBarHidden: false
+        navBarHidden: false,
+        statusBarColor: colors.darkBlue,
+        navBarBackgroundColor: colors.darkBlue,
+        navBarButtonColor: "#fff",
+        navBarTextColor: "#fff"
       }
     });
   };

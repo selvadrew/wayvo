@@ -13,7 +13,12 @@ import colors from "../../utils/styling";
 const FriendRequestButton = props => {
   const content = (
     <View style={[{ backgroundColor: props.backgroundColor }, styles.button]}>
-      <View style={styles.textWrapper}>
+      <View
+        style={[
+          { borderRightWidth: props.borderRightWidth },
+          [styles.textWrapper]
+        ]}
+      >
         <Text style={[{ color: props.color }, styles.text]}>
           {props.children}
         </Text>
@@ -45,7 +50,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     width: "100%",
-    borderRightWidth: 1,
+    //borderRightWidth: 1,
+    //borderLeftWidth: Platform.OS === "ios" ? 0 : 1,
     borderColor: colors.blueColor
   },
   text: {

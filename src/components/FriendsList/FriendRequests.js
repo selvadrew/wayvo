@@ -17,6 +17,7 @@ const friendRequests = props => {
             <FriendRequestButtons
               backgroundColor={colors.darkBlue}
               color="#444"
+              borderRightWidth={1}
               style={styles.rejectButton}
               onPress={() => props.onRejectFriendDecision(info.item)}
             >

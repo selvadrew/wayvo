@@ -62,6 +62,7 @@ class PhoneScreen extends Component {
             .setSubtitle(notification.subtitle)
             .setBody(notification.body)
             .setData(notification.data)
+            .android.setAutoCancel(true)
             .android.setChannelId("Contacts") // e.g. the id you chose above
             //.android.setSmallIcon("ic_stat_notification") // create this icon in Android Studio
             //.android.setColor("#000000") // you can set a color here
@@ -760,7 +761,7 @@ const styles = StyleSheet.create({
   },
   timeText: {
     //marginTop: 30,
-    fontSize: Dimensions.get("window").width > 330 ? 21 : 17,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     fontWeight: "700",
     color: "white",
     textAlign: "center"
@@ -772,12 +773,12 @@ const styles = StyleSheet.create({
   timeNumber: {
     color: colors.yellowColor,
     fontWeight: "900",
-    fontSize: Dimensions.get("window").width > 330 ? 21 : 17
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 17
   },
   timeNumberSelect: {
     color: "#555",
     fontWeight: "900",
-    fontSize: Dimensions.get("window").width > 330 ? 22 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     backgroundColor: colors.yellowColor
   },
   connectedWrapper: {
@@ -796,7 +797,7 @@ const styles = StyleSheet.create({
   },
   activeInfo: {
     color: "#fff",
-    fontSize: Dimensions.get("window").width > 330 ? 17 : 15,
+    fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
     fontWeight: "400"
     //textAlign: "center"
   },

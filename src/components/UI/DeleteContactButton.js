@@ -40,12 +40,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: "#000"
+    borderColor: "#555"
   },
   text: {
     fontSize: 14,
     padding: 10,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    borderColor: "#555"
   }
 });
 

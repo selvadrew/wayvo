@@ -5,7 +5,8 @@ import {
   Button,
   TouchableOpacity,
   StyleSheet,
-  Platform
+  Platform,
+  StatusBar
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -26,7 +27,11 @@ class LoadingScreen extends Component {
   }
 
   render() {
-    return <View style={styles.container} />;
+    return (
+      <View style={styles.container}>
+        {/* <StatusBar barStyle="dark-content" backgroundColor="#EEE" /> */}
+      </View>
+    );
   }
 }
 
