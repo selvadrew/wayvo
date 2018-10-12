@@ -43,8 +43,7 @@ export const addFriend = username => {
       .then(json => {
         if (json.is_success) {
           Alert.alert(
-            "Successfully Added",
-            `${json.fullname} was added to your contact list`
+            `${json.fullname} was successfully added to your contact list`
           );
           dispatch(
             insertFriend(

@@ -9,7 +9,8 @@ import {
   Alert,
   Image,
   Dimensions,
-  StatusBar
+  StatusBar,
+  TouchableWithoutFeedback
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -19,7 +20,7 @@ import { LoginManager, AccessToken } from "react-native-fbsdk";
 import { loginWithFacebook, authAutoSignIn } from "../../store/actions/users";
 import SplashScreen from "react-native-splash-screen";
 
-//import logo from "../../assets/WayvoLogo";
+import colors from "../../utils/styling";
 
 class AuthScreen extends Component {
   componentDidMount() {
@@ -37,6 +38,14 @@ class AuthScreen extends Component {
   constructor(props) {
     super(props);
   }
+
+  terms = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.Terms",
+      //title: "How Wayvo Works",
+      backButtonTitle: ""
+    });
+  };
 
   onFBAuth = () => {
     console.log("Facebook Login");
@@ -62,9 +71,13 @@ class AuthScreen extends Component {
   };
 
   render() {
+    let statusBar = null;
+    if (Platform.OS === "ios") {
+      statusBar = <StatusBar barStyle="dark-content" backgroundColor="#EEE" />;
+    }
     return (
       <View style={styles.container}>
-        {/* <StatusBar barStyle="dark-content" backgroundColor="#EEE" /> */}
+        {statusBar}
         <View style={styles.imageAndLogo}>
           <Image
             source={require("../../assets/WayvoLogo.png")}
@@ -89,6 +102,14 @@ class AuthScreen extends Component {
             />
             <Text style={styles.buttonText}>Continue with Facebook</Text>
           </TouchableOpacity>
+          <TouchableWithoutFeedback onPress={this.terms}>
+            <View>
+              <Text style={styles.termsWrapper}>
+                By continuing, you agree to our{" "}
+                <Text style={styles.termsText}>Terms and Data Policy.</Text>
+              </Text>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );
@@ -100,13 +121,14 @@ const styles = StyleSheet.create({
     flex: 1,
     //justifyContent: "center"
     padding: 20,
+    paddingBottom: 0,
     backgroundColor: "#fff"
   },
   button: {
     height: 47,
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 25,
+    borderRadius: 5,
     flexDirection: "row",
     backgroundColor: "#4267b2"
   },
@@ -137,6 +159,16 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").width * 0.7,
     width: Dimensions.get("window").width * 0.7
     //justifyContent: "flex-start"
+  },
+  termsWrapper: {
+    marginTop: 5,
+    fontSize: 12,
+    textAlign: "center",
+    color: "gray",
+    paddingBottom: 20
+  },
+  termsText: {
+    color: colors.blueColor //"#007B7F"
   }
 });
 

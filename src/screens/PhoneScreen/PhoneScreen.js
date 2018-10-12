@@ -64,7 +64,9 @@ class PhoneScreen extends Component {
             .setData(notification.data)
             .android.setAutoCancel(true)
             .android.setChannelId("Contacts") // e.g. the id you chose above
-            //.android.setSmallIcon("ic_stat_notification") // create this icon in Android Studio
+            .android.setSmallIcon("ic_launcher")
+            //.android.setSmallIcon("@mipmap/ic_custom_notif")
+            // .android.setSmallIcon("ic_stat_notification") // create this icon in Android Studio
             //.android.setColor("#000000") // you can set a color here
             .android.setPriority(firebase.notifications.Android.Priority.High);
 
