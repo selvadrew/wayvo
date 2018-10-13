@@ -54,6 +54,7 @@ export const addFriend = username => {
             )
           );
           dispatch(getFriends());
+          // temporary!!!!!!!
           dispatch(stopLoadingFriends());
           dispatch(stopAddingFriend());
         } else {

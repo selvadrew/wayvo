@@ -81,7 +81,7 @@ class Terms extends Component {
         <Text style={styles.title3}>Limits on liability</Text>
         <Text style={styles.title4}>
           {"\u2022"} We work hard to provide the best app we can and to specify
-          clear guidelines for everyone who uses them. Our app, however, are
+          clear guidelines for everyone who uses them. Our app, however, is
           provided "as is," and we make no guarantees that they always will be
           safe, secure, or error-free, or that they will function without
           disruptions, delays, or imperfections. To the extent permitted by law,
@@ -97,10 +97,10 @@ class Terms extends Component {
           {"\u2022"} We cannot predict when issues might arise with our app.
           Accordingly, our liability shall be limited to the fullest extent
           permitted by applicable law, and under no circumstance will we be
-          liable to you for any lost profits, revenues, information, or data, or
-          consequential, special, indirect, exemplary, punitive, or incidental
-          damages arising out of or related to these Terms, even if we have been
-          advised of the possibility of such damages.
+          liable to you for any lost information, or data, or consequential,
+          special, indirect, exemplary, punitive, or incidental damages arising
+          out of or related to these Terms, even if we have been advised of the
+          possibility of such damages.
         </Text>
         <Text style={styles.title4}>
           {"\u2022"} We are not responsible for any charges or overages you may

@@ -16,7 +16,7 @@ import {
   SafeAreaView,
   Alert,
   NetInfo,
-  Slider
+  Image
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -39,6 +39,8 @@ import GotIt from "../../components/UI/GotItButton";
 import { AsyncStorage } from "react-native";
 
 import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice.js";
+
+import Slider from "react-native-slider";
 
 class PhoneScreen extends Component {
   componentDidMount() {
@@ -418,10 +420,12 @@ class PhoneScreen extends Component {
                   maximumValue={60}
                   step={1}
                   onValueChange={this.onSliderChange}
-                  minimumTrackTintColor={colors.greenColor}
-                  thumbTintColor={colors.greenColor}
-                  style={{ color: colors.greenColor }}
-                  thumbStyle={{ height: 100 }}
+                  minimumTrackTintColor={colors.yellowColor}
+                  maximumTrackTintColor={colors.blueColor}
+                  thumbTintColor={colors.yellowColor}
+                  style={{ marginTop: 3 }}
+
+                  // thumbStyle={{ borderColor: colors.greenColor, borderWidth: 2 }}
                 />
               </View>
             </TouchableWithoutFeedback>
@@ -509,7 +513,7 @@ class PhoneScreen extends Component {
         activeInfo = (
           <View style={styles.connectedWrapper}>
             <Text style={styles.activeInfo}>
-              Contacts can Say Hello Back until time expires
+              Contacts can Say Hello Back until time expires.
             </Text>
           </View>
         );
@@ -723,7 +727,7 @@ const styles = StyleSheet.create({
   },
   usernameWrapper: {
     width: "100%",
-    flex: 2,
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column"
@@ -820,10 +824,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "900",
     textAlign: "center"
-  },
-  usernameButton: {
-    //padding: 10
-    //alignSelf: "baseline"
   }
 });
 
