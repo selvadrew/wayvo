@@ -24,7 +24,7 @@ import SplashScreen from "react-native-splash-screen";
 export const outgoingCall = seconds => {
   return dispatch => {
     dispatch(startLoadingHello());
-    let timeOptions = [300, 900, 1800, 3600];
+    let timeSeconds = seconds * 60;
     let access_token;
     let last_call;
     dispatch(authGetToken())
@@ -38,7 +38,7 @@ export const outgoingCall = seconds => {
           method: "POST",
           body: JSON.stringify({
             access_token: access_token,
-            seconds: timeOptions[seconds]
+            seconds: timeSeconds
           }),
           headers: { "content-type": "application/json" }
         });

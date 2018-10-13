@@ -15,7 +15,8 @@ import {
   Dimensions,
   SafeAreaView,
   Alert,
-  NetInfo
+  NetInfo,
+  Slider
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -226,14 +227,10 @@ class PhoneScreen extends Component {
   }
 
   callbutton = () => {
-    if (this.state.tapped === 0) {
-      Alert.alert("Select how long you want to be active first");
-    } else {
-      this.props.onOutgoingCall(this.state.timeSelected);
-      this.props.navigator.push({
-        screen: "awesome-places.SaidHello"
-      });
-    }
+    this.props.onOutgoingCall(this.state.sliderValue);
+    this.props.navigator.push({
+      screen: "awesome-places.SaidHello"
+    });
   };
 
   optionScreen = () => {
@@ -331,7 +328,14 @@ class PhoneScreen extends Component {
     timeSelected: 1,
     notificationsEnabled: true,
     androidNotificationsEnabled: true,
-    tapped: 2
+    tapped: 2,
+    sliderValue: 20
+  };
+
+  onSliderChange = chosenValue => {
+    this.setState({
+      sliderValue: chosenValue
+    });
   };
 
   changeTime = () => {
@@ -378,22 +382,19 @@ class PhoneScreen extends Component {
     let endTour = null;
     const timeOptions = [5, 15, 30, 60];
 
+    select = (
+      <Text style={styles.timeNumber}>
+        {/* {timeOptions[this.state.timeSelected]} minutes */}
+        {this.state.sliderValue} minutes
+      </Text>
+    );
+
     if (this.props.connected_with) {
       connectedName = (
         <Text style={styles.connectedName}>{this.props.connected_with}</Text>
       );
     } else {
       connectedName = <Text style={styles.connectedName}>...</Text>;
-    }
-
-    if (this.state.tapped === 0) {
-      select = <Text style={styles.timeNumberSelect}> Select... </Text>;
-    } else {
-      select = (
-        <Text style={styles.timeNumber}>
-          {timeOptions[this.state.timeSelected]} minutes
-        </Text>
-      );
     }
 
     if (this.props.isLoadingHello) {
@@ -411,6 +412,17 @@ class PhoneScreen extends Component {
                   The first contact to Say Hello Back within {select} can call
                   me
                 </Text>
+                <Slider
+                  value={this.state.sliderValue}
+                  minimumValue={10}
+                  maximumValue={60}
+                  step={1}
+                  onValueChange={this.onSliderChange}
+                  minimumTrackTintColor={colors.greenColor}
+                  thumbTintColor={colors.greenColor}
+                  style={{ color: colors.greenColor }}
+                  thumbStyle={{ height: 100 }}
+                />
               </View>
             </TouchableWithoutFeedback>
 
@@ -545,7 +557,7 @@ class PhoneScreen extends Component {
                   style={styles.usernameButton}
                   onPress={() => this.howItWorksScreen()}
                 >
-                  <View>
+                  <View style={{ paddingLeft: 15, padding: 10 }}>
                     <Icon
                       size={30}
                       name={
@@ -604,7 +616,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     flexDirection: "row",
     //marginTop: Platform.OS === "ios" ? 20 : 0,
-    paddingRight: 15
+    paddingRight: 5
   },
   container2: {
     flex: 1,
@@ -774,13 +786,13 @@ const styles = StyleSheet.create({
   },
   timeNumber: {
     color: colors.yellowColor,
-    fontWeight: "900",
+    //fontWeight: "900",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 17
   },
   timeNumberSelect: {
     color: "#555",
     fontWeight: "900",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     backgroundColor: colors.yellowColor
   },
   connectedWrapper: {
@@ -810,6 +822,7 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
   usernameButton: {
+    //padding: 10
     //alignSelf: "baseline"
   }
 });
