@@ -413,6 +413,8 @@ class PhoneScreen extends Component {
                 <Text style={styles.timeText}>
                   The first contact to Say Hello Back within {select} can call
                   me
+                  {/* Receive a call from the first contact to Say Hello back within{" "}
+                  {select} */}
                 </Text>
                 <Slider
                   value={this.state.sliderValue}
@@ -750,7 +752,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     //marginTop: Platform.OS === "ios" ? 20 : 0,
     padding: 10,
-    fontWeight: "600"
+    fontWeight: "600",
+    letterSpacing: 1
   },
   usernameStyle: {
     color: colors.usernameColor,

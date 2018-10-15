@@ -49,6 +49,13 @@ class OptionScreen extends Component {
     });
   };
 
+  feedbackScreen = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.Feedback",
+      backButtonTitle: ""
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -62,7 +69,7 @@ class OptionScreen extends Component {
         </View>
 
         <View style={styles.bottomBox}>
-          <TouchableWithoutFeedback onPress={() => phoneNumberTab()}>
+          <TouchableWithoutFeedback onPress={() => this.feedbackScreen()}>
             <View>
               <Text style={[styles.logoutText]}>Feedback</Text>
             </View>
@@ -90,7 +97,8 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: "center",
     // justifyContent: "center",
-    flexDirection: "column"
+    flexDirection: "column",
+    backgroundColor: "#fff"
   },
   topBox: {
     flex: 1,

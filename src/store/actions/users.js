@@ -12,6 +12,7 @@ export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 
 export function loginWithFacebook(facebookAccessToken) {
   return dispatch => {
+    dispatch(uiStartLoading());
     return fetch(`${HOST}/api/v1/facebook`, {
       method: "POST",
       body: JSON.stringify({
@@ -34,26 +35,31 @@ export function loginWithFacebook(facebookAccessToken) {
             if (json.phone_number) {
               AsyncStorage.setItem("pp:phonenumber", json.phone_number);
               setTimeout(() => {
+                dispatch(uiStopLoading());
                 startTabs();
               }, 1000);
             } else {
               setTimeout(() => {
+                dispatch(uiStopLoading());
                 phoneNumberTab();
               }, 1000);
             }
           } else {
             setTimeout(() => {
+              dispatch(uiStopLoading());
               usernameTab();
             }, 1000);
           }
 
           console.log(json.access_token);
         } else {
+          dispatch(uiStopLoading());
           alert(json.error);
           console.log(json.error);
         }
       })
       .catch(e => {
+        dispatch(uiStopLoading());
         console.log(e);
         Alert.alert("Oops, we couldn't connect, please try again");
       });
@@ -373,11 +379,52 @@ export const logout = () => {
           AsyncStorage.setItem("login_status", "out");
         } else {
           authTab();
+          AsyncStorage.setItem("login_status", "out");
         }
       })
       .catch(e => {
         Alert.alert("Oops, we couldn't connect, please try again");
         //authTab();
+      });
+  };
+};
+
+export const sendFeedback = description => {
+  return dispatch => {
+    //dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        // dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/feedback`, {
+          method: "POST",
+          body: JSON.stringify({
+            description: description,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          console.log("success feedback");
+          // dispatch(uiStopLoading());
+        } else {
+          // Alert.alert("Oops, we couldn't connect, please try again");
+          // dispatch(uiStopLoading());
+          console.log("success failed");
+        }
+      })
+      .catch(e => {
+        console.log("success failed");
+        //dispatch(uiStopLoading());
+        // Alert.alert("Oops, we couldn't connect, please try again");
       });
   };
 };

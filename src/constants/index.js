@@ -3,4 +3,8 @@
 
 //aainin = "http://172.28.98.6:3000"
 
-export const HOST = "http://138.51.83.13:3000";
+// https://sheltered-escarpment-63295.herokuapp.com/
+
+//export const HOST = "http://138.51.83.13:3000";
+
+export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

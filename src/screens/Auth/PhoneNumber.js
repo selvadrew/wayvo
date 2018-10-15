@@ -53,6 +53,7 @@ class PhoneNumber extends Component {
       return;
     }
     if (this.state.userName.length !== 10) {
+      Keyboard.dismiss();
       this.setState({
         phone_number_error: 1
       });
@@ -60,6 +61,7 @@ class PhoneNumber extends Component {
     }
 
     if (/^\d+$/.test(this.state.userName) === false) {
+      Keyboard.dismiss();
       this.setState({
         phone_number_error: 2
       });
@@ -124,6 +126,7 @@ class PhoneNumber extends Component {
               //textContentType="telephoneNumber"
               maxLength={10}
               textContentType="telephoneNumber"
+              onSubmitEditing={this.placeSubmitHandler}
             />
           </View>
 
@@ -142,7 +145,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: 50
+    padding: 50,
+    backgroundColor: "#fff"
   },
   topWrapper: {
     flex: 2,
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   topText: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
     color: "#444"

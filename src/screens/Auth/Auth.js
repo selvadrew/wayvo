@@ -10,7 +10,8 @@ import {
   Image,
   Dimensions,
   StatusBar,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -72,9 +73,32 @@ class AuthScreen extends Component {
 
   render() {
     let statusBar = null;
+    let fbButton = null;
     if (Platform.OS === "ios") {
       statusBar = <StatusBar barStyle="dark-content" backgroundColor="#EEE" />;
     }
+
+    if (this.props.isLoading) {
+      fbButton = <ActivityIndicator />;
+    } else {
+      fbButton = (
+        <View>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.onFBAuth()}
+          >
+            <Icon
+              name="logo-facebook"
+              size={25}
+              color="#fff"
+              style={styles.icon}
+            />
+            <Text style={styles.buttonText}>Continue with Facebook</Text>
+          </TouchableOpacity>
+        </View>
+      );
+    }
+
     return (
       <View style={styles.container}>
         {statusBar}
@@ -90,26 +114,14 @@ class AuthScreen extends Component {
           <Text style={styles.slogan}>one person at a time.</Text>
         </View>
         <View style={styles.fbContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.onFBAuth()}
-          >
-            <Icon
-              name="logo-facebook"
-              size={25}
-              color="#fff"
-              style={styles.icon}
-            />
-            <Text style={styles.buttonText}>Continue with Facebook</Text>
-          </TouchableOpacity>
-          <TouchableWithoutFeedback onPress={this.terms}>
-            <View>
-              <Text style={styles.termsWrapper}>
-                By continuing, you agree to our{" "}
-                <Text style={styles.termsText}>Terms and Data Policy.</Text>
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
+          {fbButton}
+
+          <Text style={styles.termsWrapper}>
+            By continuing, you agree to our{" "}
+            <Text style={styles.termsText} onPress={this.terms}>
+              Terms and Data Policy.
+            </Text>
+          </Text>
         </View>
       </View>
     );
@@ -140,7 +152,7 @@ const styles = StyleSheet.create({
     marginRight: 15
   },
   slogan: {
-    fontSize: 25,
+    fontSize: Dimensions.get("window").width > 330 ? 25 : 20,
     color: "#333",
     letterSpacing: 2,
     fontWeight: "bold"
@@ -173,7 +185,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  accessToken: state.users.accessToken
+  accessToken: state.users.accessToken,
+  isLoading: state.ui.isLoading
 });
 
 const mapDispatchToProps = dispatch => ({

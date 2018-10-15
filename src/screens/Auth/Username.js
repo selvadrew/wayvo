@@ -108,6 +108,7 @@ class Username extends Component {
               autoFocus={true}
               autoCapitalize="none"
               autoCorrect={false}
+              onSubmitEditing={this.placeSubmitHandler}
             />
           </View>
 
@@ -126,7 +127,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    padding: 50
+    padding: 50,
+    backgroundColor: "#fff"
   },
   topWrapper: {
     flex: 2,
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   topText: {
-    fontSize: 25,
+    fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
     color: "#444"

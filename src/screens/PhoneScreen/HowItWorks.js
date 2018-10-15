@@ -30,7 +30,7 @@ class HowItWorks extends Component {
       <View style={styles.container}>
         <View style={styles.wrapper}>
           <View style={styles.titleWrapper}>
-            <Text style={styles.title}>What happens when you Say Hello?</Text>
+            <Text style={styles.title}>What happens when I Say Hello?</Text>
           </View>
         </View>
 
