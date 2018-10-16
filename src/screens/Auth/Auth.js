@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   termsWrapper: {
     marginTop: 5,
-    fontSize: 12,
+    fontSize: Dimensions.get("window").width > 330 ? 12 : 10,
     textAlign: "center",
     color: "gray",
     paddingBottom: 20

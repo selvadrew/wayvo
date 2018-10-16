@@ -66,8 +66,8 @@ class FriendDetail extends Component {
         <View style={styles.successContainer}>
           <View>
             <Text style={styles.successText}>
-              WOOHOO! You've been connected with {"\n"}
-              {this.props.fullname}
+              Woohoo! You've been connected with {"\n"}
+              {this.props.fullname}.
             </Text>
           </View>
           <GotIt

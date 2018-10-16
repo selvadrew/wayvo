@@ -184,7 +184,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderRadius: 5,
     borderColor: "#333",
-    textAlign: "center"
+    textAlign: "center",
+    letterSpacing: 1
   },
   listHeader: {
     fontSize: 18,

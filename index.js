@@ -4,8 +4,6 @@ import { Provider } from "react-redux";
 import App from "./App";
 import configureStore from "./src/store/configureStore";
 
-//import bgMessaging from "./src/utils/bgMessaging";
-
 const store = configureStore();
 
 const RNRedux = () => (

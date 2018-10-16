@@ -8,7 +8,11 @@ import {
 
 const initialState = {
   friends: [],
-  friend_requests: []
+  friend_requests: [],
+  new_friend: null,
+  show_response: false,
+  deleted_friend: null,
+  deleted_response: false
 };
 
 // function keysrt(key, desc) {
@@ -22,16 +26,22 @@ const reducer = (state = initialState, action) => {
     case SET_FRIENDS:
       return {
         ...state,
-        friends: action.friends
+        friends: action.friends,
+        show_response: false,
+        deleted_response: false
       };
     case SET_FRIEND_REQUESTS:
       return {
         ...state,
-        friend_requests: action.friends_requests
+        friend_requests: action.friends_requests,
+        show_response: false,
+        deleted_response: false
       };
     case REFRESH_REQUESTS:
       return {
         ...state,
+        show_response: false,
+        deleted_response: false,
         friend_requests: state.friend_requests.filter(friend => {
           return friend.username !== action.username;
         })
@@ -40,9 +50,12 @@ const reducer = (state = initialState, action) => {
     case REMOVE_FRIEND:
       return {
         ...state,
+        show_response: false,
         friends: state.friends.filter(friend => {
           return friend.id !== action.id;
-        })
+        }),
+        deleted_friend: action.fullname,
+        deleted_response: true
       };
 
     case INSERT_FRIEND:
@@ -50,11 +63,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         friends: [...state.friends, action.payload].sort((a, b) =>
           a.fullname.localeCompare(b.fullname)
-        )
+        ),
+        new_friend: action.payload.fullname,
+        show_response: true,
+        deleted_response: false
       };
 
     default:
-      return state;
+      return {
+        ...state,
+        new_friend: null,
+        show_response: false,
+        deleted_friend: null,
+        deleted_response: false
+      };
   }
 };
 

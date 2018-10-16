@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 10,
-    // backgroundColor: colors.pinkColor,
     height: 50
   },
   textWrapper: {
@@ -94,7 +93,8 @@ const styles = StyleSheet.create({
     width: "80%",
     color: "#fff",
     fontSize: 18,
-    marginLeft: 15
+    marginLeft: 15,
+    letterSpacing: 1
   },
   placeButton: {
     width: "20%",

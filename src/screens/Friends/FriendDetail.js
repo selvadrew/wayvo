@@ -29,7 +29,10 @@ class FriendDetail extends Component {
   }
 
   friendDeletedHandler = () => {
-    this.props.onDeleteFriend(this.props.selectedFriend.id);
+    this.props.onDeleteFriend(
+      this.props.selectedFriend.id,
+      this.props.selectedFriend.fullname
+    );
     this.props.navigator.pop();
   };
 
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteFriend: key => dispatch(deleteFriend(key))
+    onDeleteFriend: (id, fullname) => dispatch(deleteFriend(id, fullname))
   };
 };
 

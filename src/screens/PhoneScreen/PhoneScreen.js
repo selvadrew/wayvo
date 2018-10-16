@@ -453,19 +453,16 @@ class PhoneScreen extends Component {
           } else {
             activeInfo = (
               <View style={styles.connectedWrapper}>
-                <TouchableWithoutFeedback
-                  //style={styles.button}
-                  onPress={this.appSettings}
-                >
-                  <View>
-                    <Text style={styles.notificationText}>
-                      <Text style={styles.connectedName}>
-                        Allow Notifications{" "}
-                      </Text>
-                      if you want to be notified when contacts Say Hello
-                    </Text>
-                  </View>
-                </TouchableWithoutFeedback>
+                <Text style={styles.notificationText}>
+                  Allow notifications{" "}
+                  <Text
+                    style={styles.notificationHere}
+                    onPress={this.appSettings}
+                  >
+                    here{" "}
+                  </Text>
+                  if you want to be notified when contacts Say Hello
+                </Text>
               </View>
             );
           }
@@ -481,7 +478,9 @@ class PhoneScreen extends Component {
             activeInfo = (
               <View style={styles.connectedWrapper}>
                 <Text style={styles.notificationText}>
-                  <Text style={styles.connectedName}>Allow Notifications </Text>
+                  <Text style={styles.notificationHere}>
+                    Allow Notifications{" "}
+                  </Text>
                   if you want to be notified when contacts Say Hello
                 </Text>
               </View>
@@ -785,7 +784,8 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     fontWeight: "700",
     color: "white",
-    textAlign: "center"
+    textAlign: "center",
+    letterSpacing: Dimensions.get("window").width > 330 ? 0.4 : 0
     //borderColor: "#FFF",
     //borderWidth: 1,
 
@@ -813,8 +813,17 @@ const styles = StyleSheet.create({
   },
   notificationText: {
     color: "#fff",
-    fontSize: 20,
-    textAlign: "center"
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 16,
+    textAlign: "center",
+    fontWeight: "400",
+    letterSpacing: 0.5
+  },
+  notificationHere: {
+    color: colors.greenColor,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
+    fontWeight: "700",
+    textAlign: "center",
+    letterSpacing: 0.5
   },
   activeInfo: {
     color: "#fff",

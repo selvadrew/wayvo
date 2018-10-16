@@ -3,6 +3,7 @@ import { normalizeActiveFriends } from "../../utils/index";
 
 import { authGetToken } from "../actions/users";
 import { Alert } from "react-native";
+import authTab from "../../screens/MainTabs/authTab";
 
 export const SET_ACTIVE_FRIENDS = "SET_ACTIVE_FRIENDS";
 export const CONNECT_CALL = "CONNECT_CALL";
@@ -39,6 +40,12 @@ export const getActiveFriends = () => {
           dispatch(setFriends(normalizeActiveFriends(json.latest_outgoings)));
           dispatch(stopLoadingActivity());
         } else {
+          // if (json.error_code === "logout") {
+          //   //authTab();
+          //   // AsyncStorage.setItem("login_status", "out");
+          // } else {
+          //   alert(json.error);
+          // }
           alert(json.error);
           dispatch(stopLoadingActivity());
         }

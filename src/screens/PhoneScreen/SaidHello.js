@@ -33,7 +33,7 @@ class SaidHello extends Component {
               <View>
                 <Text style={styles.successText}>
                   Hang tight, you will receive a call from the first contact to
-                  Say Hello Back
+                  Say Hello Back.
                 </Text>
                 <GotIt
                   color={colors.greenColor}
@@ -89,9 +89,10 @@ const styles = StyleSheet.create({
   successText: {
     color: "white",
     fontSize: Dimensions.get("window").width > 330 ? 22 : 20,
-    margin: Dimensions.get("window").width > 330 ? 40 : 20,
+    margin: Dimensions.get("window").width > 330 ? 30 : 20,
     fontWeight: "800",
-    textAlign: "center"
+    textAlign: "center",
+    letterSpacing: 0.5
   }
 });
 

@@ -42,7 +42,7 @@ export const addFriend = username => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          Alert.alert(`${json.fullname} successfully added to contacts`);
+          //Alert.alert(`${json.fullname} is now a contact.`);
           dispatch(
             insertFriend(
               json.id,
@@ -138,7 +138,7 @@ export function setFriends(friends) {
   };
 }
 
-export const deleteFriend = id => {
+export const deleteFriend = (id, fullname) => {
   return dispatch => {
     let access_token;
     dispatch(authGetToken())
@@ -158,13 +158,10 @@ export const deleteFriend = id => {
       })
       .then(json => {
         if (json.ok) {
-          dispatch(removeFriend(id));
+          dispatch(removeFriend(id, fullname));
           dispatch(getFriends());
           dispatch(stopLoadingFriends());
-          Alert.alert(
-            "Contact Deleted",
-            "Contact has been removed from your contact list"
-          );
+          //Alert.alert(`${fullname} deleted`);
         } else {
           console.log("new error");
           throw new Error();
@@ -177,10 +174,11 @@ export const deleteFriend = id => {
   };
 };
 
-export const removeFriend = id => {
+export const removeFriend = (id, fullname) => {
   return {
     type: REMOVE_FRIEND,
-    id: id
+    id: id,
+    fullname: fullname
   };
 };
 

@@ -20,6 +20,10 @@ import colors from "../../utils/styling";
 
 import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice";
 
+import Toast, { DURATION } from "react-native-easy-toast";
+
+import DropdownAlert from "react-native-dropdownalert";
+
 import {
   addFriend,
   getFriends,
@@ -85,6 +89,10 @@ class FriendsScreen extends Component {
     super(props);
   }
 
+  state = {
+    friend_added: null
+  };
+
   render() {
     let friends = null;
     if (this.props.isLoadingFriends) {
@@ -114,6 +122,22 @@ class FriendsScreen extends Component {
             onRejectFriendDecision={this.friendRejected}
           />
         </View>
+      );
+    }
+
+    if (this.props.new_friend && this.props.show_response) {
+      this.dropdown.alertWithType(
+        "success",
+        "",
+        `${this.props.new_friend} is now a contact`
+      );
+    }
+
+    if (this.props.deleted_friend && this.props.deleted_response) {
+      this.dropdown.alertWithType(
+        "info",
+        "",
+        `${this.props.deleted_friend} has been deleted from your contact list`
       );
     }
 
@@ -148,6 +172,24 @@ class FriendsScreen extends Component {
             </View>
             {friends}
           </View>
+
+          <DropdownAlert
+            ref={ref => (this.dropdown = ref)}
+            inactiveStatusBarStyle="light-content"
+            inactiveStatusBarBackgroundColor={colors.blueColor}
+            successColor={colors.greenColor}
+            infoColor="#313131"
+            successImageSrc={null}
+            infoImageSrc={null}
+            messageStyle={{
+              fontSize: 17,
+              textAlign: "center",
+              fontWeight: "bold",
+              color: "white",
+              backgroundColor: "transparent"
+            }}
+            closeInterval={3500}
+          />
         </SafeAreaView>
       </ScrollView>
     );
@@ -158,6 +200,10 @@ const mapStateToProps = state => {
   return {
     friends: state.friends.friends,
     friend_requests: state.friends.friend_requests,
+    new_friend: state.friends.new_friend,
+    show_response: state.friends.show_response,
+    deleted_friend: state.friends.deleted_friend,
+    deleted_response: state.friends.deleted_response,
     isLoadingFriends: state.ui.isLoadingFriends,
     isLoading: state.ui.isLoading
   };

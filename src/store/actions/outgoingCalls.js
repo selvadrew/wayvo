@@ -2,6 +2,7 @@ import { HOST } from "../../constants/index";
 import { AsyncStorage } from "react-native";
 import { authGetToken } from "./users";
 import { Alert } from "react-native";
+import authTab from "../../screens/MainTabs/authTab";
 
 export const OUTGOING_CALL = "OUTGOING_CALL";
 
@@ -119,13 +120,17 @@ export const storeLastCall = () => {
           //if (Platform.OS === "ios") {SplashScreen.hide()}
           dispatch(uiStopLoading());
         } else {
+          if (json.error_code === "logout") {
+            authTab();
+            AsyncStorage.setItem("login_status", "out");
+          }
           dispatch(uiStopLoading());
           //if (Platform.OS === "ios") {SplashScreen.hide()}
         }
       })
       .catch(e => {
+        Alert.alert("Oops, we couldn't connect, please try again");
         dispatch(uiStopLoading());
-        //Alert.alert("Oops, we couldn't connect, please try again");
       });
   };
 };
