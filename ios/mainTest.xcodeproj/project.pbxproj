@@ -1652,7 +1652,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.mainTestv1;
-				PRODUCT_NAME = mainTest;
+				PRODUCT_NAME = Wayvo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
