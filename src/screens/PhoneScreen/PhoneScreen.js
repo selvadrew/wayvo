@@ -751,7 +751,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     //marginTop: Platform.OS === "ios" ? 20 : 0,
     padding: 10,
-    fontWeight: "600",
+    fontWeight: "800",
     letterSpacing: 1
   },
   usernameStyle: {

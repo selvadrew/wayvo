@@ -141,9 +141,11 @@ export function setFriends(friends) {
 export const deleteFriend = (id, fullname) => {
   return dispatch => {
     let access_token;
+    dispatch(startLoadingFriends());
     dispatch(authGetToken())
       .catch(() => {
         alert("No valid token found!");
+        dispatch(stopLoadingFriends());
       })
       .then(token => {
         access_token = token;
@@ -165,11 +167,13 @@ export const deleteFriend = (id, fullname) => {
         } else {
           console.log("new error");
           throw new Error();
+          dispatch(stopLoadingFriends());
         }
       })
       .catch(err => {
         Alert.alert("Oops, we couldn't connect, please try again");
         console.log(err);
+        dispatch(stopLoadingFriends());
       });
   };
 };

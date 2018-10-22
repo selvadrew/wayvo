@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   friends: {
-    margin: 15,
+    margin: 10,
     marginTop: Platform.OS === "ios" ? 10 : 10,
     flex: 1
   },

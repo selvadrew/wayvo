@@ -5,6 +5,6 @@
 
 // https://sheltered-escarpment-63295.herokuapp.com/
 
-//export const HOST = "http://138.51.83.13:3000";
+// export const HOST = "http://138.51.93.254:3000";
 
 export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

@@ -107,15 +107,15 @@ class AuthScreen extends Component {
             source={require("../../assets/WayvoLogo.png")}
             style={styles.logoImage}
           />
-          <Text style={styles.slogan}>
-            Be better connected,
-            {/* Say Hello to everyone in your life. */}
-          </Text>
+          <Text style={styles.slogan}>Be better connected,</Text>
           <Text style={styles.slogan}>one person at a time.</Text>
         </View>
-        <View style={styles.fbContainer}>
+        <View style={styles.bottomContainer}>
+          <View style={styles.emailContainer}>
+            <View style={styles.oneOfTwo} />
+            <View style={styles.oneOfTwo} />
+          </View>
           {fbButton}
-
           <Text style={styles.termsWrapper}>
             By continuing, you agree to our{" "}
             <Text style={styles.termsText} onPress={this.terms}>
@@ -158,11 +158,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold"
   },
   imageAndLogo: {
-    flex: 3,
+    flex: 2,
     alignItems: "center",
     justifyContent: "flex-start"
   },
-  fbContainer: {
+  bottomContainer: {
     flex: 1,
     //alignItems: "center",
     justifyContent: "flex-end"
@@ -181,6 +181,19 @@ const styles = StyleSheet.create({
   },
   termsText: {
     color: colors.blueColor //"#007B7F"
+  },
+  emailContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    marginBottom: 12
+  },
+  oneOfTwo: {
+    height: 47,
+    width: "46%",
+    backgroundColor: colors.greenColor,
+    borderRadius: 5
   }
 });
 

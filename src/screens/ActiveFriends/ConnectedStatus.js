@@ -68,6 +68,7 @@ class FriendDetail extends Component {
             <Text style={styles.successText}>
               Woohoo! You've been connected with {"\n"}
               {this.props.fullname}.
+              {/* Woohoo! You've been connected with Mary. */}
             </Text>
           </View>
           <GotIt

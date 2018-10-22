@@ -22,8 +22,6 @@ export function loginWithFacebook(facebookAccessToken) {
     })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
-
         if (json.access_token) {
           dispatch(authStoreToken(json.access_token));
           AsyncStorage.setItem("access_token", json.access_token);
@@ -50,8 +48,6 @@ export function loginWithFacebook(facebookAccessToken) {
               usernameTab();
             }, 1000);
           }
-
-          console.log(json.access_token);
         } else {
           dispatch(uiStopLoading());
           alert(json.error);

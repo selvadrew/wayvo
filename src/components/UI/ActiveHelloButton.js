@@ -14,7 +14,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 const addButton = props => {
   const content = (
     <View style={styles.helloWrapper}>
-      <Text style={styles.helloText}>SAY HELLO</Text>
+      <Text style={styles.helloText}>SAY HELLO BACK</Text>
     </View>
   );
   //   if (Platform.OS === "android") {
@@ -33,16 +33,15 @@ const addButton = props => {
 
 const styles = StyleSheet.create({
   button: {
-    //backgroundColor: "white",
     borderRadius: 100,
-    height: 45,
-    width: 45,
+    // height: "100%",
+    // width: "100%",
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-end",
-    marginRight: 6
+    marginRight: 0
   },
   addButton: {
     position: "absolute",
@@ -67,7 +66,8 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: "center",
     alignSelf: "center",
-    flexDirection: "row"
+    flexDirection: "row",
+    fontSize: Dimensions.get("window").width > 330 ? 15 : 12
   }
 });
 

@@ -71,7 +71,10 @@ export const outgoingCall = seconds => {
       })
       .catch(e => {
         dispatch(
-          stopLoadingHello(false, "Oops, we couldn't connect, please try again")
+          stopLoadingHello(
+            false,
+            "Oops, we couldn't connect, please try again."
+          )
         );
       });
   };
