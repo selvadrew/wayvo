@@ -1,12 +1,18 @@
 import { HOST } from "../../constants/index";
 import { AsyncStorage, Alert } from "react-native";
 import usernameTab from "../../screens/MainTabs/usernameTab";
+import fullnameTab from "../../screens/MainTabs/fullnameTab";
 import startTabs from "../../screens/MainTabs/startMainTabs";
 import phoneNumberTab from "../../screens/MainTabs/phoneNumberTab";
 import authTab from "../../screens/MainTabs/authTab";
 import firebase from "react-native-firebase";
 import { uiStartLoading, uiStopLoading } from "../../store/actions/ui";
-import { USERNAME_ERROR, STORE_PHONE_NUMBER } from "./actionTypes";
+import {
+  USERNAME_ERROR,
+  STORE_PHONE_NUMBER,
+  SIGNUP_ERROR,
+  LOGIN_ERROR
+} from "./actionTypes";
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 
@@ -25,6 +31,7 @@ export function loginWithFacebook(facebookAccessToken) {
         if (json.access_token) {
           dispatch(authStoreToken(json.access_token));
           AsyncStorage.setItem("access_token", json.access_token);
+          AsyncStorage.setItem("pp:fullname", json.fullname);
           AsyncStorage.setItem("login_status", "in");
           dispatch(saveFirebaseToken(json.access_token));
 
@@ -62,6 +69,97 @@ export function loginWithFacebook(facebookAccessToken) {
   };
 }
 
+export function signUp(email, password) {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    return fetch(`${HOST}/api/v1/email_signup`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+      headers: { "content-type": "application/json" }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.access_token) {
+          dispatch(authStoreToken(json.access_token));
+          dispatch(saveFirebaseToken(json.access_token));
+          AsyncStorage.setItem("access_token", json.access_token);
+          AsyncStorage.setItem("login_status", "in");
+
+          dispatch(uiStopLoading());
+          fullnameTab();
+          dispatch(signUpError(null));
+        } else {
+          dispatch(uiStopLoading());
+          dispatch(signUpError(json.error));
+        }
+      })
+      .catch(e => {
+        dispatch(uiStopLoading());
+        console.log(e);
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+}
+
+export function signUpError(error) {
+  return {
+    type: SIGNUP_ERROR,
+    error
+  };
+}
+
+export function logIn(email, password) {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    return fetch(`${HOST}/api/v1/email_login`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+        password: password
+      }),
+      headers: { "content-type": "application/json" }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.access_token) {
+          dispatch(authStoreToken(json.access_token));
+          dispatch(saveFirebaseToken(json.access_token));
+          AsyncStorage.setItem("access_token", json.access_token);
+          AsyncStorage.setItem("login_status", "in");
+          dispatch(uiStopLoading());
+
+          if (json.fullname) {
+            AsyncStorage.setItem("pp:fullname", json.fullname);
+            if (json.username) {
+              AsyncStorage.setItem("pp:username", json.username);
+              if (json.phone_number) {
+                AsyncStorage.setItem("pp:phonenumber", json.phone_number);
+                startTabs();
+              } else {
+                phoneNumberTab();
+              }
+            } else {
+              usernameTab();
+            }
+          } else {
+            fullnameTab();
+          }
+        } else {
+          dispatch(uiStopLoading());
+          Alert.alert("Incorrect email and/or password.");
+        }
+      })
+      .catch(e => {
+        dispatch(uiStopLoading());
+        console.log(e);
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+}
+
 export const saveFirebaseToken = access_token => {
   return dispatch => {
     let firebase_token;
@@ -70,7 +168,6 @@ export const saveFirebaseToken = access_token => {
       .getToken()
       .then(fcmToken => {
         firebase_token = fcmToken;
-        console.log(firebase_token);
 
         return fetch(`${HOST}/api/v1/firebase_token`, {
           method: "POST",
@@ -151,41 +248,90 @@ export const authGetToken = () => {
 export const authAutoSignIn = () => {
   return dispatch => {
     dispatch(uiStartLoading());
-    return AsyncStorage.getItem("login_status").then(status => {
-      if (status === "in") {
-        dispatch(authGetToken())
-          .then(token => {
-            return AsyncStorage.getItem("pp:username")
+    return AsyncStorage.getItem("login_status")
+      .catch(err => {
+        dispatch(uiStopLoading());
+        console.log(err);
+      })
+      .then(status => {
+        if (status === "in") {
+          dispatch(authGetToken()).then(token => {
+            AsyncStorage.getItem("pp:fullname")
               .catch(err => {
                 dispatch(uiStopLoading());
                 console.log(err);
               })
-              .then(username => {
-                if (username === null) {
+              .then(fullname => {
+                if (fullname === null) {
                   dispatch(uiStopLoading());
-                  usernameTab();
+                  fullnameTab();
                 } else {
-                  AsyncStorage.getItem("pp:phonenumber").then(phonenumber => {
-                    if (phonenumber === null) {
+                  AsyncStorage.getItem("pp:username").then(username => {
+                    if (username === null) {
                       dispatch(uiStopLoading());
-                      phoneNumberTab();
+                      usernameTab();
                     } else {
-                      dispatch(uiStopLoading());
-                      startTabs();
+                      AsyncStorage.getItem("pp:phonenumber").then(
+                        phonenumber => {
+                          if (phonenumber === null) {
+                            dispatch(uiStopLoading());
+                            phoneNumberTab();
+                          } else {
+                            dispatch(uiStopLoading());
+                            startTabs();
+                          }
+                        }
+                      );
                     }
                   });
                 }
               });
-          })
-          .catch(err => {
-            dispatch(uiStopLoading());
-            console.log("wtffffff");
           });
-      } else {
-        authTab();
+        } else {
+          authTab();
+          dispatch(uiStopLoading());
+        }
+      });
+  };
+};
+
+export const saveFullname = fullname => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
         dispatch(uiStopLoading());
-      }
-    });
+        alert("No valid token found!");
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/fullname`, {
+          method: "POST",
+          body: JSON.stringify({
+            fullname: fullname,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          setTimeout(() => {
+            dispatch(uiStopLoading());
+            usernameTab();
+          }, 1000);
+          AsyncStorage.setItem("pp:fullname", json.fullname);
+        } else {
+          dispatch(uiStopLoading());
+          alert("Something went wrong. Please try again.");
+        }
+      })
+      .catch(e => {
+        dispatch(uiStopLoading());
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
   };
 };
 
@@ -224,7 +370,8 @@ export const createUsername = username => {
             dispatch(uiStopLoading());
             phoneNumberTab();
           }, 1000);
-          AsyncStorage.setItem("pp:username", username);
+          AsyncStorage.setItem("pp:username", json.username);
+          dispatch(usernameError(null));
         } else {
           dispatch(uiStopLoading());
           dispatch(usernameError(json.error));
@@ -373,9 +520,17 @@ export const logout = () => {
         if (json.is_success) {
           authTab();
           AsyncStorage.setItem("login_status", "out");
+          AsyncStorage.removeItem("pp:username");
+          AsyncStorage.removeItem("pp:phonenumber");
+          AsyncStorage.removeItem("pp:fullname");
+          AsyncStorage.removeItem("access_token");
         } else {
           authTab();
           AsyncStorage.setItem("login_status", "out");
+          AsyncStorage.removeItem("pp:username");
+          AsyncStorage.removeItem("pp:phonenumber");
+          AsyncStorage.removeItem("pp:fullname");
+          AsyncStorage.removeItem("access_token");
         }
       })
       .catch(e => {

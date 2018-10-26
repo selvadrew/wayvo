@@ -5,6 +5,9 @@ import LoadingScreen from "./src/screens/Auth/Loading";
 import AuthScreen from "./src/screens/Auth/Auth";
 import Username from "./src/screens/Auth/Username";
 import PhoneNumber from "./src/screens/Auth/PhoneNumber";
+import SignUp from "./src/screens/Auth/SignUp";
+import LogIn from "./src/screens/Auth/LogIn";
+import Fullname from "./src/screens/Auth/Fullname";
 import Terms from "./src/screens/Auth/Terms";
 import PhoneScreen from "./src/screens/PhoneScreen/PhoneScreen";
 import SaidHello from "./src/screens/PhoneScreen/SaidHello";
@@ -43,6 +46,27 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.PhoneNumber",
   () => PhoneNumber,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.SignUp",
+  () => SignUp,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.Fullname",
+  () => Fullname,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.LogIn",
+  () => LogIn,
   store,
   Provider
 );

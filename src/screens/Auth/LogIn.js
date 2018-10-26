@@ -14,62 +14,66 @@ import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 
-import { savePhoneNumber } from "../../store/actions/users";
-import SplashScreen from "react-native-splash-screen";
+import { logIn } from "../../store/actions/users";
 
-class PhoneNumber extends Component {
-  componentDidMount() {
-    if (this.props.phoneNumber) {
-      this.setState({
-        userName: this.props.phoneNumber
-      });
-    }
-
-    if (Platform.OS === "ios") {
-      SplashScreen.hide();
-    }
-  }
-
+class LogIn extends Component {
   static navigatorStyle = {
-    navBarHidden: true
+    navBarHidden: false
   };
   constructor(props) {
     super(props);
   }
 
   state = {
-    userName: "",
-    phone_number_error: null
+    email: "",
+    password: "",
+    email_error: false
   };
 
-  userNameChangedHandler = val => {
+  emailChangedHandler = val => {
     this.setState({
-      userName: val
+      email: val
+    });
+  };
+  passwordChangedHandler = val => {
+    this.setState({
+      password: val
     });
   };
 
+  emailValidator = val => {
+    if (
+      /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/.test(
+        val
+      )
+    ) {
+      return true;
+    } else return false;
+  };
+
   placeSubmitHandler = () => {
-    if (this.state.userName.trim() === "") {
+    //check for blanks
+    if (this.state.email.trim() === "") {
       return;
-    }
-    if (this.state.userName.length !== 10) {
-      Keyboard.dismiss();
-      this.setState({
-        phone_number_error: 1
-      });
+    } else if (this.state.password.trim() === "") {
       return;
     }
 
-    if (/^\d+$/.test(this.state.userName) === false) {
-      Keyboard.dismiss();
+    //check if email is valid
+    if (this.emailValidator(this.state.email)) {
       this.setState({
-        phone_number_error: 2
+        email_error: false
       });
+    } else {
+      this.setState({
+        email_error: true
+      });
+      Keyboard.dismiss();
       return;
     }
 
     Keyboard.dismiss();
-    this.props.onAddPhoneNumber(this.state.userName.trim());
+    this.props.onLogIn(this.state.email.trim(), this.state.password.trim());
   };
 
   render() {
@@ -82,51 +86,69 @@ class PhoneNumber extends Component {
           backgroundColor={colors.yellowColor}
           color="#333"
         >
-          Save
+          Log In
         </GotIt>
       );
     }
 
     let errorStatement = null;
 
-    if (this.state.phone_number_error === 1) {
+    if (this.props.username_error === 2) {
       errorStatement = (
         <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>Must contain 10 digits</Text>
+          <Text style={styles.listHeader}>Invalid format. Username must:</Text>
+          <View style={styles.listItemWrapper}>
+            <Text style={styles.listItem}>
+              - Only contain letters and numbers
+            </Text>
+          </View>
+          <View style={styles.listItemWrapper}>
+            <Text style={styles.listItem}>
+              - Be between 3-15 characters long
+            </Text>
+          </View>
+          <View style={styles.listItemWrapper}>
+            <Text style={styles.listItem}>- Not contain any whitespace</Text>
+          </View>
         </View>
       );
-    } else if (this.state.phone_number_error === 2) {
+    } else if (this.props.username_error === 1) {
       errorStatement = (
         <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>
-            Can only contain numbers (no special characters)
-          </Text>
+          <Text style={styles.listHeader}>Username already exists</Text>
+        </View>
+      );
+    }
+
+    if (this.state.email_error) {
+      errorStatement = (
+        <View style={styles.bottomWrapper}>
+          <Text style={styles.listHeader}>Not a valid email</Text>
         </View>
       );
     }
 
     return (
       <View style={styles.container}>
-        <View style={styles.topWrapper}>
-          <Text style={styles.topText}>
-            Save your phone number to allow contacts to call you
-          </Text>
-        </View>
         <View style={styles.inputButtonWrapper}>
           <View style={styles.inputWrapper}>
             <TextInput
-              placeholder="Your 10-digit phone number"
-              value={this.state.userName}
-              onChangeText={this.userNameChangedHandler}
+              placeholder="Email"
+              value={this.state.email}
+              onChangeText={this.emailChangedHandler}
               style={styles.TextBox}
               autoFocus={true}
               autoCapitalize="none"
               autoCorrect={false}
-              keyboardType="numeric"
-              //textContentType="telephoneNumber"
-              maxLength={10}
-              textContentType="telephoneNumber"
-              onSubmitEditing={this.placeSubmitHandler}
+            />
+            <TextInput
+              placeholder="Password"
+              value={this.state.password}
+              onChangeText={this.passwordChangedHandler}
+              style={styles.TextBox}
+              autoCapitalize="none"
+              autoCorrect={false}
+              secureTextEntry={true}
             />
           </View>
 
@@ -187,7 +209,8 @@ const styles = StyleSheet.create({
     borderColor: "#333",
     //textAlign: "center",
     paddingLeft: 15,
-    letterSpacing: 1
+    letterSpacing: 1,
+    marginTop: 10
   },
   listHeader: {
     fontSize: 18,
@@ -203,17 +226,16 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  isLoading: state.ui.isLoading,
-  phoneNumber: state.users.phoneNumber
+  isLoading: state.ui.isLoading
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddPhoneNumber: phoneNumber => dispatch(savePhoneNumber(phoneNumber))
+    onLogIn: (email, password) => dispatch(logIn(email, password))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PhoneNumber);
+)(LogIn);

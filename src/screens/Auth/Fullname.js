@@ -14,22 +14,9 @@ import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 
-import { savePhoneNumber } from "../../store/actions/users";
-import SplashScreen from "react-native-splash-screen";
+import { saveFullname } from "../../store/actions/users";
 
-class PhoneNumber extends Component {
-  componentDidMount() {
-    if (this.props.phoneNumber) {
-      this.setState({
-        userName: this.props.phoneNumber
-      });
-    }
-
-    if (Platform.OS === "ios") {
-      SplashScreen.hide();
-    }
-  }
-
+class Fullname extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -38,38 +25,38 @@ class PhoneNumber extends Component {
   }
 
   state = {
-    userName: "",
-    phone_number_error: null
+    first: "",
+    last: ""
   };
 
-  userNameChangedHandler = val => {
+  firstChangedHandler = val => {
     this.setState({
-      userName: val
+      first: val
+    });
+  };
+  lastChangedHandler = val => {
+    this.setState({
+      last: val
     });
   };
 
-  placeSubmitHandler = () => {
-    if (this.state.userName.trim() === "") {
-      return;
-    }
-    if (this.state.userName.length !== 10) {
-      Keyboard.dismiss();
-      this.setState({
-        phone_number_error: 1
-      });
-      return;
-    }
+  concatenateName = (first, last) => {
+    return first.trim() + " " + last.trim();
+  };
 
-    if (/^\d+$/.test(this.state.userName) === false) {
-      Keyboard.dismiss();
-      this.setState({
-        phone_number_error: 2
-      });
+  placeSubmitHandler = () => {
+    //check for blanks
+    if (this.state.first.trim() === "") {
+      return;
+    } else if (this.state.last.trim() === "") {
       return;
     }
 
     Keyboard.dismiss();
-    this.props.onAddPhoneNumber(this.state.userName.trim());
+
+    this.props.onSaveName(
+      this.concatenateName(this.state.first, this.state.last)
+    );
   };
 
   render() {
@@ -89,44 +76,42 @@ class PhoneNumber extends Component {
 
     let errorStatement = null;
 
-    if (this.state.phone_number_error === 1) {
-      errorStatement = (
-        <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>Must contain 10 digits</Text>
-        </View>
-      );
-    } else if (this.state.phone_number_error === 2) {
-      errorStatement = (
-        <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>
-            Can only contain numbers (no special characters)
-          </Text>
-        </View>
-      );
-    }
+    // if (this.state.email_error) {
+    //   errorStatement = (
+    //     <View style={styles.bottomWrapper}>
+    //       <Text style={styles.listHeader}>Not a valid email</Text>
+    //     </View>
+    //   );
+    // }
 
     return (
       <View style={styles.container}>
         <View style={styles.topWrapper}>
-          <Text style={styles.topText}>
-            Save your phone number to allow contacts to call you
+          <Text style={styles.topText}>Name</Text>
+          <Text style={styles.bottomText}>
+            You will not be able to change your name once you save it.
           </Text>
         </View>
         <View style={styles.inputButtonWrapper}>
           <View style={styles.inputWrapper}>
             <TextInput
-              placeholder="Your 10-digit phone number"
-              value={this.state.userName}
-              onChangeText={this.userNameChangedHandler}
+              placeholder="First Name"
+              textContentType="givenName"
+              value={this.state.first}
+              onChangeText={this.firstChangedHandler}
               style={styles.TextBox}
               autoFocus={true}
-              autoCapitalize="none"
+              //autoCapitalize="none"
               autoCorrect={false}
-              keyboardType="numeric"
-              //textContentType="telephoneNumber"
-              maxLength={10}
-              textContentType="telephoneNumber"
-              onSubmitEditing={this.placeSubmitHandler}
+            />
+            <TextInput
+              placeholder="Last Name"
+              textContentType="familyName"
+              value={this.state.last}
+              onChangeText={this.lastChangedHandler}
+              style={styles.TextBox}
+              //autoCapitalize="none"
+              autoCorrect={false}
             />
           </View>
 
@@ -162,6 +147,12 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#444"
   },
+  bottomText: {
+    fontSize: 18,
+    fontWeight: "400",
+    textAlign: "center",
+    color: "#555"
+  },
   inputButtonWrapper: {
     flex: 5,
     width: "100%"
@@ -173,7 +164,6 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 3
   },
-  bottomText: {},
   inputWrapper: {
     marginBottom: 20,
     width: "100%"
@@ -187,7 +177,8 @@ const styles = StyleSheet.create({
     borderColor: "#333",
     //textAlign: "center",
     paddingLeft: 15,
-    letterSpacing: 1
+    letterSpacing: 1,
+    marginTop: 10
   },
   listHeader: {
     fontSize: 18,
@@ -204,16 +195,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   isLoading: state.ui.isLoading,
-  phoneNumber: state.users.phoneNumber
+  username_error: state.users.username_error
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddPhoneNumber: phoneNumber => dispatch(savePhoneNumber(phoneNumber))
+    onSaveName: fullname => dispatch(saveFullname(fullname))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PhoneNumber);
+)(Fullname);

@@ -97,6 +97,9 @@ class Username extends Component {
       <View style={styles.container}>
         <View style={styles.topWrapper}>
           <Text style={styles.topText}>Create a username</Text>
+          <Text style={styles.bottomText}>
+            You will not be able to change your username once you create it.
+          </Text>
         </View>
         <View style={styles.inputButtonWrapper}>
           <View style={styles.inputWrapper}>
@@ -128,6 +131,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 50,
+    paddingTop: 30,
     backgroundColor: "#fff"
   },
   topWrapper: {
@@ -154,7 +158,12 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 3
   },
-  bottomText: {},
+  bottomText: {
+    fontSize: 18,
+    fontWeight: "400",
+    textAlign: "center",
+    color: "#555"
+  },
   inputWrapper: {
     marginBottom: 20,
     width: "100%"
@@ -166,7 +175,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderRadius: 5,
     borderColor: "#333",
-    textAlign: "center",
+    //textAlign: "center",
+    paddingLeft: 15,
     letterSpacing: 1
   },
   listHeader: {

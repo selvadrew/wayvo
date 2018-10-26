@@ -130,7 +130,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: "#333"
+    borderColor: "#333",
+    borderRadius: 3
   },
   name: {
     fontWeight: "bold",

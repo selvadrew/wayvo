@@ -43,7 +43,6 @@ class AuthScreen extends Component {
   terms = () => {
     this.props.navigator.push({
       screen: "awesome-places.Terms",
-      //title: "How Wayvo Works",
       backButtonTitle: ""
     });
   };
@@ -69,6 +68,22 @@ class AuthScreen extends Component {
       }
     );
     console.log("function done");
+  };
+
+  onSignUp = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.SignUp",
+      backButtonTitle: ""
+      //title: "Let's Get Started"
+    });
+  };
+
+  onLogIn = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.LogIn",
+      backButtonTitle: "",
+      title: "Welcome Back"
+    });
   };
 
   render() {
@@ -112,8 +127,22 @@ class AuthScreen extends Component {
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.emailContainer}>
-            <View style={styles.oneOfTwo} />
-            <View style={styles.oneOfTwo} />
+            <View style={styles.oneOfTwo}>
+              <TouchableOpacity
+                onPress={() => this.onSignUp()}
+                style={styles.touchgreen}
+              >
+                <Text style={styles.emailText}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.oneOfTwo}>
+              <TouchableOpacity
+                onPress={() => this.onLogIn()}
+                style={styles.touchgreen}
+              >
+                <Text style={styles.emailText}>Log In</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           {fbButton}
           <Text style={styles.termsWrapper}>
@@ -145,7 +174,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#4267b2"
   },
   buttonText: {
-    fontSize: 17,
+    fontSize: 18,
+    fontWeight: "600",
     color: "#fff"
   },
   icon: {
@@ -193,7 +223,20 @@ const styles = StyleSheet.create({
     height: 47,
     width: "46%",
     backgroundColor: colors.greenColor,
-    borderRadius: 5
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  emailText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#fff"
+  },
+  touchgreen: {
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+    width: "100%"
   }
 });
 

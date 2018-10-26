@@ -12,7 +12,7 @@
     "react-native-countdown-component": "^1.7.3",
     "react-native-dropdownalert": "^3.7.0",
     "react-native-easy-toast": "^1.1.0",
-    "react-native-fbsdk": "^0.7.0",
+    "react-native-fbsdk": "^0.8.0",
     "react-native-firebase": "^4.3.8",
     "react-native-flash-message": "^0.1.10",
     "react-native-navigation": "^1.1.479",
