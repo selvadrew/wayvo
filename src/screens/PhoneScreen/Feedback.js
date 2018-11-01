@@ -27,16 +27,13 @@ class Feedback extends Component {
   }
 
   state = {
-    text: "Wayvo would be better if ",
+    text: "",
     feedbackSent: false,
     button: true
   };
 
   onFeedback = () => {
-    if (
-      this.state.text.trim() === "Wayvo would be better if" ||
-      this.state.text.trim() === ""
-    ) {
+    if (this.state.text.trim() === "") {
       return;
     }
     this.props.sendFeedback(this.state.text.trim());

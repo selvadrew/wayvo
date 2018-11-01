@@ -3,7 +3,8 @@ import {
   REMOVE_FRIEND,
   INSERT_FRIEND,
   SET_FRIEND_REQUESTS,
-  REFRESH_REQUESTS
+  REFRESH_REQUESTS,
+  CLEAR_FRIENDS
 } from "../actions/friends";
 
 const initialState = {
@@ -67,6 +68,15 @@ const reducer = (state = initialState, action) => {
         new_friend: action.payload.fullname,
         show_response: true,
         deleted_response: false
+      };
+
+    case CLEAR_FRIENDS:
+      return {
+        ...state,
+        show_response: false,
+        deleted_response: false,
+        friends: [],
+        friend_requests: []
       };
 
     default:

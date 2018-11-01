@@ -509,13 +509,21 @@ class PhoneScreen extends Component {
             timeToShow={["M", "S"]}
           />
         );
-        activeSign = <Text style={styles.youActive}>You're Active</Text>;
+        activeSign = (
+          <View>
+            <Text style={styles.youActive}>You're Active</Text>
+            <Text style={styles.timeExplanation}>
+              Contacts can Say Hello Back
+            </Text>
+            <Text style={styles.timeExplanation}>until time expires.</Text>
+          </View>
+        );
 
         activeInfo = (
           <View style={styles.connectedWrapper}>
-            <Text style={styles.activeInfo}>
+            {/* <Text style={styles.activeInfo}>
               Contacts can Say Hello Back until time expires.
-            </Text>
+            </Text> */}
           </View>
         );
       }
@@ -738,7 +746,14 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 40 : 35,
     fontWeight: "900",
     backgroundColor: colors.greenColor,
-    padding: 15
+    padding: 15,
+    paddingBottom: 5,
+    textAlign: "center"
+  },
+  timeExplanation: {
+    color: "#fff",
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 15,
+    textAlign: "center"
   },
   usernameView: {
     flex: 1,

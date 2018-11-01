@@ -9,6 +9,7 @@ export const REMOVE_FRIEND = "REMOVE_FRIEND";
 export const INSERT_FRIEND = "INSERT_FRIEND";
 export const SET_FRIEND_REQUESTS = "SET_FRIEND_REQUESTS";
 export const REFRESH_REQUESTS = "REFRESH_REQUESTS";
+export const CLEAR_FRIENDS = "CLEAR_FRIENDS";
 
 import {
   uiStartLoading,

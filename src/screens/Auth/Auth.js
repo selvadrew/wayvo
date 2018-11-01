@@ -175,7 +175,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: "600",
+    fontWeight: "500",
+    letterSpacing: 0.5,
     color: "#fff"
   },
   icon: {
@@ -230,6 +231,7 @@ const styles = StyleSheet.create({
   emailText: {
     fontSize: 18,
     fontWeight: "600",
+    letterSpacing: 0.5,
     color: "#fff"
   },
   touchgreen: {

@@ -1,7 +1,8 @@
 import {
   STORE_LAST_CALL_DATA,
   RESET_LAST_CALL,
-  SECONDS_LEFT
+  SECONDS_LEFT,
+  CLEAR_CONNECTED
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -29,6 +30,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         seconds_left: action.seconds_left,
         can_say_hello: false
+      };
+    case CLEAR_CONNECTED:
+      return {
+        ...state,
+        connected_with: null,
+        can_say_hello: null,
+        seconds_left: null
       };
     default:
       return state;

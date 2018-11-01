@@ -7,6 +7,7 @@ import authTab from "../../screens/MainTabs/authTab";
 
 export const SET_ACTIVE_FRIENDS = "SET_ACTIVE_FRIENDS";
 export const CONNECT_CALL = "CONNECT_CALL";
+export const CLEAR_ACTIVE_FRIENDS = "CLEAR_ACTIVE_FRIENDS";
 
 import { uiStartLoading, uiStopLoading } from "../../store/actions/ui";
 import {

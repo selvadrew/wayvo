@@ -6,7 +6,8 @@ import {
   ActivityIndicator,
   Button,
   StatusBar,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
@@ -56,6 +57,22 @@ class OptionScreen extends Component {
     });
   };
 
+  logoutPrompt = () => {
+    Alert.alert(
+      "Are you sure you want to log out?",
+      "",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => this.props.onLogout() }
+      ],
+      { cancelable: true }
+    );
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -81,7 +98,7 @@ class OptionScreen extends Component {
             </View>
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={() => this.props.onLogout()}>
+          <TouchableWithoutFeedback onPress={() => this.logoutPrompt()}>
             <View>
               <Text style={[styles.logoutText]}>Logout</Text>
             </View>

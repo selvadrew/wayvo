@@ -157,6 +157,7 @@ class SignUp extends Component {
               autoFocus={true}
               autoCapitalize="none"
               autoCorrect={false}
+              keyboardType="email-address"
             />
             <TextInput
               placeholder="Password"

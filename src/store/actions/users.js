@@ -13,6 +13,9 @@ import {
   SIGNUP_ERROR,
   LOGIN_ERROR
 } from "./actionTypes";
+import { CLEAR_FRIENDS } from "../actions/friends";
+import { CLEAR_ACTIVE_FRIENDS } from "../actions/activeFriends";
+import { CLEAR_CONNECTED } from "../actions/actionTypes";
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 
@@ -524,6 +527,10 @@ export const logout = () => {
           AsyncStorage.removeItem("pp:phonenumber");
           AsyncStorage.removeItem("pp:fullname");
           AsyncStorage.removeItem("access_token");
+          AsyncStorage.removeItem("pp:friends");
+          dispatch(clearFriends());
+          dispatch(clearActiveFriends());
+          dispatch(clearConnected());
         } else {
           authTab();
           AsyncStorage.setItem("login_status", "out");
@@ -531,6 +538,10 @@ export const logout = () => {
           AsyncStorage.removeItem("pp:phonenumber");
           AsyncStorage.removeItem("pp:fullname");
           AsyncStorage.removeItem("access_token");
+          AsyncStorage.removeItem("pp:friends");
+          dispatch(clearFriends());
+          dispatch(clearActiveFriends());
+          dispatch(clearConnected());
         }
       })
       .catch(e => {
@@ -539,6 +550,24 @@ export const logout = () => {
       });
   };
 };
+
+export function clearFriends() {
+  return {
+    type: CLEAR_FRIENDS
+  };
+}
+
+export function clearActiveFriends() {
+  return {
+    type: CLEAR_ACTIVE_FRIENDS
+  };
+}
+
+export function clearConnected() {
+  return {
+    type: CLEAR_CONNECTED
+  };
+}
 
 export const sendFeedback = description => {
   return dispatch => {
