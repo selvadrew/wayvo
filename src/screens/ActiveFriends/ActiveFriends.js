@@ -57,7 +57,7 @@ class ActiveFriendsScreen extends Component {
     let activeExplain = null;
 
     if (
-      this.props.connected_with === null &&
+      // this.props.connected_with === null &&
       this.props.active_friends.length < 1
     ) {
       activeExplain = (

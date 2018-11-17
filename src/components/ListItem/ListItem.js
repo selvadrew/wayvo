@@ -57,7 +57,8 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eee"
   },
   names: {
-    color: "white",
+    color: "#fff",
+    //#ccdfff
     fontWeight: "bold",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18
   }

@@ -36,6 +36,10 @@ class FriendDetail extends Component {
     this.props.navigator.pop();
   };
 
+  componentWillUnmount() {
+    alert("back");
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -50,6 +54,11 @@ class FriendDetail extends Component {
           </Text>
         </View>
         <View>
+          {/* toggle options here  */}
+          <Text>Notify this contact when I Say Hello</Text>
+          <Text>Notify me when this contact Says Hello</Text>
+        </View>
+        <View style={styles.deleteContainer}>
           <DeleteButton onPress={this.friendDeletedHandler}>
             DELETE CONTACT
           </DeleteButton>
@@ -88,6 +97,11 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     alignItems: "center"
+  },
+  deleteContainer: {
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    flex: 1
   }
 });
 
