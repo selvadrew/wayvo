@@ -62,7 +62,8 @@ class ActiveFriendsScreen extends Component {
     ) {
       activeExplain = (
         <Text style={styles.activeExplain}>
-          When contacts Say Hello, you can Say Hello Back on this screen
+          When contacts Say Hello, you can Say Hello Back on this screen to
+          start a call.
         </Text>
       );
     }

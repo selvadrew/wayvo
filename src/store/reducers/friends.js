@@ -4,7 +4,9 @@ import {
   INSERT_FRIEND,
   SET_FRIEND_REQUESTS,
   REFRESH_REQUESTS,
-  CLEAR_FRIENDS
+  CLEAR_FRIENDS,
+  SEND_NOTIFICATION,
+  RECEIVE_NOTIFICATION
 } from "../actions/friends";
 
 const initialState = {
@@ -31,6 +33,37 @@ const reducer = (state = initialState, action) => {
         show_response: false,
         deleted_response: false
       };
+
+    case SEND_NOTIFICATION:
+      return {
+        ...state,
+        friends: state.friends.map(
+          friend =>
+            friend.id === action.id
+              ? // transform the one with a matching id
+                { ...friend, send_notifications: action.option }
+              : // otherwise return original friend
+                friend
+        ),
+        show_response: false,
+        deleted_response: false
+      };
+
+    case RECEIVE_NOTIFICATION:
+      return {
+        ...state,
+        friends: state.friends.map(
+          friend =>
+            friend.id === action.id
+              ? // transform the one with a matching id
+                { ...friend, receive_notifications: action.option }
+              : // otherwise return original friend
+                friend
+        ),
+        show_response: false,
+        deleted_response: false
+      };
+
     case SET_FRIEND_REQUESTS:
       return {
         ...state,

@@ -7,14 +7,22 @@ import {
   StyleSheet,
   TouchableOpacity,
   Platform,
-  StatusBar
+  StatusBar,
+  Switch
 } from "react-native";
 import { connect } from "react-redux";
 
 import Icon from "react-native-vector-icons/Ionicons";
-import { deleteFriend } from "../../store/actions/friends";
+import {
+  deleteFriend,
+  sendNotification,
+  receiveNotification
+} from "../../store/actions/friends";
 import DeleteButton from "../../components/UI/DeleteContactButton";
 import colors from "../../utils/styling";
+
+import { Facetime } from "react-native-openanything";
+// import { Web } from "react-native-openanything";
 
 class FriendDetail extends Component {
   static navigatorStyle = {
@@ -28,6 +36,40 @@ class FriendDetail extends Component {
     super(props);
   }
 
+  state = {
+    send_initial: this.props.selectedFriend.send_notifications,
+    receive_initial: this.props.selectedFriend.receive_notifications,
+    send_notifications: this.props.selectedFriend.send_notifications,
+    receive_notifications: this.props.selectedFriend.receive_notifications
+  };
+
+  sendChange = () => {
+    this.setState(prevState => ({
+      send_notifications: !prevState.send_notifications
+    }));
+  };
+
+  receiveChange = () => {
+    this.setState(prevState => ({
+      receive_notifications: !prevState.receive_notifications
+    }));
+  };
+
+  componentWillUnmount() {
+    if (this.state.send_initial !== this.state.send_notifications) {
+      this.props.onSendNotification(
+        this.props.selectedFriend.id,
+        this.state.send_notifications
+      );
+    }
+    if (this.state.receive_initial !== this.state.receive_notifications) {
+      this.props.onReceiveNotification(
+        this.props.selectedFriend.id,
+        this.state.receive_notifications
+      );
+    }
+  }
+
   friendDeletedHandler = () => {
     this.props.onDeleteFriend(
       this.props.selectedFriend.id,
@@ -36,9 +78,15 @@ class FriendDetail extends Component {
     this.props.navigator.pop();
   };
 
-  componentWillUnmount() {
-    alert("back");
-  }
+  ft = () => {
+    Facetime("andrew.selvadurai6@gmail.com", (audioOnly = false)).catch(err =>
+      alert(err)
+    );
+  };
+
+  // ft = () => {
+  //   Web("https://www.google.ca").catch(err => alert(err));
+  // };
 
   render() {
     return (
@@ -53,16 +101,43 @@ class FriendDetail extends Component {
             {this.props.selectedFriend.username}
           </Text>
         </View>
-        <View>
+
+        <View style={[styles.toggleWrapper, styles.borderOverride]}>
           {/* toggle options here  */}
-          <Text>Notify this contact when I Say Hello</Text>
-          <Text>Notify me when this contact Says Hello</Text>
+          <View style={styles.toggleSection}>
+            <Text style={styles.toggleText}>
+              Let this contact know when I Say Hello
+            </Text>
+          </View>
+          <Switch
+            style={styles.switch}
+            value={this.state.send_notifications}
+            onValueChange={this.sendChange}
+          />
         </View>
+        <View style={styles.toggleWrapper}>
+          {/* toggle options here  */}
+          <View style={styles.toggleSection}>
+            <Text style={styles.toggleText}>
+              Let me know when this contact Says Hello
+            </Text>
+          </View>
+          <Switch
+            style={styles.switch}
+            value={this.state.receive_notifications}
+            onValueChange={this.receiveChange}
+            trackColor={colors.blueColor}
+          />
+        </View>
+
         <View style={styles.deleteContainer}>
           <DeleteButton onPress={this.friendDeletedHandler}>
             DELETE CONTACT
           </DeleteButton>
         </View>
+
+        <Button title="FT Audio" style={styles.placeButton} onPress={this.ft} />
+
         {/* <View>
           <Text>
             Protip: Contacts will not know if you delete them. If you are
@@ -93,7 +168,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     color: colors.pinkColor,
-    textAlign: "center"
+    textAlign: "center",
+    marginBottom: 25
   },
   deleteButton: {
     alignItems: "center"
@@ -102,12 +178,40 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-end",
     flex: 1
+  },
+  borderOverride: {
+    borderTopWidth: 1,
+    borderTopColor: "#777"
+  },
+  toggleWrapper: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+    width: "100%",
+    paddingBottom: 10,
+    paddingTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#777"
+  },
+  toggleSection: {
+    width: "60%"
+  },
+  toggleText: {
+    fontSize: 18,
+    color: "#333",
+    paddingLeft: 8
+  },
+  switch: {
+    marginRight: 8
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteFriend: (id, fullname) => dispatch(deleteFriend(id, fullname))
+    onDeleteFriend: (id, fullname) => dispatch(deleteFriend(id, fullname)),
+    onSendNotification: (id, option) => dispatch(sendNotification(id, option)),
+    onReceiveNotification: (id, option) =>
+      dispatch(receiveNotification(id, option))
   };
 };
 

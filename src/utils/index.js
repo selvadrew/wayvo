@@ -4,7 +4,9 @@ export function normalizeFriends(friends) {
       id: friend.id || "",
       fullname: friend.fullname || "",
       username: friend.username || "",
-      phone_number: friend.phone_number || ""
+      phone_number: friend.phone_number || "",
+      receive_notifications: friend.receive_notifications,
+      send_notifications: friend.send_notifications
     };
   });
 }

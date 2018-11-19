@@ -10,6 +10,8 @@ export const INSERT_FRIEND = "INSERT_FRIEND";
 export const SET_FRIEND_REQUESTS = "SET_FRIEND_REQUESTS";
 export const REFRESH_REQUESTS = "REFRESH_REQUESTS";
 export const CLEAR_FRIENDS = "CLEAR_FRIENDS";
+export const SEND_NOTIFICATION = "SEND_NOTIFICATION";
+export const RECEIVE_NOTIFICATION = "RECEIVE_NOTIFICATION";
 
 import {
   uiStartLoading,
@@ -262,7 +264,105 @@ export const rejectFriend = id => {
       .then(response => response.json())
       .then(json => {
         console.log(json);
+        if (json.is_success) {
+          dispatch(
+            setFriendRequests(normalizeFriendRequests(json.friend_requests))
+          );
+          dispatch(uiStopLoading());
+        } else {
+          alert("Oops, something went wrong, contact changes were not saved.");
+        }
       })
       .catch(e => alert(e));
+  };
+};
+
+export const sendNotification = (id, option) => {
+  return dispatch => {
+    dispatch(setSendNotification(id, option));
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("Not authenticated");
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/send_notifications`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            user_id: id,
+            toggled_option: option
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        if (json.is_success) {
+          console.log("success");
+        } else {
+          dispatch(setSendNotification(id, !option));
+          alert("Oops, something went wrong, contact changes were reverted.");
+        }
+      })
+      .catch(e => {
+        dispatch(setSendNotification(id, !option));
+        alert(e);
+      });
+  };
+};
+
+export const setSendNotification = (id, option) => {
+  return {
+    type: SEND_NOTIFICATION,
+    id,
+    option
+  };
+};
+
+export const receiveNotification = (id, option) => {
+  return dispatch => {
+    dispatch(setReceiveNotification(id, option));
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("Not authenticated");
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/receive_notifications`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            user_id: id,
+            toggled_option: option
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log(json);
+        if (json.is_success) {
+          console.log("success");
+        } else {
+          dispatch(setReceiveNotification(id, !option));
+          alert("Oops, something went wrong, contact changes were reverted.");
+        }
+      })
+      .catch(e => {
+        dispatch(setReceiveNotification(id, !option));
+        alert(e);
+      });
+  };
+};
+
+export const setReceiveNotification = (id, option) => {
+  return {
+    type: RECEIVE_NOTIFICATION,
+    id,
+    option
   };
 };

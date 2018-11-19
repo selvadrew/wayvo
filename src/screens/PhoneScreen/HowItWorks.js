@@ -42,7 +42,7 @@ class HowItWorks extends Component {
           </View>
           <View style={styles.textWrapper}>
             <Text style={styles.text}>
-              All your contacts who have{" "}
+              All your selected contacts who have{" "}
               <Text style={{ color: colors.pinkColor }}>
                 {this.props.username}
               </Text>{" "}

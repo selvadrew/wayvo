@@ -67,6 +67,7 @@ class PhoneScreen extends Component {
             .setData(notification.data)
             //.setVisibility(notification.VISIBILITY_PUBLIC)
             .android.setAutoCancel(true)
+            .android.setShowWhen(true)
             .android.setChannelId("Contacts") // e.g. the id you chose above
             .android.setSmallIcon("@mipmap/small_launcher")
             //.android.setLargeIcon("@mipmap/ic_launcher")
