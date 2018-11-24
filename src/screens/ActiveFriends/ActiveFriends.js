@@ -26,13 +26,14 @@ class ActiveFriendsScreen extends Component {
     this.props.onLoadActiveFriends();
   }
 
-  onClickFriend = (id, fullname, phone_number) => {
+  onClickFriend = (id, fullname, phone_number, ios) => {
     this.props.navigator.push({
       screen: "awesome-places.ConnectedStatusScreen",
       passProps: {
         id: id,
         fullname: fullname,
-        phone_number: phone_number
+        phone_number: phone_number,
+        ios: ios
       },
       backButtonTitle: ""
     });
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     color: "#fff",
+    // color: colors.yellowColor
     fontWeight: "900",
     fontSize: 25,
     padding: 10

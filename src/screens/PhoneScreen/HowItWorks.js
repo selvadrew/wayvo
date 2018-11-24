@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     fontWeight: "700",
     padding: 5,
-    color: "#333",
+    color: "#444",
     letterSpacing: 0.5
   },
   wrapper: {
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     fontWeight: "600",
     fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
-    color: "#333",
+    color: "#444",
     marginRight: 10,
     letterSpacing: 0.5
   }

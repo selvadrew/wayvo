@@ -422,7 +422,7 @@ export const savePhoneNumber = phoneNumber => {
             startTabs();
             dispatch(uiStopLoading());
           }, 1000);
-          dispatch(storePhoneNumber(phoneNumber));
+          //dispatch(storePhoneNumber(phoneNumber));
           AsyncStorage.setItem("pp:phonenumber", phoneNumber);
         } else {
           alert(json.error);
@@ -436,29 +436,41 @@ export const savePhoneNumber = phoneNumber => {
   };
 };
 
-export const getUserInfo = () => {
+export const getUserInfo = device => {
   return dispatch => {
     return AsyncStorage.multiGet([
       "pp:fullname",
       "pp:phonenumber",
-      "pp:username"
+      "pp:username",
+      "pp:ios"
     ])
       .then(response => {
-        if (response[0][1] && response[1][1] && response[2][1]) {
+        if (
+          response[0][1] &&
+          response[1][1] &&
+          response[2][1] &&
+          response[3][1] &&
+          response[3][1] === device.toString()
+        ) {
           dispatch(
-            storePhoneNumber(response[0][1], response[1][1], response[2][1])
+            storePhoneNumber(
+              response[0][1],
+              response[1][1],
+              response[2][1],
+              response[3][1]
+            )
           );
         } else {
-          dispatch(getPhoneNumber());
+          dispatch(getPhoneNumber(device));
         }
       })
       .catch(e => {
-        dispatch(getPhoneNumber());
+        dispatch(getPhoneNumber(device));
       });
   };
 };
 
-export const getPhoneNumber = () => {
+export const getPhoneNumber = device => {
   return dispatch => {
     let access_token;
     dispatch(authGetToken())
@@ -471,7 +483,8 @@ export const getPhoneNumber = () => {
         return fetch(`${HOST}/api/v1/get_phone_number`, {
           method: "POST",
           body: JSON.stringify({
-            access_token: access_token
+            access_token: access_token,
+            ios: device
           }),
           headers: { "content-type": "application/json" }
         });
@@ -480,9 +493,15 @@ export const getPhoneNumber = () => {
       .then(json => {
         if (json.is_success) {
           dispatch(
-            storePhoneNumber(json.fullname, json.phone_number, json.username)
+            storePhoneNumber(
+              json.fullname,
+              json.phone_number,
+              json.username,
+              device
+            )
           );
           AsyncStorage.setItem("pp:fullname", json.fullname);
+          AsyncStorage.setItem("pp:ios", device.toString());
         }
       })
       .catch(e => {
@@ -491,12 +510,13 @@ export const getPhoneNumber = () => {
   };
 };
 
-export function storePhoneNumber(fullname, phoneNumber, username) {
+export function storePhoneNumber(fullname, phoneNumber, username, ios) {
   return {
     type: STORE_PHONE_NUMBER,
     fullname,
     phoneNumber,
-    username
+    username,
+    ios
   };
 }
 

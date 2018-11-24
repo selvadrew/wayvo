@@ -13,7 +13,8 @@ const initialState = {
   signup_error: null,
   login_error: null,
   phoneNumber: null,
-  fullname: null
+  fullname: null,
+  ios: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -48,7 +49,8 @@ const reducer = (state = initialState, action) => {
         ...state,
         fullname: action.fullname,
         phoneNumber: action.phoneNumber,
-        username: action.username
+        username: action.username,
+        ios: action.ios
       };
 
     default:

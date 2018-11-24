@@ -11,7 +11,7 @@ import colors from "../../utils/styling";
 
 const listItem = props => (
   <TouchableOpacity onPress={props.onItemPressed}>
-    <View style={styles.listItem}>
+    <View style={props.status === true ? styles.listItem : styles.grayListItem}>
       <Text style={props.status === true ? styles.names : styles.grayName}>
         {props.userName}
       </Text>
@@ -27,6 +27,14 @@ const styles = StyleSheet.create({
     padding: 11,
     borderBottomWidth: 1,
     borderBottomColor: "#eee"
+  },
+  grayListItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    padding: 11,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.darkBlue
   },
   names: {
     color: "#fff",

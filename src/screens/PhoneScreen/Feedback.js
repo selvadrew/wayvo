@@ -103,7 +103,8 @@ const styles = StyleSheet.create({
   header: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     marginBottom: 20,
-    color: "#000",
+    color: "#444",
+    fontWeight: 600,
     fontWeight: "bold"
   },
   textInput: {

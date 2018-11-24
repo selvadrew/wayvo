@@ -30,7 +30,8 @@ export function normalizeActiveFriends(outgoing_calls) {
       fullname: outgoing_call.fullname || "",
       phone_number: outgoing_call.phone_number || "",
       active: outgoing_call.active || false,
-      connected: outgoing_call.connected || false
+      connected: outgoing_call.connected || false,
+      ios: outgoing_call.ios
     };
   });
 }

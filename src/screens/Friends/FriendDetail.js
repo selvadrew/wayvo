@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   Platform,
   StatusBar,
-  Switch
+  Switch,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -20,9 +21,6 @@ import {
 } from "../../store/actions/friends";
 import DeleteButton from "../../components/UI/DeleteContactButton";
 import colors from "../../utils/styling";
-
-import { Facetime } from "react-native-openanything";
-// import { Web } from "react-native-openanything";
 
 class FriendDetail extends Component {
   static navigatorStyle = {
@@ -70,6 +68,26 @@ class FriendDetail extends Component {
     }
   }
 
+  logoutPrompt = () => {
+    Alert.alert(
+      "Are you sure you want to delete this contact?",
+      "",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Delete",
+          onPress: () => this.friendDeletedHandler(),
+          style: "destructive"
+        }
+      ],
+      { cancelable: true }
+    );
+  };
+
   friendDeletedHandler = () => {
     this.props.onDeleteFriend(
       this.props.selectedFriend.id,
@@ -77,16 +95,6 @@ class FriendDetail extends Component {
     );
     this.props.navigator.pop();
   };
-
-  ft = () => {
-    Facetime("andrew.selvadurai6@gmail.com", (audioOnly = false)).catch(err =>
-      alert(err)
-    );
-  };
-
-  // ft = () => {
-  //   Web("https://www.google.ca").catch(err => alert(err));
-  // };
 
   render() {
     return (
@@ -131,12 +139,10 @@ class FriendDetail extends Component {
         </View>
 
         <View style={styles.deleteContainer}>
-          <DeleteButton onPress={this.friendDeletedHandler}>
+          <DeleteButton onPress={this.logoutPrompt}>
             DELETE CONTACT
           </DeleteButton>
         </View>
-
-        <Button title="FT Audio" style={styles.placeButton} onPress={this.ft} />
 
         {/* <View>
           <Text>

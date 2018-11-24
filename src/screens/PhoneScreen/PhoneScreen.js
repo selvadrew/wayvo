@@ -186,7 +186,11 @@ class PhoneScreen extends Component {
 
     this.props.getLastCall();
     //this.props.storePhoneNumber();
-    this.props.getUserInfo();
+    if (Platform.OS === "ios") {
+      this.props.getUserInfo(true);
+    } else {
+      this.props.getUserInfo(false);
+    }
 
     if (Platform.OS === "ios") {
       setTimeout(() => {
@@ -523,7 +527,9 @@ class PhoneScreen extends Component {
         activeInfo = (
           <View style={styles.connectedWrapper}>
             {/* <Text style={styles.activeInfo}>
-              Contacts can Say Hello Back until time expires.
+              If connected, let your contact know whether you prefer a call to
+              your phone number or a video calling app (e.g., FaceTime,
+              Messenger).
             </Text> */}
           </View>
         );
@@ -876,7 +882,7 @@ const mapDispatchToProps = dispatch => {
     getLastCall: () => dispatch(storeLastCall()),
     onResetLastCall: () => dispatch(resetLastCall()),
     storePhoneNumber: () => dispatch(getPhoneNumber()),
-    getUserInfo: () => dispatch(getUserInfo())
+    getUserInfo: ios => dispatch(getUserInfo(ios))
   };
 };
 

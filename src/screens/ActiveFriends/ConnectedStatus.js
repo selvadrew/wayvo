@@ -9,13 +9,15 @@ import {
   ActivityIndicator,
   Platform,
   StatusBar,
-  Dimensions
+  Dimensions,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import call from "react-native-phone-call";
 import { joinCall } from "../../store/actions/activeFriends";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
+import { Facetime } from "react-native-openanything";
 
 class FriendDetail extends Component {
   componentDidMount() {
@@ -38,6 +40,32 @@ class FriendDetail extends Component {
     super(props);
   }
 
+  callOptions = (number, args) => {
+    Alert.alert(
+      "How would you like to start this call?",
+      "",
+      [
+        {
+          text: "FaceTime Video",
+          onPress: () => this.ftv(number)
+        },
+        {
+          text: "FaceTime Audio",
+          onPress: () => this.fta(number)
+        },
+        { text: "Phone Call", onPress: () => call(args).catch(console.error) }
+      ],
+      { cancelable: false }
+    );
+  };
+
+  ftv = number => {
+    Facetime(number, (audioOnly = false)).catch(err => alert(err));
+  };
+  fta = number => {
+    Facetime(number, (audioOnly = true)).catch(err => alert(err));
+  };
+
   render() {
     let number = "1" + this.props.phone_number;
     const args = {
@@ -53,6 +81,30 @@ class FriendDetail extends Component {
     });
 
     let screen = null;
+    let startCall = null;
+    //checks if connected user and current user are both using ios
+    if (this.props.ios && this.props.user_ios) {
+      startCall = (
+        <GotIt
+          onPress={() => this.callOptions(number, args)}
+          backgroundColor={colors.yellowColor}
+          color="#333"
+        >
+          START CALL
+        </GotIt>
+      );
+    } else {
+      startCall = (
+        <GotIt
+          onPress={() => call(args).catch(console.error)}
+          backgroundColor={colors.yellowColor}
+          color="#333"
+        >
+          START CALL
+        </GotIt>
+      );
+    }
+
     if (this.props.ui) {
       screen = (
         <View style={styles.indicator}>
@@ -71,13 +123,7 @@ class FriendDetail extends Component {
               {/* Woohoo! You've been connected with Mary. */}
             </Text>
           </View>
-          <GotIt
-            onPress={() => call(args).catch(console.error)}
-            backgroundColor={colors.yellowColor}
-            color="#333"
-          >
-            START CALL
-          </GotIt>
+          {startCall}
         </View>
       );
     }
@@ -150,7 +196,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     ui: state.ui.isLoading,
-    active_friends: state.active_friends.active_friends
+    active_friends: state.active_friends.active_friends,
+    user_ios: state.users.ios
   };
 };
 

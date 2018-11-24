@@ -15,7 +15,8 @@ const callStatus = props => {
             props.onItemSelected(
               info.item.outgoing_id,
               info.item.fullname,
-              info.item.phone_number
+              info.item.phone_number,
+              info.item.ios
             )
           }
         />

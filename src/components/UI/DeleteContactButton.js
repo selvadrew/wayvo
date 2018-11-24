@@ -31,22 +31,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    flexDirection: "column",
-    marginTop: 50
+    flexDirection: "column"
+    //marginTop: 50
   },
   textWrapper: {
     alignItems: "center",
     flexDirection: "column",
-    justifyContent: "center",
-    borderRadius: 5,
-    borderWidth: 2,
-    borderColor: "#555"
+    justifyContent: "center"
+    // borderRadius: 5,
+    // borderWidth: 2,
+    // borderColor: "#555"
   },
   text: {
     fontSize: 14,
-    padding: 10,
+    //padding: 10,
     fontWeight: "bold",
-    borderColor: "#555"
+    borderColor: "#555",
+    color: "gray"
   }
 });
 
