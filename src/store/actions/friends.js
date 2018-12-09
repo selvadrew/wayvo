@@ -265,9 +265,9 @@ export const rejectFriend = id => {
       .then(json => {
         console.log(json);
         if (json.is_success) {
-          dispatch(
-            setFriendRequests(normalizeFriendRequests(json.friend_requests))
-          );
+          // dispatch(
+          //   setFriendRequests(normalizeFriendRequests(json.friend_requests))
+          // );
           dispatch(uiStopLoading());
         } else {
           alert("Oops, something went wrong, contact changes were not saved.");

@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   logoutText: {
-    color: "#555",
+    color: "#444",
     padding: 10,
     width: 250,
     fontWeight: "600",
@@ -148,7 +148,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderWidth: 1,
     borderColor: "#555",
-    borderRadius: 0
+    borderRadius: 0,
+    letterSpacing: 1
   },
   name: {
     fontWeight: "bold",

@@ -243,7 +243,8 @@ const styles = StyleSheet.create({
     color: colors.yellowColor,
     fontWeight: "900",
     fontSize: 25,
-    padding: 10
+    padding: 10,
+    letterSpacing: 0.5
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,

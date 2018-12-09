@@ -63,8 +63,8 @@ class ActiveFriendsScreen extends Component {
     ) {
       activeExplain = (
         <Text style={styles.activeExplain}>
-          When contacts Say Hello, you can Say Hello Back on this screen to
-          start a call.
+          When contacts Say Hello, just Say Hello Back on this screen to start a
+          call.
         </Text>
       );
     }
@@ -88,7 +88,7 @@ class ActiveFriendsScreen extends Component {
           {/* <OfflineNotice /> */}
           <View style={styles.friends}>
             <View style={styles.friendsHeaderWrapper}>
-              <Text style={styles.friendsHeader}>Active Contacts</Text>
+              <Text style={styles.friendsHeader}>Live Contacts</Text>
             </View>
             <CallStatus
               friends={this.props.active_friends}
@@ -132,10 +132,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     color: "#fff",
-    // color: colors.yellowColor
+    //color: colors.yellowColor,
     fontWeight: "900",
     fontSize: 25,
-    padding: 10
+    padding: 10,
+    letterSpacing: 0.5
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,

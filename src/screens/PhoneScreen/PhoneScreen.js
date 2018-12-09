@@ -197,6 +197,16 @@ class PhoneScreen extends Component {
         SplashScreen.hide();
       }, 2500);
     }
+    if (Platform.OS === "ios") {
+      setTimeout(() => {
+        this.onSliderAutoScroll();
+      }, 2800);
+    }
+    if (Platform.OS === "android") {
+      setTimeout(() => {
+        this.onSliderAutoScroll();
+      }, 400);
+    }
 
     AsyncStorage.getItem("tour").then(tourStatus => {
       if (tourStatus === "finished") {
@@ -255,11 +265,12 @@ class PhoneScreen extends Component {
   howItWorksScreen = () => {
     this.props.navigator.push({
       screen: "awesome-places.HowItWorks",
-      //title: "How Wayvo Works",
+      title: "What happens when I Say Hello?",
       backButtonTitle: "",
       passProps: {
         username: this.props.username,
-        phone_number: this.props.phone_number
+        phone_number: this.props.phone_number,
+        ios: this.props.ios
       }
     });
 
@@ -336,7 +347,18 @@ class PhoneScreen extends Component {
     notificationsEnabled: true,
     androidNotificationsEnabled: true,
     tapped: 2,
-    sliderValue: 20
+    sliderValue: 10
+  };
+
+  onSliderAutoScroll = () => {
+    if (this.state.sliderValue !== 20) {
+      setTimeout(() => {
+        this.setState({
+          sliderValue: this.state.sliderValue + 1
+        });
+        this.onSliderAutoScroll();
+      }, 90);
+    }
   };
 
   onSliderChange = chosenValue => {
@@ -516,7 +538,7 @@ class PhoneScreen extends Component {
         );
         activeSign = (
           <View>
-            <Text style={styles.youActive}>You're Active</Text>
+            <Text style={styles.youActive}>You're Live</Text>
             <Text style={styles.timeExplanation}>
               Contacts can Say Hello Back
             </Text>
@@ -566,8 +588,14 @@ class PhoneScreen extends Component {
                   style={styles.usernameButton}
                   onPress={() => this.optionScreen()}
                 >
-                  <View>
-                    <Text style={styles.usernameText}>Wayvo</Text>
+                  <View style={{ paddingLeft: 15, padding: 10 }}>
+                    {/* <Text style={styles.usernameText}>Wayvo</Text> */}
+                    <Icon
+                      size={30}
+                      name={Platform.OS === "ios" ? "md-menu" : "md-menu"}
+                      color="#f5f5f5"
+                      //color={colors.yellowColor}
+                    />
                   </View>
                 </TouchableWithoutFeedback>
               </View>
@@ -585,7 +613,8 @@ class PhoneScreen extends Component {
                           ? "ios-information-circle-outline"
                           : "md-information-circle-outline"
                       }
-                      color="#fff"
+                      color="#f5f5f5"
+                      //color={colors.yellowColor}
                     />
                   </View>
                 </TouchableWithoutFeedback>
@@ -642,7 +671,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingBottom: 20,
     paddingTop: 20,
-    padding: Dimensions.get("window").width > 330 ? 10 : 10,
+    padding: Dimensions.get("window").width > 330 ? 8 : 8,
     backgroundColor: colors.blueColor
   },
   hello: {
@@ -796,13 +825,17 @@ const styles = StyleSheet.create({
   timeWrapper: {
     borderRadius: 3,
     backgroundColor: colors.darkBlue,
+    //backgroundColor: "#0061FD",
+    //backgroundColor: "#0b68bd",
     paddingRight: 8,
     paddingLeft: 8,
     paddingTop: 10,
-    paddingBottom: 10
+    paddingBottom: 10,
+    borderWidth: 1,
+    borderColor: "#0b68bd"
+    //borderColor: "black"
   },
   timeText: {
-    //marginTop: 30,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     fontWeight: "700",
     color: "white",
@@ -870,7 +903,8 @@ const mapStateToProps = state => {
     connected_with: state.outgoing.connected_with,
     username: state.users.username,
     fullname: state.users.fullname,
-    phone_number: state.users.phoneNumber
+    phone_number: state.users.phoneNumber,
+    ios: state.users.ios
   };
 };
 

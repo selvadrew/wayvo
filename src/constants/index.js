@@ -1,3 +1,5 @@
+// NSExceptionAllowsInsecureHTTPLoads
+
 //utsc = export const HOST = "http://138.51.84.129:3000"
 //home = "http:/192.168.1.20:3000" or "http://192.168.1.28:3000"
 
@@ -5,6 +7,6 @@
 
 // https://sheltered-escarpment-63295.herokuapp.com/
 
-//export const HOST = "http://192.168.1.182:3000";
+//   export const HOST = "http://172.20.0.239:3000";
 
 export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

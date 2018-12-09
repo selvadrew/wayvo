@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, StatusBar, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  Dimensions,
+  Platform,
+  Image,
+  ScrollView
+} from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 
@@ -26,15 +35,53 @@ class HowItWorks extends Component {
       "$1-$2-$3"
     );
 
+    let throughFT = null;
+    if (Platform.OS === "ios") {
+      throughFT = <Text>or through FaceTime </Text>;
+    }
+
     return (
-      <View style={styles.container}>
-        <View style={styles.wrapper}>
+      <ScrollView
+        style={styles.container}
+        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+      >
+        {/* <View style={styles.wrapper}>
           <View style={styles.titleWrapper}>
             <Text style={styles.title}>What happens when I Say Hello?</Text>
           </View>
+        </View> */}
+
+        <Image
+          source={require("../../assets/Info-1.png")}
+          style={styles.infoOne}
+        />
+        <View>
+          <Text style={styles.text}>
+            All your selected contacts receive a notification
+          </Text>
         </View>
 
-        <View style={styles.wrapper}>
+        <Image
+          source={require("../../assets/Info-2.png")}
+          style={styles.infoOne}
+        />
+        <View>
+          <Text style={styles.text}>
+            The first contact to Say Hello Back gets to call you
+          </Text>
+        </View>
+
+        <Image
+          source={require("../../assets/Info-3.png")}
+          style={styles.infoOne}
+        />
+        <View>
+          <Text style={styles.text}>
+            You will receive a call at {formatted_phone_number} {throughFT}
+          </Text>
+        </View>
+
+        {/* <View style={styles.wrapper}>
           <View style={styles.numberHolder}>
             <View style={styles.numberWrapper1}>
               <Text style={styles.numberText}>1</Text>
@@ -63,10 +110,11 @@ class HowItWorks extends Component {
               <Text style={{ color: colors.greenColor }}>
                 {formatted_phone_number}
               </Text>{" "}
+              {throughFT}
               from the first contact to open Wayvo and Say Hello Back
             </Text>
           </View>
-        </View>
+        </View> */}
 
         {/* <View style={styles.wrapper}>
           <View style={styles.numberHolder}>
@@ -81,7 +129,7 @@ class HowItWorks extends Component {
             </Text>
           </View>
         </View> */}
-      </View>
+      </ScrollView>
     );
   }
 }
@@ -90,11 +138,18 @@ class HowItWorks extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    margin: 10,
     paddingTop: 30,
     backgroundColor: "#fff"
-    // alignItems: "center",
+    //alignItems: "center"
     // justifyContent: "center",
     // flexDirection: "column"
+  },
+  infoOne: {
+    resizeMode: "contain",
+    height: Dimensions.get("window").width * 0.5,
+    width: Dimensions.get("window").width * 0.5,
+    alignItems: "center"
   },
   titleWrapper: {
     justifyContent: "center",
@@ -102,29 +157,29 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
     fontWeight: "700",
     padding: 5,
     color: "#444",
-    letterSpacing: 0.5
+    letterSpacing: 1
   },
   wrapper: {
     flexDirection: "row",
     marginBottom: 40
   },
   numberHolder: {
-    width: "20%",
+    width: "15%",
     marginLeft: 10,
     marginRight: 10
   },
   numberWrapper1: {
-    width: "90%",
+    width: "100%",
     backgroundColor: colors.pinkColor,
     alignItems: "center",
     borderRadius: 100
   },
   numberWrapper2: {
-    width: "90%",
+    width: "100%",
     backgroundColor: colors.greenColor,
     alignItems: "center",
     borderRadius: 100
@@ -140,15 +195,16 @@ const styles = StyleSheet.create({
     paddingBottom: 5
   },
   textWrapper: {
-    width: "80%"
+    width: "85%"
   },
   text: {
-    paddingRight: 20,
+    padding: 20,
     fontWeight: "600",
-    fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     color: "#444",
-    marginRight: 10,
-    letterSpacing: 0.5
+    letterSpacing: 1,
+    textAlign: "center",
+    marginBottom: 50
   }
 });
 

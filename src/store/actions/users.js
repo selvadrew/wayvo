@@ -497,7 +497,7 @@ export const getPhoneNumber = device => {
               json.fullname,
               json.phone_number,
               json.username,
-              device
+              device.toString()
             )
           );
           AsyncStorage.setItem("pp:fullname", json.fullname);
@@ -548,6 +548,7 @@ export const logout = () => {
           AsyncStorage.removeItem("pp:fullname");
           AsyncStorage.removeItem("access_token");
           AsyncStorage.removeItem("pp:friends");
+          AsyncStorage.removeItem("pp:ios");
           dispatch(clearFriends());
           dispatch(clearActiveFriends());
           dispatch(clearConnected());
@@ -559,6 +560,7 @@ export const logout = () => {
           AsyncStorage.removeItem("pp:fullname");
           AsyncStorage.removeItem("access_token");
           AsyncStorage.removeItem("pp:friends");
+          AsyncStorage.removeItem("pp:ios");
           dispatch(clearFriends());
           dispatch(clearActiveFriends());
           dispatch(clearConnected());

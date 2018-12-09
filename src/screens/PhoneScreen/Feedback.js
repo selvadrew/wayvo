@@ -76,7 +76,7 @@ class Feedback extends Component {
       content = (
         //no feedback sent yet
         <View>
-          <Text style={styles.header}>Let us know how we can improve! </Text>
+          <Text style={styles.header}>Let us know how we can improve. </Text>
           <TextInput
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     marginBottom: 20,
-    color: "#444",
+    color: "#333",
     fontWeight: 600,
     fontWeight: "bold"
   },
