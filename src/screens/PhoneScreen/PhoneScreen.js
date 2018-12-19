@@ -45,10 +45,10 @@ import Slider from "react-native-slider";
 class PhoneScreen extends Component {
   componentDidMount() {
     const channel = new firebase.notifications.Android.Channel(
-      "Contacts",
-      "Contacts Say Hello",
+      "Friends",
+      "Friends Say Hello",
       firebase.notifications.Android.Importance.Max
-    ).setDescription("Contacts Say Hello");
+    ).setDescription("Friends Say Hello");
     firebase.notifications().android.createChannel(channel);
 
     // the listener returns a function you can use to unsubscribe
@@ -68,7 +68,7 @@ class PhoneScreen extends Component {
             //.setVisibility(notification.VISIBILITY_PUBLIC)
             .android.setAutoCancel(true)
             .android.setShowWhen(true)
-            .android.setChannelId("Contacts") // e.g. the id you chose above
+            .android.setChannelId("Friends") // e.g. the id you chose above
             .android.setSmallIcon("@mipmap/small_launcher")
             //.android.setLargeIcon("@mipmap/ic_launcher")
             .android.setColor(colors.greenColor) // you can set a color here
@@ -265,7 +265,7 @@ class PhoneScreen extends Component {
   howItWorksScreen = () => {
     this.props.navigator.push({
       screen: "awesome-places.HowItWorks",
-      title: "What happens when I Say Hello?",
+      //title: "How it Works",
       backButtonTitle: "",
       passProps: {
         username: this.props.username,
@@ -438,9 +438,8 @@ class PhoneScreen extends Component {
             >
               <View style={styles.timeWrapper}>
                 <Text style={styles.timeText}>
-                  The first contact to Say Hello Back within {select} can call
-                  me
-                  {/* Receive a call from the first contact to Say Hello back within{" "}
+                  The first friend to Say Hello Back within {select} can call me
+                  {/* Receive a call from the first friend to Say Hello back within{" "}
                   {select} */}
                 </Text>
                 <Slider
@@ -452,7 +451,7 @@ class PhoneScreen extends Component {
                   minimumTrackTintColor={colors.yellowColor}
                   maximumTrackTintColor={colors.blueColor}
                   thumbTintColor={colors.yellowColor}
-                  style={{ marginTop: 3 }}
+                  style={{ marginTop: 3, marginLeft: 12, marginRight: 12 }}
 
                   // thumbStyle={{ borderColor: colors.greenColor, borderWidth: 2 }}
                 />
@@ -488,7 +487,7 @@ class PhoneScreen extends Component {
                   >
                     here{" "}
                   </Text>
-                  if you want to be notified when contacts Say Hello
+                  if you want to be notified when friends Say Hello
                 </Text>
               </View>
             );
@@ -508,17 +507,17 @@ class PhoneScreen extends Component {
                   <Text style={styles.notificationHere}>
                     Allow Notifications{" "}
                   </Text>
-                  if you want to be notified when contacts Say Hello
+                  if you want to be notified when friends Say Hello
                 </Text>
               </View>
             );
           }
         }
-        // You will not be notified when a contact Says Hello because you have disabled notifications.
+        // You will not be notified when a friend Says Hello because you have disabled notifications.
         // Do you want to allow notifications from Wayvo?
         //
 
-        // Hang tight you will receive a call from your first contact to Say Hello back.
+        // Hang tight you will receive a call from your first friend to Say Hello back.
       } else {
         button = (
           <CountDown
@@ -526,7 +525,7 @@ class PhoneScreen extends Component {
             onFinish={() => this.props.getLastCall()}
             // onPress={() =>
             //   Alert.alert(
-            //     "Expect a call from the first contact to Say Hello back before this timer expires"
+            //     "Expect a call from the first friend to Say Hello back before this timer expires"
             //   )
             // }
             size={40}
@@ -537,10 +536,10 @@ class PhoneScreen extends Component {
           />
         );
         activeSign = (
-          <View>
+          <View style={styles.usernameWrapper}>
             <Text style={styles.youActive}>You're Live</Text>
             <Text style={styles.timeExplanation}>
-              Contacts can Say Hello Back
+              Friends can Say Hello Back
             </Text>
             <Text style={styles.timeExplanation}>until time expires.</Text>
           </View>
@@ -549,7 +548,7 @@ class PhoneScreen extends Component {
         activeInfo = (
           <View style={styles.connectedWrapper}>
             {/* <Text style={styles.activeInfo}>
-              If connected, let your contact know whether you prefer a call to
+              If connected, let your friend know whether you prefer a call to
               your phone number or a video calling app (e.g., FaceTime,
               Messenger).
             </Text> */}
@@ -632,8 +631,8 @@ class PhoneScreen extends Component {
             ]}
           >
             {/* <View style={styles.usernameWrapper} /> */}
-            <View style={styles.usernameWrapper}>{activeSign}</View>
-
+            {/* <View style={styles.usernameWrapper}>{activeSign}</View> */}
+            {activeSign}
             {button}
 
             {activeInfo}
@@ -658,7 +657,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row",
-    height: "100%"
+    height: "100%",
+    width: "100%"
   },
   infoButton: {
     flex: 1,
@@ -670,14 +670,15 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     paddingBottom: 20,
-    paddingTop: 20,
-    padding: Dimensions.get("window").width > 330 ? 8 : 8,
+    //paddingTop: 20,
+    //padding: 8,
     backgroundColor: colors.blueColor
   },
   hello: {
     alignItems: "center",
     justifyContent: "center",
-    flex: 1
+    flex: 1,
+    width: "100%"
   },
   helloDescription: {
     position: "absolute",
@@ -784,12 +785,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.greenColor,
     padding: 15,
     paddingBottom: 5,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   timeExplanation: {
     color: "#fff",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 15,
-    textAlign: "center"
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   usernameView: {
     flex: 1,
@@ -820,36 +823,35 @@ const styles = StyleSheet.create({
     flex: 4,
     flexDirection: "column",
     alignItems: "center",
-    alignSelf: "center"
+    alignSelf: "center",
+    width: "100%"
   },
   timeWrapper: {
-    borderRadius: 3,
+    //borderRadius: 3,
     backgroundColor: colors.darkBlue,
-    //backgroundColor: "#0061FD",
+    //backgroundColor: "#222",
     //backgroundColor: "#0b68bd",
     paddingRight: 8,
     paddingLeft: 8,
     paddingTop: 10,
     paddingBottom: 10,
-    borderWidth: 1,
-    borderColor: "#0b68bd"
-    //borderColor: "black"
+    //borderColor: "rgba(1,125,185,0.3)",
+    width: "100%"
   },
   timeText: {
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
+    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
     fontWeight: "700",
     color: "white",
     textAlign: "center",
-    letterSpacing: Dimensions.get("window").width > 330 ? 0.4 : 0
-    //borderColor: "#FFF",
-    //borderWidth: 1,
-
-    //padding: 2
+    letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   timeNumber: {
-    color: colors.yellowColor,
-    //fontWeight: "900",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 17
+    //color: colors.yellowColor,
+    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
+    fontWeight: "700",
+    letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   timeNumberSelect: {
     color: "#555",
@@ -864,21 +866,24 @@ const styles = StyleSheet.create({
   lastConnected: {
     color: "#fff",
     fontSize: 16,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   notificationText: {
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 16,
     textAlign: "center",
     fontWeight: "400",
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   notificationHere: {
     color: colors.greenColor,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     fontWeight: "700",
     textAlign: "center",
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   activeInfo: {
     color: "#fff",
@@ -890,7 +895,8 @@ const styles = StyleSheet.create({
     color: colors.greenColor,
     fontSize: 20,
     fontWeight: "900",
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

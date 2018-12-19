@@ -34,7 +34,7 @@ class ChangeTime extends Component {
     const content = (
       <View style={styles.wrapper}>
         <Text style={styles.timeText}>
-          The first contact to respond within{" "}
+          The first friend to respond within{" "}
           <Text style={styles.timeNumber}>
             {timeOptions[this.state.timeSelected]} minutes
           </Text>{" "}

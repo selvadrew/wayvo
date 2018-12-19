@@ -18,7 +18,7 @@ const startTabs = () => {
         },
         {
           screen: "awesome-places.FriendsScreen",
-          label: "Contacts",
+          label: "Friends",
           //title: "Friends",
           icon: sources[0]
         },

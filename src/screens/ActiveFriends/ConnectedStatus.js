@@ -82,8 +82,15 @@ class FriendDetail extends Component {
 
     let screen = null;
     let startCall = null;
+    let current_user = null;
+    if (Platform.OS === "ios") {
+      current_user = true;
+    } else {
+      current_user = false;
+    }
     //checks if connected user and current user are both using ios
-    if (this.props.ios && this.props.user_ios) {
+    //if (this.props.ios && this.props.user_ios && current_user) {
+    if (this.props.ios && current_user) {
       startCall = (
         <GotIt
           onPress={() => this.callOptions(number, args)}
@@ -180,13 +187,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: Dimensions.get("window").width > 330 ? 28 : 24,
     color: "#fff",
-    marginBottom: 40
+    marginBottom: 40,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   failText: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 28,
-    color: "#808080"
+    color: "#808080",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   deleteButton: {
     alignItems: "center"

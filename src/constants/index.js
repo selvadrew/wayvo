@@ -1,12 +1,17 @@
 // NSExceptionAllowsInsecureHTTPLoads
+// react-native run-ios --simulator="iPhone X"
+// react-native run-ios --simulator="iPhone SE"
 
-//utsc = export const HOST = "http://138.51.84.129:3000"
-//home = "http:/192.168.1.20:3000" or "http://192.168.1.28:3000"
+// RELEASE SIMULATORS
+// react-native run-android --variant=release
+//react-native run-ios --configuration Release
 
-//aainin = "http://172.28.98.6:3000"
+// to generate the release APK
+// $ cd android
+// $ ./gradlew assembleRelease
 
 // https://sheltered-escarpment-63295.herokuapp.com/
 
-//   export const HOST = "http://172.20.0.239:3000";
+//export const HOST = "http://192.168.1.182:3000";
 
 export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

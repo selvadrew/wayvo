@@ -7,7 +7,8 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
@@ -76,7 +77,7 @@ class Feedback extends Component {
       content = (
         //no feedback sent yet
         <View>
-          <Text style={styles.header}>Let us know how we can improve. </Text>
+          <Text style={styles.header}>Let us know how we can improve </Text>
           <TextInput
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
@@ -103,13 +104,15 @@ const styles = StyleSheet.create({
   header: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     marginBottom: 20,
-    color: "#333",
-    fontWeight: 600,
-    fontWeight: "bold"
+    color: "#444",
+    fontWeight: "600",
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    //fontWeight: "bold"
   },
   textInput: {
-    borderColor: colors.blueColor,
-    borderWidth: 2,
+    borderColor: "#555", //wcolors.blueColor,
+    borderWidth: 1,
     height: 150,
     padding: 10,
     textAlignVertical: "top",
@@ -121,7 +124,8 @@ const styles = StyleSheet.create({
     color: colors.blueColor,
     textAlign: "center",
     fontWeight: "bold",
-    marginTop: 30
+    marginTop: 30,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

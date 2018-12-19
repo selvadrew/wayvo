@@ -145,7 +145,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
-    color: "#444"
+    color: "#444",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   inputButtonWrapper: {
     flex: 5,
@@ -162,7 +163,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "400",
     textAlign: "center",
-    color: "#555"
+    color: "#555",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   inputWrapper: {
     marginBottom: 20,
@@ -181,11 +183,13 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     fontSize: 18,
-    color: "#333"
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   listItem: {
     fontSize: 16,
-    color: "#333"
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   listItemWrapper: {
     marginTop: 5

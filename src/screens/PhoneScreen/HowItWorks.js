@@ -53,21 +53,22 @@ class HowItWorks extends Component {
 
         <Image
           source={require("../../assets/Info-1.png")}
-          style={styles.infoOne}
+          style={styles.infoTwo}
         />
         <View>
           <Text style={styles.text}>
-            All your selected contacts receive a notification
+            When you Say Hello, all your selected friends receive a notification
           </Text>
         </View>
 
         <Image
           source={require("../../assets/Info-2.png")}
-          style={styles.infoOne}
+          style={styles.infoTwo}
         />
         <View>
           <Text style={styles.text}>
-            The first contact to Say Hello Back gets to call you
+            The first friend to Say Hello Back before time expires gets to call
+            you
           </Text>
         </View>
 
@@ -89,11 +90,11 @@ class HowItWorks extends Component {
           </View>
           <View style={styles.textWrapper}>
             <Text style={styles.text}>
-              All your selected contacts who have{" "}
+              All your selected friends who have{" "}
               <Text style={{ color: colors.pinkColor }}>
                 {this.props.username}
               </Text>{" "}
-              in their contact list will receive a notification
+              in their friend list will receive a notification
             </Text>
           </View>
         </View>
@@ -111,7 +112,7 @@ class HowItWorks extends Component {
                 {formatted_phone_number}
               </Text>{" "}
               {throughFT}
-              from the first contact to open Wayvo and Say Hello Back
+              from the first friend to open Wayvo and Say Hello Back
             </Text>
           </View>
         </View> */}
@@ -124,7 +125,7 @@ class HowItWorks extends Component {
           </View>
           <View style={styles.textWrapper}>
             <Text style={styles.text}>
-              If no contacts Say Hello back within the time you selected,
+              If no friends Say Hello back within the time you selected,
               nothing happens
             </Text>
           </View>
@@ -133,12 +134,12 @@ class HowItWorks extends Component {
     );
   }
 }
-//If all your contacts are busy and are not able to Say Hello back within the time you selected, nothing happens.
+//If all your friends are busy and are not able to Say Hello back within the time you selected, nothing happens.
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10,
+    padding: 10,
     paddingTop: 30,
     backgroundColor: "#fff"
     //alignItems: "center"
@@ -147,8 +148,14 @@ const styles = StyleSheet.create({
   },
   infoOne: {
     resizeMode: "contain",
-    height: Dimensions.get("window").width * 0.5,
-    width: Dimensions.get("window").width * 0.5,
+    height: Dimensions.get("window").width * 0.6,
+    width: Dimensions.get("window").width * 0.6,
+    alignItems: "center"
+  },
+  infoTwo: {
+    resizeMode: "contain",
+    height: Dimensions.get("window").width * 0.65,
+    width: Dimensions.get("window").width * 0.65,
     alignItems: "center"
   },
   titleWrapper: {
@@ -161,7 +168,8 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     padding: 5,
     color: "#444",
-    letterSpacing: 1
+    letterSpacing: 1,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   wrapper: {
     flexDirection: "row",
@@ -200,11 +208,12 @@ const styles = StyleSheet.create({
   text: {
     padding: 20,
     fontWeight: "600",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
-    color: "#444",
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 17,
+    color: "#222",
     letterSpacing: 1,
     textAlign: "center",
-    marginBottom: 50
+    marginBottom: 50,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

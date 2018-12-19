@@ -48,12 +48,12 @@ class ActiveFriendsScreen extends Component {
   };
 
   render() {
-    // changes tab to active friends ifmsomeone is active
-    // if (this.props.active_friends.length > 0) {
-    //   this.props.navigator.switchToTab({
-    //     tabIndex: 2
-    //   });
-    // }
+    //changes tab to active friends ifmsomeone is active
+    if (this.props.active_friends.length > 0) {
+      this.props.navigator.switchToTab({
+        tabIndex: 2
+      });
+    }
 
     let activeExplain = null;
 
@@ -63,8 +63,9 @@ class ActiveFriendsScreen extends Component {
     ) {
       activeExplain = (
         <Text style={styles.activeExplain}>
-          When contacts Say Hello, just Say Hello Back on this screen to start a
-          call.
+          When your friends Say Hello, they'll appear here until time expires.
+          You can pull down to refresh their status.
+          {/* Be the first to Say Hello Back to connect with them. */}
         </Text>
       );
     }
@@ -88,7 +89,7 @@ class ActiveFriendsScreen extends Component {
           {/* <OfflineNotice /> */}
           <View style={styles.friends}>
             <View style={styles.friendsHeaderWrapper}>
-              <Text style={styles.friendsHeader}>Live Contacts</Text>
+              <Text style={styles.friendsHeader}>Live Friends</Text>
             </View>
             <CallStatus
               friends={this.props.active_friends}
@@ -136,7 +137,8 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     fontSize: 25,
     padding: 10,
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,
@@ -144,14 +146,15 @@ const styles = StyleSheet.create({
   },
   activeExplain: {
     color: "#fff",
-    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
     textAlign: "center",
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
     fontWeight: "normal",
-    padding: 5
+    padding: 5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

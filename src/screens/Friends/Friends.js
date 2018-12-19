@@ -129,7 +129,7 @@ class FriendsScreen extends Component {
       this.dropdown.alertWithType(
         "success",
         "",
-        `${this.props.new_friend} is now a contact`
+        `${this.props.new_friend} is now a friend`
       );
     }
 
@@ -137,7 +137,7 @@ class FriendsScreen extends Component {
       this.dropdown.alertWithType(
         "info",
         "",
-        `${this.props.deleted_friend} has been deleted from your contact list`
+        `${this.props.deleted_friend} has been deleted from your friends list`
       );
     }
 
@@ -168,7 +168,7 @@ class FriendsScreen extends Component {
           {friendRequests}
           <View style={styles.friends}>
             <View style={styles.friendsHeaderWrapper}>
-              <Text style={styles.friendsHeader}>Contacts</Text>
+              <Text style={styles.friendsHeader}>Friends</Text>
             </View>
             {friends}
           </View>
@@ -244,7 +244,8 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     fontSize: 25,
     padding: 10,
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,
@@ -260,4 +261,4 @@ export default connect(
   mapDispatchToProps
 )(FriendsScreen);
 
-// When someone adds you as a contact, they will not know if you accepted or rejected their request.
+// When someone adds you as a friend, they will not know if you accepted or rejected their request.

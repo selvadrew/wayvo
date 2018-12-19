@@ -215,11 +215,13 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     fontSize: 18,
-    color: "#333"
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   listItem: {
     fontSize: 16,
-    color: "#333"
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   listItemWrapper: {
     marginTop: 5

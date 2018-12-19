@@ -45,7 +45,7 @@ export const addFriend = username => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          //Alert.alert(`${json.fullname} is now a contact.`);
+          //Alert.alert(`${json.fullname} is now a friend.`);
           dispatch(
             insertFriend(
               json.id,
@@ -270,7 +270,7 @@ export const rejectFriend = id => {
           // );
           dispatch(uiStopLoading());
         } else {
-          alert("Oops, something went wrong, contact changes were not saved.");
+          alert("Oops, something went wrong, friend changes were not saved.");
         }
       })
       .catch(e => alert(e));
@@ -304,7 +304,7 @@ export const sendNotification = (id, option) => {
           console.log("success");
         } else {
           dispatch(setSendNotification(id, !option));
-          alert("Oops, something went wrong, contact changes were reverted.");
+          alert("Oops, something went wrong, friend changes were reverted.");
         }
       })
       .catch(e => {
@@ -349,7 +349,7 @@ export const receiveNotification = (id, option) => {
           console.log("success");
         } else {
           dispatch(setReceiveNotification(id, !option));
-          alert("Oops, something went wrong, contact changes were reverted.");
+          alert("Oops, something went wrong, friend changes were reverted.");
         }
       })
       .catch(e => {

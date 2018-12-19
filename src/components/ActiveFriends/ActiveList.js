@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import colors from "../../utils/styling";
 import ActiveHelloButton from "../../components/UI/ActiveHelloButton";
@@ -60,7 +61,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
     width: "50%",
-    marginRight: 10
+    marginRight: 10,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   placeButton: {
     width: "50%",

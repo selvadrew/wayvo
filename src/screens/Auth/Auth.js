@@ -177,7 +177,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "500",
     letterSpacing: 0.5,
-    color: "#fff"
+    color: "#fff",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   icon: {
     marginRight: 15
@@ -186,7 +187,8 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 25 : 20,
     color: "#333",
     letterSpacing: 2,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   imageAndLogo: {
     flex: 2,
@@ -208,10 +210,12 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 12 : 10,
     textAlign: "center",
     color: "gray",
-    paddingBottom: 20
+    paddingBottom: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   termsText: {
-    color: colors.blueColor //"#007B7F"
+    color: colors.blueColor, //"#007B7F",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   emailContainer: {
     flex: 1,
@@ -232,7 +236,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "600",
     letterSpacing: 0.5,
-    color: "#fff"
+    color: "#fff",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   touchgreen: {
     justifyContent: "center",

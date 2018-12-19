@@ -1,5 +1,12 @@
 import React from "react";
-import { StyleSheet, FlatList, View, Text, Button } from "react-native";
+import {
+  StyleSheet,
+  FlatList,
+  View,
+  Text,
+  Button,
+  Platform
+} from "react-native";
 import FriendRequestButtons from "../../components/UI/FriendRequestButtons";
 import colors from "../../utils/styling";
 
@@ -65,7 +72,8 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     color: "#fff",
-    fontWeight: "800"
+    fontWeight: "800",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   buttonsWrapper: {
     width: "100%",

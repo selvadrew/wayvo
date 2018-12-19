@@ -14,6 +14,7 @@ import SaidHello from "./src/screens/PhoneScreen/SaidHello";
 import OptionScreen from "./src/screens/PhoneScreen/OptionScreen";
 import HowItWorks from "./src/screens/PhoneScreen/HowItWorks";
 import Feedback from "./src/screens/PhoneScreen/Feedback";
+import Mission from "./src/screens/PhoneScreen/Mission";
 import FriendsScreen from "./src/screens/Friends/Friends";
 import FriendSelectedScreen from "./src/screens/Friends/FriendDetail";
 import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
@@ -102,6 +103,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.Feedback",
   () => Feedback,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.Mission",
+  () => Mission,
   store,
   Provider
 );

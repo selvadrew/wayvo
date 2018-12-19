@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     //padding: 10,
     fontWeight: "bold",
     borderColor: "#555",
-    color: "gray"
+    color: "gray",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

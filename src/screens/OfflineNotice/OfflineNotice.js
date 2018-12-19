@@ -1,5 +1,12 @@
 import React, { PureComponent } from "react";
-import { View, Text, NetInfo, Dimensions, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  NetInfo,
+  Dimensions,
+  StyleSheet,
+  Platform
+} from "react-native";
 
 const { width } = Dimensions.get("window");
 
@@ -65,7 +72,10 @@ const styles = StyleSheet.create({
     // position: "absolute",
     // top: 30
   },
-  offlineText: { color: "#fff" }
+  offlineText: {
+    color: "#fff",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+  }
 });
 
 export default OfflineNotice;

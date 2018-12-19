@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     color: "#333",
     alignItems: "flex-end",
     flexDirection: "row",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
     // textShadowColor: "#888",
     // textShadowOffset: { width: -3, height: 3 },
     // textShadowRadius: 1
@@ -72,7 +73,8 @@ const styles = StyleSheet.create({
   textHello: {
     fontSize: Dimensions.get("window").width > 330 ? 40 : 35,
     fontWeight: "bold",
-    color: "#333"
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

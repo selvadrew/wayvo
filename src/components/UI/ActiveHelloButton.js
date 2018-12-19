@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignSelf: "center",
     flexDirection: "row",
-    fontSize: Dimensions.get("window").width > 330 ? 15 : 12
+    fontSize: Dimensions.get("window").width > 330 ? 15 : 12,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

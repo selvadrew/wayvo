@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     //color: "#fff",
     padding: 10,
-    fontWeight: "900"
+    fontWeight: "900",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

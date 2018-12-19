@@ -5,7 +5,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Image,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import colors from "../../utils/styling";
 
@@ -40,12 +41,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     //#ccdfff
     fontWeight: "bold",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   grayName: {
     color: colors.darkBlue,
     fontWeight: "bold",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

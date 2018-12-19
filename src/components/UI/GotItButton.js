@@ -55,7 +55,8 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     padding: 12,
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

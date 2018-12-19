@@ -9,7 +9,8 @@ import {
   Platform,
   StatusBar,
   Switch,
-  Alert
+  Alert,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -70,7 +71,7 @@ class FriendDetail extends Component {
 
   logoutPrompt = () => {
     Alert.alert(
-      "Are you sure you want to delete this contact?",
+      "Are you sure you want to delete this friend?",
       "",
       [
         {
@@ -114,7 +115,7 @@ class FriendDetail extends Component {
           {/* toggle options here  */}
           <View style={styles.toggleSection}>
             <Text style={styles.toggleText}>
-              Let this contact know when I Say Hello
+              Let this friend know when I Say Hello
             </Text>
           </View>
           <Switch
@@ -127,7 +128,7 @@ class FriendDetail extends Component {
           {/* toggle options here  */}
           <View style={styles.toggleSection}>
             <Text style={styles.toggleText}>
-              Let me know when this contact Says Hello
+              Let me know when this friend Says Hello
             </Text>
           </View>
           <Switch
@@ -139,16 +140,14 @@ class FriendDetail extends Component {
         </View>
 
         <View style={styles.deleteContainer}>
-          <DeleteButton onPress={this.logoutPrompt}>
-            DELETE CONTACT
-          </DeleteButton>
+          <DeleteButton onPress={this.logoutPrompt}>DELETE FRIEND</DeleteButton>
         </View>
 
         {/* <View>
           <Text>
-            Protip: Contacts will not know if you delete them. If you are
-            currently in their contact list, you will still remain in their
-            contact list once you delete them.
+            Protip: Friends will not know if you delete them. If you are
+            currently in their friend list, you will still remain in their
+            friend list once you delete them.
           </Text>
         </View> */}
       </View>
@@ -168,14 +167,16 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 25,
     color: colors.blueColor,
-    textAlign: "center"
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   username: {
     fontWeight: "bold",
     fontSize: 25,
     color: colors.pinkColor,
     textAlign: "center",
-    marginBottom: 25
+    marginBottom: 25,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   deleteButton: {
     alignItems: "center"
@@ -203,9 +204,10 @@ const styles = StyleSheet.create({
     width: "60%"
   },
   toggleText: {
-    fontSize: 18,
+    fontSize: Dimensions.get("window").width > 330 ? 18 : 17,
     color: "#333",
-    paddingLeft: 8
+    paddingLeft: 8,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   switch: {
     marginRight: 8

@@ -4,7 +4,8 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Dimensions
+  Dimensions,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
@@ -32,7 +33,7 @@ class SaidHello extends Component {
             helloStatus = (
               <View>
                 <Text style={styles.successText}>
-                  Hang tight, you will receive a call from the first contact to
+                  Hang tight, you will receive a call from the first friend to
                   Say Hello Back.
                 </Text>
                 <GotIt
@@ -92,7 +93,8 @@ const styles = StyleSheet.create({
     margin: Dimensions.get("window").width > 330 ? 30 : 20,
     fontWeight: "800",
     textAlign: "center",
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

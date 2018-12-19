@@ -109,7 +109,7 @@ class PhoneNumber extends Component {
       <View style={styles.container}>
         <View style={styles.topWrapper}>
           <Text style={styles.topText}>
-            Save your phone number to allow contacts to call you
+            Save your phone number to allow friends to call you
           </Text>
         </View>
         <View style={styles.inputButtonWrapper}>
@@ -160,7 +160,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
-    color: "#444"
+    color: "#444",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   inputButtonWrapper: {
     flex: 5,
@@ -191,7 +192,8 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     fontSize: 18,
-    color: "#333"
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   listItem: {
     fontSize: 16,

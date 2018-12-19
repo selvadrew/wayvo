@@ -20,6 +20,8 @@ import {
   uiStopLoading
 } from "../../store/actions/ui";
 
+import { getActiveFriends } from "../../store/actions/activeFriends";
+
 import SplashScreen from "react-native-splash-screen";
 
 export const outgoingCall = seconds => {
@@ -66,10 +68,17 @@ export const outgoingCall = seconds => {
           dispatch(secondsLeft(seconds_left));
           dispatch(stopLoadingHello(json.is_success));
         } else {
-          dispatch(stopLoadingHello(json.is_success, json.error));
+          if (json.contact_is_live) {
+            dispatch(stopLoadingHello(json.is_success, json.error));
+            dispatch(getActiveFriends());
+            Alert.alert(json.error);
+          } else {
+            dispatch(stopLoadingHello(json.is_success, json.error));
+          }
         }
       })
       .catch(e => {
+        console.log(e);
         dispatch(
           stopLoadingHello(
             false,

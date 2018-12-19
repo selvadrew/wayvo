@@ -145,13 +145,15 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "600",
     textAlign: "center",
-    color: "#444"
+    color: "#444",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   bottomText: {
     fontSize: 18,
     fontWeight: "400",
     textAlign: "center",
-    color: "#555"
+    color: "#555",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   inputButtonWrapper: {
     flex: 5,
