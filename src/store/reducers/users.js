@@ -14,7 +14,12 @@ const initialState = {
   login_error: null,
   phoneNumber: null,
   fullname: null,
-  ios: null
+  ios: null,
+  verified: false,
+  enrollment: null,
+  instagram: null,
+  snapchat: null,
+  twitter: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -50,7 +55,12 @@ const reducer = (state = initialState, action) => {
         fullname: action.fullname,
         phoneNumber: action.phoneNumber,
         username: action.username,
-        ios: action.ios
+        ios: action.ios,
+        verified: action.verified,
+        enrollment: action.enrollment,
+        instagram: action.instagram,
+        snapchat: action.snapchat,
+        twitter: action.twitter
       };
 
     default:

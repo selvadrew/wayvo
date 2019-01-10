@@ -436,28 +436,44 @@ export const savePhoneNumber = phoneNumber => {
   };
 };
 
+// if verified is true, i wont be able to change them back to false
 export const getUserInfo = device => {
   return dispatch => {
     return AsyncStorage.multiGet([
       "pp:fullname",
       "pp:phonenumber",
       "pp:username",
-      "pp:ios"
+      "pp:ios",
+      "pp:verified",
+      "pp:enrollment",
+      "pp:instagram",
+      "pp:snapchat",
+      "pp:twitter",
+      "pp:auth:token"
     ])
       .then(response => {
+        //calls firebase everytime, not ideal
+        dispatch(saveFirebaseToken(response[9][1]));
+
         if (
           response[0][1] &&
           response[1][1] &&
           response[2][1] &&
           response[3][1] &&
-          response[3][1] === device.toString()
+          response[3][1] === device.toString() &&
+          response[4][1] === "true"
         ) {
           dispatch(
             storePhoneNumber(
               response[0][1],
               response[1][1],
               response[2][1],
-              response[3][1]
+              response[3][1],
+              true, //verified
+              response[5][1],
+              response[6][1],
+              response[7][1],
+              response[8][1]
             )
           );
         } else {
@@ -497,11 +513,21 @@ export const getPhoneNumber = device => {
               json.fullname,
               json.phone_number,
               json.username,
-              device.toString()
+              device.toString(),
+              json.verified,
+              json.enrollment,
+              json.instagram,
+              json.snapchat,
+              json.twitter
             )
           );
           AsyncStorage.setItem("pp:fullname", json.fullname);
           AsyncStorage.setItem("pp:ios", device.toString());
+          AsyncStorage.setItem("pp:verified", json.verified.toString());
+          AsyncStorage.setItem("pp:enrollment", json.enrollment);
+          AsyncStorage.setItem("pp:instagram", json.instagram);
+          AsyncStorage.setItem("pp:snapchat", json.snapchat);
+          AsyncStorage.setItem("pp:twitter", json.twitter);
         }
       })
       .catch(e => {
@@ -510,13 +536,28 @@ export const getPhoneNumber = device => {
   };
 };
 
-export function storePhoneNumber(fullname, phoneNumber, username, ios) {
+export function storePhoneNumber(
+  fullname,
+  phoneNumber,
+  username,
+  ios,
+  verified,
+  enrollment,
+  instagram,
+  snapchat,
+  twitter
+) {
   return {
     type: STORE_PHONE_NUMBER,
     fullname,
     phoneNumber,
     username,
-    ios
+    ios,
+    verified,
+    enrollment,
+    instagram,
+    snapchat,
+    twitter
   };
 }
 

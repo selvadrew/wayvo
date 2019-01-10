@@ -17,6 +17,8 @@ import Feedback from "./src/screens/PhoneScreen/Feedback";
 import Mission from "./src/screens/PhoneScreen/Mission";
 import FriendsScreen from "./src/screens/Friends/Friends";
 import FriendSelectedScreen from "./src/screens/Friends/FriendDetail";
+import GroupsScreen from "./src/screens/Groups/Groups";
+import GroupSelectedScreen from "./src/screens/Groups/GroupDetail";
 import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
 import ConnectedStatusScreen from "./src/screens/ActiveFriends/ConnectedStatus";
 import configureStore from "./src/store/configureStore";
@@ -130,6 +132,19 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.FriendSelectedScreen",
   () => FriendSelectedScreen,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.GroupsScreen",
+  () => GroupsScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.GroupSelectedScreen",
+  () => GroupSelectedScreen,
   store,
   Provider
 );

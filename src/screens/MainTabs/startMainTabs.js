@@ -6,7 +6,8 @@ const startTabs = () => {
   Promise.all([
     Icon.getImageSource("ios-people", 35),
     Icon.getImageSource("md-hand", 35),
-    Icon.getImageSource("ios-radio-button-on", 35)
+    Icon.getImageSource("ios-radio-button-on", 35),
+    Icon.getImageSource("ios-school", 35)
   ]).then(sources => {
     Navigation.startTabBasedApp({
       tabs: [
@@ -21,6 +22,12 @@ const startTabs = () => {
           label: "Friends",
           //title: "Friends",
           icon: sources[0]
+        },
+        {
+          screen: "awesome-places.GroupsScreen",
+          label: "Groups",
+          //title: "Friends",
+          icon: sources[3]
         },
         {
           screen: "awesome-places.ActiveFriendsScreen",
