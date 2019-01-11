@@ -32,6 +32,8 @@ import com.facebook.appevents.AppEventsLogger;
 import java.util.Arrays;
 import java.util.List;
 
+import com.imagepicker.ImagePickerPackage;
+
 public class MainApplication extends NavigationApplication {
   private static CallbackManager mCallbackManager = CallbackManager.Factory.create();
 
@@ -50,7 +52,7 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(new VectorIconsPackage(), new FBSDKPackage(mCallbackManager),
         new RNFirebasePackage(), new RNFirebaseMessagingPackage(), new RNFirebaseAnalyticsPackage(),
-        new RNFirebaseNotificationsPackage());
+        new RNFirebaseNotificationsPackage(), new ImagePickerPackage());
   }
 
   @Override

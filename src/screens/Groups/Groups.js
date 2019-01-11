@@ -8,7 +8,10 @@ import {
   RefreshControl,
   Platform,
   StatusBar,
-  SafeAreaView
+  SafeAreaView,
+  Image,
+  Button,
+  Dimensions
 } from "react-native";
 import { connect } from "react-redux";
 
@@ -33,6 +36,11 @@ import {
   friendsFromStorage
 } from "../../store/actions/friends";
 
+// import ImagePicker from "react-native-image-picker";
+// import ImagePickerAndroidWrapper from "../../utils/ImagePickerAndroid";
+
+import ImagePicker from "../../utils/ImagePickerAndroid";
+
 class GroupsScreen extends Component {
   static navigatorStyle = {
     navBarHidden: true,
@@ -42,7 +50,90 @@ class GroupsScreen extends Component {
     super(props);
   }
 
+  state = {
+    pickedImaged: null,
+    rotatePosition: 0
+  };
+
+  pickImageHandler = () => {
+    if (Platform.OS === "ios") {
+      // ios
+      ImagePicker.showImagePicker(
+        { title: "Upload picture of your student ID" },
+        res => {
+          if (res.didCancel) {
+            console.log("User cancelled!");
+          } else if (res.error) {
+            console.log("Error", res.error);
+          } else {
+            this.setState({
+              pickedImaged: { uri: res.uri },
+              rotatePosition: 0
+            });
+            console.log(res.data);
+            //this.props.onImagePicked({uri: res.uri, base64: res.data});
+          }
+        }
+      );
+    } else {
+      // android
+      ImagePicker.launchCamera(
+        { title: "Upload picture of your student ID" },
+        res => {
+          if (res.didCancel) {
+            console.log("User cancelled!");
+          } else if (res.error) {
+            console.log("Error", res.error);
+          } else {
+            this.setState({
+              pickedImaged: { uri: res.uri },
+              rotatePosition: 0
+            });
+            console.log(res.data);
+            //this.props.onImagePicked({uri: res.uri, base64: res.data});
+          }
+        }
+      );
+    }
+  };
+
+  rotateImage = () => {
+    if (this.state.rotatePosition === 3) {
+      this.setState({
+        rotatePosition: 0
+      });
+    } else {
+      this.setState({
+        rotatePosition: this.state.rotatePosition + 1
+      });
+    }
+  };
+
+  getRotation(index) {
+    if (index === 1) {
+      return {
+        transform: [{ rotate: "90deg" }]
+      };
+    } else if (index === 2) {
+      return {
+        transform: [{ rotate: "180deg" }]
+      };
+    } else if (index === 3) {
+      return {
+        transform: [{ rotate: "270deg" }]
+      };
+    } else if (index === 4) {
+      return {
+        transform: [{ rotate: "0deg" }]
+      };
+    }
+  }
+
   render() {
+    let pictureButtonTitle = "Take Picture";
+    if (this.state.pickedImaged) {
+      pictureButtonTitle = "Retake Picture";
+    }
     return (
       <ScrollView
         showsVerticalScrollIndicator={true}
@@ -72,6 +163,28 @@ class GroupsScreen extends Component {
             <View style={styles.friendsHeaderWrapper}>
               <Text style={styles.friendsHeader}>Groups</Text>
             </View>
+          </View>
+
+          <View style={styles.placeholder}>
+            <Image
+              source={this.state.pickedImaged}
+              style={[
+                styles.previewImage,
+                this.getRotation(this.state.rotatePosition)
+              ]}
+            />
+          </View>
+          <View style={styles.button}>
+            <Button
+              title={pictureButtonTitle}
+              onPress={this.pickImageHandler}
+            />
+          </View>
+          <View style={styles.button}>
+            <Button title="Rotate" onPress={this.rotateImage} />
+          </View>
+          <View style={styles.button}>
+            <Button title="Upload" onPress={this.rotateImage} />
           </View>
 
           <DropdownAlert
@@ -127,6 +240,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blueColor,
     width: "100%"
   },
+  placeholder: {
+    borderWidth: 1,
+    borderColor: "black",
+    backgroundColor: "#eee",
+    // width: "100%",
+    height: Dimensions.get("window").width
+  },
+  button: {
+    margin: 8
+  },
+  previewImage: {
+    width: "100%",
+    height: Dimensions.get("window").width,
+    resizeMode: "contain"
+  },
   searchBar: {
     width: "100%"
   },
@@ -138,9 +266,9 @@ const styles = StyleSheet.create({
     margin: 20
   },
   friendsHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
+    // flexDirection: "row",
+    // alignItems: "center",
+    // width: "100%",
     color: colors.yellowColor,
     fontWeight: "900",
     fontSize: 25,
