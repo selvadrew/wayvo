@@ -7,13 +7,15 @@ import friendsReducer from "./reducers/friends";
 import activeFriendsReducer from "./reducers/activeFriends";
 import uiReducer from "./reducers/ui";
 import outgoingReducer from "./reducers/outgoingCalls";
+import groupsReducer from "./reducers/groups";
 
 const rootReducer = combineReducers({
   users: usersReducer,
   friends: friendsReducer,
   active_friends: activeFriendsReducer,
   ui: uiReducer,
-  outgoing: outgoingReducer
+  outgoing: outgoingReducer,
+  groups: groupsReducer
 });
 
 let composeEnhancers = compose;

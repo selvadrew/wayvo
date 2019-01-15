@@ -14,18 +14,7 @@ import {
   Dimensions
 } from "react-native";
 import { connect } from "react-redux";
-
-import FriendsList from "../../components/FriendsList/FriendsList";
-import FriendRequests from "../../components/FriendsList/FriendRequests";
-
-import SearchBar from "../../components/SearchBar/SearchBar";
 import colors from "../../utils/styling";
-
-import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice";
-
-import Toast, { DURATION } from "react-native-easy-toast";
-
-import DropdownAlert from "react-native-dropdownalert";
 
 import {
   addFriend,
@@ -36,10 +25,10 @@ import {
   friendsFromStorage
 } from "../../store/actions/friends";
 
-// import ImagePicker from "react-native-image-picker";
-// import ImagePickerAndroidWrapper from "../../utils/ImagePickerAndroid";
-
-import ImagePicker from "../../utils/ImagePickerAndroid";
+import GroupExplanation from "./GroupExplanation";
+import GroupsUploadPicture from "./GroupUploadPicture";
+import GroupSelectUniversity from "./GroupSelectUniversity";
+import GroupFinishedApplication from "./GroupFinishedApplication";
 
 class GroupsScreen extends Component {
   static navigatorStyle = {
@@ -51,89 +40,29 @@ class GroupsScreen extends Component {
   }
 
   state = {
-    pickedImaged: null,
-    rotatePosition: 0
+    // applicationStep: 0
   };
 
-  pickImageHandler = () => {
-    if (Platform.OS === "ios") {
-      // ios
-      ImagePicker.showImagePicker(
-        { title: "Upload picture of your student ID" },
-        res => {
-          if (res.didCancel) {
-            console.log("User cancelled!");
-          } else if (res.error) {
-            console.log("Error", res.error);
-          } else {
-            this.setState({
-              pickedImaged: { uri: res.uri },
-              rotatePosition: 0
-            });
-            console.log(res.data);
-            //this.props.onImagePicked({uri: res.uri, base64: res.data});
-          }
-        }
-      );
-    } else {
-      // android
-      ImagePicker.launchCamera(
-        { title: "Upload picture of your student ID" },
-        res => {
-          if (res.didCancel) {
-            console.log("User cancelled!");
-          } else if (res.error) {
-            console.log("Error", res.error);
-          } else {
-            this.setState({
-              pickedImaged: { uri: res.uri },
-              rotatePosition: 0
-            });
-            console.log(res.data);
-            //this.props.onImagePicked({uri: res.uri, base64: res.data});
-          }
-        }
-      );
-    }
+  handleChildClick = () => {
+    alert("hi");
   };
-
-  rotateImage = () => {
-    if (this.state.rotatePosition === 3) {
-      this.setState({
-        rotatePosition: 0
-      });
-    } else {
-      this.setState({
-        rotatePosition: this.state.rotatePosition + 1
-      });
-    }
-  };
-
-  getRotation(index) {
-    if (index === 1) {
-      return {
-        transform: [{ rotate: "90deg" }]
-      };
-    } else if (index === 2) {
-      return {
-        transform: [{ rotate: "180deg" }]
-      };
-    } else if (index === 3) {
-      return {
-        transform: [{ rotate: "270deg" }]
-      };
-    } else if (index === 4) {
-      return {
-        transform: [{ rotate: "0deg" }]
-      };
-    }
-  }
 
   render() {
-    let pictureButtonTitle = "Take Picture";
-    if (this.state.pickedImaged) {
-      pictureButtonTitle = "Retake Picture";
+    //would check if verified or submitted is true
+    //if verified or submitted show none of the beloce
+    //if not verified and submitted, show submitted screen instead
+
+    let screen = null;
+    if (this.props.group_state === 0) {
+      screen = <GroupExplanation />;
+    } else if (this.props.group_state === 1) {
+      screen = <GroupsUploadPicture />;
+    } else if (this.props.group_state === 2) {
+      screen = <GroupSelectUniversity />;
+    } else if (this.props.group_state === 3) {
+      screen = <GroupFinishedApplication />;
     }
+
     return (
       <ScrollView
         showsVerticalScrollIndicator={true}
@@ -153,57 +82,7 @@ class GroupsScreen extends Component {
             barStyle="light-content"
             backgroundColor={colors.blueColor}
           />
-
-          {/* <SearchBar
-            searchUsername={this.searchUsernameHandler}
-            style={styles.searchBar}
-          /> */}
-
-          <View style={styles.friends}>
-            <View style={styles.friendsHeaderWrapper}>
-              <Text style={styles.friendsHeader}>Groups</Text>
-            </View>
-          </View>
-
-          <View style={styles.placeholder}>
-            <Image
-              source={this.state.pickedImaged}
-              style={[
-                styles.previewImage,
-                this.getRotation(this.state.rotatePosition)
-              ]}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button
-              title={pictureButtonTitle}
-              onPress={this.pickImageHandler}
-            />
-          </View>
-          <View style={styles.button}>
-            <Button title="Rotate" onPress={this.rotateImage} />
-          </View>
-          <View style={styles.button}>
-            <Button title="Upload" onPress={this.rotateImage} />
-          </View>
-
-          <DropdownAlert
-            ref={ref => (this.dropdown = ref)}
-            inactiveStatusBarStyle="light-content"
-            inactiveStatusBarBackgroundColor={colors.blueColor}
-            successColor={colors.greenColor}
-            infoColor="#313131"
-            successImageSrc={null}
-            infoImageSrc={null}
-            messageStyle={{
-              fontSize: 17,
-              textAlign: "center",
-              fontWeight: "bold",
-              color: "white",
-              backgroundColor: "transparent"
-            }}
-            closeInterval={3500}
-          />
+          {screen}
         </SafeAreaView>
       </ScrollView>
     );
@@ -212,14 +91,7 @@ class GroupsScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    friends: state.friends.friends,
-    friend_requests: state.friends.friend_requests,
-    new_friend: state.friends.new_friend,
-    show_response: state.friends.show_response,
-    deleted_friend: state.friends.deleted_friend,
-    deleted_response: state.friends.deleted_response,
-    isLoadingFriends: state.ui.isLoadingFriends,
-    isLoading: state.ui.isLoading
+    group_state: state.groups.group_state
   };
 };
 
