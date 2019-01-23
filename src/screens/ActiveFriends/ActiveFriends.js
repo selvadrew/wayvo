@@ -51,7 +51,7 @@ class ActiveFriendsScreen extends Component {
     //changes tab to active friends ifmsomeone is active
     if (this.props.active_friends.length > 0) {
       this.props.navigator.switchToTab({
-        tabIndex: 2
+        tabIndex: 3
       });
     }
 
@@ -89,7 +89,7 @@ class ActiveFriendsScreen extends Component {
           {/* <OfflineNotice /> */}
           <View style={styles.friends}>
             <View style={styles.friendsHeaderWrapper}>
-              <Text style={styles.friendsHeader}>Live Friends</Text>
+              <Text style={styles.friendsHeader}>Live Friends and Groups</Text>
             </View>
             <CallStatus
               friends={this.props.active_friends}

@@ -8,7 +8,9 @@ import {
   START_LOADING_ACTIVITY,
   STOP_LOADING_ACTIVITY,
   START_LOADING_HELLO,
-  STOP_LOADING_HELLO
+  STOP_LOADING_HELLO,
+  START_LOADING_GROUPS,
+  STOP_LOADING_GROUPS
 } from "./actionTypes";
 
 export const uiStartLoading = () => {
@@ -70,5 +72,17 @@ export const stopLoadingHello = (is_success, error) => {
     type: STOP_LOADING_HELLO,
     is_success,
     error
+  };
+};
+
+export const startLoadingGroups = () => {
+  return {
+    type: START_LOADING_GROUPS
+  };
+};
+
+export const stopLoadingGroups = () => {
+  return {
+    type: STOP_LOADING_GROUPS
   };
 };

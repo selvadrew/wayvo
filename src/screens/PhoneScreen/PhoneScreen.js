@@ -124,7 +124,7 @@ class PhoneScreen extends Component {
         //outgoing call notification
         if (notification.data.outgoing) {
           this.props.navigator.switchToTab({
-            tabIndex: 2
+            tabIndex: 3
           });
         }
 
@@ -161,7 +161,7 @@ class PhoneScreen extends Component {
           //outgoing call notification
           if (notification.data.outgoing) {
             this.props.navigator.switchToTab({
-              tabIndex: 2
+              tabIndex: 3
             });
           }
 

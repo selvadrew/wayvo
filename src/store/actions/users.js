@@ -454,7 +454,6 @@ export const getUserInfo = device => {
       .then(response => {
         //calls firebase everytime, not ideal
         dispatch(saveFirebaseToken(response[9][1]));
-
         if (
           response[0][1] &&
           response[1][1] &&
@@ -473,7 +472,8 @@ export const getUserInfo = device => {
               response[5][1],
               response[6][1],
               response[7][1],
-              response[8][1]
+              response[8][1],
+              true // submitted by default cause already verified
             )
           );
         } else {
@@ -518,16 +518,18 @@ export const getPhoneNumber = device => {
               json.enrollment,
               json.instagram,
               json.snapchat,
-              json.twitter
+              json.twitter,
+              json.submitted
             )
           );
           AsyncStorage.setItem("pp:fullname", json.fullname);
           AsyncStorage.setItem("pp:ios", device.toString());
           AsyncStorage.setItem("pp:verified", json.verified.toString());
-          AsyncStorage.setItem("pp:enrollment", json.enrollment);
+          AsyncStorage.setItem("pp:enrollment", json.enrollment.toString());
           AsyncStorage.setItem("pp:instagram", json.instagram);
           AsyncStorage.setItem("pp:snapchat", json.snapchat);
           AsyncStorage.setItem("pp:twitter", json.twitter);
+          AsyncStorage.setItem("pp:submitted", json.submitted.toString());
         }
       })
       .catch(e => {
@@ -545,7 +547,8 @@ export function storePhoneNumber(
   enrollment,
   instagram,
   snapchat,
-  twitter
+  twitter,
+  submitted
 ) {
   return {
     type: STORE_PHONE_NUMBER,
@@ -557,7 +560,8 @@ export function storePhoneNumber(
     enrollment,
     instagram,
     snapchat,
-    twitter
+    twitter,
+    submitted
   };
 }
 

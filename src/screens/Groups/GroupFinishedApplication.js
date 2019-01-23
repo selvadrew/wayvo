@@ -17,9 +17,8 @@ import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import DropdownAlert from "react-native-dropdownalert";
 
-import ImagePicker from "../../utils/ImagePickerAndroid";
-import { RNS3 } from "react-native-aws3";
 import { changeGroupState } from "../../store/actions/groups";
+import Icon from "react-native-vector-icons/Ionicons";
 
 class GroupFinishedApplication extends Component {
   static navigatorStyle = {
@@ -30,16 +29,21 @@ class GroupFinishedApplication extends Component {
     super(props);
   }
 
-  state = {
-    pickedImaged: null,
-    rotatePosition: 0
-  };
-
   render() {
     return (
-      <View>
-        <Text>finished</Text>
-        {/* <Button title="sup" onPress={this.props.onChangeGroupState(3)} /> */}
+      <View style={styles.container}>
+        <Text style={styles.subTitle}>Status: Waiting for Approval</Text>
+        {/* <View>
+          <Icon
+            size={70}
+            name="ios-checkmark-circle-outline"
+            color={colors.greenColor}
+          />
+        </View> */}
+        <Text style={styles.paragrapgh}>
+          Thank you for your submission, you will receive a notification once
+          your profile is approved.
+        </Text>
       </View>
     );
   }
@@ -59,52 +63,34 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
   container: {
-    //padding: 20,
-    backgroundColor: colors.blueColor,
-    width: "100%"
+    padding: 20,
+    flex: 1,
+    flexDirection: "column"
   },
-  placeholder: {
-    borderWidth: 1,
-    borderColor: "black",
-    backgroundColor: "#eee",
-    // width: "100%",
-    height: Dimensions.get("window").width
-  },
-  button: {
-    margin: 8
-  },
-  previewImage: {
-    width: "100%",
-    height: Dimensions.get("window").width,
-    resizeMode: "contain"
-  },
-  searchBar: {
-    width: "100%"
-  },
-  friendRequests: {
-    margin: 20,
-    marginTop: 40
-  },
-  friends: {
-    margin: 20
-  },
-  friendsHeader: {
-    // flexDirection: "row",
-    // alignItems: "center",
-    // width: "100%",
+  title: {
     color: colors.yellowColor,
-    fontWeight: "900",
-    fontSize: 25,
-    padding: 10,
-    letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    textAlign: "center",
+    fontWeight: "800",
+    fontSize: 25
   },
-  friendsHeaderWrapper: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee"
+  subTitle: {
+    color: colors.yellowColor,
+    textAlign: "center",
+    fontWeight: "500",
+    fontSize: 23
   },
-  requestsHeader: {
-    color: colors.yellowColor
+  paragrapgh: {
+    color: "#fff",
+    fontSize: 21,
+    marginTop: 20,
+    fontWeight: "500"
+  },
+  bulletPoint: {
+    color: "#fff",
+    fontSize: 21,
+    fontWeight: "500",
+    paddingLeft: 20,
+    marginTop: 10
   }
 });
 

@@ -6,7 +6,8 @@ const startTabs = () => {
   Promise.all([
     Icon.getImageSource("ios-people", 35),
     Icon.getImageSource("md-hand", 35),
-    Icon.getImageSource("ios-radio-button-on", 35),
+    // Icon.getImageSource("ios-radio-button-on", 35),
+    Icon.getImageSource("ios-flash", 35),
     Icon.getImageSource("ios-school", 35)
   ]).then(sources => {
     Navigation.startTabBasedApp({

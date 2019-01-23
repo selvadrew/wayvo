@@ -8,7 +8,9 @@ import {
   START_LOADING_ACTIVITY,
   STOP_LOADING_ACTIVITY,
   START_LOADING_HELLO,
-  STOP_LOADING_HELLO
+  STOP_LOADING_HELLO,
+  START_LOADING_GROUPS,
+  STOP_LOADING_GROUPS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -18,7 +20,8 @@ const initialState = {
   isLoadingActivity: false,
   isLoadingHello: false,
   saidHello: false,
-  error: null
+  error: null,
+  isLoadingGroups: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -78,6 +81,17 @@ const reducer = (state = initialState, action) => {
         saidHello: action.is_success,
         isLoadingHello: false,
         error: action.error
+      };
+
+    case START_LOADING_GROUPS:
+      return {
+        ...state,
+        isLoadingGroups: true
+      };
+    case STOP_LOADING_GROUPS:
+      return {
+        ...state,
+        isLoadingGroups: false
       };
 
     default:

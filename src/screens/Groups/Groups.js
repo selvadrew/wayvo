@@ -11,24 +11,19 @@ import {
   SafeAreaView,
   Image,
   Button,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
-
-import {
-  addFriend,
-  getFriends,
-  getFriendRequests,
-  refreshFriendRequests,
-  rejectFriend,
-  friendsFromStorage
-} from "../../store/actions/friends";
 
 import GroupExplanation from "./GroupExplanation";
 import GroupsUploadPicture from "./GroupUploadPicture";
 import GroupSelectUniversity from "./GroupSelectUniversity";
 import GroupFinishedApplication from "./GroupFinishedApplication";
+import { changeGroupState } from "../../store/actions/groups";
+import { getUserInfo } from "../../store/actions/users";
+import GroupMainScreen from "./GroupMainScreen";
 
 class GroupsScreen extends Component {
   static navigatorStyle = {
@@ -39,8 +34,28 @@ class GroupsScreen extends Component {
     super(props);
   }
 
+  // once verified, itll show verified even if app loads with no internet
+  componentDidMount() {
+    return AsyncStorage.multiGet(["pp:verified", "pp:submitted"]).then(
+      response => {
+        if (response[0][1] === "true") {
+          this.setState({
+            verified: true
+          });
+        }
+        if (response[1][1] === "true") {
+          this.setState({
+            submitted: true
+          });
+        }
+      }
+    );
+  }
+
   state = {
-    // applicationStep: 0
+    verified: null,
+    submitted: null,
+    hackLoading: false
   };
 
   handleChildClick = () => {
@@ -53,14 +68,51 @@ class GroupsScreen extends Component {
     //if not verified and submitted, show submitted screen instead
 
     let screen = null;
-    if (this.props.group_state === 0) {
-      screen = <GroupExplanation />;
-    } else if (this.props.group_state === 1) {
-      screen = <GroupsUploadPicture />;
-    } else if (this.props.group_state === 2) {
-      screen = <GroupSelectUniversity />;
-    } else if (this.props.group_state === 3) {
-      screen = <GroupFinishedApplication />;
+    let refresh = null;
+    let checkVerified = (
+      <RefreshControl
+        refreshing={this.state.hackLoading}
+        onRefresh={() => {
+          //fake loader
+          this.setState({
+            hackLoading: true
+          });
+          setTimeout(() => {
+            this.setState({
+              hackLoading: false
+            });
+          }, 1000);
+
+          if (Platform.OS === "ios") {
+            this.props.getUserInfo(true);
+          } else {
+            this.props.getUserInfo(false);
+          }
+        }}
+      />
+    );
+    if (this.props.verified === true || this.state.verified) {
+      screen = <GroupMainScreen />;
+      refresh = checkVerified;
+    } else {
+      if (
+        this.props.submitted ||
+        (this.props.submitted === null && this.state.submitted) // if not connected to internet and is submitted
+      ) {
+        screen = <GroupFinishedApplication />;
+        refresh = checkVerified;
+      } else {
+        if (this.props.group_state === 0) {
+          screen = <GroupExplanation />;
+        } else if (this.props.group_state === 2) {
+          screen = <GroupsUploadPicture />;
+        } else if (this.props.group_state === 1) {
+          screen = <GroupSelectUniversity />;
+        } else if (this.props.group_state === 3) {
+          screen = <GroupFinishedApplication />;
+          refresh = checkVerified;
+        }
+      }
     }
 
     return (
@@ -70,12 +122,7 @@ class GroupsScreen extends Component {
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="always"
         style={styles.container}
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={this.props.isLoading}
-        //     onRefresh={() => this.props.onLoadFriendRequests()}
-        //   />
-        // }
+        refreshControl={refresh}
       >
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.blueColor }}>
           <StatusBar
@@ -91,18 +138,16 @@ class GroupsScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    group_state: state.groups.group_state
+    group_state: state.groups.group_state,
+    submitted: state.users.submitted,
+    verified: state.users.verified
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onCheckUsername: username => dispatch(addFriend(username)),
-    onLoadFriends: () => dispatch(getFriends()),
-    friendsFromStorage: () => dispatch(friendsFromStorage()),
-    onLoadFriendRequests: () => dispatch(getFriendRequests()),
-    onRefreshRequests: username => dispatch(refreshFriendRequests(username)),
-    onRejectFriend: id => dispatch(rejectFriend(id))
+    onChangeGroupState: position => dispatch(changeGroupState(position)),
+    getUserInfo: ios => dispatch(getUserInfo(ios))
   };
 };
 
