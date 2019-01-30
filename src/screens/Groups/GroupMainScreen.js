@@ -19,6 +19,7 @@ import colors from "../../utils/styling";
 import DropdownAlert from "react-native-dropdownalert";
 import GotIt from "../../components/UI/GotItButton";
 import AddButton from "../../components/UI/AddButton";
+import GroupsList from "../../components/GroupsList/GroupsList";
 
 class GroupMainScreen extends Component {
   static navigatorStyle = {
@@ -29,6 +30,10 @@ class GroupMainScreen extends Component {
     super(props);
   }
 
+  groupsSelectedHandler = id => {
+    alert(id);
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -38,14 +43,16 @@ class GroupMainScreen extends Component {
             <AddButton
               onPress={() =>
                 Alert.alert(
-                  "Sorry, you cannot join or create new groups at your school yet. It will be available September 2019."
+                  "You cannot join or create new groups at your school yet. It will be available September 2019."
                 )
               }
             />
           </View>
-
-          {/* {friends} */}
         </View>
+        <GroupsList
+          groups={this.props.userGroups}
+          onItemSelected={this.groupsSelectedHandler}
+        />
       </View>
     );
   }
@@ -53,7 +60,9 @@ class GroupMainScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoadingGroups: state.ui.isLoadingGroups
+    isLoadingGroups: state.ui.isLoadingGroups,
+    userGroups: state.groups.userGroups,
+    enrolledUniversity: state.groups.enrolledUniversity
   };
 };
 
@@ -65,13 +74,14 @@ const mapDispatchToProps = dispatch => {
 
 const styles = StyleSheet.create({
   container: {
-    //padding: 20,
+    padding: 20,
+    paddingTop: 10,
     flex: 1,
     flexDirection: "column"
   },
   friends: {
-    margin: 10,
-    marginHorizontal: 20
+    //margin: 10
+    //marginHorizontal: 20
   },
   friendsHeader: {
     // flexDirection: "row",

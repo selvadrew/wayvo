@@ -57,7 +57,8 @@ class HowItWorks extends Component {
         />
         <View>
           <Text style={styles.text}>
-            When you Say Hello, all your selected friends receive a notification
+            When you Say Hello, all your friends or group members receive a
+            notification
           </Text>
         </View>
 
@@ -67,7 +68,7 @@ class HowItWorks extends Component {
         />
         <View>
           <Text style={styles.text}>
-            The first friend to Say Hello Back before time expires gets to call
+            The first person to Say Hello Back before time expires gets to call
             you
           </Text>
         </View>
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 22 : 17,
     color: "#222",
     letterSpacing: 1,
-    textAlign: "center",
+    //textAlign: "center",
     marginBottom: 50,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   }

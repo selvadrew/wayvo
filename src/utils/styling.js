@@ -7,6 +7,7 @@ const colors = {
   blueColor: "#039be5",
   usernameColor: "#ffffff",
   pinkColor: "#f50057",
+  // pinkColor: "#ff3f3f",
   greenColor: "#40D08A",
   darkBlue: "#0088CA"
 };

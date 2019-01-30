@@ -15,11 +15,23 @@ const GotIt = props => {
     <View style={[styles.button]}>
       <View
         style={[
-          { backgroundColor: props.backgroundColor, minWidth: props.minWidth },
+          {
+            backgroundColor: props.backgroundColor,
+            minWidth: props.minWidth,
+            width: props.width
+          },
           styles.textWrapper
         ]}
       >
-        <Text style={[{ color: props.color }, styles.text]}>
+        <Text
+          style={[
+            styles.text,
+            {
+              color: props.color,
+              fontSize: props.fontSize ? props.fontSize : 20
+            }
+          ]}
+        >
           {props.children}
         </Text>
       </View>

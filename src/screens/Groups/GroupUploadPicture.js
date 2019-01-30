@@ -226,11 +226,13 @@ class GroupUploadPicture extends Component {
       placeholder = (
         <View style={styles.placeholderBlank}>
           <Text style={styles.uploadExplanation}>
-            For the final step, upload a selfie of yourself holding your student
-            ID next to your face, like the picture below. We will use this photo
-            to verify your identity and enrollment at your university.{"\n"}
+            Upload a selfie of yourself holding your student ID next to your
+            face.
             <Text style={styles.learnMore} onPress={() => alert("hi")}>
-              Learn more...
+              {" "}
+              Learn more
+              {/* We will use this photo to verify your
+            identity and enrollment at your university.{"\n"} */}
             </Text>
           </Text>
 
@@ -294,9 +296,7 @@ class GroupUploadPicture extends Component {
               : styles.headerWrapper
           ]}
         >
-          <Text style={styles.header}>
-            Upload selfie with student ID to get verified
-          </Text>
+          <Text style={styles.header}>Identity Verification</Text>
         </View>
         {placeholder}
       </View>

@@ -422,7 +422,6 @@ export const savePhoneNumber = phoneNumber => {
             startTabs();
             dispatch(uiStopLoading());
           }, 1000);
-          //dispatch(storePhoneNumber(phoneNumber));
           AsyncStorage.setItem("pp:phonenumber", phoneNumber);
         } else {
           alert(json.error);

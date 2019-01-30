@@ -2,7 +2,8 @@ import {
   CHANGE_GROUP_STATE,
   SET_UNIVERSITIES,
   SET_PROGRAMS,
-  CACHE_CONTINUE
+  CACHE_CONTINUE,
+  SET_USER_GROUPS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -10,7 +11,9 @@ const initialState = {
   universities: null,
   programs: null,
   programId: null,
-  startYear: null
+  startYear: null,
+  enrolledUniversity: null,
+  userGroups: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -35,6 +38,12 @@ const reducer = (state = initialState, action) => {
         ...state,
         programId: action.programId,
         startYear: action.startYear
+      };
+    case SET_USER_GROUPS:
+      return {
+        ...state,
+        enrolledUniversity: action.enrolledUniversity,
+        userGroups: action.userGroups
       };
     default:
       return state;

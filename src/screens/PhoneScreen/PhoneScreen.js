@@ -16,7 +16,8 @@ import {
   SafeAreaView,
   Alert,
   NetInfo,
-  Image
+  Image,
+  Animated
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -29,6 +30,7 @@ import {
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getFriendRequests } from "../../store/actions/friends";
 import { getPhoneNumber, getUserInfo } from "../../store/actions/users";
+import { getUserGroups } from "../../store/actions/groups";
 import colors from "../../utils/styling";
 import CountDown from "react-native-countdown-component";
 
@@ -197,16 +199,6 @@ class PhoneScreen extends Component {
         SplashScreen.hide();
       }, 2500);
     }
-    if (Platform.OS === "ios") {
-      setTimeout(() => {
-        this.onSliderAutoScroll();
-      }, 2800);
-    }
-    if (Platform.OS === "android") {
-      setTimeout(() => {
-        this.onSliderAutoScroll();
-      }, 400);
-    }
 
     AsyncStorage.getItem("tour").then(tourStatus => {
       if (tourStatus === "finished") {
@@ -219,6 +211,8 @@ class PhoneScreen extends Component {
         });
       }
     });
+
+    this.props.getUserGroups();
 
     // alert(Dimensions.get("window").height);
   } //did mount end
@@ -283,19 +277,6 @@ class PhoneScreen extends Component {
     statusBarColor: "#0088CA"
   };
 
-  // static navigatorButtons = {
-  //   rightButtons: [
-  //     {
-  //       title: "Wayvo", // for a textual button, provide the button title (label)
-  //       id: "sideMenu", // id for this button, given in onNavigatorEvent(event) to help understand which button was clicked
-  //       //showAsAction: "always",
-  //       buttonColor: "#fff", // Optional, iOS only. Set color for the button (can also be used in setButtons function to set different button style programatically)
-  //       buttonFontSize: 18, // Set font size for the button (can also be used in setButtons function to set different button style programatically)
-  //       buttonFontWeight: "600" // Set font weight for the button (can also be used in setButtons function to set different button style programatically)
-  //     }
-  //   ]
-  // };
-
   constructor(props) {
     super(props);
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
@@ -333,8 +314,6 @@ class PhoneScreen extends Component {
             this.setState({
               notificationsEnabled: false
             });
-
-            //Linking.openURL("app-settings:");
           });
 
         //// end permissions
@@ -347,25 +326,17 @@ class PhoneScreen extends Component {
     notificationsEnabled: true,
     androidNotificationsEnabled: true,
     tapped: 2,
-    sliderValue: 10
+    sliderValue: 10,
+    helloAnim: new Animated.Value(0),
+    catchUp: false,
+    newFriend: false,
+    iconCatchUp: false,
+    iconNewFriend: false
   };
-
-  onSliderAutoScroll = () => {
-    if (this.state.sliderValue !== 20) {
-      setTimeout(() => {
-        this.setState({
-          sliderValue: this.state.sliderValue + 1
-        });
-        this.onSliderAutoScroll();
-      }, 90);
-    }
-  };
-
-  onSliderChange = chosenValue => {
-    this.setState({
-      sliderValue: chosenValue
-    });
-  };
+  // catchUp: false,
+  // newFriend: false,
+  // iconCatchUp: true,
+  // iconNewFriend: true
 
   changeTime = () => {
     if (this.state.timeSelected === 3) {
@@ -397,8 +368,40 @@ class PhoneScreen extends Component {
     });
   };
 
+  helloAnimation = () => {
+    Animated.timing(this.state.helloAnim, {
+      toValue: 1,
+      duration: 1600
+    }).start();
+  };
+
+  catchUp = () => {
+    this.setState({
+      catchUp: true,
+      newFriend: false,
+      iconCatchUp: true,
+      iconNewFriend: false
+    });
+    this.helloAnimation();
+  };
+
+  newFriend = () => {
+    this.setState({
+      catchUp: false,
+      newFriend: true,
+      iconCatchUp: false,
+      iconNewFriend: true
+    });
+    this.helloAnimation();
+  };
+
+  sayHello = () => {
+    if (this.state.catchUp || this.state.newFriend) {
+      alert("hi");
+    }
+  };
+
   render() {
-    let select = null;
     let button = null;
     let content = null;
     let activeSign = null;
@@ -410,13 +413,14 @@ class PhoneScreen extends Component {
     let learnMore = null;
     let endTour = null;
     const timeOptions = [5, 15, 30, 60];
+    let toWho = null;
 
-    select = (
-      <Text style={styles.timeNumber}>
-        {/* {timeOptions[this.state.timeSelected]} minutes */}
-        {this.state.sliderValue} minutes
-      </Text>
-    );
+    if (this.state.catchUp) {
+      toWho = <Text>to all my selected friends</Text>;
+    }
+    if (this.state.newFriend) {
+      toWho = <Text>to everyone in my program</Text>;
+    }
 
     if (this.props.connected_with) {
       connectedName = (
@@ -432,42 +436,91 @@ class PhoneScreen extends Component {
       if (this.props.seconds_left === null || this.props.can_say_hello) {
         button = (
           <View style={styles.wrapper}>
-            <TouchableWithoutFeedback
-              style={styles.button}
-              onPress={this.changeTime}
-            >
-              <View style={styles.timeWrapper}>
-                <Text style={styles.timeText}>
-                  The first friend to Say Hello Back within {select} can call me
-                  {/* Receive a call from the first friend to Say Hello back within{" "}
-                  {select} */}
-                </Text>
-                <Slider
-                  value={this.state.sliderValue}
-                  minimumValue={10}
-                  maximumValue={60}
-                  step={1}
-                  onValueChange={this.onSliderChange}
-                  minimumTrackTintColor={colors.yellowColor}
-                  maximumTrackTintColor={colors.blueColor}
-                  thumbTintColor={colors.yellowColor}
-                  style={{ marginTop: 3, marginLeft: 12, marginRight: 12 }}
-
-                  // thumbStyle={{ borderColor: colors.greenColor, borderWidth: 2 }}
-                />
-              </View>
-            </TouchableWithoutFeedback>
-
-            {/* Choose how long you want to be active  */}
+            <View style={styles.timeWrapper}>
+              <Text style={styles.timeText}>How do you want to connect?</Text>
+            </View>
 
             <View style={styles.hello}>
-              <HelloButton
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.catchUp();
+                }}
+              >
+                <View style={styles.selectionBox}>
+                  <View
+                    style={[
+                      styles.leftBox,
+                      styles.selectionBox1,
+                      this.state.iconCatchUp ? styles.goPink : styles.default
+                    ]}
+                  >
+                    <Icon size={50} name="ios-people" color="#fff" />
+                  </View>
+                  <View
+                    style={[
+                      styles.rightBox1,
+                      this.state.catchUp ? styles.goPink : null
+                    ]}
+                  >
+                    <Text style={styles.rightText1}>
+                      Catch up with a friend
+                    </Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.newFriend();
+                }}
+              >
+                <View style={styles.selectionBox}>
+                  <View
+                    style={[
+                      styles.leftBox,
+                      styles.selectionBox2,
+                      this.state.iconNewFriend ? null : styles.default
+                    ]}
+                  >
+                    <Icon size={50} name="ios-school" color="#fff" />
+                  </View>
+                  <View
+                    style={[
+                      styles.rightBox2,
+                      this.state.newFriend ? styles.goGreen : null
+                    ]}
+                  >
+                    <Text style={[styles.rightText]}>Make a new friend</Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+
+              {/* <HelloButton
                 color={colors.yellowColor}
                 onPress={() => this.callbutton()}
-              />
+              /> */}
             </View>
+            <Animated.View
+              style={[
+                styles.newHelloWrapper,
+                { opacity: this.state.helloAnim }
+              ]}
+            >
+              <GotIt
+                onPress={() => this.sayHello()}
+                backgroundColor={colors.yellowColor}
+                color="#333"
+                fontSize={25}
+                width="80%"
+              >
+                SAY HELLO
+              </GotIt>
+            </Animated.View>
+            <Text style={styles.lastConnected}>{toWho}</Text>
           </View>
         );
+        // button finishes here - button is actually all of main wave screen
+
         if (Platform.OS === "ios") {
           if (this.state.notificationsEnabled) {
             activeInfo = (
@@ -635,7 +688,8 @@ class PhoneScreen extends Component {
             {activeSign}
             {button}
 
-            {activeInfo}
+            {/* active info includes last connected with and request to turn on notifications - include this in live screen */}
+            {/* {activeInfo} */}
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -647,6 +701,83 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0088CA"
+  },
+  selectionBox: {
+    margin: 10,
+    borderWidth: 0,
+    borderColor: colors.pinkColor,
+    width: "80%",
+    //height: "80%",
+    maxHeight: 110,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderRadius: 10,
+    overflow: "hidden"
+  },
+  leftBox: {
+    height: "100%",
+    width: "25%",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRightColor: colors.blueColor,
+    borderRightWidth: 2
+    //backgroundColor: colors.pinkColor
+  },
+  selectionBox1: {
+    backgroundColor: colors.pinkColor
+    // backgroundColor: "rgb(255, 90, 95)"
+  },
+  selectionBox2: {
+    backgroundColor: colors.greenColor
+  },
+  rightBox1: {
+    height: "100%",
+    width: "75%",
+    flexDirection: "column",
+    justifyContent: "center",
+    // alignItems: "center"
+    backgroundColor: colors.darkBlue
+  },
+  rightBox2: {
+    height: "100%",
+    width: "75%",
+    flexDirection: "column",
+    justifyContent: "center",
+    // alignItems: "center"
+    backgroundColor: colors.darkBlue
+  },
+  default: {
+    backgroundColor: colors.darkBlue
+  },
+  goPink: {
+    // backgroundColor: colors.pinkColor
+    backgroundColor: "#EF5350"
+  },
+  goGreen: {
+    backgroundColor: colors.greenColor
+  },
+  rightText: {
+    fontSize: 28,
+    color: "#fff",
+    letterSpacing: 1,
+    fontWeight: "500",
+    paddingHorizontal: 15
+  },
+  rightText1: {
+    fontSize: 28,
+    color: "#fff",
+    letterSpacing: 1,
+    fontWeight: "500",
+    paddingHorizontal: 15
+  },
+  newHelloWrapper: {
+    flex: 1,
+    justifyContent: "flex-end",
+    marginBottom: 5,
+    width: "100%"
   },
   navBarWrapper: {
     height: 70,
@@ -677,7 +808,7 @@ const styles = StyleSheet.create({
   hello: {
     alignItems: "center",
     justifyContent: "center",
-    flex: 1,
+    flex: 2,
     width: "100%"
   },
   helloDescription: {
@@ -839,9 +970,10 @@ const styles = StyleSheet.create({
     width: "100%"
   },
   timeText: {
-    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
-    fontWeight: "700",
-    color: "white",
+    fontSize: Dimensions.get("window").width > 330 ? 24 : 19,
+    fontWeight: "400",
+    // color: colors.yellowColor,
+    color: "#fff",
     textAlign: "center",
     letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
@@ -922,7 +1054,8 @@ const mapDispatchToProps = dispatch => {
     getLastCall: () => dispatch(storeLastCall()),
     onResetLastCall: () => dispatch(resetLastCall()),
     storePhoneNumber: () => dispatch(getPhoneNumber()),
-    getUserInfo: ios => dispatch(getUserInfo(ios))
+    getUserInfo: ios => dispatch(getUserInfo(ios)),
+    getUserGroups: () => dispatch(getUserGroups())
   };
 };
 

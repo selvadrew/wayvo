@@ -4,7 +4,8 @@ import {
   CHANGE_GROUP_STATE,
   SET_UNIVERSITIES,
   SET_PROGRAMS,
-  CACHE_CONTINUE
+  CACHE_CONTINUE,
+  SET_USER_GROUPS
 } from "./actionTypes";
 import { startLoadingGroups, stopLoadingGroups } from "../../store/actions/ui";
 import { authGetToken } from "../actions/users";
@@ -127,5 +128,50 @@ export const joinProgram = (programId, startYear) => {
         dispatch(stopLoadingGroups());
         alert("Sorry, something went wrong. Please try again.");
       });
+  };
+};
+
+export const getUserGroups = () => {
+  return dispatch => {
+    dispatch(startLoadingGroups());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(stopLoadingGroups());
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/get_program_group`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(stopLoadingGroups());
+          dispatch(setUserGroups(json.university_name, json.program_details));
+        } else {
+          alert(json.error);
+          dispatch(stopLoadingGroups());
+        }
+      })
+      .catch(e => {
+        dispatch(stopLoadingGroups());
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
+export const setUserGroups = (enrolledUniversity, userGroups) => {
+  return {
+    type: SET_USER_GROUPS,
+    enrolledUniversity: enrolledUniversity,
+    userGroups: userGroups
   };
 };

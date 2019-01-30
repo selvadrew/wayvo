@@ -13,6 +13,8 @@
 
 // https://sheltered-escarpment-63295.herokuapp.com/
 
-export const HOST = "http://172.20.0.239:3000";
+// 172.20.0.239 - stouffville
+
+export const HOST = "http://10.0.9.207:3000";
 
 //export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

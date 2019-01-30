@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 21,
     marginTop: 20,
-    fontWeight: "500"
+    fontWeight: "400"
   },
   verifyButton: {
     marginTop: 40
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   bulletPoint: {
     color: "#fff",
     fontSize: 21,
-    fontWeight: "500",
+    fontWeight: "400",
     paddingLeft: 20,
     marginTop: 10
   }
