@@ -11,16 +11,20 @@ import Fullname from "./src/screens/Auth/Fullname";
 import Terms from "./src/screens/Auth/Terms";
 import PhoneScreen from "./src/screens/PhoneScreen/PhoneScreen";
 import SaidHello from "./src/screens/PhoneScreen/SaidHello";
+import SaidHelloGroups from "./src/screens/PhoneScreen/SaidHelloGroups";
 import OptionScreen from "./src/screens/PhoneScreen/OptionScreen";
 import HowItWorks from "./src/screens/PhoneScreen/HowItWorks";
 import Feedback from "./src/screens/PhoneScreen/Feedback";
 import Mission from "./src/screens/PhoneScreen/Mission";
+import Topics from "./src/screens/PhoneScreen/Topics";
 import FriendsScreen from "./src/screens/Friends/Friends";
 import FriendSelectedScreen from "./src/screens/Friends/FriendDetail";
 import GroupsScreen from "./src/screens/Groups/Groups";
 import GroupSelectedScreen from "./src/screens/Groups/GroupDetail";
+import GroupMainScreen from "./src/screens/Groups/GroupMainScreen";
 import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
 import ConnectedStatusScreen from "./src/screens/ActiveFriends/ConnectedStatus";
+import ConnectedStatusGroupsScreen from "./src/screens/ActiveFriends/ConnectedStatusGroups";
 import configureStore from "./src/store/configureStore";
 
 const store = configureStore();
@@ -89,6 +93,13 @@ Navigation.registerComponent(
 );
 
 Navigation.registerComponent(
+  "awesome-places.SaidHelloGroups",
+  () => SaidHelloGroups,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
   "awesome-places.OptionScreen",
   () => OptionScreen,
   store,
@@ -112,6 +123,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.Mission",
   () => Mission,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.Topics",
+  () => Topics,
   store,
   Provider
 );
@@ -148,6 +166,12 @@ Navigation.registerComponent(
   store,
   Provider
 );
+Navigation.registerComponent(
+  "awesome-places.GroupMainScreen",
+  () => GroupMainScreen,
+  store,
+  Provider
+);
 
 Navigation.registerComponent(
   "awesome-places.ActiveFriendsScreen",
@@ -159,6 +183,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.ConnectedStatusScreen",
   () => ConnectedStatusScreen,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.ConnectedStatusGroupsScreen",
+  () => ConnectedStatusGroupsScreen,
   store,
   Provider
 );

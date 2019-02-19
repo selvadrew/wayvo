@@ -34,20 +34,27 @@ class Mission extends Component {
         contentContainerStyle={{ flexGrow: 1 }}
         style={styles.container}
       >
-        <Text style={styles.subtitle}>About</Text>
+        {/* <Text style={styles.subtitle}>About</Text> */}
         <Text style={styles.header}>
-          Wayvo helps you get to know and meaningfully connect with the friends
-          you make at university. It connects you with them over a phone call
-          whenever you have some free time. Just Wayvo the next time you're
-          walking to class or taking a study break and catch up with a friend.
+          {/* If you ever run out of things to talk about, ask these questions to
+          get to know your friends better.
+          {"\n"} */}
+          Wayvo is a social movement helping people achieve daily happiness
+          through FRIENDSHIPS.
+          {"\n"}
+          {"\n"}
+          In a digital age where superficial photos and likes have become
+          addictive, Wayvo is the app for people who want to build meaningful
+          friendships through real conversations. Just Say Hello the next time
+          you're free to invite someone into your day.
         </Text>
-        <Text style={[styles.subtitle, styles.header2]}>Presence</Text>
+        {/* <Text style={[styles.subtitle, styles.header2]}>Presence</Text>
         <Text style={styles.header}>
           It’s used by students from all the universities below. Don’t see
           yours? Let us know in the feedback section and we’ll be there soon.
-        </Text>
+        </Text> */}
 
-        <View style={styles.uniPicRow}>
+        {/* <View style={styles.uniPicRow}>
           <Image
             source={require("../../assets/Western.png")}
             style={styles.uniPic}
@@ -79,7 +86,7 @@ class Mission extends Component {
         <Text style={[styles.note, styles.header2]}>
           Note: Wayvo is not associated or affiliated with or sponsored or
           endorsed by any school.
-        </Text>
+        </Text> */}
       </ScrollView>
     );
   }
@@ -89,10 +96,11 @@ const styles = StyleSheet.create({
   container: {
     //flex: 1,
     backgroundColor: "#fff",
-    padding: 20
+    padding: 20,
+    paddingTop: 15
   },
   subtitle: {
-    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 16,
     color: "#111",
     fontWeight: "600",
     fontFamily: Platform.OS === "android" ? "Roboto" : null,
@@ -101,11 +109,11 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline"
   },
   header: {
-    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     color: "#111",
     fontWeight: "400",
     fontFamily: Platform.OS === "android" ? "Roboto" : null,
-    letterSpacing: 0.6,
+    letterSpacing: 0.8,
     lineHeight: Dimensions.get("window").width > 330 ? 25 : 20
   },
   header2: {

@@ -68,6 +68,13 @@ class OptionScreen extends Component {
     });
   };
 
+  topicsScreen = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.Topics",
+      backButtonTitle: ""
+    });
+  };
+
   logoutPrompt = () => {
     Alert.alert(
       "Are you sure you want to log out?",
@@ -106,6 +113,18 @@ class OptionScreen extends Component {
                 />
               </View>
               <Text style={[styles.logoutText]}>About Wayvo</Text>
+            </View>
+          </TouchableWithoutFeedback>
+
+          <TouchableWithoutFeedback onPress={() => this.topicsScreen()}>
+            <View style={styles.iconWrapper}>
+              <View style={styles.imageWrapper}>
+                <Image
+                  source={require("../../assets/List-Icon.png")}
+                  style={styles.logo}
+                />
+              </View>
+              <Text style={[styles.logoutText]}>Topics</Text>
             </View>
           </TouchableWithoutFeedback>
 
@@ -159,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   bottomBox: {
-    flex: 2,
+    flex: 3,
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "column"

@@ -35,7 +35,9 @@ class SearchBar extends Component {
   render() {
     let addButton = null;
     if (this.props.isLoadingAddFriend) {
-      addButton = <ActivityIndicator style={styles.spinnerStyle} />;
+      addButton = (
+        <ActivityIndicator style={styles.spinnerStyle} color="#fff" />
+      );
     } else {
       if (this.state.usernameSearch !== "") {
         addButton = (
@@ -78,10 +80,11 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     margin: 10,
-    borderWidth: 1,
+    borderWidth: 0,
     borderRadius: 100,
     borderColor: "#eeecea",
-    backgroundColor: colors.pinkColor,
+    //backgroundColor: colors.pinkColor,
+    backgroundColor: "#EF5350",
     width: "100%",
     height: "100%",
     flex: 1,

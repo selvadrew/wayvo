@@ -14,7 +14,11 @@
 // https://sheltered-escarpment-63295.herokuapp.com/
 
 // 172.20.0.239 - stouffville
+// 10.0.9.207 - sbux unionville
+// 192.168.1.56 - home
+// 10.20.79.132 - waterloo
+// 192.168.0.16 - sunview
 
-export const HOST = "http://10.0.9.207:3000";
+export const HOST = "http://10.20.79.132:3000";
 
 //export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

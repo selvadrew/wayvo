@@ -17,7 +17,9 @@ import {
   Alert,
   NetInfo,
   Image,
-  Animated
+  Animated,
+  Modal,
+  TouchableHighlight
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -27,10 +29,14 @@ import {
   storeLastCall,
   resetLastCall
 } from "../../store/actions/outgoingCalls";
+import { outgoingGroupCall } from "../../store/actions/groups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getFriendRequests } from "../../store/actions/friends";
 import { getPhoneNumber, getUserInfo } from "../../store/actions/users";
-import { getUserGroups } from "../../store/actions/groups";
+import {
+  getUserGroups,
+  checkIfUserLiveGroups
+} from "../../store/actions/groups";
 import colors from "../../utils/styling";
 import CountDown from "react-native-countdown-component";
 
@@ -39,10 +45,12 @@ import SplashScreen from "react-native-splash-screen";
 import Icon from "react-native-vector-icons/Ionicons";
 import GotIt from "../../components/UI/GotItButton";
 import { AsyncStorage } from "react-native";
+import ModalGroupsList from "../../components/GroupsList/ModalGroupsList";
+import { getActiveGroups } from "../../store/actions/activeGroups";
 
-import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice.js";
+import Phrases from "../../components/Phrases/Phrases";
 
-import Slider from "react-native-slider";
+// import Slider from "react-native-slider";
 
 class PhoneScreen extends Component {
   componentDidMount() {
@@ -104,6 +112,7 @@ class PhoneScreen extends Component {
         // Process your notification as required
         // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
         this.props.onLoadActiveFriends();
+        this.props.onLoadActiveGroups();
       });
     this.notificationListener = firebase
       .notifications()
@@ -121,6 +130,7 @@ class PhoneScreen extends Component {
         // Get information about the notification that was opened
         const notification: Notification = notificationOpen.notification;
         this.props.onLoadActiveFriends();
+        this.props.onLoadActiveGroups();
         console.log(action);
 
         //outgoing call notification
@@ -145,6 +155,13 @@ class PhoneScreen extends Component {
           });
           this.props.getLastCall();
         }
+
+        if (notification.data.expect_group_call) {
+          this.props.navigator.switchToTab({
+            tabIndex: 0
+          });
+          this.props.checkIfUserLiveGroups();
+        }
       });
 
     /// app closed
@@ -152,7 +169,6 @@ class PhoneScreen extends Component {
       .notifications()
       .getInitialNotification()
       .then((notificationOpen: NotificationOpen) => {
-        // this.props.onLoadActiveFriends();
         if (notificationOpen) {
           // App was opened by a notification
           // Get the action triggered by the notification being opened
@@ -182,11 +198,19 @@ class PhoneScreen extends Component {
             });
             this.props.getLastCall();
           }
+
+          if (notification.data.expect_group_call) {
+            this.props.navigator.switchToTab({
+              tabIndex: 0
+            });
+            this.props.checkIfUserLiveGroups();
+          }
         }
       })
       .catch(err => alert(err));
 
     this.props.getLastCall();
+    this.props.checkIfUserLiveGroups();
     //this.props.storePhoneNumber();
     if (Platform.OS === "ios") {
       this.props.getUserInfo(true);
@@ -236,13 +260,6 @@ class PhoneScreen extends Component {
     // this is where you unsubscribe
     this.unsubscribeFromNotificationListener();
   }
-
-  callbutton = () => {
-    this.props.onOutgoingCall(this.state.sliderValue);
-    this.props.navigator.push({
-      screen: "awesome-places.SaidHello"
-    });
-  };
 
   optionScreen = () => {
     this.props.navigator.push({
@@ -331,12 +348,15 @@ class PhoneScreen extends Component {
     catchUp: false,
     newFriend: false,
     iconCatchUp: false,
-    iconNewFriend: false
+    iconNewFriend: false,
+    modalVisible: false,
+    selectedGroupID: null,
+    selectedGroupType: null
   };
-  // catchUp: false,
-  // newFriend: false,
-  // iconCatchUp: true,
-  // iconNewFriend: true
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
 
   changeTime = () => {
     if (this.state.timeSelected === 3) {
@@ -385,19 +405,88 @@ class PhoneScreen extends Component {
     this.helloAnimation();
   };
 
+  checkStatus = () => {
+    if (this.props.verified === false && this.props.submitted === false) {
+      Alert.alert(
+        "Wayvo Groups",
+        "You need to join your university and get verified to use this feature.",
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          {
+            text: "Join",
+            onPress: () => {
+              this.props.navigator.switchToTab({
+                tabIndex: 2
+              });
+            },
+            style: "default"
+          }
+        ],
+        { cancelable: true }
+      );
+    } else if (this.props.verified === false && this.props.submitted) {
+      Alert.alert(
+        "The Wayvo team is reviewing your submission for access to Wayvo Groups. You will hear back within 24 hours."
+      );
+    } else if (this.props.verified) {
+      this.newFriend();
+    } else {
+      Alert.alert("Sorry, there was an error.");
+    }
+  };
+
   newFriend = () => {
+    this.setModalVisible(true);
+
+    Animated.timing(this.state.helloAnim, {
+      toValue: 0,
+      duration: 800
+    }).start();
+    this.setState({
+      catchUp: false,
+      newFriend: false,
+      iconCatchUp: false,
+      iconNewFriend: false
+    });
+  };
+
+  groupSelected = (id, value, type) => {
     this.setState({
       catchUp: false,
       newFriend: true,
       iconCatchUp: false,
-      iconNewFriend: true
+      iconNewFriend: true,
+      selectedGroupID: id,
+      selectedGroupType: type
     });
+    this.setModalVisible(!this.state.modalVisible);
+
     this.helloAnimation();
   };
 
+  saidHelloCatchUp = () => {
+    this.props.onOutgoingCall(this.state.sliderValue);
+    this.props.navigator.push({
+      screen: "awesome-places.SaidHello"
+    });
+  };
+
+  saidHelloNewFriend = () => {
+    this.props.onOutgoingGroupCall(this.state.selectedGroupID);
+    this.props.navigator.push({
+      screen: "awesome-places.SaidHelloGroups"
+    });
+  };
+
   sayHello = () => {
-    if (this.state.catchUp || this.state.newFriend) {
-      alert("hi");
+    if (this.state.catchUp) {
+      this.saidHelloCatchUp();
+    } else if (this.state.newFriend) {
+      this.saidHelloNewFriend();
     }
   };
 
@@ -405,6 +494,7 @@ class PhoneScreen extends Component {
     let button = null;
     let content = null;
     let activeSign = null;
+    let liveVersion = null;
     let activeInfo = null;
     let tapDescription = null;
     let navCover = null;
@@ -414,9 +504,10 @@ class PhoneScreen extends Component {
     let endTour = null;
     const timeOptions = [5, 15, 30, 60];
     let toWho = null;
+    let verifiedStatus = null;
 
     if (this.state.catchUp) {
-      toWho = <Text>to all my selected friends</Text>;
+      toWho = <Text>to my friends</Text>;
     }
     if (this.state.newFriend) {
       toWho = <Text>to everyone in my program</Text>;
@@ -433,12 +524,23 @@ class PhoneScreen extends Component {
     if (this.props.isLoadingHello) {
       button = <ActivityIndicator />;
     } else {
-      if (this.props.seconds_left === null || this.props.can_say_hello) {
+      if (
+        (this.props.seconds_left === null &&
+          this.props.seconds_left_groups === null) ||
+        (this.props.can_say_hello && this.props.can_say_hello_groups)
+      ) {
         button = (
           <View style={styles.wrapper}>
-            <View style={styles.timeWrapper}>
-              <Text style={styles.timeText}>How do you want to connect?</Text>
-            </View>
+            {/* <View style={styles.timeWrapper}>
+              <Text style={styles.timeText}>
+                <Phrases />
+              </Text>
+            </View> */}
+            {/* <View style={styles.weeklyWrapper}>
+              <Text style={styles.weeklyText}>
+                What do you want to do before you die?
+              </Text>
+            </View> */}
 
             <View style={styles.hello}>
               <TouchableWithoutFeedback
@@ -471,7 +573,7 @@ class PhoneScreen extends Component {
 
               <TouchableWithoutFeedback
                 onPress={() => {
-                  this.newFriend();
+                  this.checkStatus();
                 }}
               >
                 <View style={styles.selectionBox}>
@@ -572,31 +674,80 @@ class PhoneScreen extends Component {
 
         // Hang tight you will receive a call from your first friend to Say Hello back.
       } else {
-        button = (
-          <CountDown
-            until={this.props.seconds_left}
-            onFinish={() => this.props.getLastCall()}
-            // onPress={() =>
-            //   Alert.alert(
-            //     "Expect a call from the first friend to Say Hello back before this timer expires"
-            //   )
-            // }
-            size={40}
-            digitBgColor={colors.yellowColor}
-            digitTxtColor="#333"
-            timeTxtColor="#FFF"
-            timeToShow={["M", "S"]}
-          />
-        );
-        activeSign = (
-          <View style={styles.usernameWrapper}>
-            <Text style={styles.youActive}>You're Live</Text>
+        button = null;
+        // (
+        //   <CountDown
+        //     until={this.props.seconds_left}
+        //     onFinish={() => this.props.getLastCall()}
+        //     // onPress={() =>
+        //     //   Alert.alert(
+        //     //     "Expect a call from the first friend to Say Hello back before this timer expires"
+        //     //   )
+        //     // }
+        //     size={40}
+        //     digitBgColor={colors.yellowColor}
+        //     digitTxtColor="#333"
+        //     timeTxtColor="#FFF"
+        //     timeToShow={["M", "S"]}
+        //   />
+        // );
+        if (this.props.seconds_left_groups) {
+          liveVersion = (
             <Text style={styles.timeExplanation}>
-              Friends can Say Hello Back
+              The group members you have not yet met have been notified. The
+              first one to Say Hello Back before time expires gets to call you.
             </Text>
-            <Text style={styles.timeExplanation}>until time expires.</Text>
-          </View>
-        );
+          );
+          activeSign = (
+            <View style={styles.usernameWrapper}>
+              <Text style={styles.youActive}>You're Live</Text>
+              {liveVersion}
+              <CountDown
+                until={this.props.seconds_left_groups}
+                onFinish={() => this.props.checkIfUserLiveGroups()}
+                size={40}
+                digitBgColor={colors.yellowColor}
+                digitTxtColor="#333"
+                timeTxtColor="#FFF"
+                timeToShow={["M", "S"]}
+                style={styles.countdown}
+                // onPress={() =>
+                //   Alert.alert(
+                //     "Expect a call from the first friend to Say Hello back before this timer expires"
+                //   )
+                // }
+              />
+            </View>
+          );
+        } else {
+          liveVersion = (
+            <Text style={styles.timeExplanationBig}>
+              Your friends have been notified. The first friend to Say Hello
+              Back before time expires gets to call you.
+            </Text>
+          );
+          activeSign = (
+            <View style={styles.usernameWrapper}>
+              <Text style={styles.youActive}>You're Live</Text>
+              {liveVersion}
+              <CountDown
+                until={this.props.seconds_left}
+                onFinish={() => this.props.getLastCall()}
+                size={40}
+                digitBgColor={colors.yellowColor}
+                digitTxtColor="#333"
+                timeTxtColor="#FFF"
+                timeToShow={["M", "S"]}
+                style={styles.countdown}
+                // onPress={() =>
+                //   Alert.alert(
+                //     "Expect a call from the first friend to Say Hello back before this timer expires"
+                //   )
+                // }
+              />
+            </View>
+          );
+        }
 
         activeInfo = (
           <View style={styles.connectedWrapper}>
@@ -610,6 +761,28 @@ class PhoneScreen extends Component {
       }
     }
 
+    if (this.props.verified) {
+      verifiedStatus = (
+        <View style={styles.verifiedWrapper}>
+          <View style={styles.modalTitleWrapper}>
+            <Text style={styles.modalTitle}>
+              From which group do you want to make a new friend?
+            </Text>
+          </View>
+
+          <ModalGroupsList
+            groups={this.props.groups}
+            //onItemSelected={this.groupsSelectedHandler}
+            onItemSelected={(id, value, type) =>
+              this.groupSelected(id, value, type)
+            }
+          />
+        </View>
+      );
+    } else {
+      verifiedStatus = <Text>Sorry, there was an error</Text>;
+    }
+
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
@@ -617,21 +790,34 @@ class PhoneScreen extends Component {
         refreshControl={
           <RefreshControl
             refreshing={this.props.isLoading}
-            onRefresh={() => this.props.getLastCall()}
+            onRefresh={() => {
+              this.props.getLastCall();
+              this.props.checkIfUserLiveGroups();
+            }}
           />
         }
       >
         <StatusBar barStyle="light-content" backgroundColor={colors.darkBlue} />
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
-          {learnMore}
+          {/* modal */}
 
-          {navCover}
-          {tapDescription}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {
+              this.setModalVisible(!this.state.modalVisible);
+            }}
+          >
+            <View style={styles.modalWrapper}>
+              <View style={styles.modal}>
+                <View>{verifiedStatus}</View>
+              </View>
+            </View>
+          </Modal>
 
-          {helloDescription}
-          {helloBottomCover}
+          {/* modal end */}
 
-          {endTour}
           {/* <OfflineNotice /> */}
           <View style={styles.navBarWrapper}>
             <View style={styles.navBarContent}>
@@ -673,12 +859,12 @@ class PhoneScreen extends Component {
               </View>
             </View>
           </View>
-
           <View
             style={[
               styles.container2,
-              this.props.seconds_left === null ||
-              this.props.can_say_hello === true
+              (this.props.seconds_left === null &&
+                this.props.seconds_left_groups === null) ||
+              (this.props.can_say_hello && this.props.can_say_hello_groups)
                 ? { backgroundColor: colors.blueColor }
                 : { backgroundColor: colors.greenColor }
             ]}
@@ -701,6 +887,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#0088CA"
+  },
+  modalWrapper: {
+    backgroundColor: "rgba(0,0,0,0.7)",
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  notVerifiedWrapper: {
+    padding: 20,
+    backgroundColor: "#FAFAFA"
+  },
+  verifiedWrapper: {
+    padding: 20,
+    backgroundColor: "#FAFAFA",
+    borderRadius: 5
+    //overflow: "hidden"
+  },
+  modalTitleWrapper: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#777"
+  },
+  modalTitle: {
+    fontSize: 20,
+    letterSpacing: 0.5,
+    paddingBottom: 8,
+    color: "#333",
+    fontWeight: "700",
+    textAlign: "center"
+  },
+  modal: {
+    backgroundColor: "#fff",
+    width: "85%",
+    //height: "60%",
+    borderRadius: 8,
+    overflow: "hidden"
   },
   selectionBox: {
     margin: 10,
@@ -781,7 +1003,7 @@ const styles = StyleSheet.create({
   },
   navBarWrapper: {
     height: 70,
-    backgroundColor: "#0088CA"
+    backgroundColor: colors.darkBlue
   },
   navBarContent: {
     flex: 1,
@@ -905,9 +1127,10 @@ const styles = StyleSheet.create({
   usernameWrapper: {
     width: "100%",
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    flexDirection: "column"
+    marginTop: 50
+    // alignItems: "center",
+    // justifyContent: "center",
+    // flexDirection: "column"
   },
   youActive: {
     color: "#fff",
@@ -915,15 +1138,26 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     backgroundColor: colors.greenColor,
     padding: 15,
-    paddingBottom: 5,
+    paddingVertical: 5,
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   timeExplanation: {
     color: "#fff",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
+    fontSize: Dimensions.get("window").width > 330 ? 17 : 17,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    paddingHorizontal: 15
+  },
+  timeExplanationBig: {
+    color: "#fff",
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
+    textAlign: "center",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    paddingHorizontal: 20
+  },
+  countdown: {
+    marginTop: 40
   },
   usernameView: {
     flex: 1,
@@ -959,21 +1193,22 @@ const styles = StyleSheet.create({
   },
   timeWrapper: {
     //borderRadius: 3,
-    backgroundColor: colors.darkBlue,
+    backgroundColor: colors.blueColor,
     //backgroundColor: "#222",
     //backgroundColor: "#0b68bd",
     paddingRight: 8,
     paddingLeft: 8,
-    paddingTop: 10,
+    paddingTop: 20,
     paddingBottom: 10,
     //borderColor: "rgba(1,125,185,0.3)",
     width: "100%"
   },
   timeText: {
-    fontSize: Dimensions.get("window").width > 330 ? 24 : 19,
+    fontSize: Dimensions.get("window").width > 330 ? 23 : 19,
     fontWeight: "400",
-    // color: colors.yellowColor,
+    //color: "#333",
     color: "#fff",
+    backgroundColor: colors.blueColor,
     textAlign: "center",
     letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
@@ -1029,6 +1264,23 @@ const styles = StyleSheet.create({
     fontWeight: "900",
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
+  weeklyWrapper: {
+    //margin: 10,
+    borderWidth: 0,
+    backgroundColor: "#fff",
+    width: "100%",
+    //height: "80%",
+    maxHeight: 50,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 0,
+    overflow: "hidden"
+  },
+  weeklyText: {
+    fontSize: 20
   }
 });
 
@@ -1042,20 +1294,29 @@ const mapStateToProps = state => {
     username: state.users.username,
     fullname: state.users.fullname,
     phone_number: state.users.phoneNumber,
-    ios: state.users.ios
+    ios: state.users.ios,
+    verified: state.users.verified,
+    submitted: state.users.submitted,
+    groups: state.groups.userGroups,
+    // youLiveGroups: state.ui.groups
+    seconds_left_groups: state.groups.seconds_left_groups,
+    can_say_hello_groups: state.groups.can_say_hello_groups
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onOutgoingCall: seconds => dispatch(outgoingCall(seconds)),
+    onOutgoingGroupCall: programId => dispatch(outgoingGroupCall(programId)),
     onLoadActiveFriends: () => dispatch(getActiveFriends()),
+    onLoadActiveGroups: () => dispatch(getActiveGroups()),
     onLoadFriendRequests: () => dispatch(getFriendRequests()),
     getLastCall: () => dispatch(storeLastCall()),
     onResetLastCall: () => dispatch(resetLastCall()),
     storePhoneNumber: () => dispatch(getPhoneNumber()),
     getUserInfo: ios => dispatch(getUserInfo(ios)),
-    getUserGroups: () => dispatch(getUserGroups())
+    getUserGroups: () => dispatch(getUserGroups()),
+    checkIfUserLiveGroups: () => dispatch(checkIfUserLiveGroups())
   };
 };
 

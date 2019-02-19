@@ -13,9 +13,13 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
+import CallStatusGroups from "../../components/ActiveFriends/CallStatusGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
+import {
+  getActiveGroups,
+  joinGroupCall
+} from "../../store/actions/activeGroups";
 import colors from "../../utils/styling";
-import OfflineNotice from "../../screens/OfflineNotice/OfflineNotice";
 
 class ActiveFriendsScreen extends Component {
   constructor(props) {
@@ -24,6 +28,7 @@ class ActiveFriendsScreen extends Component {
 
   componentDidMount() {
     this.props.onLoadActiveFriends();
+    this.props.onLoadActiveGroups();
   }
 
   onClickFriend = (id, fullname, phone_number, ios) => {
@@ -39,6 +44,14 @@ class ActiveFriendsScreen extends Component {
     });
   };
 
+  onClickGroup = id => {
+    this.props.onJoinGroupCall(id);
+    this.props.navigator.push({
+      screen: "awesome-places.ConnectedStatusGroupsScreen",
+      backButtonTitle: ""
+    });
+  };
+
   static navigatorStyle = {
     navBarNoBorder: true,
     navBarBackgroundColor: colors.yellowColor,
@@ -49,7 +62,10 @@ class ActiveFriendsScreen extends Component {
 
   render() {
     //changes tab to active friends ifmsomeone is active
-    if (this.props.active_friends.length > 0) {
+    if (
+      this.props.active_friends.length + this.props.active_groups.length >
+      0
+    ) {
       this.props.navigator.switchToTab({
         tabIndex: 3
       });
@@ -58,13 +74,13 @@ class ActiveFriendsScreen extends Component {
     let activeExplain = null;
 
     if (
-      // this.props.connected_with === null &&
-      this.props.active_friends.length < 1
+      this.props.active_groups.length + this.props.active_friends.length ===
+      0
     ) {
       activeExplain = (
         <Text style={styles.activeExplain}>
-          When your friends Say Hello, they'll appear here until time expires.
-          You can pull down to refresh their status.
+          When friends or group members Say Hello, they'll appear here until
+          time expires. Say Hello Back to start a call with them.
           {/* Be the first to Say Hello Back to connect with them. */}
         </Text>
       );
@@ -77,7 +93,10 @@ class ActiveFriendsScreen extends Component {
         refreshControl={
           <RefreshControl
             refreshing={this.props.isLoadingActivity}
-            onRefresh={() => this.props.onLoadActiveFriends()}
+            onRefresh={() => {
+              this.props.onLoadActiveFriends();
+              this.props.onLoadActiveGroups();
+            }}
           />
         }
       >
@@ -91,11 +110,18 @@ class ActiveFriendsScreen extends Component {
             <View style={styles.friendsHeaderWrapper}>
               <Text style={styles.friendsHeader}>Live Friends and Groups</Text>
             </View>
-            <CallStatus
-              friends={this.props.active_friends}
-              onItemSelected={this.onClickFriend}
-              style={styles.friends}
-            />
+            <View style={styles.callStatusWrapper}>
+              <CallStatus
+                friends={this.props.active_friends}
+                onItemSelected={this.onClickFriend}
+                style={styles.friends}
+              />
+              <CallStatusGroups
+                groups={this.props.active_groups}
+                onItemSelected={this.onClickGroup}
+                style={styles.friends}
+              />
+            </View>
             {activeExplain}
           </View>
         </SafeAreaView>
@@ -107,6 +133,7 @@ class ActiveFriendsScreen extends Component {
 const mapStateToProps = state => {
   return {
     active_friends: state.active_friends.active_friends,
+    active_groups: state.active_groups.active_groups,
     isLoadingActivity: state.ui.isLoadingActivity,
     connected_with: state.outgoing.connected_with
   };
@@ -114,7 +141,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadActiveFriends: () => dispatch(getActiveFriends())
+    onLoadActiveFriends: () => dispatch(getActiveFriends()),
+    onLoadActiveGroups: () => dispatch(getActiveGroups()),
+    onJoinGroupCall: id => dispatch(joinGroupCall(id))
   };
 };
 
@@ -123,9 +152,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.greenColor,
     flex: 1
   },
-  friends: {
+  callStatusWrapper: {
     margin: 10,
-    marginTop: Platform.OS === "ios" ? 10 : 10,
+    marginTop: 0,
     flex: 1
   },
   friendsHeader: {
@@ -142,18 +171,22 @@ const styles = StyleSheet.create({
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,
-    borderBottomColor: "#eee"
+    borderBottomColor: "#eee",
+    margin: 10,
+    marginBottom: 0
   },
   activeExplain: {
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
-    textAlign: "center",
+    //textAlign: "center",
     flex: 1,
-    alignItems: "center",
+    //alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
     fontWeight: "normal",
-    padding: 5,
+    paddingLeft: 20,
+    paddingVertical: 10,
+    paddingRight: 10,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });

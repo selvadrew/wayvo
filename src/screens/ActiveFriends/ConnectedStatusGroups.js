@@ -19,9 +19,9 @@ import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 import { Facetime } from "react-native-openanything";
 
-class FriendDetail extends Component {
+class GroupDetail extends Component {
   componentDidMount() {
-    this.props.onJoinCall(this.props.id);
+    // this.props.onJoinCall(this.props.id);
   }
 
   static navigatorStyle = {
@@ -73,12 +73,12 @@ class FriendDetail extends Component {
       prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
     };
 
-    let selectedFriendStatus = null;
-    this.props.active_friends.find(friend => {
-      if (friend.outgoing_id === this.props.id) {
-        selectedFriendStatus = friend.connected;
-      }
-    });
+    // let selectedFriendStatus = null;
+    // this.props.active_friends.find(friend => {
+    //   if (friend.outgoing_id === this.props.id) {
+    //     selectedFriendStatus = friend.connected;
+    //   }
+    // });
 
     let screen = null;
     let startCall = null;
@@ -90,7 +90,7 @@ class FriendDetail extends Component {
     }
     //checks if connected user and current user are both using ios
     //if (this.props.ios && this.props.user_ios && current_user) {
-    if (this.props.ios && current_user) {
+    if (this.props.iOS && current_user) {
       startCall = (
         <GotIt
           onPress={() => this.callOptions(number, args)}
@@ -119,22 +119,21 @@ class FriendDetail extends Component {
         </View>
       );
     }
-    if (this.props.ui === false && selectedFriendStatus === true) {
+    if (this.props.ui === false && this.props.connected === true) {
       //call connected
       screen = (
         <View style={styles.successContainer}>
           <View>
             <Text style={styles.successText}>
-              Woohoo! You've been connected with {"\n"}
-              {this.props.fullname}.
-              {/* Woohoo! You've been connected with Mary. */}
+              Woohoo! You've been connected with someone in your program. Start
+              the call to find out who it is!
             </Text>
           </View>
           {startCall}
         </View>
       );
     }
-    if (this.props.ui === false && selectedFriendStatus === false) {
+    if (this.props.ui === false && this.props.connected === false) {
       screen = (
         <View style={styles.failContainer}>
           <Text style={styles.failText}>
@@ -205,8 +204,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     ui: state.ui.isLoading,
-    active_friends: state.active_friends.active_friends,
-    user_ios: state.users.ios
+    connected: state.active_groups.connected,
+    phone_number: state.active_groups.phone_number,
+    iOS: state.active_groups.iOS
   };
 };
 
@@ -219,4 +219,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FriendDetail);
+)(GroupDetail);

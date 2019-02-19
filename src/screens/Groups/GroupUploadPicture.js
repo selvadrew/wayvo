@@ -12,7 +12,9 @@ import {
   Image,
   Button,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Modal,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
@@ -36,49 +38,58 @@ class GroupUploadPicture extends Component {
 
   state = {
     pickedImaged: null,
-    rotatePosition: 0
+    rotatePosition: 0,
+    modalVisible: false
+  };
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+
+  onLearnMore = () => {
+    this.setModalVisible(true);
   };
 
   pickImageHandler = () => {
-    if (Platform.OS === "ios") {
-      // ios
-      ImagePicker.showImagePicker(
-        { title: "Upload picture of your student ID" },
-        res => {
-          if (res.didCancel) {
-            console.log("User cancelled!");
-          } else if (res.error) {
-            console.log("Error", res.error);
-          } else {
-            this.setState({
-              pickedImaged: { uri: res.uri },
-              rotatePosition: 0
-            });
-            //console.log(res.uri);
-            //this.props.onImagePicked({uri: res.uri, base64: res.data});
-          }
+    // if (Platform.OS === "ios") {
+    //   // ios
+    //   ImagePicker.showImagePicker(
+    //     { title: "Upload picture of your student ID" },
+    //     res => {
+    //       if (res.didCancel) {
+    //         console.log("User cancelled!");
+    //       } else if (res.error) {
+    //         console.log("Error", res.error);
+    //       } else {
+    //         this.setState({
+    //           pickedImaged: { uri: res.uri },
+    //           rotatePosition: 0
+    //         });
+    //         //console.log(res.uri);
+    //         //this.props.onImagePicked({uri: res.uri, base64: res.data});
+    //       }
+    //     }
+    //   );
+    // } else {
+    // android
+    ImagePicker.launchCamera(
+      { title: "Take a selfie with your student ID" },
+      res => {
+        if (res.didCancel) {
+          console.log("User cancelled!");
+        } else if (res.error) {
+          console.log("Error", res.error);
+        } else {
+          this.setState({
+            pickedImaged: { uri: res.uri },
+            rotatePosition: 0
+          });
+          console.log(res.uri);
+          //this.props.onImagePicked({uri: res.uri, base64: res.data});
         }
-      );
-    } else {
-      // android
-      ImagePicker.launchCamera(
-        { title: "Upload picture of your student ID" },
-        res => {
-          if (res.didCancel) {
-            console.log("User cancelled!");
-          } else if (res.error) {
-            console.log("Error", res.error);
-          } else {
-            this.setState({
-              pickedImaged: { uri: res.uri },
-              rotatePosition: 0
-            });
-            console.log(res.uri);
-            //this.props.onImagePicked({uri: res.uri, base64: res.data});
-          }
-        }
-      );
-    }
+      }
+    );
+    // }
   };
 
   clearImage = () => {
@@ -97,6 +108,26 @@ class GroupUploadPicture extends Component {
         rotatePosition: this.state.rotatePosition + 1
       });
     }
+  };
+
+  confirmUpload = () => {
+    Alert.alert(
+      "Confirm Upload",
+      "You will not be able to make any changes to your submission beyond this point.",
+      [
+        {
+          text: "Retake",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Submit",
+          onPress: () => this.uploadImage(),
+          style: "default"
+        }
+      ],
+      { cancelable: true }
+    );
   };
 
   uploadImage = () => {
@@ -183,14 +214,29 @@ class GroupUploadPicture extends Component {
     let uploadButton = null;
     if (this.props.isLoadingGroups) {
       uploadButton = (
-        <ActivityIndicator color="#fff" style={styles.activityIndicator} />
+        <View style={styles.buttonRowLoading}>
+          <ActivityIndicator color="#fff" style={styles.activityIndicator} />
+          <Text style={styles.fewMinutes}>This may take a few minutes</Text>
+        </View>
       );
     } else {
       uploadButton = (
-        <View style={styles.buttonYellow}>
-          <Text onPress={this.uploadImage} style={styles.buttonTextYellow}>
-            Upload
-          </Text>
+        <View style={styles.buttonRow}>
+          <View style={styles.button}>
+            <Text onPress={this.rotateImage} style={styles.buttonText}>
+              Rotate
+            </Text>
+          </View>
+          <View style={styles.buttonYellow}>
+            <Text onPress={this.confirmUpload} style={styles.buttonTextYellow}>
+              Upload
+            </Text>
+          </View>
+          <View style={styles.button}>
+            <Text onPress={this.clearImage} style={styles.buttonText}>
+              Delete
+            </Text>
+          </View>
         </View>
       );
     }
@@ -207,19 +253,19 @@ class GroupUploadPicture extends Component {
               ]}
             />
           </View>
-          <View style={styles.buttonRow}>
+          {/* <View style={styles.buttonRow}>
             <View style={styles.button}>
               <Text onPress={this.rotateImage} style={styles.buttonText}>
                 Rotate
               </Text>
-            </View>
-            {uploadButton}
-            <View style={styles.button}>
+            </View> */}
+          {uploadButton}
+          {/* <View style={styles.button}>
               <Text onPress={this.clearImage} style={styles.buttonText}>
                 Delete
               </Text>
             </View>
-          </View>
+          </View> */}
         </View>
       );
     } else {
@@ -228,7 +274,7 @@ class GroupUploadPicture extends Component {
           <Text style={styles.uploadExplanation}>
             Upload a selfie of yourself holding your student ID next to your
             face.
-            <Text style={styles.learnMore} onPress={() => alert("hi")}>
+            <Text style={styles.learnMore} onPress={() => this.onLearnMore()}>
               {" "}
               Learn more
               {/* We will use this photo to verify your
@@ -257,6 +303,39 @@ class GroupUploadPicture extends Component {
 
     return (
       <View>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={this.state.modalVisible}
+          onRequestClose={() => {
+            this.setModalVisible(!this.state.modalVisible);
+          }}
+        >
+          <StatusBar barStyle="dark-content" backgroundColor={"#fff"} />
+          <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+            <View style={styles.modalWrapper}>
+              <View style={styles.xWrapper}>
+                <TouchableWithoutFeedback
+                  onPress={() => this.setModalVisible(!this.state.modalVisible)}
+                >
+                  <Icon size={30} name={"md-close-circle"} color={"#333"} />
+                </TouchableWithoutFeedback>
+              </View>
+              <View style={styles.contentWrapper}>
+                <Text style={styles.moreInfo}>
+                  The photo you upload will be used to verify your identity and
+                  enrolment at your university. We use this process to ensure
+                  everyone has the best, most safe experience on Wayvo.
+                </Text>
+                <Text style={styles.moreInfo}>
+                  The photo you upload will never be shared or be visible to
+                  other users or third party organizations.
+                </Text>
+              </View>
+            </View>
+          </SafeAreaView>
+        </Modal>
+
         <View
           style={{
             flexDirection: "row",
@@ -264,7 +343,11 @@ class GroupUploadPicture extends Component {
           }}
         >
           <TouchableWithoutFeedback
-            onPress={() => this.props.onChangeGroupState(1)}
+            onPress={() => {
+              if (this.props.isLoadingGroups !== true) {
+                this.props.onChangeGroupState(1);
+              }
+            }}
           >
             <Icon
               size={30}
@@ -340,6 +423,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     backgroundColor: colors.darkBlue
   },
+  buttonRowLoading: {
+    flexDirection: "column",
+    justifyContent: "center",
+    marginTop: 10
+  },
+  fewMinutes: {
+    color: "#FFF",
+    fontSize: 16,
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "center",
+    textAlign: "center",
+    marginTop: 5
+  },
   button: {
     margin: 8,
     alignItems: "center"
@@ -365,6 +462,9 @@ const styles = StyleSheet.create({
   },
   activityIndicator: {
     alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    flex: 1,
     justifyContent: "center"
   },
   previewImage: {
@@ -457,10 +557,23 @@ const styles = StyleSheet.create({
     marginVertical: 10
   },
   imageWrapper: {
-    alignItems: "center"
+    alignItems: "center",
+    marginTop: 10
   },
   learnMore: {
     color: colors.yellowColor
+  },
+  modalWrapper: {
+    padding: 20,
+    paddingTop: 10
+  },
+  xWrapper: {
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  moreInfo: {
+    fontSize: 18,
+    marginTop: 10
   }
 });
 

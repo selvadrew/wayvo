@@ -59,7 +59,6 @@ class FriendsScreen extends Component {
     });
     this.props.navigator.push({
       screen: "awesome-places.FriendSelectedScreen",
-      //title: selFriend.fullname,
       backButtonTitle: "",
       passProps: {
         selectedFriend: selFriend

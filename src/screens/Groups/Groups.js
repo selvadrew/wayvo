@@ -12,7 +12,8 @@ import {
   Image,
   Button,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
@@ -21,9 +22,14 @@ import GroupExplanation from "./GroupExplanation";
 import GroupsUploadPicture from "./GroupUploadPicture";
 import GroupSelectUniversity from "./GroupSelectUniversity";
 import GroupFinishedApplication from "./GroupFinishedApplication";
-import { changeGroupState } from "../../store/actions/groups";
+import { changeGroupState, getUserGroups } from "../../store/actions/groups";
 import { getUserInfo } from "../../store/actions/users";
-import GroupMainScreen from "./GroupMainScreen";
+
+import DropdownAlert from "react-native-dropdownalert";
+import GotIt from "../../components/UI/GotItButton";
+import AddButton from "../../components/UI/AddButton";
+import GroupsList from "../../components/GroupsList/GroupsList";
+import { getConnectedUsers } from "../../store/actions/groups";
 
 class GroupsScreen extends Component {
   static navigatorStyle = {
@@ -33,7 +39,6 @@ class GroupsScreen extends Component {
   constructor(props) {
     super(props);
   }
-
   // once verified, itll show verified even if app loads with no internet
   componentDidMount() {
     return AsyncStorage.multiGet(["pp:verified", "pp:submitted"]).then(
@@ -52,20 +57,51 @@ class GroupsScreen extends Component {
     );
   }
 
+  groupsSelectedHandler = id => {
+    this.props.getConnectedUsers(id);
+
+    this.props.navigator.push({
+      screen: "awesome-places.GroupSelectedScreen",
+      backButtonTitle: ""
+    });
+  };
+
   state = {
     verified: null,
     submitted: null,
     hackLoading: false
   };
 
-  handleChildClick = () => {
-    alert("hi");
-  };
-
   render() {
-    //would check if verified or submitted is true
-    //if verified or submitted show none of the beloce
-    //if not verified and submitted, show submitted screen instead
+    let realScreen = null;
+    realScreen = (
+      <View>
+        <View style={styles.container2}>
+          <View style={styles.friends2}>
+            <View style={styles.friendsHeaderWrapper2}>
+              <Text style={styles.friendsHeader2}>Groups</Text>
+              <AddButton
+                onPress={() =>
+                  Alert.alert(
+                    "You cannot currently join or create new groups",
+                    `It will be available soon at the ${
+                      this.props.enrolledUniversity
+                    }.`
+                  )
+                }
+              />
+            </View>
+          </View>
+          <GroupsList
+            groups={this.props.userGroups}
+            onItemSelected={this.groupsSelectedHandler}
+          />
+          {/* <View style={styles.uniWrapper}>
+            <Text style={styles.uniName}>{this.props.enrolledUniversity}</Text>
+          </View> */}
+        </View>
+      </View>
+    );
 
     let screen = null;
     let refresh = null;
@@ -91,9 +127,17 @@ class GroupsScreen extends Component {
         }}
       />
     );
-    if (this.props.verified === true || this.state.verified) {
-      screen = <GroupMainScreen />;
-      refresh = checkVerified;
+    let realLoading = (
+      <RefreshControl
+        refreshing={this.props.isLoadingGroups}
+        onRefresh={() => {
+          this.props.getUserGroups();
+        }}
+      />
+    );
+    if (this.state.verified || this.props.verified === true) {
+      screen = realScreen;
+      refresh = realLoading;
     } else {
       if (
         this.props.submitted ||
@@ -140,14 +184,19 @@ const mapStateToProps = state => {
   return {
     group_state: state.groups.group_state,
     submitted: state.users.submitted,
-    verified: state.users.verified
+    verified: state.users.verified,
+    isLoadingGroups: state.ui.isLoadingGroups,
+    userGroups: state.groups.userGroups,
+    enrolledUniversity: state.groups.enrolledUniversity
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onChangeGroupState: position => dispatch(changeGroupState(position)),
-    getUserInfo: ios => dispatch(getUserInfo(ios))
+    getUserInfo: ios => dispatch(getUserInfo(ios)),
+    getConnectedUsers: program_id => dispatch(getConnectedUsers(program_id)),
+    getUserGroups: () => dispatch(getUserGroups())
   };
 };
 
@@ -199,6 +248,44 @@ const styles = StyleSheet.create({
   },
   requestsHeader: {
     color: colors.yellowColor
+  },
+  container2: {
+    padding: 20,
+    paddingTop: 10,
+    flex: 1,
+    flexDirection: "column"
+  },
+  friends2: {
+    //margin: 10
+    //marginHorizontal: 20
+  },
+  friendsHeader2: {
+    // flexDirection: "row",
+    // alignItems: "center",
+    // width: "100%",
+    color: colors.yellowColor,
+    fontWeight: "900",
+    fontSize: 25,
+    padding: 10,
+    letterSpacing: 0.5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
+  friendsHeaderWrapper2: {
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  uniName2: {
+    textAlign: "center",
+    color: colors.darkBlue,
+    padding: 10,
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  uniWrapper2: {
+    marginHorizontal: 20
   }
 });
 

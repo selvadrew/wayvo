@@ -140,20 +140,51 @@ class GroupSelectUniversity extends Component {
     if (this.state.step === 0) {
       /////0
       screen = (
-        <View style={styles.container}>
-          <View style={styles.circleWrapper}>
-            <View style={styles.circleG} />
-            <View style={styles.circleB} />
-            <View style={styles.circleB} />
-            <View style={styles.circleB} />
-            <View style={styles.circleB} />
+        <View>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between"
+            }}
+          >
+            <TouchableWithoutFeedback
+              onPress={() => this.props.onChangeGroupState(0)}
+            >
+              <Icon
+                size={30}
+                name={
+                  Platform.OS === "ios" ? "ios-arrow-back" : "md-arrow-back"
+                }
+                color="#fff"
+                style={styles.backArrow}
+              />
+            </TouchableWithoutFeedback>
+            <View style={styles.circleWrapper}>
+              <View style={styles.circleG} />
+              <View style={styles.circleB} />
+              <View style={styles.circleB} />
+              <View style={styles.circleB} />
+              <View style={styles.circleB} />
+            </View>
+            <TouchableWithoutFeedback>
+              <Icon
+                size={30}
+                name={
+                  Platform.OS === "ios" ? "ios-arrow-back" : "md-arrow-back"
+                }
+                color={colors.blueColor}
+                style={styles.backArrow}
+              />
+            </TouchableWithoutFeedback>
           </View>
-          <View style={styles.headerWrapper}>
-            <Text style={styles.header}>
-              Select the university you currently attend
-            </Text>
+          <View style={styles.container2}>
+            <View style={styles.headerWrapper}>
+              <Text style={styles.header}>
+                Select the university you currently attend
+              </Text>
+            </View>
+            {uniSelect}
           </View>
-          {uniSelect}
         </View>
       );
     } else if (this.state.step === 1) {
@@ -311,13 +342,13 @@ class GroupSelectUniversity extends Component {
                 You will NOT be able to change this information, please make
                 sure it's correct
               </Text> */}
-                <TouchableWithoutFeedback onPress={() => this.backToYear()}>
+                <TouchableWithoutFeedback onPress={() => this.backToUni()}>
                   <View style={styles.iconWrapper}>
                     <View style={styles.imageWrapper}>
                       <Icon
-                        size={40}
+                        size={38}
                         name="ios-close-circle-outline"
-                        color="#333"
+                        color="#fff"
                       />
                     </View>
                     <Text style={[styles.logoutText]}>No, go back</Text>
@@ -332,9 +363,9 @@ class GroupSelectUniversity extends Component {
                   <View style={styles.iconWrapper}>
                     <View style={styles.imageWrapper}>
                       <Icon
-                        size={40}
+                        size={38}
                         name="ios-checkmark-circle-outline"
-                        color="#333"
+                        color="#fff"
                       />
                     </View>
                     <Text style={[styles.logoutText]}>Yes, continue</Text>
@@ -487,11 +518,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginTop: 30,
-    backgroundColor: colors.yellowColor,
+    backgroundColor: colors.darkBlue,
     borderRadius: 20
+    // borderWidth: 1,
+    // borderColor: colors.yellowColor
   },
   logoutText: {
-    color: "#333",
+    color: "#fff",
     //padding: 10,
     //width: 250,
     width: "70%",

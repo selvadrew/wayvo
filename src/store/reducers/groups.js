@@ -3,7 +3,9 @@ import {
   SET_UNIVERSITIES,
   SET_PROGRAMS,
   CACHE_CONTINUE,
-  SET_USER_GROUPS
+  SET_USER_GROUPS,
+  SAID_HELLO_GROUPS,
+  SET_CONNECTED_USERS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -13,7 +15,10 @@ const initialState = {
   programId: null,
   startYear: null,
   enrolledUniversity: null,
-  userGroups: null
+  userGroups: null,
+  can_say_hello_groups: null,
+  seconds_left_groups: null,
+  groupConnections: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -44,6 +49,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         enrolledUniversity: action.enrolledUniversity,
         userGroups: action.userGroups
+      };
+    case SAID_HELLO_GROUPS:
+      return {
+        ...state,
+        seconds_left_groups: action.seconds_left_groups,
+        can_say_hello_groups: action.can_say_hello_groups
+      };
+    case SET_CONNECTED_USERS:
+      return {
+        ...state,
+        groupConnections: action.groupConnections
       };
     default:
       return state;

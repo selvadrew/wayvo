@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 
-class SaidHello extends Component {
+class SaidHelloGroups extends Component {
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -33,7 +33,7 @@ class SaidHello extends Component {
             helloStatus = (
               <View>
                 <Text style={styles.successText}>
-                  Hang tight, you will receive a call from the first friend to
+                  Hang tight, you will receive a call from the first person to
                   Say Hello Back.
                 </Text>
                 <GotIt
@@ -106,4 +106,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(SaidHello);
+export default connect(mapStateToProps)(SaidHelloGroups);

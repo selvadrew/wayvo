@@ -43,6 +43,7 @@ class GroupsExplanation extends Component {
           onPress={() => this.onJoinGroups()}
           backgroundColor={colors.yellowColor}
           color="#333"
+          fontSize={18}
         >
           JOIN MY UNIVERSITY
         </GotIt>
@@ -70,7 +71,7 @@ class GroupsExplanation extends Component {
         </Text>
         <Text style={styles.bulletPoint}>
           {"\u2022"} from your program of study {"\n"}
-          {"\u2022"} from the school clubs you're in{"\n"}
+          {"\u2022"} from school clubs you can join{"\n"}
           {"\u2022"} with the same interests
         </Text>
         <Text style={styles.paragrapgh}>
@@ -103,13 +104,13 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   title: {
-    color: colors.yellowColor,
+    color: "#fff",
     textAlign: "center",
     fontWeight: "800",
     fontSize: 25
   },
   subTitle: {
-    color: colors.yellowColor,
+    color: "#fff",
     textAlign: "center",
     fontWeight: "500",
     fontSize: 18

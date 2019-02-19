@@ -5,10 +5,20 @@ import {
   SET_UNIVERSITIES,
   SET_PROGRAMS,
   CACHE_CONTINUE,
-  SET_USER_GROUPS
+  SET_USER_GROUPS,
+  SAID_HELLO_GROUPS,
+  SUBMITTED,
+  SET_CONNECTED_USERS
 } from "./actionTypes";
 import { startLoadingGroups, stopLoadingGroups } from "../../store/actions/ui";
+import { getActiveGroups } from "../../store/actions/activeGroups";
 import { authGetToken } from "../actions/users";
+import {
+  startLoadingHello,
+  stopLoadingHello,
+  uiStartLoading,
+  uiStopLoading
+} from "../../store/actions/ui";
 
 export const changeGroupState = position => {
   return {
@@ -117,7 +127,7 @@ export const joinProgram = (programId, startYear) => {
         if (json.is_success) {
           dispatch(stopLoadingGroups());
           dispatch(changeGroupState(3));
-          alert("success");
+          dispatch(submitted());
           AsyncStorage.setItem("pp:submitted", "true");
         } else {
           dispatch(stopLoadingGroups());
@@ -128,6 +138,12 @@ export const joinProgram = (programId, startYear) => {
         dispatch(stopLoadingGroups());
         alert("Sorry, something went wrong. Please try again.");
       });
+  };
+};
+
+export const submitted = () => {
+  return {
+    type: SUBMITTED
   };
 };
 
@@ -173,5 +189,156 @@ export const setUserGroups = (enrolledUniversity, userGroups) => {
     type: SET_USER_GROUPS,
     enrolledUniversity: enrolledUniversity,
     userGroups: userGroups
+  };
+};
+
+export const outgoingGroupCall = programId => {
+  return dispatch => {
+    dispatch(startLoadingHello());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(stopLoadingGroups());
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/group_connections`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            program_id: programId
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          //dispatch(secondsLeft(600));
+          dispatch(saidHelloGroups(json.seconds_left, false)); //will show the you're live groups version
+          dispatch(stopLoadingHello(json.is_success));
+        } else {
+          if (json.group_is_live) {
+            dispatch(stopLoadingHello(json.is_success, json.error));
+            dispatch(getActiveGroups());
+
+            Alert.alert(json.error);
+          } else if (json.prevent_spam) {
+            dispatch(stopLoadingHello(json.is_success, json.error));
+          } else {
+            dispatch(stopLoadingHello(json.is_success, json.error));
+          }
+        }
+      })
+      .catch(e => {
+        dispatch(
+          stopLoadingHello(
+            false,
+            "Oops, we couldn't connect, please try again."
+          )
+        );
+      });
+  };
+};
+
+export const checkIfUserLiveGroups = () => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("Not authenticated");
+        dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/said_hello_groups`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          let seconds_left;
+          let now = new Date(new Date().toISOString());
+          let dateSaid = new Date(json.last_said_hello);
+          let calculatedSeconds = Math.round(
+            json.countdown_timer - (now - dateSaid) / 1000
+          );
+          if (calculatedSeconds > 0) {
+            seconds_left = calculatedSeconds;
+          } else {
+            seconds_left = null;
+          }
+          dispatch(saidHelloGroups(seconds_left, false)); //will show the you're live groups version
+          dispatch(uiStopLoading());
+        } else {
+          dispatch(uiStopLoading());
+          dispatch(saidHelloGroups(null, true));
+        }
+      })
+      .catch(e => {
+        Alert.alert("Oops, we couldn't connect, please try again");
+        dispatch(uiStopLoading());
+      });
+  };
+};
+
+export const saidHelloGroups = (seconds_left_groups, can_say_hello_groups) => {
+  return {
+    type: SAID_HELLO_GROUPS,
+    seconds_left_groups: seconds_left_groups,
+    can_say_hello_groups: can_say_hello_groups
+  };
+};
+
+//remember to stoploadingGroups when back button is pressed
+export const getConnectedUsers = program_id => {
+  return dispatch => {
+    dispatch(startLoadingGroups());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(stopLoadingGroups());
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/connected_users`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            program_id: program_id
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(stopLoadingGroups());
+          dispatch(setConnectedUsers(json.group_connections));
+        } else {
+          alert("Sorry, something went wrong.");
+          dispatch(stopLoadingGroups());
+        }
+      })
+      .catch(e => {
+        dispatch(stopLoadingGroups());
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
+export const setConnectedUsers = group_connections => {
+  return {
+    type: SET_CONNECTED_USERS,
+    groupConnections: group_connections
   };
 };

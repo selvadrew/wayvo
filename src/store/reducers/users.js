@@ -3,7 +3,8 @@ import {
   USERNAME_ERROR,
   STORE_PHONE_NUMBER,
   SIGNUP_ERROR,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  SUBMITTED
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -64,7 +65,11 @@ const reducer = (state = initialState, action) => {
         twitter: action.twitter,
         submitted: action.submitted
       };
-
+    case SUBMITTED:
+      return {
+        ...state,
+        submitted: true
+      };
     default:
       return state;
   }

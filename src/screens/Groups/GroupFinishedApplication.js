@@ -42,7 +42,8 @@ class GroupFinishedApplication extends Component {
         </View> */}
         <Text style={styles.paragrapgh}>
           Thank you for your submission, you will receive a notification once
-          your profile is approved.
+          your profile is approved. If you have any questions or concerns let us
+          know in the feedback section.
         </Text>
       </View>
     );

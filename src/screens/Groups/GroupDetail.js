@@ -10,18 +10,18 @@ import {
   StatusBar,
   Switch,
   Alert,
-  Dimensions
+  Dimensions,
+  ActivityIndicator
 } from "react-native";
 import { connect } from "react-redux";
 
 import Icon from "react-native-vector-icons/Ionicons";
-import {
-  deleteFriend,
-  sendNotification,
-  receiveNotification
-} from "../../store/actions/friends";
+import { addFriend } from "../../store/actions/friends";
 import DeleteButton from "../../components/UI/DeleteContactButton";
 import colors from "../../utils/styling";
+
+import ConnectedMembers from "../../components/GroupsList/ConnectedMembersList";
+import DropdownAlert from "react-native-dropdownalert";
 
 class GroupDetail extends Component {
   static navigatorStyle = {
@@ -36,120 +36,62 @@ class GroupDetail extends Component {
   }
 
   state = {
-    send_initial: this.props.selectedFriend.send_notifications,
-    receive_initial: this.props.selectedFriend.receive_notifications,
-    send_notifications: this.props.selectedFriend.send_notifications,
-    receive_notifications: this.props.selectedFriend.receive_notifications
+    // send_initial: this.props.selectedFriend.send_notifications
   };
 
-  sendChange = () => {
-    this.setState(prevState => ({
-      send_notifications: !prevState.send_notifications
-    }));
-  };
+  // This list
 
-  receiveChange = () => {
-    this.setState(prevState => ({
-      receive_notifications: !prevState.receive_notifications
-    }));
-  };
+  // When you connect with members from this group, you'll see them here.
+  // You can add them to your friends list to connect again.
 
-  componentWillUnmount() {
-    if (this.state.send_initial !== this.state.send_notifications) {
-      this.props.onSendNotification(
-        this.props.selectedFriend.id,
-        this.state.send_notifications
-      );
-    }
-    if (this.state.receive_initial !== this.state.receive_notifications) {
-      this.props.onReceiveNotification(
-        this.props.selectedFriend.id,
-        this.state.receive_notifications
-      );
-    }
-  }
-
-  logoutPrompt = () => {
-    Alert.alert(
-      "Are you sure you want to delete this friend?",
-      "",
-      [
-        {
-          text: "Cancel",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        {
-          text: "Delete",
-          onPress: () => this.friendDeletedHandler(),
-          style: "destructive"
-        }
-      ],
-      { cancelable: true }
-    );
-  };
-
-  friendDeletedHandler = () => {
-    this.props.onDeleteFriend(
-      this.props.selectedFriend.id,
-      this.props.selectedFriend.fullname
-    );
+  addMember = (id, username) => {
+    this.props.onAddFriend(username);
+    this.props.navigator.switchToTab({
+      tabIndex: 1
+    });
     this.props.navigator.pop();
   };
 
   render() {
+    let header = null;
+    if (this.props.isLoadingGroups) {
+      header = <ActivityIndicator color="#333" />;
+    } else {
+      if (
+        this.props.groupConnections &&
+        this.props.groupConnections.length > 0
+      ) {
+        header = (
+          <View style={styles.headerWrapper}>
+            <Text style={styles.headerText}>
+              Here are the members you've connected with from this group. You
+              can add them to your Friends list to connect again.
+            </Text>
+          </View>
+        );
+      } else {
+        header = (
+          <View style={styles.headerWrapperNoB}>
+            <Text style={styles.headerText}>
+              After you connect with members from this group, you'll see them on
+              this screen. Go "make a new friend" to start connecting with
+              others from this group.
+            </Text>
+          </View>
+        );
+      }
+    }
     return (
       <View style={styles.container}>
         <StatusBar
           barStyle="light-content"
           backgroundColor={colors.blueColor}
         />
-        <View>
-          <Text style={styles.name}>{this.props.selectedFriend.fullname}</Text>
-          <Text style={styles.username}>
-            {this.props.selectedFriend.username}
-          </Text>
-        </View>
-
-        <View style={[styles.toggleWrapper, styles.borderOverride]}>
-          {/* toggle options here  */}
-          <View style={styles.toggleSection}>
-            <Text style={styles.toggleText}>
-              Let this friend know when I Say Hello
-            </Text>
-          </View>
-          <Switch
-            style={styles.switch}
-            value={this.state.send_notifications}
-            onValueChange={this.sendChange}
-          />
-        </View>
-        <View style={styles.toggleWrapper}>
-          {/* toggle options here  */}
-          <View style={styles.toggleSection}>
-            <Text style={styles.toggleText}>
-              Let me know when this friend Says Hello
-            </Text>
-          </View>
-          <Switch
-            style={styles.switch}
-            value={this.state.receive_notifications}
-            onValueChange={this.receiveChange}
-            trackColor={colors.blueColor}
-          />
-        </View>
-
-        <View style={styles.deleteContainer}>
-          <DeleteButton onPress={this.logoutPrompt}>DELETE FRIEND</DeleteButton>
-        </View>
-
-        {/* <View>
-          <Text>
-            Protip: Friends will not know if you delete them. If you are
-            currently in their friend list, you will still remain in their
-            friend list once you delete them.
-          </Text>
-        </View> */}
+        {header}
+        <ConnectedMembers
+          members={this.props.groupConnections}
+          onItemSelected={this.addMember}
+        />
       </View>
     );
   }
@@ -158,72 +100,46 @@ class GroupDetail extends Component {
 const styles = StyleSheet.create({
   container: {
     margin: 22,
+    marginTop: 10,
     flex: 1,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center"
   },
-  name: {
-    fontWeight: "bold",
-    fontSize: 25,
-    color: colors.blueColor,
-    textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
-  },
-  username: {
-    fontWeight: "bold",
-    fontSize: 25,
-    color: colors.pinkColor,
-    textAlign: "center",
-    marginBottom: 25,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
-  },
-  deleteButton: {
-    alignItems: "center"
-  },
-  deleteContainer: {
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    flex: 1
-  },
-  borderOverride: {
-    borderTopWidth: 1,
-    borderTopColor: "#777"
-  },
-  toggleWrapper: {
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: "row",
-    width: "100%",
-    paddingBottom: 10,
-    paddingTop: 10,
+  headerWrapper: {
+    marginBottom: 20,
+    paddingVertical: 10,
+    borderBottomColor: "#555",
     borderBottomWidth: 1,
-    borderBottomColor: "#777"
+    width: "100%",
+    fontWeight: "400"
   },
-  toggleSection: {
-    width: "60%"
+  headerWrapperNoB: {
+    marginBottom: 20,
+    paddingVertical: 10,
+    width: "100%",
+    fontWeight: "400"
   },
-  toggleText: {
-    fontSize: Dimensions.get("window").width > 330 ? 18 : 17,
-    color: "#333",
-    paddingLeft: 8,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
-  },
-  switch: {
-    marginRight: 8
+  headerText: {
+    fontSize: 20,
+    color: "#444"
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onDeleteFriend: (id, fullname) => dispatch(deleteFriend(id, fullname)),
-    onSendNotification: (id, option) => dispatch(sendNotification(id, option)),
-    onReceiveNotification: (id, option) =>
-      dispatch(receiveNotification(id, option))
+    onAddFriend: username => dispatch(addFriend(username))
+  };
+};
+
+const mapStateToProps = state => {
+  return {
+    groupConnections: state.groups.groupConnections,
+    isLoadingGroups: state.ui.isLoadingGroups
   };
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(GroupDetail);

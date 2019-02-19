@@ -20,6 +20,7 @@ import DropdownAlert from "react-native-dropdownalert";
 import GotIt from "../../components/UI/GotItButton";
 import AddButton from "../../components/UI/AddButton";
 import GroupsList from "../../components/GroupsList/GroupsList";
+import { getConnectedUsers } from "../../store/actions/groups";
 
 class GroupMainScreen extends Component {
   static navigatorStyle = {
@@ -31,28 +32,41 @@ class GroupMainScreen extends Component {
   }
 
   groupsSelectedHandler = id => {
-    alert(id);
+    this.props.getConnectedUsers(id);
+
+    this.props.navigator.push({
+      screen: "awesome-places.GroupSelectedScreen",
+      backButtonTitle: ""
+    });
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.friends}>
-          <View style={styles.friendsHeaderWrapper}>
-            <Text style={styles.friendsHeader}>Groups</Text>
-            <AddButton
-              onPress={() =>
-                Alert.alert(
-                  "You cannot join or create new groups at your school yet. It will be available September 2019."
-                )
-              }
-            />
+      <View>
+        <View style={styles.container2}>
+          <View style={styles.friends2}>
+            <View style={styles.friendsHeaderWrapper2}>
+              <Text style={styles.friendsHeader2}>Groups</Text>
+              <AddButton
+                onPress={() =>
+                  Alert.alert(
+                    "You cannot currently join or create new groups",
+                    `It will be available soon at the ${
+                      this.props.enrolledUniversity
+                    }.`
+                  )
+                }
+              />
+            </View>
           </View>
+          <GroupsList
+            groups={this.props.userGroups}
+            onItemSelected={this.groupsSelectedHandler}
+          />
+          {/* <View style={styles.uniWrapper}>
+            <Text style={styles.uniName}>{this.props.enrolledUniversity}</Text>
+          </View> */}
         </View>
-        <GroupsList
-          groups={this.props.userGroups}
-          onItemSelected={this.groupsSelectedHandler}
-        />
       </View>
     );
   }
@@ -68,22 +82,22 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    //onGetUniversities: () => dispatch(getUniversities())
+    getConnectedUsers: program_id => dispatch(getConnectedUsers(program_id))
   };
 };
 
 const styles = StyleSheet.create({
-  container: {
+  container2: {
     padding: 20,
     paddingTop: 10,
     flex: 1,
     flexDirection: "column"
   },
-  friends: {
+  friends2: {
     //margin: 10
     //marginHorizontal: 20
   },
-  friendsHeader: {
+  friendsHeader2: {
     // flexDirection: "row",
     // alignItems: "center",
     // width: "100%",
@@ -94,12 +108,22 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
-  friendsHeaderWrapper: {
+  friendsHeaderWrapper2: {
     borderBottomWidth: 1,
     borderBottomColor: "#eee",
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between"
+  },
+  uniName2: {
+    textAlign: "center",
+    color: colors.darkBlue,
+    padding: 10,
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  uniWrapper2: {
+    marginHorizontal: 20
   }
 });
 
