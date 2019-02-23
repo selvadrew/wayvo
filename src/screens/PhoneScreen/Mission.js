@@ -35,26 +35,24 @@ class Mission extends Component {
         style={styles.container}
       >
         {/* <Text style={styles.subtitle}>About</Text> */}
-        <Text style={styles.header}>
-          {/* If you ever run out of things to talk about, ask these questions to
-          get to know your friends better.
-          {"\n"} */}
-          Wayvo is a social movement helping people achieve daily happiness
-          through FRIENDSHIPS.
-          {"\n"}
+        <View style={styles.wrapper}>
+          <Text style={styles.header}>
+            Wayvo is on a mission to make the world happier through friendships.
+            {/* {"\n"}
           {"\n"}
           In a digital age where superficial photos and likes have become
-          addictive, Wayvo is the app for people who want to build meaningful
+          addictive, it's  difficult to 
+          Wayvo is the app for people who want to build meaningful
           friendships through real conversations. Just Say Hello the next time
-          you're free to invite someone into your day.
-        </Text>
+          you're free to invite someone into your day. */}
+          </Text>
+        </View>
         {/* <Text style={[styles.subtitle, styles.header2]}>Presence</Text>
         <Text style={styles.header}>
-          It’s used by students from all the universities below. Don’t see
-          yours? Let us know in the feedback section and we’ll be there soon.
-        </Text> */}
+          We have currently opened up Wayvo to all universities in Ontario and will cap the number at 100 for each 
+        </Text>
 
-        {/* <View style={styles.uniPicRow}>
+        <View style={styles.uniPicRow}>
           <Image
             source={require("../../assets/Western.png")}
             style={styles.uniPic}
@@ -99,6 +97,12 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 15
   },
+  wrapper: {
+    flex: 1,
+    alignContent: "center",
+    justifyContent: "center",
+    marginBottom: 10
+  },
   subtitle: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 16,
     color: "#111",
@@ -109,12 +113,15 @@ const styles = StyleSheet.create({
     textDecorationLine: "underline"
   },
   header: {
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    color: "#111",
-    fontWeight: "400",
+    fontSize: Dimensions.get("window").width > 330 ? 25 : 18,
+    color: "#444",
+    fontWeight: "600",
     fontFamily: Platform.OS === "android" ? "Roboto" : null,
     letterSpacing: 0.8,
-    lineHeight: Dimensions.get("window").width > 330 ? 25 : 20
+    lineHeight: Dimensions.get("window").width > 330 ? 25 : 20,
+    textAlign: "center",
+    letterSpacing: 1,
+    lineHeight: 30
   },
   header2: {
     marginTop: 20

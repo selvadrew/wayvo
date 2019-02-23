@@ -138,8 +138,8 @@ class FriendDetail extends Component {
       screen = (
         <View style={styles.failContainer}>
           <Text style={styles.failText}>
-            Sorry, this call was connected with another person or has expired.
-            Better luck next time.
+            This call was connected with another person or has expired. Better
+            luck next time.
           </Text>
         </View>
       );

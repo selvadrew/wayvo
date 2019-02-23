@@ -41,9 +41,16 @@ class GroupFinishedApplication extends Component {
           />
         </View> */}
         <Text style={styles.paragrapgh}>
-          Thank you for your submission, you will receive a notification once
+          {/* Thank you for your submission, you will receive a notification once
           your profile is approved. If you have any questions or concerns let us
-          know in the feedback section.
+          know in the feedback section. */}
+          Thank you for your submission, check back in 24 hours(pull down to
+          refresh the screen).
+          {"\n"}
+          {"\n"}
+          Once approved, when you press "Make a new friend" you will get
+          connected on a voice or video call with someone in your program of
+          study.
         </Text>
       </View>
     );

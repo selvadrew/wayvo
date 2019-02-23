@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 21,
     marginTop: 20,
-    fontWeight: "400"
+    fontWeight: "400",
+    letterSpacing: 0.5
   },
   verifyButton: {
     marginTop: 40

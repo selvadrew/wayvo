@@ -224,18 +224,6 @@ class PhoneScreen extends Component {
       }, 2500);
     }
 
-    AsyncStorage.getItem("tour").then(tourStatus => {
-      if (tourStatus === "finished") {
-        this.setState({
-          tapped: 2
-        });
-      } else {
-        this.setState({
-          tapped: 0
-        });
-      }
-    });
-
     this.props.getUserGroups();
 
     // alert(Dimensions.get("window").height);
@@ -296,47 +284,7 @@ class PhoneScreen extends Component {
 
   constructor(props) {
     super(props);
-    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
-
-  onNavigatorEvent = event => {
-    if (event.type === "ScreenChangedEvent") {
-      if (event.id === "willAppear") {
-        ////////////////// permissions
-
-        firebase
-          .messaging()
-          .hasPermission()
-          .then(enabled => {
-            if (enabled) {
-              this.setState({
-                androidNotificationsEnabled: true
-              });
-            } else {
-              this.setState({
-                androidNotificationsEnabled: false
-              });
-            }
-          });
-
-        firebase
-          .messaging()
-          .requestPermission()
-          .then(() => {
-            this.setState({
-              notificationsEnabled: true
-            });
-          })
-          .catch(error => {
-            this.setState({
-              notificationsEnabled: false
-            });
-          });
-
-        //// end permissions
-      }
-    }
-  };
 
   state = {
     timeSelected: 1,
@@ -352,6 +300,20 @@ class PhoneScreen extends Component {
     modalVisible: false,
     selectedGroupID: null,
     selectedGroupType: null
+  };
+
+  defaultButtons = () => {
+    // Animated.timing(this.state.helloAnim, {
+    //   toValue: 0,
+    //   duration: 800
+    // }).start();
+    this.setState({
+      catchUp: false,
+      newFriend: false,
+      iconCatchUp: false,
+      iconNewFriend: false,
+      helloAnim: new Animated.Value(0)
+    });
   };
 
   setModalVisible(visible) {
@@ -417,7 +379,7 @@ class PhoneScreen extends Component {
             style: "cancel"
           },
           {
-            text: "Join",
+            text: "Learn more",
             onPress: () => {
               this.props.navigator.switchToTab({
                 tabIndex: 2
@@ -553,7 +515,7 @@ class PhoneScreen extends Component {
                     style={[
                       styles.leftBox,
                       styles.selectionBox1,
-                      this.state.iconCatchUp ? styles.goPink : styles.default
+                      this.state.iconCatchUp ? styles.goGreen : styles.default
                     ]}
                   >
                     <Icon size={50} name="ios-people" color="#fff" />
@@ -561,7 +523,7 @@ class PhoneScreen extends Component {
                   <View
                     style={[
                       styles.rightBox1,
-                      this.state.catchUp ? styles.goPink : null
+                      this.state.catchUp ? styles.goGreen : null
                     ]}
                   >
                     <Text style={styles.rightText1}>
@@ -609,7 +571,10 @@ class PhoneScreen extends Component {
               ]}
             >
               <GotIt
-                onPress={() => this.sayHello()}
+                onPress={() => {
+                  this.sayHello();
+                  this.defaultButtons();
+                }}
                 backgroundColor={colors.yellowColor}
                 color="#333"
                 fontSize={25}
@@ -617,8 +582,8 @@ class PhoneScreen extends Component {
               >
                 SAY HELLO
               </GotIt>
+              <Text style={styles.lastConnected}>{toWho}</Text>
             </Animated.View>
-            <Text style={styles.lastConnected}>{toWho}</Text>
           </View>
         );
         // button finishes here - button is actually all of main wave screen
@@ -704,7 +669,10 @@ class PhoneScreen extends Component {
               {liveVersion}
               <CountDown
                 until={this.props.seconds_left_groups}
-                onFinish={() => this.props.checkIfUserLiveGroups()}
+                onFinish={() => {
+                  this.props.checkIfUserLiveGroups();
+                  this.defaultButtons();
+                }}
                 size={40}
                 digitBgColor={colors.yellowColor}
                 digitTxtColor="#333"
@@ -732,7 +700,10 @@ class PhoneScreen extends Component {
               {liveVersion}
               <CountDown
                 until={this.props.seconds_left}
-                onFinish={() => this.props.getLastCall()}
+                onFinish={() => {
+                  this.props.getLastCall();
+                  this.defaultButtons();
+                }}
                 size={40}
                 digitBgColor={colors.yellowColor}
                 digitTxtColor="#333"
@@ -930,7 +901,7 @@ const styles = StyleSheet.create({
     borderColor: colors.pinkColor,
     width: "80%",
     //height: "80%",
-    maxHeight: 110,
+    maxHeight: 130,
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -945,7 +916,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRightColor: colors.blueColor,
-    borderRightWidth: 2
+    borderRightWidth: 1
     //backgroundColor: colors.pinkColor
   },
   selectionBox1: {
@@ -975,8 +946,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.darkBlue
   },
   goPink: {
-    // backgroundColor: colors.pinkColor
-    backgroundColor: "#EF5350"
+    backgroundColor: colors.pinkColor
+    //backgroundColor: "#ff7227"
   },
   goGreen: {
     backgroundColor: colors.greenColor
@@ -1022,7 +993,7 @@ const styles = StyleSheet.create({
   },
   container2: {
     flex: 1,
-    paddingBottom: 20,
+    paddingBottom: 10,
     //paddingTop: 20,
     //padding: 8,
     backgroundColor: colors.blueColor
@@ -1234,7 +1205,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    marginTop: 5
   },
   notificationText: {
     color: "#fff",

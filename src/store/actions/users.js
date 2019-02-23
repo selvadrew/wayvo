@@ -426,6 +426,7 @@ export const savePhoneNumber = phoneNumber => {
         } else {
           alert(json.error);
           dispatch(uiStopLoading());
+          console.log(json.error);
         }
       })
       .catch(e => {

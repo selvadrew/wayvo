@@ -9,7 +9,8 @@ import {
   Platform,
   SafeAreaView,
   Dimensions,
-  StatusBar
+  StatusBar,
+  Linking
 } from "react-native";
 import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
@@ -20,11 +21,57 @@ import {
   joinGroupCall
 } from "../../store/actions/activeGroups";
 import colors from "../../utils/styling";
+import firebase from "react-native-firebase";
 
 class ActiveFriendsScreen extends Component {
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
+
+  onNavigatorEvent = event => {
+    if (event.type === "ScreenChangedEvent") {
+      if (event.id === "willAppear") {
+        ////////////////// permissions
+
+        firebase
+          .messaging()
+          .hasPermission()
+          .then(enabled => {
+            if (enabled) {
+              this.setState({
+                androidNotificationsEnabled: true
+              });
+            } else {
+              this.setState({
+                androidNotificationsEnabled: false
+              });
+            }
+          });
+
+        firebase
+          .messaging()
+          .requestPermission()
+          .then(() => {
+            this.setState({
+              notificationsEnabled: true
+            });
+          })
+          .catch(error => {
+            this.setState({
+              notificationsEnabled: false
+            });
+          });
+
+        //// end permissions
+      }
+    }
+  };
+
+  state = {
+    notificationsEnabled: true,
+    androidNotificationsEnabled: true
+  };
 
   componentDidMount() {
     this.props.onLoadActiveFriends();
@@ -49,6 +96,14 @@ class ActiveFriendsScreen extends Component {
     this.props.navigator.push({
       screen: "awesome-places.ConnectedStatusGroupsScreen",
       backButtonTitle: ""
+    });
+  };
+
+  appSettings = () => {
+    Linking.openURL("app-settings:");
+    // change tab so when they come back, it refreshes
+    this.props.navigator.switchToTab({
+      tabIndex: 0
     });
   };
 
@@ -77,13 +132,37 @@ class ActiveFriendsScreen extends Component {
       this.props.active_groups.length + this.props.active_friends.length ===
       0
     ) {
-      activeExplain = (
-        <Text style={styles.activeExplain}>
-          When friends or group members Say Hello, they'll appear here until
-          time expires. Say Hello Back to start a call with them.
-          {/* Be the first to Say Hello Back to connect with them. */}
-        </Text>
-      );
+      if (
+        this.state.notificationsEnabled &&
+        this.state.androidNotificationsEnabled
+      ) {
+        activeExplain = (
+          <Text style={styles.activeExplain}>
+            When friends or group members Say Hello they'll appear here for 10
+            minutes. Be the first one to Say Hello Back to start a call with
+            them.
+            {/* Be the first to Say Hello Back to connect with them. */}
+          </Text>
+        );
+      } else {
+        if (Platform.OS === "ios") {
+          activeExplain = (
+            <Text style={styles.activeExplain} onPress={this.appSettings}>
+              Allow notifications{" "}
+              <Text style={styles.notificationHere}>here </Text>
+              if you want to be notified when friends and group members Say
+              Hello
+            </Text>
+          );
+        } else {
+          activeExplain = (
+            <Text style={styles.activeExplain}>
+              Allow notifications in app settings if you want to be notified
+              when friends and group members Say Hello
+            </Text>
+          );
+        }
+      }
     }
 
     return (
@@ -187,7 +266,23 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingVertical: 10,
     paddingRight: 10,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    letterSpacing: 0.5
+  },
+  notificationHere: {
+    color: colors.darkBlue,
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
+    //textAlign: "center",
+    flex: 1,
+    //alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    fontWeight: "700",
+    paddingLeft: 20,
+    paddingVertical: 10,
+    paddingRight: 10,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    letterSpacing: 0.5
   }
 });
 

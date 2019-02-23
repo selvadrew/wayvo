@@ -73,8 +73,8 @@ class GroupDetail extends Component {
         header = (
           <View style={styles.headerWrapperNoB}>
             <Text style={styles.headerText}>
-              After you connect with members from this group, you'll see them on
-              this screen. Go "make a new friend" to start connecting with
+              Once you connect with members from this group, you will see them
+              on this screen. Go "Make a new friend" to start connecting with
               others from this group.
             </Text>
           </View>

@@ -92,6 +92,7 @@ export const joinGroupCall = id => {
       .catch(e => {
         dispatch(uiStopLoading());
         alert(e);
+        console.log(e);
       });
   };
 };

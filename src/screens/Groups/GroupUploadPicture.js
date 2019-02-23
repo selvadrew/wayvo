@@ -14,7 +14,8 @@ import {
   Dimensions,
   TouchableWithoutFeedback,
   Modal,
-  Alert
+  Alert,
+  Linking
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
@@ -50,46 +51,65 @@ class GroupUploadPicture extends Component {
     this.setModalVisible(true);
   };
 
+  appSettings = () => {
+    Linking.openURL("app-settings:");
+    // change tab so when they come back, it refreshes
+  };
+
   pickImageHandler = () => {
-    // if (Platform.OS === "ios") {
-    //   // ios
-    //   ImagePicker.showImagePicker(
-    //     { title: "Upload picture of your student ID" },
-    //     res => {
-    //       if (res.didCancel) {
-    //         console.log("User cancelled!");
-    //       } else if (res.error) {
-    //         console.log("Error", res.error);
-    //       } else {
-    //         this.setState({
-    //           pickedImaged: { uri: res.uri },
-    //           rotatePosition: 0
-    //         });
-    //         //console.log(res.uri);
-    //         //this.props.onImagePicked({uri: res.uri, base64: res.data});
-    //       }
-    //     }
-    //   );
-    // } else {
-    // android
-    ImagePicker.launchCamera(
-      { title: "Take a selfie with your student ID" },
-      res => {
-        if (res.didCancel) {
-          console.log("User cancelled!");
-        } else if (res.error) {
-          console.log("Error", res.error);
-        } else {
-          this.setState({
-            pickedImaged: { uri: res.uri },
-            rotatePosition: 0
-          });
-          console.log(res.uri);
-          //this.props.onImagePicked({uri: res.uri, base64: res.data});
+    if (Platform.OS === "ios") {
+      // ios
+      ImagePicker.showImagePicker(
+        { title: "Take a selfie with your student ID", cameraType: "front" },
+        res => {
+          if (res.didCancel) {
+            console.log("User cancelled!");
+          } else if (res.error) {
+            console.log("Error1", res.error);
+            Alert.alert(
+              "Please allow Wayvo to access the Camera to continue",
+              "Enable camera access so you can take a selfie with your student ID card",
+              [
+                {
+                  text: "OK",
+                  onPress: () => this.appSettings()
+                }
+              ]
+            );
+          } else {
+            this.setState({
+              pickedImaged: { uri: res.uri },
+              rotatePosition: 0
+            });
+            console.log(res.uri);
+            //this.props.onImagePicked({uri: res.uri, base64: res.data});
+          }
         }
-      }
-    );
-    // }
+      );
+    } else {
+      // android
+      ImagePicker.launchCamera(
+        { title: "Take a selfie with your student ID" },
+        res => {
+          if (res.didCancel) {
+            console.log("User cancelled!");
+          } else if (res.error) {
+            console.log("Error", res.error);
+            Alert.alert(
+              "Allow Wayvo to access the Camera to continue",
+              "Go to app settings"
+            );
+          } else {
+            this.setState({
+              pickedImaged: { uri: res.uri },
+              rotatePosition: 0
+            });
+            console.log(res.uri);
+            //this.props.onImagePicked({uri: res.uri, base64: res.data});
+          }
+        }
+      );
+    }
   };
 
   clearImage = () => {

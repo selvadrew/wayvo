@@ -174,12 +174,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginBottom: 20,
     padding: 10,
-    textAlign: "center"
+    textAlign: "center",
+    letterSpacing: 0.6
   },
   questionText: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     color: colors.darkBlue,
-    fontWeight: "600"
+    fontWeight: "600",
+    letterSpacing: 0.6
   }
 });
 

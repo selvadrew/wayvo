@@ -137,6 +137,7 @@ export const joinProgram = (programId, startYear) => {
       .catch(e => {
         dispatch(stopLoadingGroups());
         alert("Sorry, something went wrong. Please try again.");
+        console.log(e);
       });
   };
 };
@@ -173,13 +174,13 @@ export const getUserGroups = () => {
           dispatch(stopLoadingGroups());
           dispatch(setUserGroups(json.university_name, json.program_details));
         } else {
-          alert(json.error);
           dispatch(stopLoadingGroups());
         }
       })
       .catch(e => {
         dispatch(stopLoadingGroups());
         Alert.alert("Oops, we couldn't connect, please try again");
+        console.log(e);
       });
   };
 };
@@ -285,6 +286,7 @@ export const checkIfUserLiveGroups = () => {
       .catch(e => {
         Alert.alert("Oops, we couldn't connect, please try again");
         dispatch(uiStopLoading());
+        console.log(e);
       });
   };
 };
@@ -332,6 +334,7 @@ export const getConnectedUsers = program_id => {
       .catch(e => {
         dispatch(stopLoadingGroups());
         Alert.alert("Oops, we couldn't connect, please try again");
+        console.log(e);
       });
   };
 };

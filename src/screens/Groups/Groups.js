@@ -124,6 +124,7 @@ class GroupsScreen extends Component {
           } else {
             this.props.getUserInfo(false);
           }
+          this.props.getUserGroups();
         }}
       />
     );
