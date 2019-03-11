@@ -5,6 +5,7 @@
 // RELEASE SIMULATORS
 // react-native run-android --variant=release
 //react-native run-ios --configuration Release
+// react-native run-ios --configuration Release --simulator="iPhone X"
 
 // to generate the release APK
 // $ cd android
@@ -19,6 +20,6 @@
 // 10.20.79.132 - waterloo
 // 192.168.0.16 - sunview
 
-// export const HOST = "http://10.20.79.132:3000";
+// export const HOST = "http://192.168.1.26:3000";
 
 export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";

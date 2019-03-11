@@ -739,6 +739,10 @@ class PhoneScreen extends Component {
             <Text style={styles.modalTitle}>
               From which group do you want to make a new friend?
             </Text>
+            {/* <Text style={styles.modalTitle}>
+              Which University of Waterloo group do you want to make a new
+              friend from?
+            </Text> */}
           </View>
 
           <ModalGroupsList

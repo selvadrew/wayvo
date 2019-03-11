@@ -15,6 +15,17 @@ const listItemGroups = props => (
     <View style={styles.listItem}>
       <Text style={styles.names}>{props.userName}</Text>
     </View>
+    {/* <View style={styles.listItem}>
+      <Text style={styles.names}>
+        My Program - Accounting and Financial Management
+      </Text>
+    </View>
+    <View style={styles.listItem}>
+      <Text style={styles.names}>Dragon Boat Club</Text>
+    </View>
+    <View style={styles.listItem}>
+      <Text style={styles.names}>#Entrepreneurship</Text>
+    </View> */}
   </TouchableOpacity>
 );
 
