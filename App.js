@@ -21,7 +21,10 @@ import FriendsScreen from "./src/screens/Friends/Friends";
 import FriendSelectedScreen from "./src/screens/Friends/FriendDetail";
 import GroupsScreen from "./src/screens/Groups/Groups";
 import GroupSelectedScreen from "./src/screens/Groups/GroupDetail";
+import CustomGroupSelectedScreen from "./src/screens/Groups/CustomGroupDetail";
 import GroupMainScreen from "./src/screens/Groups/GroupMainScreen";
+import CreateGroupScreen from "./src/screens/Groups/CreateGroup";
+import JoinGroupScreen from "./src/screens/Groups/JoinGroup";
 import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
 import ConnectedStatusScreen from "./src/screens/ActiveFriends/ConnectedStatus";
 import ConnectedStatusGroupsScreen from "./src/screens/ActiveFriends/ConnectedStatusGroups";
@@ -167,8 +170,26 @@ Navigation.registerComponent(
   Provider
 );
 Navigation.registerComponent(
+  "awesome-places.CustomGroupSelectedScreen",
+  () => CustomGroupSelectedScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
   "awesome-places.GroupMainScreen",
   () => GroupMainScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.CreateGroupScreen",
+  () => CreateGroupScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.JoinGroupScreen",
+  () => JoinGroupScreen,
   store,
   Provider
 );

@@ -23,6 +23,7 @@ import GroupsUploadPicture from "./GroupUploadPicture";
 import GroupSelectUniversity from "./GroupSelectUniversity";
 import GroupFinishedApplication from "./GroupFinishedApplication";
 import { changeGroupState, getUserGroups } from "../../store/actions/groups";
+import { getAllCustomGroupData } from "../../store/actions/customGroups";
 import { getUserInfo } from "../../store/actions/users";
 
 import DropdownAlert from "react-native-dropdownalert";
@@ -57,13 +58,27 @@ class GroupsScreen extends Component {
     );
   }
 
-  groupsSelectedHandler = id => {
-    this.props.getConnectedUsers(id);
+  groupsSelectedHandler = (id, value, type, secretUsername) => {
+    //check if program group or custom group
+    if (type) {
+      this.props.getAllCustomGroupData(id);
+      this.props.navigator.push({
+        screen: "awesome-places.CustomGroupSelectedScreen", //customgroupdetail screen
+        backButtonTitle: "",
+        title: value,
+        passProps: {
+          secretUsername: secretUsername
+        }
+      });
+    } else {
+      this.props.getConnectedUsers(id);
 
-    this.props.navigator.push({
-      screen: "awesome-places.GroupSelectedScreen",
-      backButtonTitle: ""
-    });
+      this.props.navigator.push({
+        screen: "awesome-places.GroupSelectedScreen", //groupdetail screen
+        backButtonTitle: "",
+        title: value
+      });
+    }
   };
 
   state = {
@@ -74,28 +89,105 @@ class GroupsScreen extends Component {
 
   render() {
     let realScreen = null;
+    let groupCreateJoinAlert = null;
+    let groupSortedList = null;
+
+    if (this.props.userGroups) {
+      groupSortedList = (
+        <GroupsList
+          groups={this.props.userGroups}
+          onItemSelected={this.groupsSelectedHandler}
+        />
+      );
+    } else {
+      groupSortedList = (
+        <ActivityIndicator size="small" color="#fff" marginTop={10} />
+      );
+    }
+
+    if (Platform.OS === "ios") {
+      groupCreateJoinAlert = (
+        <AddButton
+          onPress={() =>
+            Alert.alert(
+              `Join or create groups within the ${
+                this.props.enrolledUniversity
+              } community`,
+              "",
+              [
+                {
+                  text: "Join a group",
+                  onPress: () =>
+                    this.props.navigator.push({
+                      screen: "awesome-places.JoinGroupScreen",
+                      backButtonTitle: ""
+                    })
+                },
+                {
+                  text: "Create a group",
+                  onPress: () =>
+                    this.props.navigator.push({
+                      screen: "awesome-places.CreateGroupScreen",
+                      backButtonTitle: ""
+                    })
+                },
+                {
+                  text: "Never mind",
+                  onPress: () => console.log("cancel")
+                }
+              ],
+              { cancelable: true }
+            )
+          }
+        />
+      );
+    } else {
+      groupCreateJoinAlert = (
+        <AddButton
+          onPress={() =>
+            Alert.alert(
+              `Join or create groups within the ${
+                this.props.enrolledUniversity
+              } community`,
+              "",
+              [
+                {
+                  text: "Never mind",
+                  onPress: () => console.log("cancel")
+                },
+                {
+                  text: "Create a group",
+                  onPress: () =>
+                    this.props.navigator.push({
+                      screen: "awesome-places.CreateGroupScreen",
+                      backButtonTitle: ""
+                    })
+                },
+                {
+                  text: "Join a group",
+                  onPress: () =>
+                    this.props.navigator.push({
+                      screen: "awesome-places.JoinGroupScreen",
+                      backButtonTitle: ""
+                    })
+                }
+              ],
+              { cancelable: true }
+            )
+          }
+        />
+      );
+    }
     realScreen = (
       <View>
         <View style={styles.container2}>
           <View style={styles.friends2}>
             <View style={styles.friendsHeaderWrapper2}>
               <Text style={styles.friendsHeader2}>Groups</Text>
-              <AddButton
-                onPress={() =>
-                  Alert.alert(
-                    "You cannot currently join or create new groups",
-                    `It will be available soon at the ${
-                      this.props.enrolledUniversity
-                    }.`
-                  )
-                }
-              />
+              {groupCreateJoinAlert}
             </View>
           </View>
-          <GroupsList
-            groups={this.props.userGroups}
-            onItemSelected={this.groupsSelectedHandler}
-          />
+          {groupSortedList}
           {/* <View style={styles.uniWrapper}>
             <Text style={styles.uniName}>{this.props.enrolledUniversity}</Text>
           </View> */}
@@ -197,7 +289,8 @@ const mapDispatchToProps = dispatch => {
     onChangeGroupState: position => dispatch(changeGroupState(position)),
     getUserInfo: ios => dispatch(getUserInfo(ios)),
     getConnectedUsers: program_id => dispatch(getConnectedUsers(program_id)),
-    getUserGroups: () => dispatch(getUserGroups())
+    getUserGroups: () => dispatch(getUserGroups()),
+    getAllCustomGroupData: id => dispatch(getAllCustomGroupData(id))
   };
 };
 

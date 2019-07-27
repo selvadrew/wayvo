@@ -493,15 +493,85 @@ class PhoneScreen extends Component {
       ) {
         button = (
           <View style={styles.wrapper}>
-            {/* <View style={styles.timeWrapper}>
-              <Text style={styles.timeText}>
-                <Phrases />
-              </Text>
-            </View> */}
-            {/* <View style={styles.weeklyWrapper}>
-              <Text style={styles.weeklyText}>
-                What do you want to do before you die?
-              </Text>
+            {/* <View style={styles.hello}>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.checkStatus();
+                }}
+              >
+                <View style={styles.selectionBox}>
+                  <View
+                    style={[
+                      styles.leftBox,
+                      styles.selectionBox2,
+                      this.state.iconNewFriend ? null : styles.default
+                    ]}
+                  >
+                    <Icon size={50} name="ios-person-add" color="#fff" />
+                  </View>
+                  <View
+                    style={[
+                      styles.rightBox2,
+                      this.state.newFriend ? styles.goGreen : null
+                    ]}
+                  >
+                    <Text style={[styles.rightText]}>Make a new friend</Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.checkStatus();
+                }}
+              >
+                <View style={styles.selectionBox}>
+                  <View
+                    style={[
+                      styles.leftBox,
+                      styles.selectionBox2,
+                      this.state.iconNewFriend ? null : styles.default
+                    ]}
+                  >
+                    <Icon size={50} name="ios-person-add" color="#fff" />
+                  </View>
+                  <View
+                    style={[
+                      styles.rightBox2,
+                      this.state.newFriend ? styles.goGreen : null
+                    ]}
+                  >
+                    <Text style={[styles.rightText]}>Make a new friend</Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  this.catchUp();
+                }}
+              >
+                <View style={styles.selectionBox}>
+                  <View
+                    style={[
+                      styles.leftBox,
+                      styles.selectionBox1,
+                      this.state.iconCatchUp ? styles.goGreen : styles.default
+                    ]}
+                  >
+                    <Icon size={50} name="ios-people" color="#fff" />
+                  </View>
+                  <View
+                    style={[
+                      styles.rightBox1,
+                      this.state.catchUp ? styles.goGreen : null
+                    ]}
+                  >
+                    <Text style={styles.rightText1}>
+                      Catch up with a friend
+                    </Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
             </View> */}
 
             <View style={styles.hello}>
@@ -558,11 +628,6 @@ class PhoneScreen extends Component {
                   </View>
                 </View>
               </TouchableWithoutFeedback>
-
-              {/* <HelloButton
-                color={colors.yellowColor}
-                onPress={() => this.callbutton()}
-              /> */}
             </View>
             <Animated.View
               style={[

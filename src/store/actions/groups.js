@@ -148,6 +148,7 @@ export const submitted = () => {
   };
 };
 
+// gets both custom groups and program group
 export const getUserGroups = () => {
   return dispatch => {
     dispatch(startLoadingGroups());

@@ -9,6 +9,7 @@ import uiReducer from "./reducers/ui";
 import outgoingReducer from "./reducers/outgoingCalls";
 import groupsReducer from "./reducers/groups";
 import activeGroupsReducer from "./reducers/activeGroups";
+import customGroupsReducer from "./reducers/customGroups";
 
 const rootReducer = combineReducers({
   users: usersReducer,
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   ui: uiReducer,
   outgoing: outgoingReducer,
   groups: groupsReducer,
-  active_groups: activeGroupsReducer
+  active_groups: activeGroupsReducer,
+  custom_groups: customGroupsReducer
 });
 
 let composeEnhancers = compose;

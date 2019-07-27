@@ -7,13 +7,23 @@ const groupsList = props => {
   return (
     <FlatList
       style={styles.listContainer}
-      data={props.groups}
+      // data={props.groups}
+      data={props.groups.sort(function(x, y) {
+        return y.status - x.status || x.value.localeCompare(y.value);
+      })}
       renderItem={info => (
         <ListItemGroups
           userName={info.item.value}
-          //status={info.item.send_notifications}
+          groupType={info.item.type}
+          status={info.item.status}
+          secretUsername={info.item.secretUsername}
           onItemPressed={() =>
-            props.onItemSelected(info.item.id, info.item.value)
+            props.onItemSelected(
+              info.item.id,
+              info.item.value,
+              info.item.type,
+              info.item.secretUsername
+            )
           }
         />
       )}

@@ -68,6 +68,19 @@ class GroupDetail extends Component {
               can add them to your Friends list to connect again.
             </Text>
           </View>
+          // <View>
+          //   <View style={styles.individual}>
+          //     <Text style={styles.firstName}>Sophia Lin</Text>
+          //     <Text style={styles.justMet}>met</Text>
+          //     <Text style={styles.lastName}>Bridget Grabovsky</Text>
+          //   </View>
+          //   <TouchableOpacity onPress={console.log("hi")}>
+          //     <Text style={styles.addText}>VIEW ALL CONNECTIONS</Text>
+          //   </TouchableOpacity>
+          //   <Text style={styles.note}>
+          //     Note: Only group admins can see this screen
+          //   </Text>
+          // </View>
         );
       } else {
         header = (
@@ -98,6 +111,49 @@ class GroupDetail extends Component {
 }
 
 const styles = StyleSheet.create({
+  firstName: {
+    color: colors.blueColor,
+    fontSize: 30,
+    textAlign: "center",
+    fontWeight: "700",
+    marginBottom: 20
+  },
+  justMet: {
+    color: "#333",
+    fontSize: 25,
+    textAlign: "center",
+    fontWeight: "700",
+    marginBottom: 20
+  },
+  lastName: {
+    color: colors.pinkColor,
+    fontSize: 30,
+    textAlign: "center",
+    fontWeight: "700"
+  },
+  individual: {
+    paddingBottom: 280,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  button: {
+    backgroundColor: colors.greenColor
+  },
+  addText: {
+    backgroundColor: colors.greenColor,
+    color: "#fff",
+    padding: 10,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontWeight: "500",
+    textAlign: "center",
+    marginBottom: 10
+  },
+  note: {
+    fontSize: 16
+  },
+
+  ////
   container: {
     margin: 22,
     marginTop: 10,
