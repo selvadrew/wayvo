@@ -423,18 +423,22 @@ class PhoneScreen extends Component {
   };
 
   newFriend = () => {
-    this.setModalVisible(true);
+    if (this.props.groups) {
+      this.setModalVisible(true);
 
-    Animated.timing(this.state.helloAnim, {
-      toValue: 0,
-      duration: 800
-    }).start();
-    this.setState({
-      catchUp: false,
-      newFriend: false,
-      iconCatchUp: false,
-      iconNewFriend: false
-    });
+      Animated.timing(this.state.helloAnim, {
+        toValue: 0,
+        duration: 800
+      }).start();
+      this.setState({
+        catchUp: false,
+        newFriend: false,
+        iconCatchUp: false,
+        iconNewFriend: false
+      });
+    } else {
+      Alert.alert("Sorry there was an error, check your internet connection");
+    }
   };
 
   groupSelected = (id, value, type) => {
