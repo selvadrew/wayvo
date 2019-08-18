@@ -17,6 +17,7 @@ import { connect } from "react-redux";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import { addFriend } from "../../store/actions/friends";
+import { addToGroup, rejectToGroup } from "../../store/actions/customGroups";
 import DeleteButton from "../../components/UI/DeleteContactButton";
 import colors from "../../utils/styling";
 import ConnectedMembers from "../../components/GroupsList/ConnectedMembersList";
@@ -68,11 +69,28 @@ class CustomGroupDetail extends Component {
     this.props.navigator.pop();
   };
 
-  addToGroup = id => {
-    alert(id);
+  onAddToGroup = id => {
+    this.props.onAddToGroup(id);
   };
-  rejectToGroup = id => {
-    alert(id);
+
+  onRejectToGroup = id => {
+    Alert.alert(
+      "Deny this member access to your group?",
+      "",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        {
+          text: "Deny Access",
+          onPress: () => this.props.onRejectToGroup(id),
+          style: "destructive"
+        }
+      ],
+      { cancelable: true }
+    );
   };
 
   render() {
@@ -102,9 +120,9 @@ class CustomGroupDetail extends Component {
       header = (
         <View style={styles.headerWrapperNoB}>
           <Text style={styles.headerText}>
-            Looks like you haven't invited any friends into this group. Let them
-            know they can join by adding your secret username -{" "}
-            {this.props.secretUsername}
+            Looks like you haven't invited anyone into this group. Let others
+            know they can join by adding your secret username:{" "}
+            <Text style={styles.usernameText}>{this.props.secretUsername}</Text>
           </Text>
         </View>
       );
@@ -130,32 +148,25 @@ class CustomGroupDetail extends Component {
         case "admin":
           screen = (
             <View>
-              {/* <FriendRequests
-                requests={this.props.friend_requests}
-                onAddFriendDecision={this.friendAccepted}
-                onRejectFriendDecision={this.friendRejected}
-              /> */}
+              <Text style={styles.headerText}>
+                Bring people together! Let others know they can join your group
+                by adding your secret username:{" "}
+                <Text style={styles.usernameText}>
+                  {this.props.secretUsername}
+                </Text>
+              </Text>
               <RequestedMembers
                 members={this.props.admin_data}
-                onAddToGroup={this.addToGroup}
-                onRejectToGroup={this.rejectToGroup}
+                onAddToGroup={this.onAddToGroup}
+                onRejectToGroup={this.onRejectToGroup}
               />
-              <Text>hi</Text>
-              {/* <AcceptedMembers
-                members={this.props.accepted_members}
-                onItemSelected={this.blockMember}
-              />
-              <BlockedMembers
-                members={this.props.blocked_members}
-                onItemSelected={this.approveMember}
-              /> */}
             </View>
           );
           break;
         case "activity":
           screen = (
             <View>
-              <Text>Activity</Text>
+              <Text>Coming soon...</Text>
             </View>
           );
           break;
@@ -172,7 +183,7 @@ class CustomGroupDetail extends Component {
                   : { backgroundColor: "#fff8db" }
               ]}
             >
-              Admins
+              Members
             </Text>
           </TouchableOpacity>
         );
@@ -234,7 +245,7 @@ const styles = StyleSheet.create({
     //backgroundColor: colors.yellowColor,
     color: "#333",
     padding: 10,
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
     fontWeight: "500"
   },
   firstName: {
@@ -303,14 +314,20 @@ const styles = StyleSheet.create({
     fontWeight: "400"
   },
   headerText: {
-    fontSize: 20,
+    fontSize: 16,
     color: "#444"
+  },
+  usernameText: {
+    color: colors.pinkColor
+    // fontWeight: "900"
   }
 });
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddFriend: username => dispatch(addFriend(username))
+    onAddFriend: username => dispatch(addFriend(username)),
+    onAddToGroup: id => dispatch(addToGroup(id)),
+    onRejectToGroup: id => dispatch(rejectToGroup(id))
   };
 };
 
@@ -320,7 +337,8 @@ const mapStateToProps = state => {
     requested_members: state.custom_groups.requested_members,
     is_admin: state.custom_groups.is_admin,
     only_admin_in_group: state.custom_groups.only_admin_in_group,
-    isLoadingGroups: state.ui.isLoadingGroups
+    isLoadingGroups: state.ui.isLoadingGroups,
+    customGroupConnections: state.custom_groups.connections_data
   };
 };
 

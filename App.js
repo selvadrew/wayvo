@@ -28,6 +28,7 @@ import JoinGroupScreen from "./src/screens/Groups/JoinGroup";
 import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
 import ConnectedStatusScreen from "./src/screens/ActiveFriends/ConnectedStatus";
 import ConnectedStatusGroupsScreen from "./src/screens/ActiveFriends/ConnectedStatusGroups";
+import ConnectedStatusCustomGroupsScreen from "./src/screens/ActiveFriends/ConnectedStatusCustomGroups";
 import configureStore from "./src/store/configureStore";
 
 const store = configureStore();
@@ -211,6 +212,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.ConnectedStatusGroupsScreen",
   () => ConnectedStatusGroupsScreen,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.ConnectedStatusCustomGroupsScreen",
+  () => ConnectedStatusCustomGroupsScreen,
   store,
   Provider
 );

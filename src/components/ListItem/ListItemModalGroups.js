@@ -10,26 +10,19 @@ import {
 } from "react-native";
 import colors from "../../utils/styling";
 
-const listItemModalGroups = props => (
-  <TouchableOpacity onPress={props.onItemPressed}>
-    <View style={styles.listItem}>
-      <Text style={styles.names}>{props.userName}</Text>
-    </View>
-  </TouchableOpacity>
-  // <TouchableOpacity onPress={props.onItemPressed}>
-  //   <View style={styles.listItem}>
-  //     <Text style={styles.names}>
-  //       My Program - Accounting and Financial Management
-  //     </Text>
-  //   </View>
-  //   <View style={styles.listItem}>
-  //     <Text style={styles.names}>Dragon Boat Club</Text>
-  //   </View>
-  //   <View style={styles.listItem}>
-  //     <Text style={styles.names}>#Entrepreneurship</Text>
-  //   </View>
-  // </TouchableOpacity>
-);
+const listItemModalGroups = props => {
+  let group_status = null;
+  if (props.status) {
+    group_status = (
+      <TouchableOpacity onPress={props.onItemPressed}>
+        <View style={styles.listItem}>
+          <Text style={styles.names}>{props.userName}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+  return <View>{group_status}</View>;
+};
 
 const styles = StyleSheet.create({
   listItem: {

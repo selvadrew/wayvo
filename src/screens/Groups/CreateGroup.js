@@ -67,11 +67,17 @@ class CreateGroup extends Component {
     if (this.props.customGroupCreated) {
       groupCreation = (
         <View>
-          <Text>You've successfully created your group {this.state.name}.</Text>
-          <Text>
-            Let others know they can request to join your group by adding your
-            secret username: {this.state.username}. Once they send a request,
-            you will have to approve them so they can access your group!
+          <Text style={styles.createdGroupHeader}>
+            Successfully created {this.state.name}
+          </Text>
+          <Text style={styles.createdGroupText}>
+            Let others know they can join your group by adding your secret
+            username:{" "}
+            <Text style={styles.secretUsernameText}>{this.state.username}</Text>
+          </Text>
+          <Text style={styles.createdGroupText}>
+            Once they send a request, you have to approve them so they can
+            access your group to make new friends and start plans!
           </Text>
         </View>
       );
@@ -178,6 +184,21 @@ const styles = StyleSheet.create({
   },
   createButton: {
     marginBottom: 250
+  },
+  createdGroupHeader: {
+    fontWeight: "bold",
+    fontSize: 25,
+    color: colors.pinkColor,
+    textAlign: "center",
+    marginBottom: 25,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
+  createdGroupText: {
+    fontSize: 18,
+    marginBottom: 15
+  },
+  secretUsernameText: {
+    color: colors.pinkColor
   }
 });
 

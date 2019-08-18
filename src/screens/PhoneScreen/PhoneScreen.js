@@ -30,6 +30,7 @@ import {
   resetLastCall
 } from "../../store/actions/outgoingCalls";
 import { outgoingGroupCall } from "../../store/actions/groups";
+import { outgoingCustomGroupCall } from "../../store/actions/customGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getFriendRequests } from "../../store/actions/friends";
 import { getPhoneNumber, getUserInfo } from "../../store/actions/users";
@@ -148,6 +149,14 @@ class PhoneScreen extends Component {
           this.props.onLoadFriendRequests();
         }
 
+        // group tab notification
+        if (notification.data.group) {
+          this.props.navigator.switchToTab({
+            tabIndex: 2
+          });
+          this.props.getUserGroups();
+        }
+
         // someone accepted say hello
         if (notification.data.expect_call) {
           this.props.navigator.switchToTab({
@@ -161,6 +170,7 @@ class PhoneScreen extends Component {
             tabIndex: 0
           });
           this.props.checkIfUserLiveGroups();
+          Alert.alert("Expect a call shortly. Someone Said Hello Back!");
         }
       });
 
@@ -191,6 +201,14 @@ class PhoneScreen extends Component {
             this.props.onLoadFriendRequests();
           }
 
+          // group tab notification
+          if (notification.data.group) {
+            this.props.navigator.switchToTab({
+              tabIndex: 2
+            });
+            this.props.getUserGroups();
+          }
+
           // someone accepted say hello
           if (notification.data.expect_call) {
             this.props.navigator.switchToTab({
@@ -204,6 +222,7 @@ class PhoneScreen extends Component {
               tabIndex: 0
             });
             this.props.checkIfUserLiveGroups();
+            Alert.alert("Expect a call shortly. Someone Said Hello Back!");
           }
         }
       })
@@ -299,7 +318,8 @@ class PhoneScreen extends Component {
     iconNewFriend: false,
     modalVisible: false,
     selectedGroupID: null,
-    selectedGroupType: null
+    selectedGroupType: null,
+    selectedGroupName: null
   };
 
   defaultButtons = () => {
@@ -362,7 +382,8 @@ class PhoneScreen extends Component {
       catchUp: true,
       newFriend: false,
       iconCatchUp: true,
-      iconNewFriend: false
+      iconNewFriend: false,
+      selectedGroupType: null
     });
     this.helloAnimation();
   };
@@ -423,7 +444,8 @@ class PhoneScreen extends Component {
       iconCatchUp: false,
       iconNewFriend: true,
       selectedGroupID: id,
-      selectedGroupType: type
+      selectedGroupType: type,
+      selectedGroupName: value
     });
     this.setModalVisible(!this.state.modalVisible);
 
@@ -444,11 +466,20 @@ class PhoneScreen extends Component {
     });
   };
 
+  saidHelloCustomGroupNewFriend = () => {
+    this.props.onOutgoingCustomGroupCall(this.state.selectedGroupID);
+    this.props.navigator.push({
+      screen: "awesome-places.SaidHelloGroups"
+    });
+  };
+
   sayHello = () => {
     if (this.state.catchUp) {
       this.saidHelloCatchUp();
-    } else if (this.state.newFriend) {
+    } else if (this.state.newFriend && this.state.selectedGroupType == 0) {
       this.saidHelloNewFriend();
+    } else if (this.state.newFriend && this.state.selectedGroupID) {
+      this.saidHelloCustomGroupNewFriend();
     }
   };
 
@@ -466,13 +497,24 @@ class PhoneScreen extends Component {
     let endTour = null;
     const timeOptions = [5, 15, 30, 60];
     let toWho = null;
+    let dots = null;
     let verifiedStatus = null;
 
     if (this.state.catchUp) {
       toWho = <Text>to my friends</Text>;
     }
-    if (this.state.newFriend) {
+    if (this.state.selectedGroupType == 0) {
       toWho = <Text>to everyone in my program</Text>;
+    } else if (this.state.selectedGroupType) {
+      if (this.state.selectedGroupName.length > 20) {
+        dots = "...";
+      }
+      toWho = (
+        <Text>
+          to everyone in {this.state.selectedGroupName.substring(0, 20)}
+          {dots}
+        </Text>
+      );
     }
 
     if (this.props.connected_with) {
@@ -804,15 +846,10 @@ class PhoneScreen extends Component {
             <Text style={styles.modalTitle}>
               From which group do you want to make a new friend?
             </Text>
-            {/* <Text style={styles.modalTitle}>
-              Which University of Waterloo group do you want to make a new
-              friend from?
-            </Text> */}
           </View>
 
           <ModalGroupsList
             groups={this.props.groups}
-            //onItemSelected={this.groupsSelectedHandler}
             onItemSelected={(id, value, type) =>
               this.groupSelected(id, value, type)
             }
@@ -1349,6 +1386,8 @@ const mapDispatchToProps = dispatch => {
   return {
     onOutgoingCall: seconds => dispatch(outgoingCall(seconds)),
     onOutgoingGroupCall: programId => dispatch(outgoingGroupCall(programId)),
+    onOutgoingCustomGroupCall: customGroupId =>
+      dispatch(outgoingCustomGroupCall(customGroupId)),
     onLoadActiveFriends: () => dispatch(getActiveFriends()),
     onLoadActiveGroups: () => dispatch(getActiveGroups()),
     onLoadFriendRequests: () => dispatch(getFriendRequests()),

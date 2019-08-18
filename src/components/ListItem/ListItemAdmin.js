@@ -13,10 +13,16 @@ import colors from "../../utils/styling";
 const listItemAdmin = props => {
   let acceptButton = null;
   let nameFormat = null;
-  if (props.status == false) {
+  if (props.status == false && props.blocked == false) {
     acceptButton = (
       <TouchableOpacity onPress={props.onAccept}>
         <Text style={styles.addText}>Accept</Text>
+      </TouchableOpacity>
+    );
+  } else if (props.blocked == true) {
+    acceptButton = (
+      <TouchableOpacity onPress={props.onAccept}>
+        <Text style={styles.addText}>Unblock</Text>
       </TouchableOpacity>
     );
   }
@@ -24,7 +30,7 @@ const listItemAdmin = props => {
   if (props.blocked) {
     nameFormat = (
       <View style={styles.listItem}>
-        <Text style={styles.names}>{props.fullname}</Text>
+        <Text style={styles.blockednames}>{props.fullname}</Text>
       </View>
     );
   } else {
@@ -72,6 +78,12 @@ const styles = StyleSheet.create({
   },
 
   names: {
+    color: "#333",
+    fontWeight: "500",
+    fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
+  blockednames: {
     color: "#333",
     fontWeight: "500",
     fontSize: Dimensions.get("window").width > 330 ? 23 : 20,

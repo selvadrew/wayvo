@@ -41,12 +41,6 @@ export const getActiveFriends = () => {
           dispatch(setFriends(normalizeActiveFriends(json.latest_outgoings)));
           dispatch(stopLoadingActivity());
         } else {
-          // if (json.error_code === "logout") {
-          //   //authTab();
-          //   // AsyncStorage.setItem("login_status", "out");
-          // } else {
-          //   alert(json.error);
-          // }
           alert(json.error);
           dispatch(stopLoadingActivity());
         }

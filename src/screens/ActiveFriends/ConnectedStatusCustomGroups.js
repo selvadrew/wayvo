@@ -14,14 +14,14 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import call from "react-native-phone-call";
-import { joinCall } from "../../store/actions/activeFriends";
+import { joinCustomGroupCall } from "../../store/actions/activeGroups";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 import { Facetime } from "react-native-openanything";
 
-class FriendDetail extends Component {
+class ConnectedStatusCustomGroup extends Component {
   componentDidMount() {
-    this.props.onJoinCall(this.props.id);
+    this.props.onJoinCustomGroupCall(this.props.id);
   }
 
   static navigatorStyle = {
@@ -69,10 +69,10 @@ class FriendDetail extends Component {
       prompt: true // Optional boolean property. Determines if the user should be prompt prior to the call
     };
 
-    let selectedFriendStatus = null;
-    this.props.active_friends.find(friend => {
-      if (friend.outgoing_id === this.props.id) {
-        selectedFriendStatus = friend.connected;
+    let selectedGroupStatus = null;
+    this.props.active_custom_groups.find(group => {
+      if (group.outgoing_id === this.props.id) {
+        selectedGroupStatus = group.connected;
       }
     });
 
@@ -115,22 +115,21 @@ class FriendDetail extends Component {
         </View>
       );
     }
-    if (this.props.ui === false && selectedFriendStatus === true) {
+    if (this.props.ui === false && selectedGroupStatus === true) {
       //call connected
       screen = (
         <View style={styles.successContainer}>
           <View>
             <Text style={styles.successText}>
-              Woohoo! You've been connected with {"\n"}
-              {this.props.fullname}.
-              {/* Woohoo! You've been connected with Mary. */}
+              Woohoo! You've been connected with someone in{" "}
+              {this.props.fullname}. Start the call to find out who it is!
             </Text>
           </View>
           {startCall}
         </View>
       );
     }
-    if (this.props.ui === false && selectedFriendStatus === false) {
+    if (this.props.ui === false && selectedGroupStatus === false) {
       screen = (
         <View style={styles.failContainer}>
           <Text style={styles.failText}>
@@ -201,18 +200,18 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     ui: state.ui.isLoading,
-    active_friends: state.active_friends.active_friends,
+    active_custom_groups: state.active_groups.active_custom_groups,
     user_ios: state.users.ios
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onJoinCall: id => dispatch(joinCall(id))
+    onJoinCustomGroupCall: id => dispatch(joinCustomGroupCall(id))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FriendDetail);
+)(ConnectedStatusCustomGroup);

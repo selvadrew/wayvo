@@ -65,7 +65,7 @@ class GroupsScreen extends Component {
       this.props.navigator.push({
         screen: "awesome-places.CustomGroupSelectedScreen", //customgroupdetail screen
         backButtonTitle: "",
-        title: value,
+        title: secretUsername,
         passProps: {
           secretUsername: secretUsername
         }

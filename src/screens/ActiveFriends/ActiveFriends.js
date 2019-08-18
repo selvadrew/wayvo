@@ -22,6 +22,7 @@ import {
 } from "../../store/actions/activeGroups";
 import colors from "../../utils/styling";
 import firebase from "react-native-firebase";
+import CallStatusCustomGroups from "../../components/ActiveFriends/CallStatusCustomGroups";
 
 class ActiveFriendsScreen extends Component {
   constructor(props) {
@@ -99,6 +100,19 @@ class ActiveFriendsScreen extends Component {
     });
   };
 
+  onClickCustomGroup = (id, group_name, phone_number, ios) => {
+    this.props.navigator.push({
+      screen: "awesome-places.ConnectedStatusCustomGroupsScreen",
+      passProps: {
+        id: id,
+        fullname: group_name,
+        phone_number: phone_number,
+        ios: ios
+      },
+      backButtonTitle: ""
+    });
+  };
+
   appSettings = () => {
     Linking.openURL("app-settings:");
     // change tab so when they come back, it refreshes
@@ -118,7 +132,9 @@ class ActiveFriendsScreen extends Component {
   render() {
     //changes tab to active friends ifmsomeone is active
     if (
-      this.props.active_friends.length + this.props.active_groups.length >
+      this.props.active_friends.length +
+        this.props.active_groups.length +
+        this.props.active_custom_groups.length >
       0
     ) {
       this.props.navigator.switchToTab({
@@ -129,39 +145,32 @@ class ActiveFriendsScreen extends Component {
     let activeExplain = null;
 
     if (
-      this.props.active_groups.length + this.props.active_friends.length ===
-      0
+      this.state.notificationsEnabled &&
+      this.state.androidNotificationsEnabled
     ) {
-      if (
-        this.state.notificationsEnabled &&
-        this.state.androidNotificationsEnabled
-      ) {
+      activeExplain = (
+        <Text style={styles.activeExplain}>
+          When friends or group members Say Hello they'll appear here for 10
+          minutes. Be the first one to Say Hello Back to start a call with them.
+          {/* Be the first to Say Hello Back to connect with them. */}
+        </Text>
+      );
+    } else {
+      if (Platform.OS === "ios") {
         activeExplain = (
-          <Text style={styles.activeExplain}>
-            When friends or group members Say Hello they'll appear here for 10
-            minutes. Be the first one to Say Hello Back to start a call with
-            them.
-            {/* Be the first to Say Hello Back to connect with them. */}
+          <Text style={styles.activeExplain} onPress={this.appSettings}>
+            Allow notifications{" "}
+            <Text style={styles.notificationHere}>here </Text>
+            if you want to be notified when friends and group members Say Hello
           </Text>
         );
       } else {
-        if (Platform.OS === "ios") {
-          activeExplain = (
-            <Text style={styles.activeExplain} onPress={this.appSettings}>
-              Allow notifications{" "}
-              <Text style={styles.notificationHere}>here </Text>
-              if you want to be notified when friends and group members Say
-              Hello
-            </Text>
-          );
-        } else {
-          activeExplain = (
-            <Text style={styles.activeExplain}>
-              Allow notifications in app settings if you want to be notified
-              when friends and group members Say Hello
-            </Text>
-          );
-        }
+        activeExplain = (
+          <Text style={styles.activeExplain}>
+            Allow notifications in app settings if you want to be notified when
+            friends and group members Say Hello
+          </Text>
+        );
       }
     }
 
@@ -200,6 +209,11 @@ class ActiveFriendsScreen extends Component {
                 onItemSelected={this.onClickGroup}
                 style={styles.friends}
               />
+              <CallStatusCustomGroups
+                custom_groups={this.props.active_custom_groups}
+                onItemSelected={this.onClickCustomGroup}
+                style={styles.friends}
+              />
             </View>
             {activeExplain}
           </View>
@@ -213,6 +227,7 @@ const mapStateToProps = state => {
   return {
     active_friends: state.active_friends.active_friends,
     active_groups: state.active_groups.active_groups,
+    active_custom_groups: state.active_groups.active_custom_groups,
     isLoadingActivity: state.ui.isLoadingActivity,
     connected_with: state.outgoing.connected_with
   };

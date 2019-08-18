@@ -11,6 +11,7 @@ const modalGroupsList = props => {
       renderItem={info => (
         <ListItemModalGroups
           userName={info.item.value}
+          status={info.item.status}
           //status={info.item.send_notifications}
           onItemPressed={() =>
             props.onItemSelected(info.item.id, info.item.value, info.item.type)

@@ -65,29 +65,48 @@ class JoinGroup extends Component {
         case 1:
           groupCreation = (
             <View>
-              <Text>Want to join {this.props.searchedGroup.name}?</Text>
-              <Button
-                title="Yes"
-                style={styles.placeButton}
-                onPress={() =>
-                  this.joinGroup(
-                    this.props.searchedGroup.id,
-                    this.props.searchedGroup.admin,
-                    this.props.searchedGroup.name
-                  )
-                }
-              />
+              <Text style={styles.searchedGroupHeader}>Group Admin:</Text>
+              <Text style={styles.searchedGroupText}>
+                {this.props.searchedGroup.admin}
+              </Text>
+              <Text style={styles.searchedGroupHeader}>Group Name:</Text>
+              <Text style={styles.searchedGroupText}>
+                {this.props.searchedGroup.name}
+              </Text>
+              <Text style={styles.searchedGroupHeader}>Group Description:</Text>
+              <Text style={styles.searchedGroupText}>
+                {this.props.searchedGroup.description}
+              </Text>
+
+              <View style={styles.joinGroupButton}>
+                <GotIt
+                  onPress={() =>
+                    this.joinGroup(
+                      this.props.searchedGroup.id,
+                      this.props.searchedGroup.admin,
+                      this.props.searchedGroup.name
+                    )
+                  }
+                  backgroundColor={colors.yellowColor}
+                  color="#333"
+                  fontSize={18}
+                >
+                  Join Group
+                </GotIt>
+              </View>
             </View>
           );
           break;
         case 2:
           groupCreation = (
             <View>
-              <Text>Status: Waiting approval</Text>
-              <Text>
+              <Text style={styles.searchedGroupHeader}>
+                Status: Waiting approval
+              </Text>
+              <Text style={styles.searchedGroupText}>
                 Once {this.props.searchedGroup.admin}, the admin of this group
-                approves your request, you'll be able to connect with the
-                members of this group.
+                approves your request, you'll be able to connect with members
+                from the group.
               </Text>
             </View>
           );
@@ -95,8 +114,8 @@ class JoinGroup extends Component {
         case 3:
           groupCreation = (
             <View>
-              <Text>
-                You're already a member of {this.props.searchedGroup.name}.
+              <Text style={styles.searchedGroupText}>
+                You're already a member of {this.props.searchedGroup.name}
               </Text>
             </View>
           );
@@ -189,6 +208,20 @@ const styles = StyleSheet.create({
   },
   createButton: {
     marginBottom: 250
+  },
+  searchedGroupHeader: {
+    color: colors.pinkColor,
+    fontSize: 18,
+    marginBottom: 5,
+    fontWeight: "600"
+  },
+  searchedGroupText: {
+    fontSize: 16,
+    marginBottom: 15,
+    color: "#333"
+  },
+  joinGroupButton: {
+    marginTop: 40
   }
 });
 
