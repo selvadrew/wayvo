@@ -19,7 +19,8 @@ import {
   Image,
   Animated,
   Modal,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -53,8 +54,39 @@ import Phrases from "../../components/Phrases/Phrases";
 
 // import Slider from "react-native-slider";
 
+import { ActionCable, Cable } from "@kesha-antonov/react-native-action-cable";
+
 class PhoneScreen extends Component {
   componentDidMount() {
+    // const actionCable = ActionCable.createConsumer(
+    //   "wss://e304edae.ngrok.io/cable"
+    // );
+    // const cable = new Cable({});
+
+    // const achannel = cable.setChannel(
+    //   `plan_channel`, // channel name to which we will pass data from Rails app with `stream_from`
+    //   actionCable.subscriptions.create({
+    //     channel: "PlanChannel" // from Rails app app/channels/chat_channel.rb
+    //   })
+    // );
+    // const channelName = "PlanChannel";
+
+    // achannel.connected = () => {
+    //   alert("con");
+    //   setTimeout(() => {
+    //     cable.channel("plan_channel").perform("speak", { message: "Hey" });
+    //   }, 1000);
+    // };
+    // achannel.received = () => {
+    //   alert("rec");
+    // };
+    // achannel.rejected = () => {
+    //   alert("rej");
+    // };
+    // achannel.disconnected = () => {
+    //   alert("dis");
+    // };
+
     const channel = new firebase.notifications.Android.Channel(
       "Friends",
       "Friends Say Hello",
@@ -389,7 +421,7 @@ class PhoneScreen extends Component {
   };
 
   checkStatus = () => {
-    if (this.props.verified === false && this.props.submitted === false) {
+    if (!this.props.verified && !this.props.submitted) {
       Alert.alert(
         "Wayvo Groups",
         "You need to join your university and get verified to use this feature.",
@@ -411,9 +443,10 @@ class PhoneScreen extends Component {
         ],
         { cancelable: true }
       );
-    } else if (this.props.verified === false && this.props.submitted) {
+    } else if (!this.props.verified && this.props.submitted) {
       Alert.alert(
-        "The Wayvo team is reviewing your submission for access to Wayvo Groups. You will hear back within 24 hours."
+        "The Wayvo team is reviewing your submission for access to Wayvo Groups. ",
+        "You will hear back within 24 hours."
       );
     } else if (this.props.verified) {
       this.newFriend();
@@ -845,19 +878,28 @@ class PhoneScreen extends Component {
 
     if (this.props.verified) {
       verifiedStatus = (
-        <View style={styles.verifiedWrapper}>
-          <View style={styles.modalTitleWrapper}>
-            <Text style={styles.modalTitle}>
-              From which group do you want to make a new friend?
-            </Text>
+        <View>
+          <View style={styles.xWrapper}>
+            <TouchableWithoutFeedback
+              onPress={() => this.setModalVisible(false)}
+            >
+              <Icon size={30} name={"md-close-circle"} color={"#555"} />
+            </TouchableWithoutFeedback>
           </View>
+          <View style={styles.verifiedWrapper}>
+            <View style={styles.modalTitleWrapper}>
+              <Text style={styles.modalTitle}>
+                From which group do you want to make a new friend?
+              </Text>
+            </View>
 
-          <ModalGroupsList
-            groups={this.props.groups}
-            onItemSelected={(id, value, type) =>
-              this.groupSelected(id, value, type)
-            }
-          />
+            <ModalGroupsList
+              groups={this.props.groups}
+              onItemSelected={(id, value, type) =>
+                this.groupSelected(id, value, type)
+              }
+            />
+          </View>
         </View>
       );
     } else {
@@ -976,15 +1018,25 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
+  closeButtonWrapper: {
+    alignContent: "flex-end"
+  },
   notVerifiedWrapper: {
     padding: 20,
+    paddingTop: 0,
     backgroundColor: "#FAFAFA"
   },
   verifiedWrapper: {
     padding: 20,
+    paddingTop: 0,
     backgroundColor: "#FAFAFA",
     borderRadius: 5
     //overflow: "hidden"
+  },
+  xWrapper: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    backgroundColor: "#FAFAFA"
   },
   modalTitleWrapper: {
     borderBottomWidth: 1,
