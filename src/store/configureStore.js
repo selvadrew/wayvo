@@ -10,6 +10,7 @@ import outgoingReducer from "./reducers/outgoingCalls";
 import groupsReducer from "./reducers/groups";
 import activeGroupsReducer from "./reducers/activeGroups";
 import customGroupsReducer from "./reducers/customGroups";
+import plansReducer from "./reducers/plans";
 
 const rootReducer = combineReducers({
   users: usersReducer,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   outgoing: outgoingReducer,
   groups: groupsReducer,
   active_groups: activeGroupsReducer,
-  custom_groups: customGroupsReducer
+  custom_groups: customGroupsReducer,
+  plans: plansReducer
 });
 
 let composeEnhancers = compose;

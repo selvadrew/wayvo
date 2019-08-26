@@ -1,6 +1,7 @@
 import { Navigation } from "react-native-navigation";
 import { Provider } from "react-redux";
 
+import configureStore from "./src/store/configureStore";
 import LoadingScreen from "./src/screens/Auth/Loading";
 import AuthScreen from "./src/screens/Auth/Auth";
 import Username from "./src/screens/Auth/Username";
@@ -29,7 +30,10 @@ import ActiveFriendsScreen from "./src/screens/ActiveFriends/ActiveFriends";
 import ConnectedStatusScreen from "./src/screens/ActiveFriends/ConnectedStatus";
 import ConnectedStatusGroupsScreen from "./src/screens/ActiveFriends/ConnectedStatusGroups";
 import ConnectedStatusCustomGroupsScreen from "./src/screens/ActiveFriends/ConnectedStatusCustomGroups";
-import configureStore from "./src/store/configureStore";
+import PlanActivitySelection from "./src/screens/Plans/PlanActivitySelection";
+import PlanTimeSelection from "./src/screens/Plans/PlanTimeSelection";
+import PlanExplodingOffer from "./src/screens/Plans/PlanExplodingOffer";
+import PlanSendInvite from "./src/screens/Plans/PlanSendInvite";
 
 const store = configureStore();
 
@@ -219,6 +223,34 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.ConnectedStatusCustomGroupsScreen",
   () => ConnectedStatusCustomGroupsScreen,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.PlanActivitySelection",
+  () => PlanActivitySelection,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.PlanTimeSelection",
+  () => PlanTimeSelection,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.PlanExplodingOffer",
+  () => PlanExplodingOffer,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.PlanSendInvite",
+  () => PlanSendInvite,
   store,
   Provider
 );

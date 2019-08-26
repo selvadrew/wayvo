@@ -39,6 +39,7 @@ import {
   getUserGroups,
   checkIfUserLiveGroups
 } from "../../store/actions/groups";
+import { setGroupForPlan } from "../../store/actions/plans";
 import colors from "../../utils/styling";
 import CountDown from "react-native-countdown-component";
 
@@ -349,6 +350,7 @@ class PhoneScreen extends Component {
     iconCatchUp: false,
     iconNewFriend: false,
     modalVisible: false,
+    planModalVisible: false,
     selectedGroupID: null,
     selectedGroupType: null,
     selectedGroupName: null
@@ -370,6 +372,9 @@ class PhoneScreen extends Component {
 
   setModalVisible(visible) {
     this.setState({ modalVisible: visible });
+  }
+  setPlanModalVisible(visible) {
+    this.setState({ planModalVisible: visible });
   }
 
   changeTime = () => {
@@ -420,7 +425,7 @@ class PhoneScreen extends Component {
     this.helloAnimation();
   };
 
-  checkStatus = () => {
+  checkStatus = is_start_plan => {
     if (!this.props.verified && !this.props.submitted) {
       Alert.alert(
         "Wayvo Groups",
@@ -445,11 +450,15 @@ class PhoneScreen extends Component {
       );
     } else if (!this.props.verified && this.props.submitted) {
       Alert.alert(
-        "The Wayvo team is reviewing your submission for access to Wayvo Groups. ",
+        "We are reviewing your submission for access to Wayvo Groups. ",
         "You will hear back within 24 hours."
       );
     } else if (this.props.verified) {
-      this.newFriend();
+      if (is_start_plan) {
+        this.startPlan();
+      } else {
+        this.newFriend();
+      }
     } else {
       Alert.alert("Sorry, there was an error.");
     }
@@ -458,6 +467,25 @@ class PhoneScreen extends Component {
   newFriend = () => {
     if (this.props.groups) {
       this.setModalVisible(true);
+
+      Animated.timing(this.state.helloAnim, {
+        toValue: 0,
+        duration: 800
+      }).start();
+      this.setState({
+        catchUp: false,
+        newFriend: false,
+        iconCatchUp: false,
+        iconNewFriend: false
+      });
+    } else {
+      Alert.alert("Sorry there was an error, check your internet connection");
+    }
+  };
+
+  startPlan = () => {
+    if (this.props.groups) {
+      this.setPlanModalVisible(true);
 
       Animated.timing(this.state.helloAnim, {
         toValue: 0,
@@ -487,6 +515,19 @@ class PhoneScreen extends Component {
     this.setModalVisible(!this.state.modalVisible);
 
     this.helloAnimation();
+  };
+
+  plansGroupSelected = (id, value, type) => {
+    this.setPlanModalVisible(!this.state.planModalVisible);
+    this.props.onSetGroupForPlan(id, value, type);
+    this.props.navigator.push({
+      screen: "awesome-places.PlanActivitySelection",
+      backButtonTitle: "",
+      title: "Select Activity",
+      passProps: {
+        group_name: value
+      }
+    });
   };
 
   saidHelloCatchUp = () => {
@@ -536,6 +577,7 @@ class PhoneScreen extends Component {
     let toWho = null;
     let dots = null;
     let verifiedStatus = null;
+    let planWithVerifiedStatus = null;
 
     if (this.state.catchUp) {
       toWho = <Text>to my friends</Text>;
@@ -572,90 +614,30 @@ class PhoneScreen extends Component {
       ) {
         button = (
           <View style={styles.wrapper}>
-            {/* <View style={styles.hello}>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  this.checkStatus();
-                }}
-              >
-                <View style={styles.selectionBox}>
-                  <View
-                    style={[
-                      styles.leftBox,
-                      styles.selectionBox2,
-                      this.state.iconNewFriend ? null : styles.default
-                    ]}
-                  >
-                    <Icon size={50} name="ios-person-add" color="#fff" />
-                  </View>
-                  <View
-                    style={[
-                      styles.rightBox2,
-                      this.state.newFriend ? styles.goGreen : null
-                    ]}
-                  >
-                    <Text style={[styles.rightText]}>Make a new friend</Text>
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  this.checkStatus();
-                }}
-              >
-                <View style={styles.selectionBox}>
-                  <View
-                    style={[
-                      styles.leftBox,
-                      styles.selectionBox2,
-                      this.state.iconNewFriend ? null : styles.default
-                    ]}
-                  >
-                    <Icon size={50} name="ios-person-add" color="#fff" />
-                  </View>
-                  <View
-                    style={[
-                      styles.rightBox2,
-                      this.state.newFriend ? styles.goGreen : null
-                    ]}
-                  >
-                    <Text style={[styles.rightText]}>Make a new friend</Text>
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                onPress={() => {
-                  this.catchUp();
-                }}
-              >
-                <View style={styles.selectionBox}>
-                  <View
-                    style={[
-                      styles.leftBox,
-                      styles.selectionBox1,
-                      this.state.iconCatchUp ? styles.goGreen : styles.default
-                    ]}
-                  >
-                    <Icon size={50} name="ios-people" color="#fff" />
-                  </View>
-                  <View
-                    style={[
-                      styles.rightBox1,
-                      this.state.catchUp ? styles.goGreen : null
-                    ]}
-                  >
-                    <Text style={styles.rightText1}>
-                      Catch up with a friend
-                    </Text>
-                  </View>
-                </View>
-              </TouchableWithoutFeedback>
-            </View> */}
-
             <View style={styles.hello}>
               <TouchableWithoutFeedback
                 onPress={() => {
+                  this.checkStatus(true);
+                }}
+              >
+                <View style={styles.selectionBox}>
+                  <View
+                    style={[
+                      styles.leftBox,
+                      styles.selectionBox2,
+                      styles.default
+                    ]}
+                  >
+                    <Icon size={50} name="ios-pin" color="#fff" />
+                  </View>
+                  <View style={[styles.rightBox2]}>
+                    <Text style={[styles.rightText]}>Start a plan</Text>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+
+              <TouchableWithoutFeedback
+                onPress={() => {
                   this.catchUp();
                 }}
               >
@@ -684,7 +666,7 @@ class PhoneScreen extends Component {
 
               <TouchableWithoutFeedback
                 onPress={() => {
-                  this.checkStatus();
+                  this.checkStatus(false);
                 }}
               >
                 <View style={styles.selectionBox}>
@@ -902,8 +884,34 @@ class PhoneScreen extends Component {
           </View>
         </View>
       );
+      planWithVerifiedStatus = (
+        <View>
+          <View style={styles.xWrapper}>
+            <TouchableWithoutFeedback
+              onPress={() => this.setPlanModalVisible(false)}
+            >
+              <Icon size={30} name={"md-close-circle"} color={"#555"} />
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={styles.verifiedWrapper}>
+            <View style={styles.modalTitleWrapper}>
+              <Text style={styles.modalTitle}>
+                Select a group to start a plan with
+              </Text>
+            </View>
+
+            <ModalGroupsList
+              groups={this.props.groups}
+              onItemSelected={(id, value, type) =>
+                this.plansGroupSelected(id, value, type)
+              }
+            />
+          </View>
+        </View>
+      );
     } else {
       verifiedStatus = <Text>Sorry, there was an error</Text>;
+      planWithVerifiedStatus = <Text>Sorry, there was an error</Text>;
     }
 
     return (
@@ -939,6 +947,23 @@ class PhoneScreen extends Component {
             </View>
           </Modal>
 
+          {/* modal end */}
+
+          {/* plan modal */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={this.state.planModalVisible}
+            onRequestClose={() => {
+              this.setPlanModalVisible(!this.state.planModalVisible);
+            }}
+          >
+            <View style={styles.modalWrapper}>
+              <View style={styles.modal}>
+                <View>{planWithVerifiedStatus}</View>
+              </View>
+            </View>
+          </Modal>
           {/* modal end */}
 
           {/* <OfflineNotice /> */}
@@ -1063,7 +1088,7 @@ const styles = StyleSheet.create({
     borderColor: colors.pinkColor,
     width: "80%",
     //height: "80%",
-    maxHeight: 130,
+    maxHeight: 120,
     flex: 1,
     flexDirection: "row",
     justifyContent: "space-between",
@@ -1118,14 +1143,14 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#fff",
     letterSpacing: 1,
-    fontWeight: "500",
+    fontWeight: Platform.OS === "ios" ? "500" : "400",
     paddingHorizontal: 15
   },
   rightText1: {
     fontSize: 28,
     color: "#fff",
     letterSpacing: 1,
-    fontWeight: "500",
+    fontWeight: Platform.OS === "ios" ? "500" : "400",
     paddingHorizontal: 15
   },
   newHelloWrapper: {
@@ -1452,7 +1477,9 @@ const mapDispatchToProps = dispatch => {
     storePhoneNumber: () => dispatch(getPhoneNumber()),
     getUserInfo: ios => dispatch(getUserInfo(ios)),
     getUserGroups: () => dispatch(getUserGroups()),
-    checkIfUserLiveGroups: () => dispatch(checkIfUserLiveGroups())
+    checkIfUserLiveGroups: () => dispatch(checkIfUserLiveGroups()),
+    onSetGroupForPlan: (id, value, type) =>
+      dispatch(setGroupForPlan(id, value, type))
   };
 };
 
