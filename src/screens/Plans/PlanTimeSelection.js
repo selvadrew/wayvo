@@ -176,6 +176,15 @@ class PlanTimeSelection extends Component {
         <Text style={styles.header}>
           It's too late to start a plan. Go to bed!
         </Text>
+        // <TouchableOpacity
+        //   onPress={() => {
+        //     this.timeSelected(3);
+        //   }}
+        // >
+        //   <View style={styles.buttonWrapper}>
+        //     <Text style={styles.button}>1:00AM</Text>
+        //   </View>
+        // </TouchableOpacity>
       );
     }
     return (

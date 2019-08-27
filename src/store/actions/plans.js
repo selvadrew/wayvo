@@ -39,3 +39,50 @@ export const setExplodingOfferForPlan = timer => {
     timer
   };
 };
+
+export const sendInvite = (
+  groupType,
+  groupId,
+  activity,
+  time,
+  explodingOffer
+) => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("Not authenticated");
+        dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/plans`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            group_type: groupType,
+            group_id: groupId,
+            activity: activity,
+            time: time,
+            exploding_offer: explodingOffer
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          alert("success");
+          dispatch(uiStopLoading());
+        } else {
+          Alert.alert(json.error1, json.error2);
+          dispatch(uiStopLoading());
+        }
+      })
+      .catch(e => {
+        Alert.alert("Oops, we couldn't connect, please try again");
+        dispatch(uiStopLoading());
+      });
+  };
+};

@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 
-import { setTimeForPlan } from "../../store/actions/plans";
+import { setTimeForPlan, sendInvite } from "../../store/actions/plans";
 
 class PlanSendInvite extends Component {
   static navigatorStyle = {
@@ -119,12 +119,22 @@ class PlanSendInvite extends Component {
             Hey {this.props.groupName} members, who’s down to{" "}
             {this.state.activities[this.props.activity]} at{" "}
             {this.state.times[this.props.time]}? If 3 or more members are in
-            within {this.state.explodingOffers[this.props.explodingOffer]} its
+            within {this.state.explodingOffers[this.props.explodingOffer]} it's
             on!
           </Text>
           <GotIt
             onPress={() => {
-              alert("hi");
+              this.props.onSendInvite(
+                this.props.groupType,
+                this.props.groupId,
+                this.props.activity,
+                this.props.time,
+                this.props.explodingOffer
+              );
+              this.props.navigator.switchToTab({
+                tabIndex: 3
+              });
+              this.props.navigator.popToRoot();
             }}
             backgroundColor={colors.orange}
             color="#333"
@@ -177,12 +187,16 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSetTimeForPlan: time => dispatch(setTimeForPlan(time))
+    onSetTimeForPlan: time => dispatch(setTimeForPlan(time)),
+    onSendInvite: (groupType, groupId, activity, time, explodingOffer) =>
+      dispatch(sendInvite(groupType, groupId, activity, time, explodingOffer))
   };
 };
 
 const mapStateToProps = state => {
   return {
+    groupType: state.plans.groupType,
+    groupId: state.plans.groupId,
     groupName: state.plans.groupName,
     activity: state.plans.activity,
     time: state.plans.time,
