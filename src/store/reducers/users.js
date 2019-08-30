@@ -21,7 +21,8 @@ const initialState = {
   instagram: null,
   snapchat: null,
   twitter: null,
-  submitted: null
+  submitted: null,
+  user_id: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -63,7 +64,8 @@ const reducer = (state = initialState, action) => {
         instagram: action.instagram,
         snapchat: action.snapchat,
         twitter: action.twitter,
-        submitted: action.submitted
+        submitted: action.submitted,
+        user_id: action.user_id
       };
     case SUBMITTED:
       return {

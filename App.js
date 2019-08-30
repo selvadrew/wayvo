@@ -34,6 +34,7 @@ import PlanActivitySelection from "./src/screens/Plans/PlanActivitySelection";
 import PlanTimeSelection from "./src/screens/Plans/PlanTimeSelection";
 import PlanExplodingOffer from "./src/screens/Plans/PlanExplodingOffer";
 import PlanSendInvite from "./src/screens/Plans/PlanSendInvite";
+import PlanChat from "./src/screens/Plans/PlanChat";
 
 const store = configureStore();
 
@@ -251,6 +252,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.PlanSendInvite",
   () => PlanSendInvite,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.PlanChat",
+  () => PlanChat,
   store,
   Provider
 );

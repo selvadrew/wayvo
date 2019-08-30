@@ -63,9 +63,9 @@ class GroupsExplanation extends Component {
     //Get verified to join groups at your school.
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Make a New Friend</Text>
-        <Text style={styles.subTitle}>Wayvo Groups</Text>
-        <Text style={styles.paragrapgh}>
+        <Text style={styles.title}>Make New Friends Everyday</Text>
+        {/* <Text style={styles.subTitle}>Make New Friends Everyday</Text> */}
+        {/* <Text style={styles.paragrapgh}>
           Are you in university? Join Wayvo Groups to connect with someone new
           at your university
         </Text>
@@ -76,6 +76,12 @@ class GroupsExplanation extends Component {
         </Text>
         <Text style={styles.paragrapgh}>
           After you connect, add them to your Friends list to connect again.
+        </Text> */}
+        <Text style={styles.paragrapgh}>
+          <Text style={styles.yellowText}>Start a plan</Text> to grab food 🍕 in 10 minutes with people in your program 📚 or residence building 🏢. Wayvo will start a group chat with everyone coming so you can finalize the plan! Then at night, why don't you start an impromtu party 🎉
+        </Text>
+        <Text style={styles.paragrapgh}>
+          The next day while you're walking to class, press <Text style={styles.yellowText}>Make a new friend</Text> to meet someone new over a voice or video call from a school club you're part of
         </Text>
 
         <View style={styles.verifyButton}>{joinButton}</View>
@@ -107,13 +113,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontWeight: "800",
-    fontSize: 25
+    fontSize: 24
   },
   subTitle: {
     color: "#fff",
     textAlign: "center",
     fontWeight: "500",
-    fontSize: 18
+    fontSize: 25
   },
   paragrapgh: {
     color: "#fff",
@@ -131,6 +137,10 @@ const styles = StyleSheet.create({
     fontWeight: "400",
     paddingLeft: 20,
     marginTop: 10
+  },
+  yellowText: {
+    fontWeight: "800",
+    color: colors.yellowColor
   }
 });
 

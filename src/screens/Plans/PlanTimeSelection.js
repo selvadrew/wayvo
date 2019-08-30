@@ -174,7 +174,7 @@ class PlanTimeSelection extends Component {
     if (this.state.hour * 2 + 2 + this.state.bump2 >= 48) {
       tooLate = (
         <Text style={styles.header}>
-          It's too late to start a plan. Go to bed!
+          Isn't it too late to start a plan? Go to bed 👀
         </Text>
         // <TouchableOpacity
         //   onPress={() => {

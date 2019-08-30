@@ -10,12 +10,14 @@ import {
   SafeAreaView,
   Dimensions,
   StatusBar,
-  Linking
+  Linking,
+  Button
 } from "react-native";
 import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
 import CallStatusGroups from "../../components/ActiveFriends/CallStatusGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
+import { getActivePlans, joinPlan } from "../../store/actions/activePlans";
 import {
   getActiveGroups,
   joinGroupCall
@@ -23,6 +25,7 @@ import {
 import colors from "../../utils/styling";
 import firebase from "react-native-firebase";
 import CallStatusCustomGroups from "../../components/ActiveFriends/CallStatusCustomGroups";
+import ActivePlansList from "../../components/ActiveFriends/ActivePlansList";
 
 class ActiveFriendsScreen extends Component {
   constructor(props) {
@@ -76,6 +79,7 @@ class ActiveFriendsScreen extends Component {
 
   componentDidMount() {
     this.props.onLoadActiveFriends();
+    this.props.onLoadActivePlans();
     this.props.onLoadActiveGroups();
   }
 
@@ -112,6 +116,21 @@ class ActiveFriendsScreen extends Component {
       backButtonTitle: ""
     });
   };
+  onClickPlan = (status, id, title) => {
+    // alert(id);
+    this.props.navigator.push({
+      screen: "awesome-places.PlanChat",
+      backButtonTitle: "",
+      title: title,
+      passProps: {
+        id: id
+      }
+    });
+
+    if (!status) {
+      this.props.onJoinPlan(id);
+    }
+  };
 
   appSettings = () => {
     Linking.openURL("app-settings:");
@@ -134,7 +153,8 @@ class ActiveFriendsScreen extends Component {
     if (
       this.props.active_friends.length +
         this.props.active_groups.length +
-        this.props.active_custom_groups.length >
+        this.props.active_custom_groups.length +
+        this.props.active_plans.length >
       0
     ) {
       this.props.navigator.switchToTab({
@@ -148,13 +168,20 @@ class ActiveFriendsScreen extends Component {
       this.state.notificationsEnabled &&
       this.state.androidNotificationsEnabled
     ) {
-      activeExplain = (
-        <Text style={styles.activeExplain}>
-          When friends or group members Say Hello they'll appear here for 10
-          minutes. Be the first one to Say Hello Back to start a call with them.
-          {/* Be the first to Say Hello Back to connect with them. */}
-        </Text>
-      );
+      if (
+        this.props.active_friends.length < 1 &&
+        this.props.active_custom_groups.length < 1 &&
+        this.props.active_groups.length < 1 &&
+        this.props.active_plans.length < 1
+      ) {
+        activeExplain = (
+          <Text style={styles.activeExplain}>
+            When friends or group members Say Hello or Start a Plan, they'll
+            appear here for a few minutes.
+            {/* Be the first to Say Hello Back to connect with them. */}
+          </Text>
+        );
+      }
     } else {
       if (Platform.OS === "ios") {
         activeExplain = (
@@ -180,9 +207,12 @@ class ActiveFriendsScreen extends Component {
         style={styles.container}
         refreshControl={
           <RefreshControl
-            refreshing={this.props.isLoadingActivity}
+            refreshing={
+              this.props.isLoadingActivity || this.props.isLoadingPlans
+            }
             onRefresh={() => {
               this.props.onLoadActiveFriends();
+              this.props.onLoadActivePlans();
               this.props.onLoadActiveGroups();
             }}
           />
@@ -214,8 +244,21 @@ class ActiveFriendsScreen extends Component {
                 onItemSelected={this.onClickCustomGroup}
                 style={styles.friends}
               />
+              <ActivePlansList
+                active_plans={this.props.active_plans}
+                onItemSelected={this.onClickPlan}
+                style={styles.friends}
+              />
             </View>
             {activeExplain}
+
+            {/*
+          Andrew Selvadurai invited you to grab food at 3:00PM with Fashion for Change 
+          You have 3:21 to respond. 
+          I'm in! => You're going 
+
+          Be respectful of other people's time. Don't bail last minute (eye emoji)
+           */}
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -227,17 +270,21 @@ const mapStateToProps = state => {
   return {
     active_friends: state.active_friends.active_friends,
     active_groups: state.active_groups.active_groups,
+    active_plans: state.active_plans.active_plans,
     active_custom_groups: state.active_groups.active_custom_groups,
     isLoadingActivity: state.ui.isLoadingActivity,
-    connected_with: state.outgoing.connected_with
+    connected_with: state.outgoing.connected_with,
+    isLoadingPlans: state.ui.isLoadingPlans
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onLoadActiveFriends: () => dispatch(getActiveFriends()),
+    onLoadActivePlans: () => dispatch(getActivePlans()),
     onLoadActiveGroups: () => dispatch(getActiveGroups()),
-    onJoinGroupCall: id => dispatch(joinGroupCall(id))
+    onJoinGroupCall: id => dispatch(joinGroupCall(id)),
+    onJoinPlan: id => dispatch(joinPlan(id))
   };
 };
 

@@ -31,7 +31,7 @@ class PlanActivitySelection extends Component {
   }
 
   state = {
-    activities: ["grab food", "hang out", "study", "party"]
+    activities: ["grab food", "hang out", "group study", "party"]
   };
 
   activitySelected = activity => {
@@ -82,7 +82,7 @@ class PlanActivitySelection extends Component {
             }}
             style={styles.buttonWrapper}
           >
-            <Text style={styles.button}>Study</Text>
+            <Text style={styles.button}>Group Study</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {

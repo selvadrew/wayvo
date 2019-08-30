@@ -10,7 +10,11 @@ import {
   START_LOADING_HELLO,
   STOP_LOADING_HELLO,
   START_LOADING_GROUPS,
-  STOP_LOADING_GROUPS
+  STOP_LOADING_GROUPS,
+  START_LOADING_PLANS,
+  STOP_LOADING_PLANS,
+  START_LOADING_CHATS,
+  STOP_LOADING_CHATS
 } from "./actionTypes";
 
 export const uiStartLoading = () => {
@@ -84,5 +88,29 @@ export const startLoadingGroups = () => {
 export const stopLoadingGroups = () => {
   return {
     type: STOP_LOADING_GROUPS
+  };
+};
+
+export const startLoadingPlans = () => {
+  return {
+    type: START_LOADING_PLANS
+  };
+};
+
+export const stopLoadingPlans = () => {
+  return {
+    type: STOP_LOADING_PLANS
+  };
+};
+
+export const startLoadingChats = () => {
+  return {
+    type: START_LOADING_CHATS
+  };
+};
+
+export const stopLoadingChats = () => {
+  return {
+    type: STOP_LOADING_CHATS
   };
 };

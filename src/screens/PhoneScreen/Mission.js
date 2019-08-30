@@ -37,7 +37,8 @@ class Mission extends Component {
         {/* <Text style={styles.subtitle}>About</Text> */}
         <View style={styles.wrapper}>
           <Text style={styles.header}>
-            Wayvo is on a mission to make the world happier through friendships.
+            Wayvo is on a mission to make your university campus happier through
+            friendships.
             {/* {"\n"}
           {"\n"}
           In a digital age where superficial photos and likes have become

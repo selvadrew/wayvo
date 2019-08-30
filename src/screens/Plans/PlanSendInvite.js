@@ -39,7 +39,7 @@ class PlanSendInvite extends Component {
       "1 hour",
       "4 hours"
     ],
-    activities: ["grab food", "hang out", "study", "party"],
+    activities: ["grab food", "hang out", "group study", "party"],
     times: [
       "12:00AM",
       "12:30AM",
@@ -119,7 +119,7 @@ class PlanSendInvite extends Component {
             Hey {this.props.groupName} members, who’s down to{" "}
             {this.state.activities[this.props.activity]} at{" "}
             {this.state.times[this.props.time]}? If 3 or more members are in
-            within {this.state.explodingOffers[this.props.explodingOffer]} it's
+            within {this.state.explodingOffers[this.props.explodingOffer]}, it's
             on!
           </Text>
           <GotIt

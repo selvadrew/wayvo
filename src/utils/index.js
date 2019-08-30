@@ -36,6 +36,21 @@ export function normalizeActiveFriends(outgoing_calls) {
   });
 }
 
+export function normalizeActivePlans(active_plans) {
+  return active_plans.map(plan => {
+    return {
+      plan_id: plan.plan_id,
+      group_name: plan.group_name,
+      plan_creator: plan.plan_creator,
+      activity: plan.activity,
+      time: plan.time,
+      exploding_offer_countdown: plan.exploding_offer_countdown,
+      going: plan.going,
+      is_happening: plan.is_happening
+    };
+  });
+}
+
 export function normalizeSayHelloData(say_hello_data, seconds_left) {
   return {
     connected_with: say_hello_data.connected_with || null,

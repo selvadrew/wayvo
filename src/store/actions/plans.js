@@ -8,6 +8,7 @@ import {
 } from "./actionTypes";
 import { uiStartLoading, uiStopLoading } from "../../store/actions/ui";
 import { authGetToken } from "../actions/users";
+import { getActivePlans } from "../actions/activePlans";
 
 export const setGroupForPlan = (id, value, type) => {
   return {
@@ -73,7 +74,7 @@ export const sendInvite = (
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          alert("success");
+          dispatch(getActivePlans());
           dispatch(uiStopLoading());
         } else {
           Alert.alert(json.error1, json.error2);

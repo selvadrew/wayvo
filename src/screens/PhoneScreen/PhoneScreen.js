@@ -33,6 +33,7 @@ import {
 import { outgoingGroupCall } from "../../store/actions/groups";
 import { outgoingCustomGroupCall } from "../../store/actions/customGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
+import { getActivePlans } from "../../store/actions/activePlans";
 import { getFriendRequests } from "../../store/actions/friends";
 import { getPhoneNumber, getUserInfo } from "../../store/actions/users";
 import {
@@ -59,35 +60,6 @@ import { ActionCable, Cable } from "@kesha-antonov/react-native-action-cable";
 
 class PhoneScreen extends Component {
   componentDidMount() {
-    // const actionCable = ActionCable.createConsumer(
-    //   "wss://e304edae.ngrok.io/cable"
-    // );
-    // const cable = new Cable({});
-
-    // const achannel = cable.setChannel(
-    //   `plan_channel`, // channel name to which we will pass data from Rails app with `stream_from`
-    //   actionCable.subscriptions.create({
-    //     channel: "PlanChannel" // from Rails app app/channels/chat_channel.rb
-    //   })
-    // );
-    // const channelName = "PlanChannel";
-
-    // achannel.connected = () => {
-    //   alert("con");
-    //   setTimeout(() => {
-    //     cable.channel("plan_channel").perform("speak", { message: "Hey" });
-    //   }, 1000);
-    // };
-    // achannel.received = () => {
-    //   alert("rec");
-    // };
-    // achannel.rejected = () => {
-    //   alert("rej");
-    // };
-    // achannel.disconnected = () => {
-    //   alert("dis");
-    // };
-
     const channel = new firebase.notifications.Android.Channel(
       "Friends",
       "Friends Say Hello",
@@ -146,6 +118,7 @@ class PhoneScreen extends Component {
         // Process your notification as required
         // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
         this.props.onLoadActiveFriends();
+        this.props.onLoadActivePlans();
         this.props.onLoadActiveGroups();
       });
     this.notificationListener = firebase
@@ -164,6 +137,7 @@ class PhoneScreen extends Component {
         // Get information about the notification that was opened
         const notification: Notification = notificationOpen.notification;
         this.props.onLoadActiveFriends();
+        this.props.onLoadActivePlans();
         this.props.onLoadActiveGroups();
         console.log(action);
 
@@ -196,6 +170,7 @@ class PhoneScreen extends Component {
             tabIndex: 0
           });
           this.props.getLastCall();
+          Alert.alert(`Expect a call shortly. A friend Said Hello Back!`);
         }
 
         if (notification.data.expect_group_call) {
@@ -248,6 +223,7 @@ class PhoneScreen extends Component {
               tabIndex: 0
             });
             this.props.getLastCall();
+            Alert.alert(`Expect a call shortly. A friend Said Hello Back!`);
           }
 
           if (notification.data.expect_group_call) {
@@ -802,14 +778,10 @@ class PhoneScreen extends Component {
                 size={40}
                 digitBgColor={colors.yellowColor}
                 digitTxtColor="#333"
+                timeLabelStyle={{ color: "#fff" }}
                 timeTxtColor="#FFF"
                 timeToShow={["M", "S"]}
                 style={styles.countdown}
-                // onPress={() =>
-                //   Alert.alert(
-                //     "Expect a call from the first friend to Say Hello back before this timer expires"
-                //   )
-                // }
               />
             </View>
           );
@@ -833,14 +805,10 @@ class PhoneScreen extends Component {
                 size={40}
                 digitBgColor={colors.yellowColor}
                 digitTxtColor="#333"
+                timeLabelStyle={{ color: "#fff" }}
                 timeTxtColor="#FFF"
                 timeToShow={["M", "S"]}
                 style={styles.countdown}
-                // onPress={() =>
-                //   Alert.alert(
-                //     "Expect a call from the first friend to Say Hello back before this timer expires"
-                //   )
-                // }
               />
             </View>
           );
@@ -1061,7 +1029,9 @@ const styles = StyleSheet.create({
   xWrapper: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    backgroundColor: "#FAFAFA"
+    backgroundColor: "#FAFAFA",
+    paddingRight: 5,
+    paddingTop: 3
   },
   modalTitleWrapper: {
     borderBottomWidth: 1,
@@ -1470,6 +1440,7 @@ const mapDispatchToProps = dispatch => {
     onOutgoingCustomGroupCall: customGroupId =>
       dispatch(outgoingCustomGroupCall(customGroupId)),
     onLoadActiveFriends: () => dispatch(getActiveFriends()),
+    onLoadActivePlans: () => dispatch(getActivePlans()),
     onLoadActiveGroups: () => dispatch(getActiveGroups()),
     onLoadFriendRequests: () => dispatch(getFriendRequests()),
     getLastCall: () => dispatch(storeLastCall()),

@@ -449,7 +449,8 @@ export const getUserInfo = device => {
       "pp:instagram",
       "pp:snapchat",
       "pp:twitter",
-      "pp:auth:token"
+      "pp:auth:token",
+      "pp:user_id"
     ])
       .then(response => {
         //calls firebase everytime, not ideal
@@ -460,7 +461,8 @@ export const getUserInfo = device => {
           response[2][1] &&
           response[3][1] &&
           response[3][1] === device.toString() &&
-          response[4][1] === "true"
+          response[4][1] === "true" &&
+          response[10][1]
         ) {
           dispatch(
             storePhoneNumber(
@@ -473,7 +475,8 @@ export const getUserInfo = device => {
               response[6][1],
               response[7][1],
               response[8][1],
-              true // submitted by default cause already verified
+              true, // submitted by default cause already verified,
+              response[10][1]
             )
           );
         } else {
@@ -519,7 +522,8 @@ export const getPhoneNumber = device => {
               json.instagram,
               json.snapchat,
               json.twitter,
-              json.submitted
+              json.submitted,
+              json.user_id
             )
           );
           AsyncStorage.setItem("pp:fullname", json.fullname);
@@ -530,6 +534,7 @@ export const getPhoneNumber = device => {
           AsyncStorage.setItem("pp:snapchat", json.snapchat);
           AsyncStorage.setItem("pp:twitter", json.twitter);
           AsyncStorage.setItem("pp:submitted", json.submitted.toString());
+          AsyncStorage.setItem("pp:user_id", json.user_id.toString());
         }
       })
       .catch(e => {
@@ -548,7 +553,8 @@ export function storePhoneNumber(
   instagram,
   snapchat,
   twitter,
-  submitted
+  submitted,
+  user_id
 ) {
   return {
     type: STORE_PHONE_NUMBER,
@@ -561,7 +567,8 @@ export function storePhoneNumber(
     instagram,
     snapchat,
     twitter,
-    submitted
+    submitted,
+    user_id
   };
 }
 

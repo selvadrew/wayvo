@@ -10,7 +10,11 @@ import {
   START_LOADING_HELLO,
   STOP_LOADING_HELLO,
   START_LOADING_GROUPS,
-  STOP_LOADING_GROUPS
+  STOP_LOADING_GROUPS,
+  START_LOADING_PLANS,
+  STOP_LOADING_PLANS,
+  START_LOADING_CHATS,
+  STOP_LOADING_CHATS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -21,7 +25,9 @@ const initialState = {
   isLoadingHello: false,
   saidHello: false,
   error: null,
-  isLoadingGroups: false
+  isLoadingGroups: false,
+  isLoadingPlans: false,
+  isLoadingChats: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -92,6 +98,27 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingGroups: false
+      };
+
+    case START_LOADING_PLANS:
+      return {
+        ...state,
+        isLoadingPlans: true
+      };
+    case STOP_LOADING_PLANS:
+      return {
+        ...state,
+        isLoadingPlans: false
+      };
+    case START_LOADING_CHATS:
+      return {
+        ...state,
+        isLoadingChats: true
+      };
+    case STOP_LOADING_CHATS:
+      return {
+        ...state,
+        isLoadingChats: false
       };
 
     default:
