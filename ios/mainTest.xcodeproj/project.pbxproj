@@ -1607,7 +1607,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mainTest.app/mainTest";
+				TEST_HOST = "";
 			};
 			name = Release;
 		};
