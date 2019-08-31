@@ -2,11 +2,11 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "27.0.3"
+        buildToolsVersion = "28.0.3"
         minSdkVersion = 16
-        compileSdkVersion = 27
-        targetSdkVersion = 26
-        supportLibVersion = "27.1.1"
+        compileSdkVersion = 28
+        targetSdkVersion = 28
+        supportLibVersion = "28.0.0"
     }
     repositories {
         google()
@@ -19,7 +19,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.3'
+        classpath 'com.android.tools.build:gradle:3.3.0'
         classpath 'com.google.gms:google-services:3.2.1'
         //classpath 'com.google.gms:google-services:4.0.2'
 
@@ -47,7 +47,7 @@ allprojects {
        resolutionStrategy {
          eachDependency { DependencyResolveDetails details ->
            if (details.requested.group == 'com.facebook.react' && details.requested.name == 'react-native') {
-             details.useVersion "0.57.8" // Your real React Native version here
+             details.useVersion "0.59.1" // Your real React Native version here
            }
          }
          //force 'com.facebook.android:facebook-android-sdk:4.22.1'
@@ -55,18 +55,18 @@ allprojects {
      }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4'
-    distributionUrl = distributionUrl.replace("bin", "all")
-}
-
-// subprojects {
-//     afterEvaluate {project ->
-//         if (project.hasProperty("android")) {
-//             android {
-//                 compileSdkVersion 27
-//                 buildToolsVersion "27.0.3"
-//             }
-//         }
-//     }
+// task wrapper(type: Wrapper) {
+//     gradleVersion = '4.4'
+//     distributionUrl = distributionUrl.replace("bin", "all")
 // }
+
+subprojects {
+    afterEvaluate {project ->
+        if (project.hasProperty("android")) {
+            android {
+                compileSdkVersion 28
+                buildToolsVersion "28.0.3"
+            }
+        }
+    }
+}
