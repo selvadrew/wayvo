@@ -102,6 +102,7 @@ export function signUp(email, password) {
       .catch(e => {
         dispatch(uiStopLoading());
         console.log(e);
+        alert(e)
         Alert.alert("Oops, we couldn't connect, please try again");
       });
   };

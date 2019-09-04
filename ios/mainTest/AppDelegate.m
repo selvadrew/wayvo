@@ -8,6 +8,8 @@
  */
 
 #import "AppDelegate.h"
+
+#import <React/RCTBridge.h>
 #import <React/RCTBundleURLProvider.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <React/RCTPushNotificationManager.h>

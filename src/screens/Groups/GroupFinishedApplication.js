@@ -48,9 +48,9 @@ class GroupFinishedApplication extends Component {
           refresh the screen).
           {"\n"}
           {"\n"}
-          Once approved, when you press "Make a new friend" you will get
-          connected on a voice or video call with someone in your program of
-          study.
+          Once approved, you will be able to start and join
+          plans with other students from your university, program, school clubs, interest groups, etc..
+          You can start a plan to grab food, hangout, group study, or party!
         </Text>
       </View>
     );
