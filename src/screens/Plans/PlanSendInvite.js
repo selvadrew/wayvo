@@ -102,7 +102,7 @@ class PlanSendInvite extends Component {
       passProps: {
         timeTillPlan: Math.floor(
           (new Date().setHours(index / 2, (index % 2) * 30, 0) - new Date()) /
-            60000
+          60000
         )
       }
     });
@@ -124,17 +124,19 @@ class PlanSendInvite extends Component {
           </Text>
           <GotIt
             onPress={() => {
-              this.props.onSendInvite(
-                this.props.groupType,
-                this.props.groupId,
-                this.props.activity,
-                this.props.time,
-                this.props.explodingOffer
-              );
-              this.props.navigator.switchToTab({
-                tabIndex: 3
-              });
               this.props.navigator.popToRoot();
+              setTimeout(() => {
+                this.props.onSendInvite(
+                  this.props.groupType,
+                  this.props.groupId,
+                  this.props.activity,
+                  this.props.time,
+                  this.props.explodingOffer
+                );
+                this.props.navigator.switchToTab({
+                  tabIndex: 3
+                });
+              }, 200);
             }}
             backgroundColor={colors.orange}
             color="#333"

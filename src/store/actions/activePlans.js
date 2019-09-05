@@ -126,7 +126,7 @@ export const getMessages = id => {
         if (json.is_success) {
           if (json.messages.length > 0) {
             console.log(id, json.messages);
-            dispatch(setMessages(id, json.messages));
+            dispatch(setMessages(id, json.messages, json.message_ids));
           }
           dispatch(stopLoadingChats());
         } else {
@@ -141,11 +141,12 @@ export const getMessages = id => {
   };
 };
 
-export function setMessages(id, messages) {
+export function setMessages(id, messages, message_ids) {
   return {
     type: SET_MESSAGES,
     id,
-    messages
+    messages,
+    message_ids
   };
 }
 

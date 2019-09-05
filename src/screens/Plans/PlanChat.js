@@ -40,15 +40,16 @@ class PlanChat extends Component {
 
   state = {
     messages: [],
-    loader: false
+    loader: false,
+    firstMessage: true
   };
 
   componentDidMount() {
     this.props.onGetMessages(this.props.id);
 
     const actionCable = ActionCable.createConsumer(
-      // "wss://4e390740.ngrok.io/cable"
-      "wss://sheltered-escarpment-63295.herokuapp.com/cable"
+      "wss://2020e65d.ngrok.io/cable"
+      // "wss://sheltered-escarpment-63295.herokuapp.com/cable"
     );
     const cable = new Cable({});
 
@@ -126,6 +127,7 @@ class PlanChat extends Component {
   }
 
   handleReceived = incoming => {
+    console.log(incoming)
     // better way to do this. - checks if user is not current user or system message to show message
     if (incoming.incoming_message.message_data.user) {
       if (incoming.incoming_message.message_data.user._id !== parseInt(this.props.user_id)) {

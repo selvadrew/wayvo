@@ -10,7 +10,8 @@ const colors = {
   pinkColor: "#ea4335",
   greenColor: "#40D08A",
   darkBlue: "#0088CA",
-  orange: "#ffa500"
+  // orange: "#ffa500"
+  orange: "#FA9917"
 };
 
 export default colors;
