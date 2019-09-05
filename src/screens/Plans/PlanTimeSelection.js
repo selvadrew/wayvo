@@ -119,7 +119,7 @@ class PlanTimeSelection extends Component {
       passProps: {
         timeTillPlan: Math.floor(
           (new Date().setHours(index / 2, (index % 2) * 30, 0) - new Date()) /
-            60000
+          60000
         )
       }
     });
@@ -235,9 +235,9 @@ const styles = StyleSheet.create({
     // width: "50%",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    color: "#333",
+    color: "#fff",
     letterSpacing: 1,
-    fontWeight: "500"
+    fontWeight: "700"
   }
 });
 

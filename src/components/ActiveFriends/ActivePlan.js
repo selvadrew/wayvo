@@ -153,7 +153,7 @@ const activePlan = props => {
         color="#333"
         fontSize={15}
       >
-        I'M IN!
+        JOIN PLAN
       </GotIt>
     );
   }

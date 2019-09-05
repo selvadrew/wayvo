@@ -139,8 +139,8 @@ class PlanSendInvite extends Component {
               }, 200);
             }}
             backgroundColor={colors.orange}
-            color="#333"
-            fontSize={18}
+            color="#fff"
+            fontSize={20}
             width="60%"
           >
             SEND INVITE
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.6,
     marginTop: 10,
     // textAlign: "center",
-    marginTop: 10
+    marginBottom: 10
   },
   viewWrapper: {
     alignItems: "center",
@@ -181,9 +181,9 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    color: "#333",
+    color: "#fff",
     letterSpacing: 1,
-    fontWeight: "500"
+    fontWeight: "700"
   }
 });
 

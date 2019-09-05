@@ -35,6 +35,8 @@ import PlanTimeSelection from "./src/screens/Plans/PlanTimeSelection";
 import PlanExplodingOffer from "./src/screens/Plans/PlanExplodingOffer";
 import PlanSendInvite from "./src/screens/Plans/PlanSendInvite";
 import PlanChat from "./src/screens/Plans/PlanChat";
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
 const store = configureStore();
 

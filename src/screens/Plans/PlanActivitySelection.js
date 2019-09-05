@@ -126,11 +126,11 @@ const styles = StyleSheet.create({
     borderRadius: 50
   },
   button: {
-    paddingVertical: 20,
-    color: "#333",
-    fontSize: 24,
+    paddingVertical: 18,
+    color: "#fff",
+    fontSize: 26,
     letterSpacing: 1,
-    fontWeight: "500"
+    fontWeight: "800"
   }
 });
 
