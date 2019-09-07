@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
+import GotIt from "../../components/UI/GotItButton";
 
 class HowItWorks extends Component {
   static navigatorStyle = {
@@ -45,94 +46,39 @@ class HowItWorks extends Component {
         style={styles.container}
         contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
       >
-        {/* <View style={styles.wrapper}>
-          <View style={styles.titleWrapper}>
-            <Text style={styles.title}>What happens when I Say Hello?</Text>
-          </View>
-        </View> */}
-
-        <Image
-          source={require("../../assets/Info-1.png")}
-          style={styles.infoTwo}
-        />
         <View>
-          <Text style={styles.text}>
-            When you Say Hello, all your friends or group members receive a
-            notification
-          </Text>
-        </View>
-
-        <Image
-          source={require("../../assets/Info-2.png")}
-          style={styles.infoTwo}
-        />
-        <View>
-          <Text style={styles.text}>
-            The first person to Say Hello Back before time expires gets to call
-            you
-          </Text>
-        </View>
-
-        <Image
-          source={require("../../assets/Info-3.png")}
-          style={styles.infoOne}
-        />
-        <View>
-          <Text style={styles.text}>
-            You will receive a call at {formatted_phone_number} {throughFT}
-          </Text>
-        </View>
-
-        {/* <View style={styles.wrapper}>
-          <View style={styles.numberHolder}>
-            <View style={styles.numberWrapper1}>
-              <Text style={styles.numberText}>1</Text>
+          {/* <GotIt
+            onPress={() => {
+              this.sayHello();
+              this.defaultButtons();
+            }}
+            backgroundColor={colors.orange}
+            color="#fff"
+            fontSize={25}
+            width="100%"
+          >
+            Start a plan example
+              </GotIt> */}
+          <View style={styles.barwrapper}>
+            <View style={styles.barOrange}>
+              <Text style={styles.barText}>How Start a Plan Works</Text>
             </View>
           </View>
-          <View style={styles.textWrapper}>
-            <Text style={styles.text}>
-              All your selected friends who have{" "}
-              <Text style={{ color: colors.pinkColor }}>
-                {this.props.username}
-              </Text>{" "}
-              in their friend list will receive a notification
-            </Text>
-          </View>
+          <Text style={styles.text}>
+            Press "Start a Plan" and choose to start a party with your residence building! Wayvo will send a notification to all the students in your residence to let them know they're invited to your party. Wayvo, then automatically starts a group chat with everyone coming to your party, so you can finalize the party details together!
+         </Text>
+          <Text style={styles.text}>
+            During the day, you can also start a plan to grab food, hang out, or group study!
+         </Text>
+          <Text style={styles.text}>
+            You can start a plan with students from your residence building, program of study, or friend groups.
+         </Text>
         </View>
 
-        <View style={styles.wrapper}>
-          <View style={styles.numberHolder}>
-            <View style={styles.numberWrapper2}>
-              <Text style={styles.numberText}>2</Text>
-            </View>
-          </View>
-          <View style={styles.textWrapper}>
-            <Text style={styles.text}>
-              You will receive a call at{" "}
-              <Text style={{ color: colors.greenColor }}>
-                {formatted_phone_number}
-              </Text>{" "}
-              {throughFT}
-              from the first friend to open Wayvo and Say Hello Back
-            </Text>
-          </View>
-        </View> */}
 
-        {/* <View style={styles.wrapper}>
-          <View style={styles.numberHolder}>
-            <View style={styles.numberWrapper}>
-              <Text style={styles.numberText}>2b</Text>
-            </View>
-          </View>
-          <View style={styles.textWrapper}>
-            <Text style={styles.text}>
-              If no friends Say Hello back within the time you selected,
-              nothing happens
-            </Text>
-          </View>
-        </View> */}
-      </ScrollView>
-    );
+      </ScrollView >
+    )
+
   }
 }
 //If all your friends are busy and are not able to Say Hello back within the time you selected, nothing happens.
@@ -140,12 +86,47 @@ class HowItWorks extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
-    paddingTop: 30,
+    // paddingTop: 30,
     backgroundColor: "#fff"
     //alignItems: "center"
     // justifyContent: "center",
     // flexDirection: "column"
+  },
+  text: {
+    paddingHorizontal: 20,
+    marginTop: 10,
+    fontWeight: "400",
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
+    color: "#222",
+    letterSpacing: 1,
+    //textAlign: "center",
+    // marginBottom: 50,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
+  barwrapper: {
+    width: "100%",
+    backgroundColor: colors.orange,
+    flexDirection: 'row'
+  },
+  barOrange: {
+    flex: 1,
+    backgroundColor: colors.orange,
+    textAlign: "center",
+    alignItems: "center"
+  },
+  barGreen: {
+    flex: 1,
+    backgroundColor: colors.greenColor,
+    textAlign: "center",
+    alignItems: "center"
+  },
+  barText: {
+    fontSize: 26,
+    fontWeight: "700",
+    color: "#fff",
+    padding: 10,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    letterSpacing: 1
   },
   infoOne: {
     resizeMode: "contain",
@@ -165,10 +146,10 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
-    fontWeight: "700",
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 18,
+    fontWeight: "500",
     padding: 5,
-    color: "#444",
+    color: "#333",
     letterSpacing: 1,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
@@ -205,17 +186,55 @@ const styles = StyleSheet.create({
   },
   textWrapper: {
     width: "85%"
-  },
-  text: {
-    padding: 20,
-    fontWeight: "600",
-    fontSize: Dimensions.get("window").width > 330 ? 22 : 17,
-    color: "#222",
-    letterSpacing: 1,
-    //textAlign: "center",
-    marginBottom: 50,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 
 export default HowItWorks;
+
+
+
+
+// return (
+    //   <ScrollView
+    //     style={styles.container}
+    //     contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
+    //   >
+    //     {/* <View style={styles.wrapper}>
+    //       <View style={styles.titleWrapper}>
+    //         <Text style={styles.title}>What happens when I Say Hello?</Text>
+    //       </View>
+    //     </View> */}
+
+    //     <Image
+    //       source={require("../../assets/Info-1.png")}
+    //       style={styles.infoTwo}
+    //     />
+    //     <View>
+    //       <Text style={styles.text}>
+    //         When you Say Hello, all your friends or group members receive a
+    //         notification
+    //       </Text>
+    //     </View>
+
+    //     <Image
+    //       source={require("../../assets/Info-2.png")}
+    //       style={styles.infoTwo}
+    //     />
+    //     <View>
+    //       <Text style={styles.text}>
+    //         The first person to Say Hello Back before time expires gets to call
+    //         you
+    //       </Text>
+    //     </View>
+
+    //     <Image
+    //       source={require("../../assets/Info-3.png")}
+    //       style={styles.infoOne}
+    //     />
+    //     <View>
+    //       <Text style={styles.text}>
+    //         You will receive a call at {formatted_phone_number} {throughFT}
+    //       </Text>
+    //     </View>
+    //   </ScrollView>
+    // );

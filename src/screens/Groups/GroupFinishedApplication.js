@@ -50,7 +50,7 @@ class GroupFinishedApplication extends Component {
           {"\n"}
           Once approved, you will be able to start and join
           plans with other students from your university, program, school clubs, interest groups, etc..
-          You can start a plan to grab food, hangout, group study, or party!
+          You can start a plan to grab food, hang out, group study, or party!
         </Text>
       </View>
     );

@@ -124,7 +124,7 @@ const activePlan = props => {
         color="#333"
         fontSize={15}
       >
-        YOU'RE GOING!
+        OPEN CHAT
       </GotIt>
     );
   } else {
@@ -178,14 +178,14 @@ const activePlan = props => {
   if (props.data.started_it) {
     started_it = (
       <Text style={styles.inviteText}>
-        You started a plan to {activities[props.data.activity]} at{" "}
+        <Text style={styles.colorText}>You</Text> started a plan to {activities[props.data.activity]} at{" "}
         {times[props.data.time]} with {props.data.group_name}
       </Text>
     );
   } else {
     started_it = (
       <Text style={styles.inviteText}>
-        {props.data.plan_creator} invited you to{" "}
+        <Text style={styles.colorText}>{props.data.plan_creator}</Text> invited you to{" "}
         {activities[props.data.activity]} at {times[props.data.time]} with{" "}
         {props.data.group_name}
       </Text>
@@ -222,6 +222,10 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android" ? "Roboto" : null,
     letterSpacing: 1,
     width: "50%"
+  },
+  colorText: {
+    color: colors.yellowColor,
+    fontWeight: "700"
   },
   placeButton: {
     // width: "50%",

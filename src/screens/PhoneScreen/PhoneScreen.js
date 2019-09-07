@@ -601,16 +601,19 @@ class PhoneScreen extends Component {
                     style={[
                       styles.leftBox,
                       styles.selectionBox2,
-                      styles.default
+                      styles.default,
+                      styles.orange
                     ]}
                   >
                     <Icon size={50} name="ios-pin" color="#fff" />
                   </View>
-                  <View style={[styles.rightBox2]}>
+                  <View style={[styles.rightBox2, styles.orange]}>
                     <Text style={[styles.rightText]}>Start a plan</Text>
                   </View>
                 </View>
               </TouchableWithoutFeedback>
+              
+              
 
               <TouchableWithoutFeedback
                 onPress={() => {
@@ -622,7 +625,7 @@ class PhoneScreen extends Component {
                     style={[
                       styles.leftBox,
                       styles.selectionBox1,
-                      this.state.iconCatchUp ? styles.goGreen : styles.default
+                      styles.red
                     ]}
                   >
                     <Icon size={50} name="ios-people" color="#fff" />
@@ -630,7 +633,7 @@ class PhoneScreen extends Component {
                   <View
                     style={[
                       styles.rightBox1,
-                      this.state.catchUp ? styles.goGreen : null
+                      styles.red
                     ]}
                   >
                     <Text style={styles.rightText1}>
@@ -650,7 +653,7 @@ class PhoneScreen extends Component {
                     style={[
                       styles.leftBox,
                       styles.selectionBox2,
-                      this.state.iconNewFriend ? null : styles.default
+                      styles.green
                     ]}
                   >
                     <Icon size={50} name="ios-school" color="#fff" />
@@ -658,13 +661,15 @@ class PhoneScreen extends Component {
                   <View
                     style={[
                       styles.rightBox2,
-                      this.state.newFriend ? styles.goGreen : null
+                      styles.green
                     ]}
                   >
                     <Text style={[styles.rightText]}>Make a new friend</Text>
                   </View>
                 </View>
               </TouchableWithoutFeedback>
+
+
             </View>
             <Animated.View
               style={[
@@ -803,7 +808,7 @@ class PhoneScreen extends Component {
                   this.defaultButtons();
                 }}
                 size={40}
-                digitBgColor={colors.yellowColor}
+                digitStyle={{backgroundColor: colors.yellowColor}}
                 digitTxtColor="#333"
                 timeLabelStyle={{ color: "#fff" }}
                 timeTxtColor="#FFF"
@@ -981,7 +986,7 @@ class PhoneScreen extends Component {
               (this.props.seconds_left === null &&
                 this.props.seconds_left_groups === null) ||
               (this.props.can_say_hello && this.props.can_say_hello_groups)
-                ? { backgroundColor: colors.blueColor }
+                ? { backgroundColor: "#F0F1F5" }
                 : { backgroundColor: colors.greenColor }
             ]}
           >
@@ -1072,8 +1077,8 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    borderRightColor: colors.blueColor,
-    borderRightWidth: 1
+    borderRightColor: "#fff",
+    borderRightWidth: 0.5
     //backgroundColor: colors.pinkColor
   },
   selectionBox1: {
@@ -1089,7 +1094,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     // alignItems: "center"
-    backgroundColor: colors.darkBlue
+    backgroundColor: colors.blueColor
   },
   rightBox2: {
     height: "100%",
@@ -1097,10 +1102,18 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     // alignItems: "center"
-    backgroundColor: colors.darkBlue
+  },
+  orange: {
+    backgroundColor: colors.orange
+  },
+  green: {
+    backgroundColor: colors.greenColor
+  },
+  red: {
+    backgroundColor: "#ff6159"
   },
   default: {
-    backgroundColor: colors.darkBlue
+    backgroundColor: colors.blueColor
   },
   goPink: {
     backgroundColor: colors.pinkColor
@@ -1113,14 +1126,14 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: "#fff",
     letterSpacing: 1,
-    fontWeight: Platform.OS === "ios" ? "500" : "400",
+    fontWeight: Platform.OS === "ios" ? "700" : "600",
     paddingHorizontal: 15
   },
   rightText1: {
     fontSize: 28,
     color: "#fff",
     letterSpacing: 1,
-    fontWeight: Platform.OS === "ios" ? "500" : "400",
+    fontWeight: Platform.OS === "ios" ? "700" : "600",
     paddingHorizontal: 15
   },
   newHelloWrapper: {
@@ -1159,7 +1172,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 2,
-    width: "100%"
+    width: "100%", 
+    marginTop: 10
   },
   helloDescription: {
     position: "absolute",
@@ -1359,7 +1373,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end"
   },
   lastConnected: {
-    color: "#fff",
+    color: "#797E88",
     fontSize: 16,
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : null,

@@ -122,6 +122,7 @@ class ActiveFriendsScreen extends Component {
       screen: "awesome-places.PlanChat",
       backButtonTitle: "",
       title: title,
+      // title: "Residence Party at 9:00PM",
       passProps: {
         id: id
       }
@@ -152,9 +153,9 @@ class ActiveFriendsScreen extends Component {
     //changes tab to active friends ifmsomeone is active
     if (
       this.props.active_friends.length +
-        this.props.active_groups.length +
-        this.props.active_custom_groups.length +
-        this.props.active_plans.length >
+      this.props.active_groups.length +
+      this.props.active_custom_groups.length +
+      this.props.active_plans.length >
       0
     ) {
       this.props.navigator.switchToTab({

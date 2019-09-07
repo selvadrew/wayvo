@@ -78,14 +78,14 @@ class GroupsExplanation extends Component {
           After you connect, add them to your Friends list to connect again.
         </Text> */}
         <Text style={styles.paragrapgh}>
-          Press <Text style={styles.yellowText}>Start a plan</Text> to grab food 🍕 in 10 minutes with people in your residence building 🏢 or from your program 📚. Wayvo will start a group chat 💬 with everyone who joins so you can finalize the plan together 🙌. Then at night, start an impromptu party 🎉
+          Press <Text style={styles.yellowText}>Start a Plan</Text> and choose to start a party 🎉 with your residence building. Wayvo will send a notification to all the students in your residence 🏢 to let them know they're invited to your party. Wayvo, then automatically starts a group chat 💬 with everyone coming to your party, so you can finalize the party details together 🙌
         </Text>
         <Text style={styles.paragrapgh}>
-          The next day ☀️ while walking 🚶‍ to class, press <Text style={styles.yellowText}>Make a new friend</Text> to meet someone new from your school club over a video call 📳
+          The next day ☀️ while walking 🚶‍ to class, press <Text style={styles.yellowText}>Make a New Friend</Text> to meet someone new from your program over a video call 📳
         </Text>
-        <Text style={styles.paragrapgh}>
+        {/* <Text style={styles.paragrapgh}>
           Or just press <Text style={styles.yellowText}>Catch up with a friend</Text> to reconnect with a friend you met last month through Wayvo
-        </Text>
+        </Text> */}
 
         <View style={styles.verifyButton}>{joinButton}</View>
       </View>

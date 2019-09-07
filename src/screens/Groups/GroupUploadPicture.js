@@ -60,7 +60,7 @@ class GroupUploadPicture extends Component {
     if (Platform.OS === "ios") {
       // ios
       // ImagePicker.launchImageLibrary(
-        ImagePicker.launchCamera(
+      ImagePicker.launchCamera(
         { title: "Take a selfie with your student ID", cameraType: "front" },
         res => {
           if (res.didCancel) {

@@ -55,7 +55,8 @@ class PlanActivitySelection extends Component {
       >
         <View>
           <Text style={styles.header}>
-            Select an activity to start with members of {this.props.group_name}?
+            Select an activity to start with members of {this.props.group_name}
+            {/* Select an activity to start with members of your residence */}
           </Text>
         </View>
         {/* grab food, hang out, study, party */}
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   header: {
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 20,
     color: "#111",
     fontWeight: "400",
     padding: 14,
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 26,
     letterSpacing: 1,
-    fontWeight: "800"
+    fontWeight: "700"
   }
 });
 
