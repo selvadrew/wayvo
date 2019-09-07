@@ -458,6 +458,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: "#fff",
     padding: 5,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontSize: 14
   },
   circleWrapper: {
@@ -493,6 +494,7 @@ const styles = StyleSheet.create({
     width: 300,
     fontWeight: "600",
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     textAlign: "center",
     marginBottom: 20
   },

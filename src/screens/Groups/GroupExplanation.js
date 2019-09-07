@@ -116,17 +116,20 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontWeight: "800",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontSize: 24
   },
   subTitle: {
     color: "#fff",
     textAlign: "center",
     fontWeight: "500",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontSize: 25
   },
   paragrapgh: {
     color: "#fff",
     fontSize: 21,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     marginTop: 20,
     fontWeight: "400",
     letterSpacing: 0.5
@@ -137,6 +140,7 @@ const styles = StyleSheet.create({
   bulletPoint: {
     color: "#fff",
     fontSize: 21,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "400",
     paddingLeft: 20,
     marginTop: 10

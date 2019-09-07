@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    fontWeight: "500"
+    fontWeight: "500",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   listItem: {
     flexDirection: "row",

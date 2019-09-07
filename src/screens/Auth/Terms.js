@@ -227,6 +227,7 @@ const styles = StyleSheet.create({
   },
   title1: {
     fontSize: 30,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "bold",
     color: "#222",
     textDecorationLine: "underline",
@@ -234,16 +235,19 @@ const styles = StyleSheet.create({
   },
   title2: {
     fontSize: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#222",
     fontWeight: "bold"
   },
   title3: {
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#222",
     fontWeight: "bold"
   },
   title4: {
     fontSize: 15,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#222"
   }
 });

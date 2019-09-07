@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "500"
   },
   listItem: {

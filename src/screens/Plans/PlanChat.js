@@ -48,7 +48,7 @@ class PlanChat extends Component {
     this.props.onGetMessages(this.props.id);
 
     const actionCable = ActionCable.createConsumer(
-      // "wss://2020e65d.ngrok.io/cable"
+      // "wss://185092c8.ngrok.io/cable"
       "wss://sheltered-escarpment-63295.herokuapp.com/cable"
     );
     const cable = new Cable({});

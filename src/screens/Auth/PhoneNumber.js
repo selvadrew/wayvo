@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     borderRadius: 5,
     borderColor: "#333",
     //textAlign: "center",
@@ -197,6 +198,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     fontSize: 16,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#333"
   },
   listItemWrapper: {

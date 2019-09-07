@@ -111,7 +111,7 @@ class GroupsScreen extends Component {
           onPress={() =>
             Alert.alert(
               `Join or create groups within the ${
-                this.props.enrolledUniversity
+              this.props.enrolledUniversity
               } community`,
               "",
               [
@@ -147,7 +147,7 @@ class GroupsScreen extends Component {
           onPress={() =>
             Alert.alert(
               `Join or create groups within the ${
-                this.props.enrolledUniversity
+              this.props.enrolledUniversity
               } community`,
               "",
               [
@@ -376,6 +376,7 @@ const styles = StyleSheet.create({
     color: colors.darkBlue,
     padding: 10,
     fontSize: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "500"
   },
   uniWrapper2: {

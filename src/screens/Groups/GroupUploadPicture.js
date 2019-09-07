@@ -452,6 +452,7 @@ const styles = StyleSheet.create({
   fewMinutes: {
     color: "#FFF",
     fontSize: 16,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     flexDirection: "row",
     flex: 1,
     justifyContent: "center",
@@ -471,6 +472,7 @@ const styles = StyleSheet.create({
   buttonTextYellow: {
     textAlign: "center",
     fontSize: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#333",
     padding: 10,
     paddingHorizontal: 15
@@ -478,6 +480,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontSize: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#fff",
     padding: 10
   },
@@ -568,6 +571,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     color: "#fff",
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     marginTop: 5
   },
   infoTwo: {
@@ -594,6 +598,7 @@ const styles = StyleSheet.create({
   },
   moreInfo: {
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     marginTop: 10
   }
 });

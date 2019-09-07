@@ -612,8 +612,8 @@ class PhoneScreen extends Component {
                   </View>
                 </View>
               </TouchableWithoutFeedback>
-              
-              
+
+
 
               <TouchableWithoutFeedback
                 onPress={() => {
@@ -808,8 +808,9 @@ class PhoneScreen extends Component {
                   this.defaultButtons();
                 }}
                 size={40}
-                digitStyle={{backgroundColor: colors.yellowColor}}
+                digitStyle={{ backgroundColor: colors.yellowColor }}
                 digitTxtColor="#333"
+                digitTxtStyle={{ color: "#333", fontFamily: Platform.OS === "android" ? "Roboto" : null }}
                 timeLabelStyle={{ color: "#fff" }}
                 timeTxtColor="#FFF"
                 timeToShow={["M", "S"]}
@@ -953,7 +954,7 @@ class PhoneScreen extends Component {
                       size={30}
                       name={Platform.OS === "ios" ? "md-menu" : "md-menu"}
                       color="#f5f5f5"
-                      //color={colors.yellowColor}
+                    //color={colors.yellowColor}
                     />
                   </View>
                 </TouchableWithoutFeedback>
@@ -973,7 +974,7 @@ class PhoneScreen extends Component {
                           : "md-information-circle-outline"
                       }
                       color="#f5f5f5"
-                      //color={colors.yellowColor}
+                    //color={colors.yellowColor}
                     />
                   </View>
                 </TouchableWithoutFeedback>
@@ -985,7 +986,7 @@ class PhoneScreen extends Component {
               styles.container2,
               (this.props.seconds_left === null &&
                 this.props.seconds_left_groups === null) ||
-              (this.props.can_say_hello && this.props.can_say_hello_groups)
+                (this.props.can_say_hello && this.props.can_say_hello_groups)
                 ? { backgroundColor: "#F0F1F5" }
                 : { backgroundColor: colors.greenColor }
             ]}
@@ -1044,6 +1045,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     letterSpacing: 0.5,
     paddingBottom: 8,
     color: "#333",
@@ -1127,14 +1129,16 @@ const styles = StyleSheet.create({
     color: "#fff",
     letterSpacing: 1,
     fontWeight: Platform.OS === "ios" ? "700" : "600",
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   rightText1: {
     fontSize: 28,
     color: "#fff",
     letterSpacing: 1,
     fontWeight: Platform.OS === "ios" ? "700" : "600",
-    paddingHorizontal: 15
+    paddingHorizontal: 15,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   newHelloWrapper: {
     flex: 1,
@@ -1172,7 +1176,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flex: 2,
-    width: "100%", 
+    width: "100%",
     marginTop: 10
   },
   helloDescription: {
@@ -1223,11 +1227,11 @@ const styles = StyleSheet.create({
     marginTop:
       Platform.OS === "ios"
         ? 90 +
-          (Dimensions.get("window").height * 2) / 9 +
-          Dimensions.get("window").width * 0.6
+        (Dimensions.get("window").height * 2) / 9 +
+        Dimensions.get("window").width * 0.6
         : 70 +
-          (Dimensions.get("window").height * 2) / 9 +
-          Dimensions.get("window").width * 0.6,
+        (Dimensions.get("window").height * 2) / 9 +
+        Dimensions.get("window").width * 0.6,
     width: "100%",
     height: "100%"
   },
@@ -1309,6 +1313,7 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     fontSize: 25,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#fff",
     //marginTop: Platform.OS === "ios" ? 20 : 0,
     padding: 10,
@@ -1318,6 +1323,7 @@ const styles = StyleSheet.create({
   usernameStyle: {
     color: colors.usernameColor,
     fontWeight: "bold",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontSize: 40
     //marginTop: Platform.OS === "ios" ? 20 : 0
   },
@@ -1366,6 +1372,7 @@ const styles = StyleSheet.create({
     color: "#555",
     fontWeight: "900",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     backgroundColor: colors.yellowColor
   },
   connectedWrapper: {
@@ -1398,6 +1405,7 @@ const styles = StyleSheet.create({
   activeInfo: {
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "400"
     //textAlign: "center"
   },

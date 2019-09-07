@@ -1,4 +1,4 @@
-// NSExceptionAllowsInsecureHTTPLoads
+// NSExceptionAllowsInsecureHTTPLoads   BOOLEAN-YES
 // react-native run-ios --simulator="iPhone X"
 // react-native run-ios --simulator="iPhone SE"
 
@@ -33,7 +33,25 @@ export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 - increment build 
 
 
+// ANDROID RELEASE
+- change app/build.gradle version code and version name 
+- to generate the release APK
+// $ cd android
+// $ ./gradlew assembleRelease
+// see files in = android/app/build/outputs/apk/release
 
 
+REDIS
+- $ redis-server
+- $ QUEUE=* rake resque:work
+WSS 
+- $ cd downloads
+- $ ./ngrok http 3000
+
+RNN custom start cause of bug 
+- $ react-native start -- --reset-cache
+
+Remove node modules 
+- $ rm -rf node_modules
 
 */}

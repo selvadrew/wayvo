@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
 
   header: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#111",
     fontWeight: "400",
     padding: 18,
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#fff",
     letterSpacing: 1,
     fontWeight: "700"

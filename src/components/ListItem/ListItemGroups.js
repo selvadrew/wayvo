@@ -69,7 +69,8 @@ const styles = StyleSheet.create({
   },
   waitingForApprovalText: {
     color: colors.yellowColor,
-    fontSize: 14
+    fontSize: 14,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   }
 });
 

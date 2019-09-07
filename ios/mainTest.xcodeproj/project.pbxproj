@@ -72,6 +72,7 @@
 		E65898EE212C9732001B6AD1 /* FirebaseMessaging.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E65898EC212C9732001B6AD1 /* FirebaseMessaging.framework */; };
 		E65898F1212C982A001B6AD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E65898F0212C982A001B6AD1 /* GoogleService-Info.plist */; };
 		E661FD70231C55C900F3E629 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E661FD3A231C55C900F3E629 /* JavaScriptCore.framework */; };
+		E661FDC42323979400F3E629 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E661FD3A231C55C900F3E629 /* JavaScriptCore.framework */; };
 		E844B39C306842C780AFEA25 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 89A2FE329F5446DBACF47070 /* Feather.ttf */; };
 		F2984AC3341E4D1893357463 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9F70F7FB823D4B7D9F564897 /* SimpleLineIcons.ttf */; };
 		FDD3E0FACB994FE282979DC9 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9F359EAA54A43DB98AA6105 /* Octicons.ttf */; };
@@ -486,6 +487,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E661FDC42323979400F3E629 /* JavaScriptCore.framework in Frameworks */,
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

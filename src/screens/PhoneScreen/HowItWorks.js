@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
   numberText: {
     fontWeight: "600",
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     textAlign: "center",
     alignItems: "center",
     color: "#fff",

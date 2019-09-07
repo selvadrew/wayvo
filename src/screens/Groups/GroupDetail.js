@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
   firstName: {
     color: colors.blueColor,
     fontSize: 30,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     textAlign: "center",
     fontWeight: "700",
     marginBottom: 20
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
   justMet: {
     color: "#333",
     fontSize: 25,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     textAlign: "center",
     fontWeight: "700",
     marginBottom: 20
@@ -128,6 +130,7 @@ const styles = StyleSheet.create({
   lastName: {
     color: colors.pinkColor,
     fontSize: 30,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     textAlign: "center",
     fontWeight: "700"
   },
@@ -145,11 +148,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "500",
     textAlign: "center",
     marginBottom: 10
   },
   note: {
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontSize: 16
   },
 
@@ -178,6 +183,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     color: "#444"
   }
 });

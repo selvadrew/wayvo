@@ -150,7 +150,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.darkBlue,
     fontWeight: "700",
-    marginBottom: 15
+    marginBottom: 15,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
     // textAlign: "center"
   },
   textInput: {
@@ -161,6 +162,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     marginBottom: 25,
     borderRadius: 3,
     letterSpacing: 1
@@ -172,12 +174,14 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     borderRadius: 3,
     letterSpacing: 1,
     marginBottom: 25
   },
   inputTitle: {
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     fontWeight: "700",
     marginBottom: 5,
     color: "#555"
@@ -195,6 +199,7 @@ const styles = StyleSheet.create({
   },
   createdGroupText: {
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     marginBottom: 15
   },
   secretUsernameText: {

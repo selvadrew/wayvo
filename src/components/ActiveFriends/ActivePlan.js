@@ -225,7 +225,8 @@ const styles = StyleSheet.create({
   },
   colorText: {
     color: colors.yellowColor,
-    fontWeight: "700"
+    fontWeight: "700",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   placeButton: {
     // width: "50%",
