@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: Dimensions.get("window").width > 330 ? 16 : 15,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     marginBottom: 20
   },
   successFeedback: {

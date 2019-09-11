@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     width: 300,
     fontWeight: "600",
     fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
     textAlign: "center",
     marginBottom: 20
   },
