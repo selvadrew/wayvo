@@ -4,7 +4,8 @@ import {
   STORE_PHONE_NUMBER,
   SIGNUP_ERROR,
   LOGIN_ERROR,
-  SUBMITTED
+  SUBMITTED,
+  UNI_REQUESTS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -22,7 +23,8 @@ const initialState = {
   snapchat: null,
   twitter: null,
   submitted: null,
-  user_id: null
+  user_id: null,
+  uniRequests: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -72,6 +74,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         submitted: true
       };
+    case UNI_REQUESTS:
+      return {
+        ...state,
+        uniRequests: action.users
+      }
     default:
       return state;
   }

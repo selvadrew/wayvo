@@ -21,7 +21,7 @@
 // 10.20.79.132 - waterloo
 // 192.168.0.16 - sunview
 
-// export const HOST = "http://138.51.82.236:3000";
+// export const HOST = "http://138.51.95.72:3000";
 
 export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 

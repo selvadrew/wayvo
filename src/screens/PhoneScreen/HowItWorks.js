@@ -7,11 +7,15 @@ import {
   Dimensions,
   Platform,
   Image,
-  ScrollView
+  ScrollView,
+  FlatList,
+  Button
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
+import { getUniRequests, uniRequestAction } from "../../store/actions/users";
+
 
 class HowItWorks extends Component {
   static navigatorStyle = {
@@ -23,6 +27,10 @@ class HowItWorks extends Component {
   };
   constructor(props) {
     super(props);
+  }
+
+  componentDidMount() {
+    this.props.onGetUniRequests()
   }
 
   render() {
@@ -46,19 +54,7 @@ class HowItWorks extends Component {
         style={styles.container}
         contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
       >
-        <View>
-          {/* <GotIt
-            onPress={() => {
-              this.sayHello();
-              this.defaultButtons();
-            }}
-            backgroundColor={colors.orange}
-            color="#fff"
-            fontSize={25}
-            width="100%"
-          >
-            Start a plan example
-              </GotIt> */}
+        {/* <View>
           <View style={styles.barwrapper}>
             <View style={styles.barOrange}>
               <Text style={styles.barText}>How Start a Plan Works</Text>
@@ -73,7 +69,28 @@ class HowItWorks extends Component {
           <Text style={styles.text}>
             You can start a plan with students from your residence building, program of study, or friend groups.
          </Text>
-        </View>
+        </View> */}
+
+        <FlatList
+          data={this.props.uniRequests}
+          renderItem={({ item }) => (
+            <View style={styles.wrapper}>
+              <Text>{item.username}</Text>
+              <Button
+                title="Accept"
+                color={colors.greenColor}
+                onPress={() => this.props.acceptUniUser(item.id)}
+              />
+              <Button
+                title="Reject"
+                color={colors.pinkColor}
+                onPress={() => this.props.declineUniUser(item.id)}
+              />
+            </View>
+          )}
+          // keyExtractor={item => item.id}
+          keyExtractor={(item, index) => item.id.toString()}
+        />
 
 
       </ScrollView >
@@ -190,7 +207,24 @@ const styles = StyleSheet.create({
   }
 });
 
-export default HowItWorks;
+const mapStateToProps = state => {
+  return {
+    uniRequests: state.users.uniRequests
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetUniRequests: () => dispatch(getUniRequests()),
+    declineUniUser: id => dispatch(uniRequestAction(id, false)),
+    acceptUniUser: id => dispatch(uniRequestAction(id, true))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HowItWorks)
 
 
 

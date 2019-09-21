@@ -11,7 +11,8 @@ import {
   USERNAME_ERROR,
   STORE_PHONE_NUMBER,
   SIGNUP_ERROR,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  UNI_REQUESTS
 } from "./actionTypes";
 import { CLEAR_FRIENDS } from "../actions/friends";
 import { CLEAR_ACTIVE_FRIENDS } from "../actions/activeFriends";
@@ -674,6 +675,85 @@ export const sendFeedback = description => {
           // Alert.alert("Oops, we couldn't connect, please try again");
           // dispatch(uiStopLoading());
           console.log("success failed");
+        }
+      })
+      .catch(e => {
+        console.log("success failed");
+        //dispatch(uiStopLoading());
+        // Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
+export const getUniRequests = () => {
+  return dispatch => {
+    //dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        // dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/get_uni_requests`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(loadUniRequests(json.users))
+        }
+      })
+      .catch(e => {
+        console.log("success failed");
+        //dispatch(uiStopLoading());
+        // Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
+export function loadUniRequests(users) {
+  return {
+    type: UNI_REQUESTS,
+    users
+  };
+}
+
+
+export const uniRequestAction = (id, status) => {
+  return dispatch => {
+    //dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        // dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/uni_request_update`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            id: id,
+            status: status
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(getUniRequests())
+        }
+        else {
+          alert("error")
         }
       })
       .catch(e => {
