@@ -26,13 +26,13 @@ const listItemModalGroups = props => {
           <Text style={styles.names}>My Program</Text>
         </View>
         <View style={styles.listItem}>
-          <Text style={styles.names}>My School Clubs</Text>
+          <Text style={styles.names}>Gaming Club</Text>
         </View>
         <View style={styles.listItem}>
-          <Text style={styles.names}>Day 1 Squad</Text>
+          <Text style={styles.names}>Entrepreneurs on Campus</Text>
         </View>
         <View style={styles.listItem}>
-          <Text style={styles.names}>A lpha Omega Sorority</Text>
+          <Text style={styles.names}>International Student Connect</Text>
         </View> */}
 
       </TouchableOpacity>

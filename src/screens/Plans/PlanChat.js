@@ -41,11 +41,15 @@ class PlanChat extends Component {
   state = {
     messages: [],
     loader: false,
-    firstMessage: true
+    firstMessage: true,
+    didMountDate: null
   };
 
   componentDidMount() {
     this.props.onGetMessages(this.props.id);
+    this.setState({
+      didMountDate: new Date()
+    });
 
     const actionCable = ActionCable.createConsumer(
       // "wss://185092c8.ngrok.io/cable"
@@ -63,10 +67,9 @@ class PlanChat extends Component {
     const channelName = "PlanChannel";
 
     channel.connected = () => {
-      // setTimeout(() => {
-      //   cable.channel("plan_channel").perform("speak", { message: "Hey123" });
-      // }, 1000);
-      // alert("connected");
+      if (this.state.didMountDate && ((new Date() - this.state.didMountDate) / 1000) > 1) {
+        this.props.onGetMessages(this.props.id);
+      }
     };
 
     channel.received = incoming => {

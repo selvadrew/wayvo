@@ -47,18 +47,6 @@ class HowItWorks extends Component {
         contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
       >
         <View>
-          {/* <GotIt
-            onPress={() => {
-              this.sayHello();
-              this.defaultButtons();
-            }}
-            backgroundColor={colors.orange}
-            color="#fff"
-            fontSize={25}
-            width="100%"
-          >
-            Start a plan example
-              </GotIt> */}
           <View style={styles.barwrapper}>
             <View style={styles.barOrange}>
               <Text style={styles.barText}>How Start a Plan Works</Text>
@@ -66,13 +54,13 @@ class HowItWorks extends Component {
           </View>
           <Text style={styles.text}>
             Press "Start a Plan" and choose to start a party with your residence building! Wayvo will send a notification to all the students in your residence to let them know they're invited to your party. Wayvo, then automatically starts a group chat with everyone coming to your party, so you can finalize the party details together!
-         </Text>
+          </Text>
           <Text style={styles.text}>
             During the day, you can also start a plan to grab food, hang out, or group study!
-         </Text>
+          </Text>
           <Text style={styles.text}>
             You can start a plan with students from your residence building, program of study, or friend groups.
-         </Text>
+          </Text>
         </View>
 
 
