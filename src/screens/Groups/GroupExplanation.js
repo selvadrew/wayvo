@@ -32,7 +32,6 @@ class GroupsExplanation extends Component {
     this.props.onGetUniversities();
   };
 
-  //  <Text>Who share your interests (ex. Entrepreneurship)</Text>
   render() {
     let joinButton = null;
     if (this.props.isLoadingGroups) {
@@ -50,43 +49,17 @@ class GroupsExplanation extends Component {
       );
     }
 
-    // old
-    // Every time you press "Make a new friend", Wayvo Groups connects you on
-    // a call with someone new in your program of study or school club you're
-    // part of. After you connect, you can add them to your Friends list to
-    // connect again.
-
-    //Are you in university? Join Wayvo Groups to connect with someone new in
-    //your program of study, the school clubs you're part of, or who has the same interests as you
-    //Every time you press "Make a new friend", you'll get connected to someone at your university from one of the three groups above.
-    //After you connect, you can add them to your Friends list to connect again.
-    //Get verified to join groups at your school.
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Make New Friends Everyday</Text>
-        {/* <Text style={styles.subTitle}>Make New Friends Everyday</Text> */}
-        {/* <Text style={styles.paragrapgh}>
-          Are you in university? Join Wayvo Groups to connect with someone new
-          at your university
-        </Text>
-        <Text style={styles.bulletPoint}>
-          {"\u2022"} from your program of study {"\n"}
-          {"\u2022"} from school clubs you can join{"\n"}
-          {"\u2022"} with the same interests
+        <Text style={styles.paragrapgh}>
+          Join your university to grab food, group study, hang out, and party with students from
+          your program, residence,
+          school clubs, interest groups, and friend groups.
         </Text>
         <Text style={styles.paragrapgh}>
-          After you connect, add them to your Friends list to connect again.
-        </Text> */}
-        <Text style={styles.paragrapgh}>
-          Press <Text style={styles.yellowText}>Start a Plan</Text> and choose to start a party 🎉 with your residence building. Wayvo will send a notification to all the students in your residence 🏢 to let them know they're invited to your party. Wayvo, then automatically starts a group chat 💬 with everyone coming to your party, so you can finalize the party details together 🙌
+          Wayvo makes it easy to make plans on the fly with new and existing friends every day. For example, someone can create a plan at 10 AM to grab food with everyone in your program at 1 PM.
         </Text>
-        <Text style={styles.paragrapgh}>
-          The next day ☀️ while walking 🚶‍ to class, press <Text style={styles.yellowText}>Make a New Friend</Text> to meet someone new from your program over a video call 📳
-        </Text>
-        {/* <Text style={styles.paragrapgh}>
-          Or just press <Text style={styles.yellowText}>Catch up with a friend</Text> to reconnect with a friend you met last month through Wayvo
-        </Text> */}
-
         <View style={styles.verifyButton}>{joinButton}</View>
       </View>
     );

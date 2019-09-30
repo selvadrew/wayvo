@@ -5,13 +5,17 @@ import {
   StyleSheet,
   StatusBar,
   Dimensions,
+  TextInput,
+  ScrollView,
+  ActivityIndicator,
   Platform,
-  Image,
-  ScrollView
+  Image
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
+import { sendFeedback } from "../../store/actions/users";
+import { Dropdown } from 'react-native-material-dropdown';
 
 class HowItWorks extends Component {
   static navigatorStyle = {
@@ -25,205 +29,184 @@ class HowItWorks extends Component {
     super(props);
   }
 
+  state = {
+    learnMoreIndex: null
+  };
+
+  onChangeTextPress = (value, index) => {
+    this.setState({
+      learnMoreIndex: index
+    })
+  }
+
   render() {
-    const start_bracket = "(";
-    const end_bracket = ")";
-    const dash = "-";
+    let data = [{
+      value: 'Start a plan ',
+    }, {
+      value: 'Make a new friend ',
+    }, {
+      value: 'Catch up with a friend ',
+    }, {
+      value: 'Groups ',
+    }, {
+      value: 'Live ',
+    }];
 
-    let phone_number = this.props.phone_number;
-    formatted_phone_number = phone_number.replace(
-      /(\d{3})(\d{3})(\d{4})/,
-      "$1-$2-$3"
-    );
+    let learnMoreText = null
+    switch (this.state.learnMoreIndex) {
+      case 0://start a plan 
+        learnMoreText = (
+          <View>
+            <Text style={styles.learnMoreText}>
+              You can <Text style={styles.toGroupsText}>start a plan</Text> with a group at your school to grab food, group study, hang out, or party. Wayvo will notify everyone in the group and automatically create a group chat with all the students who want to join the plan, so you can finalize the details together before meeting up.
+            </Text>
+            <Text style={styles.learnMoreText2}>
+              Starting a plan is the best way to make new friends and connect with existing friends in-person every day.
+            </Text>
+            <Text style={styles.learnMoreText2}>
+              Note: You can only start or join plans with groups you're in. Learn more about Wayvo <Text style={styles.toGroupsText}>groups</Text> by selecting it above.
+            </Text>
+          </View>
+        )
+        break
+      case 1://make a new friend
+        learnMoreText = (
+          <View>
+            <Text style={styles.learnMoreText}>
+              You can <Text style={styles.toGroupsText}>make a new friend</Text>{" "}
+              over a voice or video call from any group you're in. For example, if you choose to make a new friend from your program,
+              Wayvo will notify everyone in your program you haven't met and the first one to respond gets to call you.
+          </Text>
+            <Text style={styles.learnMoreText2}>
+              It's the best way to make a new friend when you have some spare time, like when you're commuting to school or taking a study break.
+          </Text>
+            <Text style={styles.learnMoreText2}>
+              Note: You can only make a new friend from groups you're in. Learn more about Wayvo <Text style={styles.toGroupsText}>groups</Text> by selecting it above.
+          </Text>
+          </View>
+        )
+        break
+      case 2://catch up with a friend 
+        learnMoreText = (
+          <View>
+            <Text style={styles.learnMoreText}>
+              Don't lose touch with the awesome people you meet through the <Text style={styles.toGroupsText}>start a plan</Text> or <Text style={styles.toGroupsText}>make a new friend</Text> features. After you meet people in person or over a call, add them to your Friends List.
+          </Text>
+            <Text style={styles.learnMoreText2}>
+              When you press <Text style={styles.toGroupsText}>catch up with a friend</Text>, it's like saying hello to all your friends at once. We'll send everyone on your Friends list a notification and the first one to respond gets to call you. It's a great way to check up on a friend or make their day.
+          </Text>
+          </View>
+        )
+        break
+      case 3://groups
+        learnMoreText = (
+          <View>
+            <Text style={styles.learnMoreText}>
+              When you get verified at your school, you automatically get added to two groups (your program and graduating class).
+              You'll be able to <Text style={styles.toGroupsText}>make a new friend</Text> or <Text style={styles.toGroupsText}>start a plan</Text> with other verified members from these groups.
+            </Text>
 
-    let throughFT = null;
-    if (Platform.OS === "ios") {
-      throughFT = <Text>or through FaceTime </Text>;
+            <Text style={styles.learnMoreText2}>
+              It’ll be up to you to find more groups you want to join,
+              or to create your own group to bring friends and people with similar interests together (e.g., entrepreneurship). If you create your own group, let others know through social media so they can join.
+            </Text>
+          </View>
+        )
+        break
+      case 4://Live
+        learnMoreText = (
+          <View>
+            <Text style={styles.learnMoreText}>
+              The Live screen is where you'll see friends and group members when they press{" "}
+              <Text style={styles.toGroupsText}>start a plan</Text>, <Text style={styles.toGroupsText}>make a new friend</Text>, or <Text style={styles.toGroupsText}>catch up with a friend</Text>.
+            </Text>
+            <Text style={styles.learnMoreText2}>
+              When you receive a notification, quickly go to the Live screen, so you can join a plan before it gets full or get connected on a call before someone else does.
+            </Text>
+          </View>
+        )
+        break
+      default:
+        learnMoreText = null
+        break
     }
 
     return (
       <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
         style={styles.container}
-        contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
       >
-        <View>
-          <View style={styles.barwrapper}>
-            <View style={styles.barOrange}>
-              <Text style={styles.barText}>How Start a Plan Works</Text>
-            </View>
+        <View style={styles.wrapper}>
+          <Text style={styles.header}>
+            Wayvo helps university students connect with new and existing friends every day.
+          </Text>
+          <Dropdown
+            label='Select a feature to learn more '
+            data={data}
+            itemCount={5}
+            itemColor="#333"
+            baseColor={colors.darkBlue}
+            textColor="#333"
+            onChangeText={(value, index) => this.onChangeTextPress(value, index)}
+            dropdownPosition={0}
+          />
+          <View style={styles.learnMoreTextWrapper}>
+            {learnMoreText}
           </View>
-          <Text style={styles.text}>
-            Press "Start a Plan" and choose to start a party with your residence building! Wayvo will send a notification to all the students in your residence to let them know they're invited to your party. Wayvo, then automatically starts a group chat with everyone coming to your party, so you can finalize the party details together!
-          </Text>
-          <Text style={styles.text}>
-            During the day, you can also start a plan to grab food, hang out, or group study!
-          </Text>
-          <Text style={styles.text}>
-            You can start a plan with students from your residence building, program of study, or friend groups.
-          </Text>
         </View>
-
-
-      </ScrollView >
-    )
-
+      </ScrollView>
+    );
   }
 }
-//If all your friends are busy and are not able to Say Hello back within the time you selected, nothing happens.
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    // paddingTop: 30,
-    backgroundColor: "#fff"
-    //alignItems: "center"
-    // justifyContent: "center",
-    // flexDirection: "column"
-  },
-  text: {
-    paddingHorizontal: 20,
-    marginTop: 10,
-    fontWeight: "400",
-    fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
-    color: "#222",
-    letterSpacing: 1,
-    //textAlign: "center",
-    // marginBottom: 50,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
-  },
-  barwrapper: {
-    width: "100%",
-    backgroundColor: colors.orange,
-    flexDirection: 'row'
-  },
-  barOrange: {
-    flex: 1,
-    backgroundColor: colors.orange,
-    textAlign: "center",
-    alignItems: "center"
-  },
-  barGreen: {
-    flex: 1,
-    backgroundColor: colors.greenColor,
-    textAlign: "center",
-    alignItems: "center"
-  },
-  barText: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#fff",
-    padding: 10,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
-    letterSpacing: 1
-  },
-  infoOne: {
-    resizeMode: "contain",
-    height: Dimensions.get("window").width * 0.6,
-    width: Dimensions.get("window").width * 0.6,
-    alignItems: "center"
-  },
-  infoTwo: {
-    resizeMode: "contain",
-    height: Dimensions.get("window").width * 0.65,
-    width: Dimensions.get("window").width * 0.65,
-    alignItems: "center"
-  },
-  titleWrapper: {
-    justifyContent: "center",
-    width: "100%"
-  },
-  title: {
-    textAlign: "center",
-    fontSize: Dimensions.get("window").width > 330 ? 19 : 18,
-    fontWeight: "500",
-    padding: 5,
-    color: "#333",
-    letterSpacing: 1,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    //flex: 1,
+    backgroundColor: "#fff",
+    padding: 20,
+    paddingTop: 15
   },
   wrapper: {
-    flexDirection: "row",
-    marginBottom: 40
+    flex: 1,
+    // alignContent: "center",
+    // justifyContent: "center",
+    marginBottom: 10
   },
-  numberHolder: {
-    width: "15%",
-    marginLeft: 10,
-    marginRight: 10
-  },
-  numberWrapper1: {
-    width: "100%",
-    backgroundColor: colors.pinkColor,
-    alignItems: "center",
-    borderRadius: 100
-  },
-  numberWrapper2: {
-    width: "100%",
-    backgroundColor: colors.greenColor,
-    alignItems: "center",
-    borderRadius: 100
-  },
-  numberText: {
-    fontWeight: "600",
-    fontSize: 18,
+  header: {
+    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
+    color: "#444",
+    fontWeight: "500",
     fontFamily: Platform.OS === "android" ? "Roboto" : null,
-    textAlign: "center",
-    alignItems: "center",
-    color: "#fff",
-    justifyContent: "center",
-    paddingTop: 5,
-    paddingBottom: 5
+    letterSpacing: 0.5
   },
-  textWrapper: {
-    width: "85%"
+  learnMoreText: {
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontSize: 18,
+    letterSpacing: 0.5,
+    color: "#333",
+  },
+  learnMoreText2: {
+    marginTop: 10,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontSize: 18,
+    letterSpacing: 0.5,
+    color: "#333",
+  },
+  toGroupsText: {
+    color: colors.blueColor
+  },
+  learnMoreTextWrapper: {
+    marginTop: 10
   }
 });
 
-export default HowItWorks;
+const mapDispatchToProps = dispatch => {
+  return {
+    sendFeedback: description => dispatch(sendFeedback(description))
+  };
+};
 
-
-
-
-// return (
-    //   <ScrollView
-    //     style={styles.container}
-    //     contentContainerStyle={{ flexGrow: 1, alignItems: "center" }}
-    //   >
-    //     {/* <View style={styles.wrapper}>
-    //       <View style={styles.titleWrapper}>
-    //         <Text style={styles.title}>What happens when I Say Hello?</Text>
-    //       </View>
-    //     </View> */}
-
-    //     <Image
-    //       source={require("../../assets/Info-1.png")}
-    //       style={styles.infoTwo}
-    //     />
-    //     <View>
-    //       <Text style={styles.text}>
-    //         When you Say Hello, all your friends or group members receive a
-    //         notification
-    //       </Text>
-    //     </View>
-
-    //     <Image
-    //       source={require("../../assets/Info-2.png")}
-    //       style={styles.infoTwo}
-    //     />
-    //     <View>
-    //       <Text style={styles.text}>
-    //         The first person to Say Hello Back before time expires gets to call
-    //         you
-    //       </Text>
-    //     </View>
-
-    //     <Image
-    //       source={require("../../assets/Info-3.png")}
-    //       style={styles.infoOne}
-    //     />
-    //     <View>
-    //       <Text style={styles.text}>
-    //         You will receive a call at {formatted_phone_number} {throughFT}
-    //       </Text>
-    //     </View>
-    //   </ScrollView>
-    // );
+export default connect(
+  null,
+  mapDispatchToProps
+)(HowItWorks);
