@@ -62,7 +62,7 @@ class AuthScreen extends Component {
           });
         }
       },
-      function (error) {
+      function(error) {
         alert("Login fail with error: " + error);
         console.log(error);
       }
