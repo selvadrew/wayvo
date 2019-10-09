@@ -62,7 +62,7 @@ class AuthScreen extends Component {
           });
         }
       },
-      function(error) {
+      function (error) {
         alert("Login fail with error: " + error);
         console.log(error);
       }
@@ -122,7 +122,7 @@ class AuthScreen extends Component {
             source={require("../../assets/WayvoLogo.png")}
             style={styles.logoImage}
           />
-          <Text style={styles.slogan}>Be better connected.</Text>
+          <Text style={styles.slogan}>Connect in real life.</Text>
 
         </View>
         <View style={styles.bottomContainer}>
