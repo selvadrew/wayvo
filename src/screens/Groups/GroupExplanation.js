@@ -51,14 +51,22 @@ class GroupsExplanation extends Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Make New Friends Everyday</Text>
+        <Text style={styles.title}>Make New Friends Every Day</Text>
         <Text style={styles.paragrapgh}>
-          Join your university to grab food, group study, hang out, and party with students from
-          your program, residence,
-          school clubs, interest groups, and friend groups.
+          {/* Join your university to receive a notification when
+          students from your program, residence, school club, or cultural group
+          start a plan to grab food on campus.
+          If you decide to join the plan, Wayvo will automatically add you to a group chat with everyone that's going. */}
+          When students from your program, residence, school club, or cultural group
+          start a plan to grab food on campus, you'll get an invitation to attend.
+          If you accept the invitation, Wayvo will add you into a group chat with everyone that's going.
         </Text>
         <Text style={styles.paragrapgh}>
-          Wayvo makes it easy to make plans on the fly with new and existing friends every day. For example, someone can create a plan at 10 AM to grab food with everyone in your program at 1 PM.
+          That's not it though, check out "start a plan" and "make a new friend" <Text style={styles.here} onPress={() => this.props.onPresss()}>here</Text> to see what else you'll have access to.
+        </Text>
+        <Text style={styles.paragrapgh}>
+          Unlike other social media apps,
+          Wayvo helps you connect with amazing humans in real life, helping you live a happier life.
         </Text>
         <View style={styles.verifyButton}>{joinButton}</View>
       </View>
@@ -108,7 +116,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.5
   },
   verifyButton: {
-    marginTop: 40
+    marginTop: 30
   },
   bulletPoint: {
     color: "#fff",
@@ -121,6 +129,9 @@ const styles = StyleSheet.create({
   yellowText: {
     fontWeight: "800",
     color: colors.yellowColor
+  },
+  here: {
+    textDecorationLine: "underline"
   }
 });
 

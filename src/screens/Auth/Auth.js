@@ -62,7 +62,7 @@ class AuthScreen extends Component {
           });
         }
       },
-      function(error) {
+      function (error) {
         alert("Login fail with error: " + error);
         console.log(error);
       }
@@ -122,8 +122,8 @@ class AuthScreen extends Component {
             source={require("../../assets/WayvoLogo.png")}
             style={styles.logoImage}
           />
-          <Text style={styles.slogan}>Be better connected,</Text>
-          <Text style={styles.slogan}>one person at a time.</Text>
+          <Text style={styles.slogan}>Be better connected.</Text>
+
         </View>
         <View style={styles.bottomContainer}>
           <View style={styles.emailContainer}>
@@ -185,9 +185,9 @@ const styles = StyleSheet.create({
   },
   slogan: {
     fontSize: Dimensions.get("window").width > 330 ? 25 : 20,
-    color: "#333",
+    color: "#444",
     letterSpacing: 2,
-    fontWeight: "bold",
+    fontWeight: "500",
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   imageAndLogo: {

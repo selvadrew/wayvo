@@ -81,6 +81,13 @@ class GroupsScreen extends Component {
     }
   };
 
+  howItWorksScreen = () => {
+    this.props.navigator.push({
+      screen: "awesome-places.HowItWorks",
+      backButtonTitle: ""
+    });
+  };
+
   state = {
     verified: null,
     submitted: null,
@@ -240,7 +247,9 @@ class GroupsScreen extends Component {
         refresh = checkVerified;
       } else {
         if (this.props.group_state === 0) {
-          screen = <GroupExplanation />;
+          screen = <GroupExplanation
+            onPresss={() => this.howItWorksScreen()}
+          />;
         } else if (this.props.group_state === 2) {
           screen = <GroupsUploadPicture />;
         } else if (this.props.group_state === 1) {
