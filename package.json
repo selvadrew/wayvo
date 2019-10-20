@@ -9,9 +9,10 @@
   "dependencies": {
     "@kesha-antonov/react-native-action-cable": "^1.0.4",
     "react": "16.8.3",
-    "react-native": "0.59.1",
+    "react-native": "0.59.10",
     "react-native-aws3": "0.0.8",
     "react-native-countdown-component": "^2.1.0",
+    "react-native-device-info": "^4.0.1",
     "react-native-dropdownalert": "^3.7.0",
     "react-native-easy-toast": "^1.1.0",
     "react-native-fbsdk": "^0.8.0",
@@ -35,11 +36,11 @@
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/runtime": "^7.4.3",
-    "babel-jest": "^24.7.1",
-    "jest": "^24.7.1",
-    "metro-react-native-babel-preset": "^0.53.1",
+    "@babel/core": "^7.4.5",
+    "@babel/runtime": "^7.4.5",
+    "babel-jest": "^24.8.0",
+    "jest": "^24.8.0",
+    "metro-react-native-babel-preset": "^0.54.1",
     "react-test-renderer": "16.8.3",
     "@babel/preset-flow": "^7.0.0"
   },

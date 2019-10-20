@@ -7,6 +7,7 @@
 // react-native run-android --variant=release
 //react-native run-ios --configuration Release
 // react-native run-ios --configuration Release --simulator="iPhone 6"
+// react-native run-ios --simulator 'iPad Air 2'
 
 // to generate the release APK
 // $ cd android

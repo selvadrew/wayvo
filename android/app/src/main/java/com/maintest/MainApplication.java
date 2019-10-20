@@ -3,6 +3,7 @@ package com.maintest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 //import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import io.invertase.firebase.RNFirebasePackage;

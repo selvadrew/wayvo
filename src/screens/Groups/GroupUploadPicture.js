@@ -28,6 +28,7 @@ import { RNS3 } from "react-native-aws3";
 import { changeGroupState, joinProgram } from "../../store/actions/groups";
 import Icon from "react-native-vector-icons/Ionicons";
 
+
 class GroupUploadPicture extends Component {
   static navigatorStyle = {
     navBarHidden: true,

@@ -19,7 +19,7 @@ buildscript {
         
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.google.gms:google-services:3.2.1'
         //classpath 'com.google.gms:google-services:4.0.2'
 
@@ -47,7 +47,7 @@ allprojects {
        resolutionStrategy {
          eachDependency { DependencyResolveDetails details ->
            if (details.requested.group == 'com.facebook.react' && details.requested.name == 'react-native') {
-             details.useVersion "0.59.1" // Your real React Native version here
+             details.useVersion "0.59.10" // Your real React Native version here
            }
          }
          //force 'com.facebook.android:facebook-android-sdk:4.22.1'

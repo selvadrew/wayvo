@@ -99,7 +99,7 @@ class Mission extends Component {
               Don't lose touch with the awesome people you meet through the <Text style={styles.toGroupsText}>start a plan</Text> or <Text style={styles.toGroupsText}>make a new friend</Text> features. After you meet people in person or over a call, add them to your Friends List.
             </Text>
             <Text style={styles.learnMoreText2}>
-              When you press <Text style={styles.toGroupsText}>catch up with a friend</Text>, it's like saying hello to all your friends at once. We'll send everyone on your Friends list a notification and the first one to respond gets to call you.
+              When you press <Text style={styles.toGroupsText}>catch up with a friend</Text>, it's like saying hello to all your friends at once. We'll send everyone on your Friends List a notification and the first one to respond gets to call you.
             </Text>
             <Text style={styles.learnMoreText2}>
               It's a great way to check up on a friend or make their day.

@@ -65,7 +65,7 @@ class GroupDetail extends Component {
           <View style={styles.headerWrapper}>
             <Text style={styles.headerText}>
               Here are the members you've connected with from this group. You
-              can add them to your Friends list to connect again.
+              can add them to your Friends List to connect again.
             </Text>
           </View>
           // <View>
