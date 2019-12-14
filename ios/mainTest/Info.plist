@@ -58,7 +58,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Allow access to your camera so you can share a selfie with your your student ID card</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allow access to your photos so you can share a picture of your student ID card</string>
 	<key>UIAppFonts</key>
