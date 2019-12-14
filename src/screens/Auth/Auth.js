@@ -11,9 +11,12 @@ import {
   Dimensions,
   StatusBar,
   TouchableWithoutFeedback,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput,
+  Keyboard
 } from "react-native";
 import { connect } from "react-redux";
+import GotIt from "../../components/UI/GotItButton";
 
 import Icon from "react-native-vector-icons/Ionicons";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
@@ -22,6 +25,8 @@ import { loginWithFacebook, authAutoSignIn } from "../../store/actions/users";
 import SplashScreen from "react-native-splash-screen";
 
 import colors from "../../utils/styling";
+import { signUp } from "../../store/actions/users";
+
 
 class AuthScreen extends Component {
   componentDidMount() {
@@ -47,29 +52,6 @@ class AuthScreen extends Component {
     });
   };
 
-  onFBAuth = () => {
-    console.log("Facebook Login");
-
-    LoginManager.logInWithReadPermissions(["public_profile", "email"]).then(
-      result => {
-        if (result.isCancelled) {
-          //Alert.alert("Login cancelled");
-          console.log("login cancelled");
-        } else {
-          AccessToken.getCurrentAccessToken().then(data => {
-            this.props.loginWithFacebook(data.accessToken.toString());
-            console.log(data.accessToken);
-          });
-        }
-      },
-      function (error) {
-        alert("Login fail with error: " + error);
-        console.log(error);
-      }
-    );
-    console.log("function done");
-  };
-
   onSignUp = () => {
     this.props.navigator.push({
       screen: "awesome-places.SignUp",
@@ -86,6 +68,55 @@ class AuthScreen extends Component {
     });
   };
 
+  state = {
+    school: null,
+    email_error: false,
+    email: ""
+  };
+
+  emailChangedHandler = val => {
+    this.setState({
+      email: val
+    });
+  };
+
+  emailValidator = val => {
+    if (
+      /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/.test(
+        val
+      )
+    ) {
+      return true;
+    } else return false;
+  };
+
+  emailSubmitHandler = () => {
+    //check for blanks
+    if (this.state.email.trim() === "") {
+      return;
+    }
+
+    //check if email is valid
+    if (this.emailValidator(this.state.email)) {
+      this.setState({
+        email_error: false
+      });
+    } else {
+      this.setState({
+        email_error: true
+      });
+      Keyboard.dismiss();
+      return;
+    }
+
+    Keyboard.dismiss();
+
+    this.props.submitEmailForVerification(
+      this.state.email.trim()
+    );
+  };
+
+
   render() {
     let statusBar = null;
     let fbButton = null;
@@ -94,57 +125,71 @@ class AuthScreen extends Component {
     }
 
     if (this.props.isLoading) {
-      fbButton = <ActivityIndicator />;
+      createButton = <ActivityIndicator />;
     } else {
-      fbButton = (
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.onFBAuth()}
-          >
-            <Icon
-              name="logo-facebook"
-              size={25}
-              color="#fff"
-              style={styles.icon}
-            />
-            <Text style={styles.buttonText}>Continue with Facebook</Text>
-          </TouchableOpacity>
+      createButton = (
+        <GotIt
+          onPress={this.emailSubmitHandler}
+          backgroundColor={colors.yellowColor}
+          color="#333"
+        >
+          Continue
+        </GotIt>
+      );
+    }
+
+    let errorStatement = null;
+    if (this.props.signup_error) {
+      errorStatement = (
+        <View style={styles.bottomWrapper}>
+          <Text style={styles.listHeader}>{this.props.signup_error}</Text>
+        </View>
+      );
+    }
+    if (this.state.email_error) {
+      errorStatement = (
+        <View style={styles.bottomWrapper}>
+          <Text style={styles.listHeader}>Not a valid email</Text>
         </View>
       );
     }
 
+
     return (
       <View style={styles.container}>
         {statusBar}
-        <View style={styles.imageAndLogo}>
-          <Image
-            source={require("../../assets/WayvoLogo.png")}
-            style={styles.logoImage}
-          />
-          <Text style={styles.slogan}>Connect in real life.</Text>
-
-        </View>
-        <View style={styles.bottomContainer}>
-          <View style={styles.emailContainer}>
-            <View style={styles.oneOfTwo}>
-              <TouchableOpacity
-                onPress={() => this.onSignUp()}
-                style={styles.touchgreen}
-              >
-                <Text style={styles.emailText}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.oneOfTwo}>
-              <TouchableOpacity
-                onPress={() => this.onLogIn()}
-                style={styles.touchgreen}
-              >
-                <Text style={styles.emailText}>Log In</Text>
-              </TouchableOpacity>
-            </View>
+        <View style={styles.topContainer}>
+          <View style={styles.imageAndLogo}>
+            <Image
+              source={require("../../assets/WayvoLogo.png")}
+              style={styles.logoImage}
+            />
+            {/* <Text style={styles.slogan}></Text> */}
           </View>
-          {fbButton}
+
+          <View>
+            <Text style={styles.continueText}>Continue with your university email</Text>
+          </View>
+
+          <View style={styles.inputWrapper}>
+            <TextInput
+              placeholder="University Email"
+              value={this.state.email}
+              onChangeText={this.emailChangedHandler}
+              style={styles.TextBox}
+              autoFocus={true}
+              autoCapitalize="none"
+              autoCorrect={false}
+              keyboardType="email-address"
+            />
+          </View>
+          {createButton}
+          {errorStatement}
+        </View>
+
+
+
+        <View style={styles.bottomContainer}>
           <Text style={styles.termsWrapper}>
             By continuing, you agree to our{" "}
             <Text style={styles.termsText} onPress={this.terms}>
@@ -152,6 +197,7 @@ class AuthScreen extends Component {
             </Text>
           </Text>
         </View>
+
       </View>
     );
   }
@@ -191,18 +237,22 @@ const styles = StyleSheet.create({
     fontFamily: Platform.OS === "android" ? "Roboto" : null
   },
   imageAndLogo: {
-    flex: 2,
+    // flex: 1,
     alignItems: "center",
     justifyContent: "flex-start"
+  },
+  topContainer: {
+    flex: 5
   },
   bottomContainer: {
     flex: 1,
     //alignItems: "center",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    marginBottom: 20
   },
   logoImage: {
-    height: Dimensions.get("window").width * 0.7,
-    width: Dimensions.get("window").width * 0.7
+    height: Dimensions.get("window").width * 0.4,
+    width: Dimensions.get("window").width * 0.4
     //justifyContent: "flex-start"
   },
   termsWrapper: {
@@ -212,6 +262,12 @@ const styles = StyleSheet.create({
     color: "gray",
     paddingBottom: 20,
     fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
+  continueText: {
+    fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
+    textAlign: "center",
+    color: "#222",
+    marginTop: 20
   },
   termsText: {
     color: colors.blueColor, //"#007B7F",
@@ -244,18 +300,49 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     width: "100%"
-  }
+  },
+  inputWrapper: {
+    marginBottom: 20,
+    width: "100%"
+  },
+  TextBox: {
+    borderWidth: 1,
+    width: "100%",
+    height: 50,
+    fontSize: 18,
+    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    borderRadius: 5,
+    borderColor: "#333",
+    //textAlign: "center",
+    paddingLeft: 15,
+    letterSpacing: 1,
+    marginTop: 10
+  },
+  bottomWrapper: {
+    marginTop: 35,
+    width: "100%",
+    backgroundColor: "#fff1f4",
+    padding: 10,
+    borderRadius: 3
+  },
+  listHeader: {
+    fontSize: 18,
+    color: "#333",
+    fontFamily: Platform.OS === "android" ? "Roboto" : null
+  },
 });
 
 const mapStateToProps = state => ({
   accessToken: state.users.accessToken,
-  isLoading: state.ui.isLoading
+  isLoading: state.ui.isLoading,
+  signup_error: state.users.signup_error
 });
 
 const mapDispatchToProps = dispatch => ({
   loginWithFacebook: facebookAccessToken =>
     dispatch(loginWithFacebook(facebookAccessToken)),
-  onAutoSignIn: () => dispatch(authAutoSignIn())
+  onAutoSignIn: () => dispatch(authAutoSignIn()),
+  submitEmailForVerification: email => dispatch(signUp(email))
 });
 
 export default connect(
