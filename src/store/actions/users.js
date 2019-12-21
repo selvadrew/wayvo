@@ -72,6 +72,95 @@ export function loginWithFacebook(facebookAccessToken) {
   };
 }
 
+
+export function schoolEmailSignup(email) {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    return fetch(`${HOST}/api/v1/send_email_code`, {
+      method: "POST",
+      body: JSON.stringify({
+        email: email
+      }),
+      headers: { "content-type": "application/json" }
+    })
+      .then(response => response.json())
+      .then(json => {
+        if (json.access_token) {
+          dispatch(authStoreToken(json.access_token));
+          dispatch(saveFirebaseToken(json.access_token));
+          //AsyncStorage.setItem("access_token", json.access_token);
+
+          //give time to send email 
+          setTimeout(() => {
+            dispatch(uiStopLoading());
+            dispatch(signUpError(null, true));
+          }, 1500);
+
+        } else {
+          dispatch(uiStopLoading());
+          dispatch(signUpError(json.error));
+        }
+      })
+      .catch(e => {
+        dispatch(uiStopLoading());
+        console.log(e);
+        alert(e)
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+
+}
+
+
+export const submitEmailCode = email_code => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        dispatch(uiStopLoading());
+        alert("No valid token found!");
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/verify_with_email_code`, {
+          method: "POST",
+          body: JSON.stringify({
+            email_code: email_code,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          if (json.new_user) {
+            AsyncStorage.setItem("login_status", "in");
+            dispatch(uiStopLoading());
+            fullnameTab();
+            dispatch(signUpError(null));
+          } else {
+            AsyncStorage.setItem("login_status", "in");
+            dispatch(uiStopLoading());
+            AsyncStorage.setItem("pp:fullname", json.fullname);
+            AsyncStorage.setItem("pp:username", json.username);
+            AsyncStorage.setItem("pp:phonenumber", json.phone_number);
+            startTabs();
+          }
+
+        } else {
+          dispatch(uiStopLoading());
+          dispatch(signUpError(json.error));
+        }
+      })
+      .catch(e => {
+        dispatch(uiStopLoading());
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
 export function signUp(email, password) {
   return dispatch => {
     dispatch(uiStartLoading());
@@ -108,10 +197,11 @@ export function signUp(email, password) {
   };
 }
 
-export function signUpError(error) {
+export function signUpError(error, nextScreen) {
   return {
     type: SIGNUP_ERROR,
-    error
+    error,
+    nextScreen
   };
 }
 

@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import configureStore from "./src/store/configureStore";
 import LoadingScreen from "./src/screens/Auth/Loading";
 import AuthScreen from "./src/screens/Auth/Auth";
+import EmailCode from "./src/screens/Auth/EmailCode";
 import Username from "./src/screens/Auth/Username";
 import PhoneNumber from "./src/screens/Auth/PhoneNumber";
 import SignUp from "./src/screens/Auth/SignUp";
@@ -50,6 +51,12 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.AuthScreen",
   () => AuthScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  "awesome-places.EmailCode",
+  () => EmailCode,
   store,
   Provider
 );

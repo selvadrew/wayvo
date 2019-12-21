@@ -25,7 +25,7 @@ import { loginWithFacebook, authAutoSignIn } from "../../store/actions/users";
 import SplashScreen from "react-native-splash-screen";
 
 import colors from "../../utils/styling";
-import { signUp } from "../../store/actions/users";
+import { schoolEmailSignup, signUpError } from "../../store/actions/users";
 
 
 class AuthScreen extends Component {
@@ -149,9 +149,19 @@ class AuthScreen extends Component {
     if (this.state.email_error) {
       errorStatement = (
         <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>Not a valid email</Text>
+          <Text style={styles.listHeader}>Please enter a valid email</Text>
         </View>
       );
+    }
+
+    if (this.props.nextScreen) {
+      this.props.navigator.push({
+        screen: "awesome-places.EmailCode",
+        passProps: {
+          email: this.state.email.trim()
+        },
+        backButtonTitle: ""
+      });
     }
 
 
@@ -335,14 +345,16 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   accessToken: state.users.accessToken,
   isLoading: state.ui.isLoading,
-  signup_error: state.users.signup_error
+  signup_error: state.users.signup_error,
+  nextScreen: state.users.nextScreen
 });
 
 const mapDispatchToProps = dispatch => ({
   loginWithFacebook: facebookAccessToken =>
     dispatch(loginWithFacebook(facebookAccessToken)),
   onAutoSignIn: () => dispatch(authAutoSignIn()),
-  submitEmailForVerification: email => dispatch(signUp(email))
+  submitEmailForVerification: email => dispatch(schoolEmailSignup(email)),
+  onSignUpComplete: (error, nextScreen) => dispatch(signUpError(error, nextScreen))
 });
 
 export default connect(

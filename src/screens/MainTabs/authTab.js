@@ -4,7 +4,7 @@ const authTab = () => {
   Navigation.startSingleScreenApp({
     screen: {
       screen: "awesome-places.AuthScreen",
-      title: "Welcome to Wayvo"
+      title: "Connect in real life"
     }
   });
 };

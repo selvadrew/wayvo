@@ -22,7 +22,8 @@ const initialState = {
   snapchat: null,
   twitter: null,
   submitted: null,
-  user_id: null
+  user_id: null,
+  nextScreen: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -45,7 +46,8 @@ const reducer = (state = initialState, action) => {
     case SIGNUP_ERROR:
       return {
         ...state,
-        signup_error: action.error
+        signup_error: action.error,
+        nextScreen: action.nextScreen
       };
     case LOGIN_ERROR:
       return {
