@@ -75,6 +75,7 @@ export const getPrograms = id => {
       .then(json => {
         if (json.is_success) {
           dispatch(stopLoadingGroups());
+          dispatch(changeGroupState(1));
           dispatch(setPrograms(json.programs));
         } else {
           dispatch(stopLoadingGroups());

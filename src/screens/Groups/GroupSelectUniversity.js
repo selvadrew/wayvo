@@ -16,7 +16,7 @@ import colors from "../../utils/styling";
 
 import { changeGroupState, cacheContinue } from "../../store/actions/groups";
 import UniversityList from "../../components/UniversityList/UniversityList";
-import { getPrograms } from "../../store/actions/groups";
+import { getPrograms, joinProgram } from "../../store/actions/groups";
 import Icon from "react-native-vector-icons/Ionicons";
 
 class GroupSelectUniversity extends Component {
@@ -29,7 +29,7 @@ class GroupSelectUniversity extends Component {
   }
 
   state = {
-    step: 0,
+    step: 1,
     uni: null,
     program: null,
     programId: null,
@@ -83,8 +83,10 @@ class GroupSelectUniversity extends Component {
   };
 
   yesContinue = (programId, startYear) => {
-    this.props.onContinue(programId, startYear);
-    this.props.onChangeGroupState(2);
+    this.props.onJoinProgram(
+      programId,
+      startYear
+    );
   };
 
   // <Button title="sup" onPress={() => this.props.onChangeGroupState(3)} />
@@ -197,7 +199,7 @@ class GroupSelectUniversity extends Component {
               justifyContent: "space-between"
             }}
           >
-            <TouchableWithoutFeedback onPress={() => this.backToUni()}>
+            <TouchableWithoutFeedback onPress={() => this.props.onChangeGroupState(0)}>
               <Icon
                 size={30}
                 name={
@@ -208,7 +210,6 @@ class GroupSelectUniversity extends Component {
               />
             </TouchableWithoutFeedback>
             <View style={styles.circleWrapper}>
-              <View style={styles.circleG} />
               <View style={styles.circleG} />
               <View style={styles.circleB} />
               <View style={styles.circleB} />
@@ -228,8 +229,9 @@ class GroupSelectUniversity extends Component {
           <View style={styles.container2}>
             <View style={styles.headerWrapper}>
               <Text style={styles.header}>
-                Select the program you're enrolled in at {the}
-                {this.state.uni}
+                Select the program you're enrolled in
+                {/* at {the}
+                {this.state.uni} */}
               </Text>
             </View>
             {progSelect}
@@ -257,7 +259,6 @@ class GroupSelectUniversity extends Component {
               />
             </TouchableWithoutFeedback>
             <View style={styles.circleWrapper}>
-              <View style={styles.circleG} />
               <View style={styles.circleG} />
               <View style={styles.circleG} />
               <View style={styles.circleB} />
@@ -311,7 +312,6 @@ class GroupSelectUniversity extends Component {
               <View style={styles.circleG} />
               <View style={styles.circleG} />
               <View style={styles.circleG} />
-              <View style={styles.circleG} />
               <View style={styles.circleB} />
             </View>
             <TouchableWithoutFeedback>
@@ -330,9 +330,8 @@ class GroupSelectUniversity extends Component {
             <View style={styles.darkBlueWrapper}>
               <Text style={styles.white}>Are you {an}</Text>
               <Text style={styles.main}>{this.state.program}</Text>
-              <Text style={styles.white}>student at {the}</Text>
-              <Text style={styles.main}>{this.state.uni}</Text>
-              <Text style={styles.white}>who began in</Text>
+              <Text style={styles.white}>student</Text>
+              <Text style={styles.white}>who began school in</Text>
               <Text style={styles.main}>{this.state.startYear}?</Text>
             </View>
 
@@ -342,7 +341,7 @@ class GroupSelectUniversity extends Component {
                 You will NOT be able to change this information, please make
                 sure it's correct
               </Text> */}
-                <TouchableWithoutFeedback onPress={() => this.backToUni()}>
+                <TouchableWithoutFeedback onPress={() => this.backToProg()}>
                   <View style={styles.iconWrapper}>
                     <View style={styles.imageWrapper}>
                       <Icon
@@ -368,7 +367,7 @@ class GroupSelectUniversity extends Component {
                         color="#fff"
                       />
                     </View>
-                    <Text style={[styles.logoutText]}>Yes, continue</Text>
+                    <Text style={[styles.logoutText]}>Yes, complete</Text>
                   </View>
                 </TouchableWithoutFeedback>
               </View>
@@ -394,7 +393,9 @@ const mapDispatchToProps = dispatch => {
     onChangeGroupState: position => dispatch(changeGroupState(position)),
     onGetPrograms: id => dispatch(getPrograms(id)),
     onContinue: (programId, startYear) =>
-      dispatch(cacheContinue(programId, startYear))
+      dispatch(cacheContinue(programId, startYear)),
+    onJoinProgram: (programId, startYear) =>
+      dispatch(joinProgram(programId, startYear))
   };
 };
 

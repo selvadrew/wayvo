@@ -11,13 +11,14 @@ import {
   SafeAreaView,
   Image,
   Button,
-  Dimensions
+  Dimensions,
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import DropdownAlert from "react-native-dropdownalert";
 import GotIt from "../../components/UI/GotItButton";
-import { getUniversities } from "../../store/actions/groups";
+import { getUniversities, getPrograms } from "../../store/actions/groups";
 
 class GroupsExplanation extends Component {
   static navigatorStyle = {
@@ -29,7 +30,12 @@ class GroupsExplanation extends Component {
   }
 
   onJoinGroups = () => {
-    this.props.onGetUniversities();
+    return AsyncStorage.multiGet(["university_id", "universityName"]).then(
+      response => {
+        this.props.onGetPrograms(parseInt(response[0][1]), response[1][1])
+      }
+    );
+    // this.props.onGetUniversities();
   };
 
   render() {
@@ -83,7 +89,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onGetUniversities: () => dispatch(getUniversities())
+    onGetPrograms: (id, value) => dispatch(getPrograms(id, value))
   };
 };
 

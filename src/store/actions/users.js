@@ -135,6 +135,8 @@ export const submitEmailCode = email_code => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
+          AsyncStorage.setItem("university_id", json.university_id.toString());
+          AsyncStorage.setItem("universityName", json.university_name);
           if (json.new_user) {
             AsyncStorage.setItem("login_status", "in");
             dispatch(uiStopLoading());

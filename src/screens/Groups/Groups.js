@@ -42,7 +42,7 @@ class GroupsScreen extends Component {
   }
   // once verified, itll show verified even if app loads with no internet
   componentDidMount() {
-    return AsyncStorage.multiGet(["pp:verified", "pp:submitted"]).then(
+    return AsyncStorage.multiGet(["pp:verified", "pp:submitted", "university_id"]).then(
       response => {
         if (response[0][1] === "true") {
           this.setState({

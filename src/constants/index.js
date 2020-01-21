@@ -22,9 +22,11 @@
 // 10.20.79.132 - waterloo
 // 192.168.0.16 - sunview
 
-export const HOST = "http://10.0.2.125:3000";
-
+// export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
+
+export const HOST = "https://27f3716d.ngrok.io"
+
 
 {/* 
 // IOS RELEASE 

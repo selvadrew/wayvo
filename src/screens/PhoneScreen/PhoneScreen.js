@@ -605,10 +605,10 @@ class PhoneScreen extends Component {
                       styles.orange
                     ]}
                   >
-                    <Icon size={50} name="ios-pin" color="#fff" />
+                    <Icon size={55} name="ios-ice-cream" color="#fff" />
                   </View>
                   <View style={[styles.rightBox2, styles.orange]}>
-                    <Text style={[styles.rightText]}>Start a plan</Text>
+                    <Text style={[styles.rightText]}>Start plan to grab food</Text>
                   </View>
                 </View>
               </TouchableWithoutFeedback>
@@ -628,7 +628,7 @@ class PhoneScreen extends Component {
                       styles.red
                     ]}
                   >
-                    <Icon size={50} name="ios-people" color="#fff" />
+                    <Icon size={50} name="ios-call" color="#fff" />
                   </View>
                   <View
                     style={[
@@ -656,7 +656,7 @@ class PhoneScreen extends Component {
                       styles.green
                     ]}
                   >
-                    <Icon size={50} name="ios-school" color="#fff" />
+                    <Icon size={50} name="ios-chatboxes" color="#fff" />
                   </View>
                   <View
                     style={[
@@ -1432,6 +1432,9 @@ const styles = StyleSheet.create({
   },
   weeklyText: {
     fontSize: 20
+  },
+  pizza: {
+    transform: [{ rotate: '180deg' }]
   }
 });
 
