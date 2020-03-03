@@ -11,12 +11,14 @@ import {
   Dimensions,
   StatusBar,
   Linking,
-  Button
+  Button,
+  PermissionsAndroid
 } from "react-native";
 import { connect } from "react-redux";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
 import CallStatusGroups from "../../components/ActiveFriends/CallStatusGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
+import { saveContacts } from "../../store/actions/userContacts"
 import { getActivePlans, joinPlan } from "../../store/actions/activePlans";
 import {
   getActiveGroups,
@@ -26,6 +28,8 @@ import colors from "../../utils/styling";
 import firebase from "react-native-firebase";
 import CallStatusCustomGroups from "../../components/ActiveFriends/CallStatusCustomGroups";
 import ActivePlansList from "../../components/ActiveFriends/ActivePlansList";
+import Contacts from 'react-native-contacts';
+
 
 class ActiveFriendsScreen extends Component {
   constructor(props) {
@@ -132,6 +136,55 @@ class ActiveFriendsScreen extends Component {
       this.props.onJoinPlan(id);
     }
   };
+
+  // push to new screen 
+  // "Andrew invited more friends to join" message in chat 
+  // load contacts (show spinner) 
+  //  -save contacts array in backend and send to frontend
+  // show options to select friends 
+  // 
+
+  runContactSync = (status, id, title) => {
+    this.getContacts()
+    this.props.navigator.push({
+      screen: "awesome-places.InviteFriends",
+      backButtonTitle: ""
+    });
+  }
+
+  getContacts = () => {
+    if (Platform.OS === "ios") {
+      Contacts.getAll((err, contacts) => {
+        if (err) {
+          throw err;
+        }
+        this.gotContacts(contacts)
+      })
+    } else {
+      PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+        {
+          'title': 'Contacts',
+          'message': 'Wayvo would like to access your contacts.',
+          'buttonPositive': 'Accept'
+        }
+      ).then(() => {
+        Contacts.getAll((err, contacts) => {
+          if (err === 'denied') {
+            throw err;
+          } else {
+            this.gotContacts(contacts)
+          }
+        })
+      })
+    }
+  }
+
+  gotContacts = contacts => {
+    console.log(contacts)
+    this.props.onSaveContacts(contacts);
+  }
+
 
   appSettings = () => {
     Linking.openURL("app-settings:");
@@ -248,6 +301,7 @@ class ActiveFriendsScreen extends Component {
               <ActivePlansList
                 active_plans={this.props.active_plans}
                 onItemSelected={this.onClickPlan}
+                onInviteFriendsSelected={this.runContactSync}
                 style={styles.friends}
               />
             </View>
@@ -285,7 +339,8 @@ const mapDispatchToProps = dispatch => {
     onLoadActivePlans: () => dispatch(getActivePlans()),
     onLoadActiveGroups: () => dispatch(getActiveGroups()),
     onJoinGroupCall: id => dispatch(joinGroupCall(id)),
-    onJoinPlan: id => dispatch(joinPlan(id))
+    onJoinPlan: id => dispatch(joinPlan(id)),
+    onSaveContacts: contacts => dispatch(saveContacts(contacts))
   };
 };
 

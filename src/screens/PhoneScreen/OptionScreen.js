@@ -152,11 +152,11 @@ class OptionScreen extends Component {
             </View>
           </TouchableWithoutFeedback>
 
-          {/* <TouchableWithoutFeedback onPress={() => this.logoutPrompt()}>
+          <TouchableWithoutFeedback onPress={() => this.logoutPrompt()}>
             <View>
               <Text style={[styles.logoutText]}>Logout</Text>
             </View>
-          </TouchableWithoutFeedback> */}
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );

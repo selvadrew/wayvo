@@ -35,6 +35,8 @@ import PlanTimeSelection from "./src/screens/Plans/PlanTimeSelection";
 import PlanExplodingOffer from "./src/screens/Plans/PlanExplodingOffer";
 import PlanSendInvite from "./src/screens/Plans/PlanSendInvite";
 import PlanChat from "./src/screens/Plans/PlanChat";
+import InviteFriends from "./src/screens/Plans/InviteFriends";
+
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['Warning: Async Storage has been extracted from react-native core']);
 
@@ -261,6 +263,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.PlanChat",
   () => PlanChat,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.InviteFriends",
+  () => InviteFriends,
   store,
   Provider
 );

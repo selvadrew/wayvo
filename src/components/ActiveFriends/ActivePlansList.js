@@ -14,6 +14,9 @@ const activePlansList = props => {
           onItemPressed={title =>
             props.onItemSelected(info.item.going, info.item.plan_id, title)
           }
+          onInviteFriends={title =>
+            props.onInviteFriendsSelected(info.item.going, info.item.plan_id, title)
+          }
         />
       )}
       keyExtractor={(item, index) => item.plan_id.toString()}

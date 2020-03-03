@@ -2,6 +2,7 @@
 // react-native run-ios --simulator="iPhone X"
 // react-native run-ios --simulator="iPhone SE"
 //react-native run-ios --simulator="iPhone 6"
+// react-native run-ios --simulator="iPhone 11" - for new xcode
 
 // RELEASE SIMULATORS
 // react-native run-android --variant=release
@@ -25,7 +26,7 @@
 // export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://27f3716d.ngrok.io"
+export const HOST = "https://81c93e02.ngrok.io"
 
 
 {/* 
@@ -49,6 +50,8 @@ REDIS
 - $ redis-server
 - $ QUEUE=* rake resque:work
 WSS 
+-- new os- command can be run globally 
+ngrok http 8080
 - $ cd downloads
 - $ ./ngrok http 3000
 

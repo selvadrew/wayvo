@@ -605,10 +605,10 @@ class PhoneScreen extends Component {
                       styles.orange
                     ]}
                   >
-                    <Icon size={55} name="ios-ice-cream" color="#fff" />
+                    <Icon size={55} name="ios-map" color="#fff" />
                   </View>
                   <View style={[styles.rightBox2, styles.orange]}>
-                    <Text style={[styles.rightText]}>Start plan to grab food</Text>
+                    <Text style={[styles.rightText]}>Start a plan</Text>
                   </View>
                 </View>
               </TouchableWithoutFeedback>

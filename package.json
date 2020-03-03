@@ -12,6 +12,7 @@
     "react": "16.8.3",
     "react-native": "0.59.10",
     "react-native-aws3": "0.0.8",
+    "react-native-contacts": "4.0.3",
     "react-native-countdown-component": "^2.1.0",
     "react-native-device-info": "^4.0.1",
     "react-native-dropdownalert": "^3.7.0",

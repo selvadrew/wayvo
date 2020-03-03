@@ -16,6 +16,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 
 import CountDown from "react-native-countdown-component";
 
+
 const activePlan = props => {
   let times = [
     "12:00AM",
@@ -116,16 +117,32 @@ const activePlan = props => {
 
   if (props.data.going) {
     buttonText = (
-      <GotIt
-        onPress={() => {
-          props.onItemPressed(title);
-        }}
-        backgroundColor={colors.yellowColor}
-        color="#333"
-        fontSize={15}
-      >
-        OPEN CHAT
-      </GotIt>
+      <View>
+        <View>
+          <GotIt
+            onPress={() => {
+              props.onItemPressed(title);
+            }}
+            backgroundColor={colors.yellowColor}
+            color="#333"
+            fontSize={13}
+          >
+            OPEN GROUP CHAT
+          </GotIt>
+        </View>
+        <View style={styles.inviteFriendsWrapper}>
+          <GotIt
+            onPress={() => {
+              props.onInviteFriends()
+            }}
+            backgroundColor={colors.yellowColor}
+            color="#333"
+            fontSize={13}
+          >
+            INVITE FRIENDS
+          </GotIt>
+        </View>
+      </View>
     );
   } else {
     buttonText = (
@@ -151,7 +168,7 @@ const activePlan = props => {
         }}
         backgroundColor={colors.yellowColor}
         color="#333"
-        fontSize={15}
+        fontSize={13}
       >
         JOIN PLAN
       </GotIt>
@@ -198,7 +215,9 @@ const activePlan = props => {
         {topRight}
         <View style={styles.listItem}>
           {started_it}
-          <View style={styles.imInButton}>{buttonText}</View>
+          <View style={styles.imInButton}>
+            {buttonText}
+          </View>
         </View>
       </View>
     </View>
@@ -258,10 +277,16 @@ const styles = StyleSheet.create({
   imInButton: {
     flexDirection: "row",
     justifyContent: "flex-end",
-    // alignItems: "flex-start",
+    // alignItems: "flex-end",
     width: "100%",
     // height: "100%",
-    flex: 1
+    flex: 1,
+    // marginTop: 5
+  },
+  inviteFriendsWrapper: {
+    marginTop: 5,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   }
 });
 
