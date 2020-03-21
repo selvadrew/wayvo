@@ -33,7 +33,9 @@ import { signUpError } from "../../store/actions/users";
 class EmailCode extends Component {
     componentDidMount() {
         this.props.onSignUpComplete(null, false)
+        // this.props.onSignUpComplete(null, false)
     }
+    //set nextscreen to false when user goes back 
 
     static navigatorStyle = {
         navBarHidden: false,

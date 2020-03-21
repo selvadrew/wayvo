@@ -91,10 +91,10 @@ export function schoolEmailSignup(email) {
           //AsyncStorage.setItem("access_token", json.access_token);
 
           //give time to send email 
-          setTimeout(() => {
-            dispatch(uiStopLoading());
-            dispatch(signUpError(null, true));
-          }, 1500);
+          // setTimeout(() => {
+          dispatch(uiStopLoading());
+          dispatch(signUpError(null, true));
+          // }, 1500);
 
         } else {
           dispatch(uiStopLoading());
@@ -697,6 +697,7 @@ export const logout = () => {
           dispatch(clearFriends());
           dispatch(clearActiveFriends());
           dispatch(clearConnected());
+          AsyncStorage.clear();
         } else {
           authTab();
           AsyncStorage.setItem("login_status", "out");
@@ -709,6 +710,7 @@ export const logout = () => {
           dispatch(clearFriends());
           dispatch(clearActiveFriends());
           dispatch(clearConnected());
+          AsyncStorage.clear();
         }
       })
       .catch(e => {

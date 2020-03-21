@@ -353,8 +353,7 @@ const mapDispatchToProps = dispatch => ({
   loginWithFacebook: facebookAccessToken =>
     dispatch(loginWithFacebook(facebookAccessToken)),
   onAutoSignIn: () => dispatch(authAutoSignIn()),
-  submitEmailForVerification: email => dispatch(schoolEmailSignup(email)),
-  onSignUpComplete: (error, nextScreen) => dispatch(signUpError(error, nextScreen))
+  submitEmailForVerification: email => dispatch(schoolEmailSignup(email))
 });
 
 export default connect(
