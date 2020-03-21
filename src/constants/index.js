@@ -26,7 +26,7 @@
 // export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://81c93e02.ngrok.io"
+export const HOST = "https://520f5f29.ngrok.io"
 
 
 {/* 
@@ -52,7 +52,7 @@ REDIS
 WSS 
 -- new os- command can be run globally 
 ngrok http 8080
-- $ cd downloads
+    - $ cd downloads
 - $ ./ngrok http 3000
 
 RNN custom start cause of bug 
