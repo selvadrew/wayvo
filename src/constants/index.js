@@ -29,6 +29,7 @@
 export const HOST = "https://520f5f29.ngrok.io"
 
 
+
 {/* 
 // IOS RELEASE 
 - change HOST 
