@@ -143,7 +143,7 @@ class EmailCode extends Component {
                     </View>
 
                     <View>
-                        <Text style={styles.continueText}>{this.props.email}</Text>
+                        <Text style={styles.continueText}>{this.props.phoneNumber}</Text>
                     </View>
 
                     <View style={styles.inputWrapper}>

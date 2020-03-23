@@ -26,7 +26,7 @@
 // export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://520f5f29.ngrok.io"
+export const HOST = "https://8fd08d8e.ngrok.io"
 
 
 

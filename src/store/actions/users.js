@@ -73,13 +73,13 @@ export function loginWithFacebook(facebookAccessToken) {
 }
 
 
-export function schoolEmailSignup(email) {
+export function schoolEmailSignup(phoneNumber) {
   return dispatch => {
     dispatch(uiStartLoading());
-    return fetch(`${HOST}/api/v1/send_email_code`, {
+    return fetch(`${HOST}/api/v1/send_sms_code`, {
       method: "POST",
       body: JSON.stringify({
-        email: email
+        phone_number: phoneNumber
       }),
       headers: { "content-type": "application/json" }
     })
@@ -88,13 +88,11 @@ export function schoolEmailSignup(email) {
         if (json.access_token) {
           dispatch(authStoreToken(json.access_token));
           dispatch(saveFirebaseToken(json.access_token));
+          AsyncStorage.setItem("pp:phonenumber", phoneNumber);
           //AsyncStorage.setItem("access_token", json.access_token);
 
-          //give time to send email 
-          // setTimeout(() => {
           dispatch(uiStopLoading());
           dispatch(signUpError(null, true));
-          // }, 1500);
 
         } else {
           dispatch(uiStopLoading());
@@ -123,7 +121,7 @@ export const submitEmailCode = email_code => {
       })
       .then(token => {
         access_token = token;
-        return fetch(`${HOST}/api/v1/verify_with_email_code`, {
+        return fetch(`${HOST}/api/v1/verify_with_sms_code`, {
           method: "POST",
           body: JSON.stringify({
             email_code: email_code,
@@ -135,10 +133,10 @@ export const submitEmailCode = email_code => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          AsyncStorage.setItem("university_id", json.university_id.toString());
-          AsyncStorage.setItem("universityName", json.university_name);
+          // AsyncStorage.setItem("university_id", json.university_id.toString());
+          // AsyncStorage.setItem("universityName", json.university_name);
           if (json.new_user) {
-            AsyncStorage.setItem("login_status", "in");
+            // AsyncStorage.setItem("login_status", "in");
             dispatch(uiStopLoading());
             fullnameTab();
             dispatch(signUpError(null));
@@ -464,7 +462,8 @@ export const createUsername = username => {
         if (json.is_success) {
           setTimeout(() => {
             dispatch(uiStopLoading());
-            phoneNumberTab();
+            startTabs();
+            AsyncStorage.setItem("login_status", "in");
           }, 1000);
           AsyncStorage.setItem("pp:username", json.username);
           dispatch(usernameError(null));

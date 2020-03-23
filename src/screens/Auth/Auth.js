@@ -21,7 +21,7 @@ import GotIt from "../../components/UI/GotItButton";
 import Icon from "react-native-vector-icons/Ionicons";
 import { LoginManager, AccessToken } from "react-native-fbsdk";
 
-import { loginWithFacebook, authAutoSignIn } from "../../store/actions/users";
+import { loginWithFacebook, authAutoSignIn, savePhoneNumber } from "../../store/actions/users";
 import SplashScreen from "react-native-splash-screen";
 
 import colors from "../../utils/styling";
@@ -52,68 +52,46 @@ class AuthScreen extends Component {
     });
   };
 
-  onSignUp = () => {
-    this.props.navigator.push({
-      screen: "awesome-places.SignUp",
-      backButtonTitle: ""
-      //title: "Let's Get Started"
-    });
-  };
-
-  onLogIn = () => {
-    this.props.navigator.push({
-      screen: "awesome-places.LogIn",
-      backButtonTitle: "",
-      title: "Welcome Back"
-    });
-  };
-
+  // state = {
+  //   school: null,
+  //   email_error: false,
+  //   email: ""
+  // };
   state = {
-    school: null,
-    email_error: false,
-    email: ""
+    userName: "",
+    phone_number_error: null
   };
 
-  emailChangedHandler = val => {
+
+
+  userNameChangedHandler = val => {
     this.setState({
-      email: val
+      userName: val
     });
   };
 
-  emailValidator = val => {
-    if (
-      /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/.test(
-        val
-      )
-    ) {
-      return true;
-    } else return false;
-  };
-
-  emailSubmitHandler = () => {
-    //check for blanks
-    if (this.state.email.trim() === "") {
+  placeSubmitHandler = () => {
+    if (this.state.userName.trim() === "") {
+      return;
+    }
+    if (this.state.userName.length !== 10) {
+      Keyboard.dismiss();
+      this.setState({
+        phone_number_error: 1
+      });
       return;
     }
 
-    //check if email is valid
-    if (this.emailValidator(this.state.email)) {
-      this.setState({
-        email_error: false
-      });
-    } else {
-      this.setState({
-        email_error: true
-      });
+    if (/^\d+$/.test(this.state.userName) === false) {
       Keyboard.dismiss();
+      this.setState({
+        phone_number_error: 2
+      });
       return;
     }
 
     Keyboard.dismiss();
-
-    this.props.submitEmailForVerification(
-      this.state.email.trim()
-    );
+    this.props.onAddPhoneNumber(this.state.userName.trim());
   };
 
 
@@ -129,27 +107,29 @@ class AuthScreen extends Component {
     } else {
       createButton = (
         <GotIt
-          onPress={this.emailSubmitHandler}
+          onPress={this.placeSubmitHandler}
           backgroundColor={colors.yellowColor}
           color="#333"
         >
-          Continue
+          Send Code
         </GotIt>
       );
     }
 
     let errorStatement = null;
-    if (this.props.signup_error) {
+
+    if (this.state.phone_number_error === 1) {
       errorStatement = (
         <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>{this.props.signup_error}</Text>
+          <Text style={styles.listHeader}>Must contain 10 digits</Text>
         </View>
       );
-    }
-    if (this.state.email_error) {
+    } else if (this.state.phone_number_error === 2) {
       errorStatement = (
         <View style={styles.bottomWrapper}>
-          <Text style={styles.listHeader}>Please enter a valid email</Text>
+          <Text style={styles.listHeader}>
+            Can only contain numbers (no special characters)
+          </Text>
         </View>
       );
     }
@@ -158,7 +138,7 @@ class AuthScreen extends Component {
       this.props.navigator.push({
         screen: "awesome-places.EmailCode",
         passProps: {
-          email: this.state.email.trim()
+          phoneNumber: this.state.userName.trim()
         },
         backButtonTitle: ""
       });
@@ -178,23 +158,31 @@ class AuthScreen extends Component {
           </View>
 
           <View>
-            <Text style={styles.continueText}>Continue with your university email</Text>
+            <Text style={styles.continueText}>Continue with your phone number</Text>
           </View>
 
-          <View style={styles.inputWrapper}>
-            <TextInput
-              placeholder="University Email"
-              value={this.state.email}
-              onChangeText={this.emailChangedHandler}
-              style={styles.TextBox}
-              autoFocus={true}
-              autoCapitalize="none"
-              autoCorrect={false}
-              keyboardType="email-address"
-            />
+          <View style={styles.inputButtonWrapper}>
+            <View style={styles.inputWrapper}>
+              <TextInput
+                placeholder="Your 10-digit phone number"
+                value={this.state.userName}
+                onChangeText={this.userNameChangedHandler}
+                style={styles.TextBox}
+                autoFocus={true}
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="numeric"
+                //textContentType="telephoneNumber"
+                maxLength={10}
+                textContentType="telephoneNumber"
+                onSubmitEditing={this.placeSubmitHandler}
+              />
+            </View>
+
+            {createButton}
+
+            {errorStatement}
           </View>
-          {createButton}
-          {errorStatement}
         </View>
 
 
@@ -346,14 +334,16 @@ const mapStateToProps = state => ({
   accessToken: state.users.accessToken,
   isLoading: state.ui.isLoading,
   signup_error: state.users.signup_error,
-  nextScreen: state.users.nextScreen
+  nextScreen: state.users.nextScreen,
+  phoneNumber: state.users.phoneNumber
 });
 
 const mapDispatchToProps = dispatch => ({
   loginWithFacebook: facebookAccessToken =>
     dispatch(loginWithFacebook(facebookAccessToken)),
   onAutoSignIn: () => dispatch(authAutoSignIn()),
-  submitEmailForVerification: email => dispatch(schoolEmailSignup(email))
+  onAddPhoneNumber: phoneNumber => dispatch(schoolEmailSignup(phoneNumber)),
+  // onAddPhoneNumber: phoneNumber => dispatch(savePhoneNumber(phoneNumber))
 });
 
 export default connect(
