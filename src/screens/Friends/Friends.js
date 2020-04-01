@@ -99,8 +99,8 @@ class FriendsScreen extends Component {
     } else {
       friends = (
         <FriendsList
-          friends={this.props.friends}
-          onItemSelected={this.friendSelectedHandler}
+          friends={this.props.friends} //sending to friendslist component 
+          onItemSelected={this.friendSelectedHandler} //receiving from friendslist component 
         />
       );
     }

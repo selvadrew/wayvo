@@ -35,7 +35,7 @@ import { outgoingCustomGroupCall } from "../../store/actions/customGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getActivePlans } from "../../store/actions/activePlans";
 import { getFriendRequests } from "../../store/actions/friends";
-import { getPhoneNumber, getUserInfo } from "../../store/actions/users";
+import { getPhoneNumber, getUserInfo, getContactsFromStorage } from "../../store/actions/users";
 import {
   getUserGroups,
   checkIfUserLiveGroups
@@ -57,9 +57,15 @@ import Phrases from "../../components/Phrases/Phrases";
 // import Slider from "react-native-slider";
 
 import { ActionCable, Cable } from "@kesha-antonov/react-native-action-cable";
+import TimeZone from 'react-native-timezone';
+
 
 class PhoneScreen extends Component {
   componentDidMount() {
+    getTimeZone = async () => {
+      const timeZone = await TimeZone.getTimeZone().then(zone => zone);
+      console.log({ timeZone });
+    }
     const channel = new firebase.notifications.Android.Channel(
       "Friends",
       "Friends Say Hello",
@@ -255,6 +261,9 @@ class PhoneScreen extends Component {
     this.props.getUserGroups();
 
     // alert(Dimensions.get("window").height);
+
+    this.props.getContactsFromStorage()
+
   } //did mount end
 
   appSettings = () => {
@@ -401,43 +410,51 @@ class PhoneScreen extends Component {
     this.helloAnimation();
   };
 
+  // checkStatus = is_start_plan => {
+  //   if (!this.props.verified && !this.props.submitted) {
+  //     Alert.alert(
+  //       "Wayvo Groups",
+  //       "You need to join your university and get verified to use this feature.",
+  //       [
+  //         {
+  //           text: "Cancel",
+  //           onPress: () => console.log("Cancel Pressed"),
+  //           style: "cancel"
+  //         },
+  //         {
+  //           text: "Learn more",
+  //           onPress: () => {
+  //             this.props.navigator.switchToTab({
+  //               tabIndex: 2
+  //             });
+  //           },
+  //           style: "default"
+  //         }
+  //       ],
+  //       { cancelable: true }
+  //     );
+  //   } else if (!this.props.verified && this.props.submitted) {
+  //     Alert.alert(
+  //       "We are reviewing your submission for access to Wayvo Groups. ",
+  //       "You will hear back within 24 hours."
+  //     );
+  //   } else if (this.props.verified) {
+  //     if (is_start_plan) {
+  //       this.startPlan();
+  //     } else {
+  //       this.newFriend();
+  //     }
+  //   } else {
+  //     Alert.alert("Sorry, there was an error.");
+  //   }
+  // };
+
+
   checkStatus = is_start_plan => {
-    if (!this.props.verified && !this.props.submitted) {
-      Alert.alert(
-        "Wayvo Groups",
-        "You need to join your university and get verified to use this feature.",
-        [
-          {
-            text: "Cancel",
-            onPress: () => console.log("Cancel Pressed"),
-            style: "cancel"
-          },
-          {
-            text: "Learn more",
-            onPress: () => {
-              this.props.navigator.switchToTab({
-                tabIndex: 2
-              });
-            },
-            style: "default"
-          }
-        ],
-        { cancelable: true }
-      );
-    } else if (!this.props.verified && this.props.submitted) {
-      Alert.alert(
-        "We are reviewing your submission for access to Wayvo Groups. ",
-        "You will hear back within 24 hours."
-      );
-    } else if (this.props.verified) {
-      if (is_start_plan) {
-        this.startPlan();
-      } else {
-        this.newFriend();
-      }
-    } else {
-      Alert.alert("Sorry, there was an error.");
-    }
+    Alert.alert(
+      "Wayvo Plans",
+      "Due to COVID-19, we have disabled this feature until further notice",
+    )
   };
 
   newFriend = () => {
@@ -605,7 +622,7 @@ class PhoneScreen extends Component {
                       styles.orange
                     ]}
                   >
-                    <Icon size={55} name="ios-map" color="#fff" />
+                    <Icon size={55} name="ios-pin" color="#fff" />
                   </View>
                   <View style={[styles.rightBox2, styles.orange]}>
                     <Text style={[styles.rightText]}>Start a plan</Text>
@@ -616,16 +633,17 @@ class PhoneScreen extends Component {
 
 
               <TouchableWithoutFeedback
-                onPress={() => {
-                  this.catchUp();
-                }}
+                onPress={() => this.props.navigator.push({
+                  screen: "awesome-places.Contacts",
+                  backButtonTitle: "",
+                })}
               >
                 <View style={styles.selectionBox}>
                   <View
                     style={[
                       styles.leftBox,
                       styles.selectionBox1,
-                      styles.red
+                      styles.green
                     ]}
                   >
                     <Icon size={50} name="ios-call" color="#fff" />
@@ -633,7 +651,7 @@ class PhoneScreen extends Component {
                   <View
                     style={[
                       styles.rightBox1,
-                      styles.red
+                      styles.green
                     ]}
                   >
                     <Text style={styles.rightText1}>
@@ -643,7 +661,7 @@ class PhoneScreen extends Component {
                 </View>
               </TouchableWithoutFeedback>
 
-              <TouchableWithoutFeedback
+              {/* <TouchableWithoutFeedback
                 onPress={() => {
                   this.checkStatus(false);
                 }}
@@ -667,8 +685,7 @@ class PhoneScreen extends Component {
                     <Text style={[styles.rightText]}>Make a new friend</Text>
                   </View>
                 </View>
-              </TouchableWithoutFeedback>
-
+              </TouchableWithoutFeedback> */}
 
             </View>
             <Animated.View
@@ -1475,7 +1492,9 @@ const mapDispatchToProps = dispatch => {
     getUserGroups: () => dispatch(getUserGroups()),
     checkIfUserLiveGroups: () => dispatch(checkIfUserLiveGroups()),
     onSetGroupForPlan: (id, value, type) =>
-      dispatch(setGroupForPlan(id, value, type))
+      dispatch(setGroupForPlan(id, value, type)),
+    getContactsFromStorage: () => dispatch(getContactsFromStorage())
+
   };
 };
 

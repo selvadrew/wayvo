@@ -7,7 +7,7 @@ const friendsList = props => {
   return (
     <FlatList
       style={styles.listContainer}
-      data={props.friends.sort(function(x, y) {
+      data={props.friends.sort(function (x, y) {
         return (
           y.send_notifications - x.send_notifications ||
           x.fullname.localeCompare(y.fullname)

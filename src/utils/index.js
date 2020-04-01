@@ -58,3 +58,24 @@ export function normalizeSayHelloData(say_hello_data, seconds_left) {
     seconds_left: seconds_left
   };
 }
+
+
+export function normalizeContacts(contacts) {
+  return contacts.map(contact => {
+    return {
+      contactId: contact.recordID,
+      givenName: contact.givenName || "",
+      familyName: contact.familyName || "",
+      phoneNumbers: contact.phoneNumbers || null,
+      selected: false
+    };
+  });
+}
+
+export function sortContacts(normalizedContacts) {
+  return normalizedContacts.sort(function (x, y) {
+    return (
+      x.givenName.localeCompare(y.givenName)
+    )
+  })
+}

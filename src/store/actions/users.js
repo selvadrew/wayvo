@@ -11,7 +11,9 @@ import {
   USERNAME_ERROR,
   STORE_PHONE_NUMBER,
   SIGNUP_ERROR,
-  LOGIN_ERROR
+  LOGIN_ERROR,
+  STORE_CONTACTS,
+  SELECT_CONTACT
 } from "./actionTypes";
 import { CLEAR_FRIENDS } from "../actions/friends";
 import { CLEAR_ACTIVE_FRIENDS } from "../actions/activeFriends";
@@ -133,6 +135,9 @@ export const submitEmailCode = email_code => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
+          // can save default async states here 
+          AsyncStorage.setItem("contacts", "false");
+
           // AsyncStorage.setItem("university_id", json.university_id.toString());
           // AsyncStorage.setItem("universityName", json.university_name);
           if (json.new_user) {
@@ -776,3 +781,81 @@ export const sendFeedback = description => {
       });
   };
 };
+
+export const saveContacts = contacts => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/save_contacts`, {
+          method: "POST",
+          body: JSON.stringify({
+            contacts: contacts,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          console.log("success feedback");
+          dispatch(storeContacts(contacts))
+          AsyncStorage.setItem("contacts", JSON.stringify(contacts));
+
+          dispatch(uiStopLoading());
+        } else {
+          Alert.alert("Oops, we couldn't connect, please try again");
+          dispatch(uiStopLoading());
+          console.log("success failed");
+        }
+      })
+      .catch(e => {
+        console.log("success failed");
+        dispatch(uiStopLoading());
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
+};
+
+
+export function storeContacts(contacts) {
+  return {
+    type: STORE_CONTACTS,
+    contacts
+  };
+}
+
+
+export const getContactsFromStorage = () => {
+  return dispatch => {
+    return AsyncStorage.getItem("contacts")
+      .then(response => {
+        if (response !== "false") {
+          console.log("getting contacts")
+          dispatch(storeContacts(JSON.parse(response)))
+        } else {
+          console.log("contacts not synced yet")
+        }
+      })
+      .catch(e => {
+        console.log("error on contacts from storage");
+      });
+  };
+}
+
+
+export function selectContact(contactId) {
+  return {
+    type: SELECT_CONTACT,
+    contactId
+  }
+}
+

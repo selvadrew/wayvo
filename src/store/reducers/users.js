@@ -4,7 +4,9 @@ import {
   STORE_PHONE_NUMBER,
   SIGNUP_ERROR,
   LOGIN_ERROR,
-  SUBMITTED
+  SUBMITTED,
+  STORE_CONTACTS,
+  SELECT_CONTACT
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -23,7 +25,8 @@ const initialState = {
   twitter: null,
   submitted: null,
   user_id: null,
-  nextScreen: null
+  nextScreen: null,
+  contacts: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -73,6 +76,23 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         submitted: true
+      };
+    case STORE_CONTACTS:
+      return {
+        ...state,
+        contacts: action.contacts
+      };
+    case SELECT_CONTACT:
+      return {
+        ...state,
+        contacts: state.contacts.map(
+          contact =>
+            contact.contactId === action.contactId
+              ? // transform the one with a matching id
+              { ...contact, selected: !contact.selected }
+              : // otherwise return original friend
+              contact
+        )
       };
     default:
       return state;

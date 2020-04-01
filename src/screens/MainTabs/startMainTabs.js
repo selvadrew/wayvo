@@ -24,12 +24,12 @@ const startTabs = () => {
           //title: "Friends",
           icon: sources[0]
         },
-        {
-          screen: "awesome-places.GroupsScreen",
-          label: "Groups",
-          //title: "Friends",
-          icon: sources[3]
-        },
+        // {
+        //   screen: "awesome-places.GroupsScreen",
+        //   label: "Groups",
+        //   //title: "Friends",
+        //   icon: sources[3]
+        // },
         {
           screen: "awesome-places.ActiveFriendsScreen",
           label: "Live",
