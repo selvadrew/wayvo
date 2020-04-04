@@ -20,6 +20,8 @@ import { saveContacts, selectContact, getContactsFromStorage } from "../../store
 
 
 import RNContacts from 'react-native-contacts';
+import { PermissionsAndroid } from "react-native";
+
 import { normalizeContacts, sortContacts } from "../../utils/index";
 
 import ContactsList from "../../components/ContactsList/ContactsList";
@@ -66,20 +68,37 @@ class Contacts extends Component {
     };
 
     getContacts = () => {
-        RNContacts.getAllWithoutPhotos((err, contacts) => {
-            if (err) {
-                this.appSettings()
-                alert("hi")
-                console.log("hi")
-                // throw err;
-            } else {
-                console.log("worked")
-                this.props.onSaveContacts(sortContacts(normalizeContacts(contacts)))
-                // this.props.onSaveContacts(contacts)
-
-            }
-        })
+        if (Platform.OS === "ios") {
+            RNContacts.getAllWithoutPhotos((err, contacts) => {
+                if (err) {
+                    // show alert menu that goes to app settings
+                    // this.appSettings()
+                    alert("err")
+                    // throw err;
+                } else {
+                    console.log("contacts worked")
+                    this.props.onSaveContacts(sortContacts(normalizeContacts(contacts)))
+                }
+            })
+        } else {
+            PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+                {
+                    'title': 'Sync Contacts',
+                    'message': 'Allow Wayvo to load your contacts to use this feature',
+                    'buttonPositive': 'OK'
+                }).then(() => {
+                    RNContacts.getAll((err, contacts) => {
+                        if (err === 'denied') {
+                            alert("permissionDenied")
+                            // error
+                        } else {
+                            this.props.onSaveContacts(sortContacts(normalizeContacts(contacts)))
+                        }
+                    })
+                })
+        }
     }
+
 
     contactSelectedHandler = id => {
         this.props.onSelectContact(id)
