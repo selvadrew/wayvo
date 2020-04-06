@@ -11,12 +11,14 @@ import {
     Platform,
     Button,
     Linking,
-    Alert
+    Alert,
+    TouchableWithoutFeedback,
+    TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
-import { saveContacts, selectContact, getContactsFromStorage } from "../../store/actions/users";
+import { saveContacts, selectContact, getContactsFromStorage, sendInvite } from "../../store/actions/users";
 
 
 import RNContacts from 'react-native-contacts';
@@ -25,6 +27,9 @@ import { PermissionsAndroid } from "react-native";
 import { normalizeContacts, sortContacts } from "../../utils/index";
 
 import ContactsList from "../../components/ContactsList/ContactsList";
+import { Touchable } from "../../components/Touchable/Touchable";
+
+
 
 
 class Contacts extends Component {
@@ -32,6 +37,8 @@ class Contacts extends Component {
     componentWillUnmount() {
         this.props.getContactsFromStorage()
     }
+
+
 
     static navigatorStyle = {
         navBarHidden: false,
@@ -45,12 +52,13 @@ class Contacts extends Component {
     }
 
     state = {
-        selectedContactIds: []
+        selectedContactIds: [],
+        timeZone: null
     };
 
     appSettings = () => {
         Alert.alert(
-            "Please enable access to contacts to use this feature.",
+            "Please give Wayvo access to your contacts in app settings to use this feature",
             "",
             [
                 {
@@ -72,8 +80,8 @@ class Contacts extends Component {
             RNContacts.getAllWithoutPhotos((err, contacts) => {
                 if (err) {
                     // show alert menu that goes to app settings
-                    // this.appSettings()
-                    alert("err")
+                    this.appSettings()
+                    console.log(err)
                     // throw err;
                 } else {
                     console.log("contacts worked")
@@ -116,20 +124,33 @@ class Contacts extends Component {
         console.log(this.state.selectedContactIds)
     }
 
-    // handle the dont allow sync contacts 
-    // show spinner when loading contacts 
+    sendInvitePressed = () => {
+        let arr = []
+        this.props.syncedContacts.forEach(function (contact) {
+            if (contact.selected) {
+                contact.phoneNumbers.forEach(function (details) {
+                    arr.push(details.number)
+                });
+            }
+        });
+        this.props.onSendInvite(arr)
+        this.props.navigator.pop()
+    }
+
     // add checkbox type thing 
-
-
     render() {
         let stateOfContacts = null;
         let sendInviteButton = null
 
         if (this.props.syncedContacts === null) {
-            stateOfContacts = <Button
-                onPress={() => this.getContacts()}
-                title="Sync Contacts"
-            />
+            if (this.props.isLoading) {
+                stateOfContacts = <ActivityIndicator />;
+            } else {
+                stateOfContacts = <Button
+                    onPress={() => this.getContacts()}
+                    title="Sync Contacts"
+                />
+            }
         } else {
             stateOfContacts = (
                 <View style={this.state.selectedContactIds.length > 0 ? styles.setMargin : null}>
@@ -143,9 +164,11 @@ class Contacts extends Component {
 
         if (this.state.selectedContactIds.length > 0) {
             sendInviteButton = (
-                <View style={styles.overlay}>
-                    <Text style={styles.sendInviteText}>Send invite to catch up</Text>
-                </View>
+                <Touchable onPress={() => this.sendInvitePressed()}>
+                    <View style={styles.overlay}>
+                        <Text style={styles.sendInviteText}>SEND INVITE TO CATCH UP</Text>
+                    </View>
+                </Touchable>
             )
         }
 
@@ -209,13 +232,15 @@ const mapDispatchToProps = dispatch => {
         sendFeedback: description => dispatch(sendFeedback(description)),
         onSaveContacts: contacts => dispatch(saveContacts(contacts)),
         onSelectContact: contact => dispatch(selectContact(contact)),
-        getContactsFromStorage: () => dispatch(getContactsFromStorage())
+        getContactsFromStorage: () => dispatch(getContactsFromStorage()),
+        onSendInvite: (phoneNumbers) => dispatch(sendInvite(phoneNumbers))
     };
 };
 
 const mapStateToProps = state => {
     return {
-        syncedContacts: state.users.contacts
+        syncedContacts: state.users.contacts,
+        isLoading: state.ui.isLoading
     };
 };
 

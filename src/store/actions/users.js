@@ -806,10 +806,8 @@ export const saveContacts = contacts => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          console.log("success feedback");
           dispatch(storeContacts(contacts))
           AsyncStorage.setItem("contacts", JSON.stringify(contacts));
-
           dispatch(uiStopLoading());
         } else {
           Alert.alert("Oops, we couldn't connect, please try again");
@@ -857,5 +855,81 @@ export function selectContact(contactId) {
     type: SELECT_CONTACT,
     contactId
   }
+}
+
+export const saveTimeZone = timeZone => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/save_time_zone`, {
+          method: "POST",
+          body: JSON.stringify({
+            time_zone: timeZone,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(uiStopLoading());
+        } else {
+          dispatch(uiStopLoading());
+        }
+      })
+      .catch(e => {
+        console.log("failed");
+        dispatch(uiStopLoading());
+      });
+  };
+}
+
+
+export const sendInvite = phoneNumbers => {
+  return dispatch => {
+    dispatch(uiStartLoading());
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(uiStopLoading());
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/send_invite_to_catch_up`, {
+          method: "POST",
+          body: JSON.stringify({
+            phone_numbers: phoneNumbers,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          alert("success")
+          dispatch(uiStopLoading());
+        } else {
+          Alert.alert("Oops, we couldn't connect, please try again");
+          dispatch(uiStopLoading());
+        }
+      })
+      .catch(e => {
+        console.log("success failed");
+        dispatch(uiStopLoading());
+        Alert.alert("Oops, we couldn't connect, please try again");
+      });
+  };
 }
 

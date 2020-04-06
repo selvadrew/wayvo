@@ -35,7 +35,7 @@ import { outgoingCustomGroupCall } from "../../store/actions/customGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getActivePlans } from "../../store/actions/activePlans";
 import { getFriendRequests } from "../../store/actions/friends";
-import { getPhoneNumber, getUserInfo, getContactsFromStorage } from "../../store/actions/users";
+import { getPhoneNumber, getUserInfo, getContactsFromStorage, saveTimeZone } from "../../store/actions/users";
 import {
   getUserGroups,
   checkIfUserLiveGroups
@@ -57,15 +57,11 @@ import Phrases from "../../components/Phrases/Phrases";
 // import Slider from "react-native-slider";
 
 import { ActionCable, Cable } from "@kesha-antonov/react-native-action-cable";
-import TimeZone from 'react-native-timezone';
+import * as RNLocalize from "react-native-localize";
 
 
 class PhoneScreen extends Component {
   componentDidMount() {
-    getTimeZone = async () => {
-      const timeZone = await TimeZone.getTimeZone().then(zone => zone);
-      console.log({ timeZone });
-    }
     const channel = new firebase.notifications.Android.Channel(
       "Friends",
       "Friends Say Hello",
@@ -263,6 +259,17 @@ class PhoneScreen extends Component {
     // alert(Dimensions.get("window").height);
 
     this.props.getContactsFromStorage()
+
+    //check if users timezone is saved in async
+    // if not saved, get it and save in db 
+    // RNLocalize.getTimeZone()
+    AsyncStorage.getItem("timezone").then(timeZone => {
+      currentTimeZone = RNLocalize.getTimeZone()
+      if (timeZone !== currentTimeZone) {
+        this.props.onSaveTimeZone(currentTimeZone)
+        AsyncStorage.setItem("timezone", currentTimeZone);
+      }
+    })
 
   } //did mount end
 
@@ -1493,7 +1500,8 @@ const mapDispatchToProps = dispatch => {
     checkIfUserLiveGroups: () => dispatch(checkIfUserLiveGroups()),
     onSetGroupForPlan: (id, value, type) =>
       dispatch(setGroupForPlan(id, value, type)),
-    getContactsFromStorage: () => dispatch(getContactsFromStorage())
+    getContactsFromStorage: () => dispatch(getContactsFromStorage()),
+    onSaveTimeZone: timeZone => dispatch(saveTimeZone(timeZone))
 
   };
 };

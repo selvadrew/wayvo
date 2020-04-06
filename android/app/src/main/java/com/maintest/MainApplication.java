@@ -3,6 +3,7 @@ package com.maintest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -54,7 +55,8 @@ public class MainApplication extends NavigationApplication {
     // No need to add RnnPackage and MainReactPackage
     return Arrays.<ReactPackage>asList(new VectorIconsPackage(), new FBSDKPackage(mCallbackManager),
         new RNFirebasePackage(), new RNFirebaseMessagingPackage(), new RNFirebaseAnalyticsPackage(),
-        new RNFirebaseNotificationsPackage(), new ImagePickerPackage(), new ReactNativeContacts());
+        new RNFirebaseNotificationsPackage(), new ImagePickerPackage(), new ReactNativeContacts(),
+        new RNLocalizePackage());
   }
 
   @Override

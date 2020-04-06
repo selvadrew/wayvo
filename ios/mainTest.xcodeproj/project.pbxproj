@@ -50,7 +50,9 @@
 		B0412F5C6B224BDC9533A0E9 /* libRCTFBSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 92A1BBD0A74B438A87989609 /* libRCTFBSDK.a */; };
 		BA76E5C13A9A4F52B215A94D /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 43FE11EF3714407E8FBAB2A7 /* FontAwesome.ttf */; };
 		BEBFE903089E4DAEBDCF9D85 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 32F2E1B3E05F4FE28854B9CB /* FontAwesome5_Brands.ttf */; };
+		C886F70FA3984632BB17F200 /* libRNLocalize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5909D6FAD055452CBD9EFAA6 /* libRNLocalize.a */; };
 		CE05FE987E8B4102B4A109E3 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 23139B90360041659FF24F44 /* FontAwesome5_Solid.ttf */; };
+		D6EC31618DB24F3188886FFB /* libRNLocalize-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0CA564DDBD1A4EF2BAEDC8CE /* libRNLocalize-tvOS.a */; };
 		DF9111B018124819870DC627 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA8408B0D86F4F71BBEEBD33 /* Foundation.ttf */; };
 		E0B50F700FD44EFCA6E637A6 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 219081EE7F43476DBA7D9938 /* libRCTContacts.a */; };
 		E6282B2C2113A249004B0733 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E6282B2B2113A22F004B0733 /* libReactNativeNavigation.a */; };
@@ -432,6 +434,20 @@
 			remoteGlobalIDString = 3D7682761D8E76B80014119E;
 			remoteInfo = SplashScreen;
 		};
+		E6E3DC20243A50AF002586D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNLocalize;
+		};
+		E6E3DC22243A50AF002586D6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2D2A28471D9B043800D4039D;
+			remoteInfo = "RNLocalize-tvOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -446,6 +462,7 @@
 		00E356F21AD99517003FC87E /* mainTestTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mainTestTests.m; sourceTree = "<group>"; };
 		04CBF733CBB54013A955FB53 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		0C4D0C20D46C43B2836E8B25 /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
+		0CA564DDBD1A4EF2BAEDC8CE /* libRNLocalize-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNLocalize-tvOS.a"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* mainTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = mainTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -466,8 +483,10 @@
 		379CF441C8E548E9BBF454F8 /* libRNDeviceInfo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNDeviceInfo.a; sourceTree = "<group>"; };
 		37BCA6545B4A490DB6F000A9 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		43FE11EF3714407E8FBAB2A7 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
+		4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocalize.xcodeproj; path = "../node_modules/react-native-localize/ios/RNLocalize.xcodeproj"; sourceTree = "<group>"; };
 		5230882861D54B44A5C8862D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		524DF3DC22B04C94B7301BAF /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
+		5909D6FAD055452CBD9EFAA6 /* libRNLocalize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNLocalize.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		60582F24715C4DF1A28675EC /* RNFirebase.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFirebase.xcodeproj; path = "../node_modules/react-native-firebase/ios/RNFirebase.xcodeproj"; sourceTree = "<group>"; };
 		638E83E518F542528658989E /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
@@ -562,6 +581,7 @@
 				948600FB9FF0435E917F70A6 /* libSplashScreen.a in Frameworks */,
 				E836BF212702491495AC3DEF /* libRNDeviceInfo.a in Frameworks */,
 				E0B50F700FD44EFCA6E637A6 /* libRCTContacts.a in Frameworks */,
+				C886F70FA3984632BB17F200 /* libRNLocalize.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -578,6 +598,7 @@
 				2D02E4C71E0B4AEC006451C7 /* libRCTText-tvOS.a in Frameworks */,
 				2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */,
 				63E37C63D9AD4DBB927D7AB4 /* libRNDeviceInfo-tvOS.a in Frameworks */,
+				D6EC31618DB24F3188886FFB /* libRNLocalize-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -765,6 +786,7 @@
 				FEA68BD9BB1848D2A90254E9 /* SplashScreen.xcodeproj */,
 				A055A6CCDDC6492CA7374C0E /* RNDeviceInfo.xcodeproj */,
 				65F834D052F34A49BEC77FFA /* RCTContacts.xcodeproj */,
+				4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -872,6 +894,8 @@
 				379CF441C8E548E9BBF454F8 /* libRNDeviceInfo.a */,
 				8A8F1413489E43359FCE4814 /* libRNDeviceInfo-tvOS.a */,
 				219081EE7F43476DBA7D9938 /* libRCTContacts.a */,
+				5909D6FAD055452CBD9EFAA6 /* libRNLocalize.a */,
+				0CA564DDBD1A4EF2BAEDC8CE /* libRNLocalize-tvOS.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -930,6 +954,15 @@
 			isa = PBXGroup;
 			children = (
 				E6AB7E52215863EB00AEE290 /* libSplashScreen.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E6E3DC1C243A50AD002586D6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E6E3DC21243A50AF002586D6 /* libRNLocalize.a */,
+				E6E3DC23243A50AF002586D6 /* libRNLocalize-tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1135,6 +1168,10 @@
 				{
 					ProductGroup = E6439C2921E711CA007B0D25 /* Products */;
 					ProjectRef = E6439C2821E711CA007B0D25 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = E6E3DC1C243A50AD002586D6 /* Products */;
+					ProjectRef = 4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */;
 				},
 				{
 					ProductGroup = E6282B2E2113A39A004B0733 /* Products */;
@@ -1492,6 +1529,20 @@
 			remoteRef = E6AB7E51215863EB00AEE290 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		E6E3DC21243A50AF002586D6 /* libRNLocalize.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNLocalize.a;
+			remoteRef = E6E3DC20243A50AF002586D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E6E3DC23243A50AF002586D6 /* libRNLocalize-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libRNLocalize-tvOS.a";
+			remoteRef = E6E3DC22243A50AF002586D6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1653,12 +1704,15 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = mainTestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1688,12 +1742,15 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = mainTestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1736,6 +1793,7 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = mainTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1776,6 +1834,7 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = mainTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1811,11 +1870,14 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1855,11 +1917,14 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1898,11 +1963,14 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1941,11 +2009,14 @@
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
+					"$(SRCROOT)/../node_modules/react-native-localize/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
