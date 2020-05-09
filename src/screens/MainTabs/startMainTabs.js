@@ -19,23 +19,42 @@ const startTabs = () => {
           icon: sources[1]
         },
         {
-          screen: "awesome-places.FriendsScreen",
-          label: "Friends",
-          //title: "Friends",
-          icon: sources[0]
+          screen: "awesome-places.Calendar",
+          label: "Calendar",
+          //title: "Active Friends",
+          icon: sources[2]
         },
+        {
+          screen: "awesome-places.Upcoming",
+          label: "Live",
+          //title: "Active Friends",
+          icon: sources[0]
+        }
+        // {
+        //   screen: "awesome-places.ActiveFriendsScreen",
+        //   label: "Live",
+        //   //title: "Active Friends",
+        //   icon: sources[2]
+        // }
+        // {
+        //   screen: "awesome-places.FriendsScreen",
+        //   label: "Friends",
+        //   //title: "Friends",
+        //   icon: sources[0]
+        // }
+
         // {
         //   screen: "awesome-places.GroupsScreen",
         //   label: "Groups",
         //   //title: "Friends",
         //   icon: sources[3]
         // },
-        {
-          screen: "awesome-places.ActiveFriendsScreen",
-          label: "Live",
-          //title: "Active Friends",
-          icon: sources[2]
-        }
+        // {
+        //   screen: "awesome-places.ActiveFriendsScreen",
+        //   label: "Live",
+        //   //title: "Active Friends",
+        //   icon: sources[2]
+        // }
       ],
       tabsStyle: {
         tabBarBackgroundColor: colors.tabBackgroundColor, // optional, change the background color of the tab bar

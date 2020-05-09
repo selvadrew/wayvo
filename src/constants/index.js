@@ -26,7 +26,7 @@
 // export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://8fd08d8e.ngrok.io"
+export const HOST = "https://77bb89b5.ngrok.io"
 
 
 
@@ -64,5 +64,24 @@ Remove node modules
 
 Any time dependencies update you have to jetify again
 npx jetify
+
+twilio post request -Phone Numbers / Manage Numbers / Active Numbers /
+https://www.twilio.com/console/phone-numbers/PNa45f5e2391a4a72151a489706af425cd
+
+
+
+run this if the firebase pod problem comes up again 
+npx react-native-clean-project clean-project-auto
+  513  npx jetify
+  514  npm install 
+  515  react-native link
+  516  npx jetify
+  517  react-native run-ios
+  518  react-native run-ios
+  519  history
+
+
+
+
 
 */}

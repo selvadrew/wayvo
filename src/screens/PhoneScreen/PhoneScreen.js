@@ -265,8 +265,9 @@ class PhoneScreen extends Component {
     // RNLocalize.getTimeZone()
     AsyncStorage.getItem("timezone").then(timeZone => {
       currentTimeZone = RNLocalize.getTimeZone()
+      timeZoneOffset = new Date().getTimezoneOffset() / -1
       if (timeZone !== currentTimeZone) {
-        this.props.onSaveTimeZone(currentTimeZone)
+        this.props.onSaveTimeZone(currentTimeZone, timeZoneOffset)
         AsyncStorage.setItem("timezone", currentTimeZone);
       }
     })
@@ -460,7 +461,7 @@ class PhoneScreen extends Component {
   checkStatus = is_start_plan => {
     Alert.alert(
       "Wayvo Plans",
-      "Due to COVID-19, we have disabled this feature until further notice",
+      "Due to COVID-19, this feature is disabled until further notice",
     )
   };
 
@@ -1501,7 +1502,7 @@ const mapDispatchToProps = dispatch => {
     onSetGroupForPlan: (id, value, type) =>
       dispatch(setGroupForPlan(id, value, type)),
     getContactsFromStorage: () => dispatch(getContactsFromStorage()),
-    onSaveTimeZone: timeZone => dispatch(saveTimeZone(timeZone))
+    onSaveTimeZone: (timeZone, timeZoneOffset) => dispatch(saveTimeZone(timeZone, timeZoneOffset))
 
   };
 };

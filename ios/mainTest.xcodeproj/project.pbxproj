@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -44,6 +43,7 @@
 		69FC14C0A19A49ADA7F88502 /* libRNFirebase.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37BCA6545B4A490DB6F000A9 /* libRNFirebase.a */; };
 		80C58C3095E84E4AB96F757A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 04CBF733CBB54013A955FB53 /* Zocial.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		9421EAD4BDBA41FBA1F51C46 /* libRNReactNativeTimezone.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 218CCE14DBF345E0BF323BBB /* libRNReactNativeTimezone.a */; };
 		948600FB9FF0435E917F70A6 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DDF44D17CCA64C4C95C9F49E /* libSplashScreen.a */; };
 		AAF82D8082B3455E8BCAB1A9 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5230882861D54B44A5C8862D /* MaterialIcons.ttf */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
@@ -378,6 +378,13 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = RNFirebase;
 		};
+		E659744424665A3000AB7B07 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4DE85AD77A7A408D98D3ECC4 /* RNReactNativeTimezone.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNReactNativeTimezone;
+		};
 		E66038BB235CA43E00F08671 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A055A6CCDDC6492CA7374C0E /* RNDeviceInfo.xcodeproj */;
@@ -473,6 +480,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = mainTest/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = mainTest/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		218CCE14DBF345E0BF323BBB /* libRNReactNativeTimezone.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReactNativeTimezone.a; sourceTree = "<group>"; };
 		219081EE7F43476DBA7D9938 /* libRCTContacts.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContacts.a; sourceTree = "<group>"; };
 		23139B90360041659FF24F44 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		2A76FB7846D143F6B27C3F8E /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
@@ -484,6 +492,7 @@
 		37BCA6545B4A490DB6F000A9 /* libRNFirebase.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFirebase.a; sourceTree = "<group>"; };
 		43FE11EF3714407E8FBAB2A7 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNLocalize.xcodeproj; path = "../node_modules/react-native-localize/ios/RNLocalize.xcodeproj"; sourceTree = "<group>"; };
+		4DE85AD77A7A408D98D3ECC4 /* RNReactNativeTimezone.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNReactNativeTimezone.xcodeproj; path = "../node_modules/react-native-timezone/ios/RNReactNativeTimezone.xcodeproj"; sourceTree = "<group>"; };
 		5230882861D54B44A5C8862D /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		524DF3DC22B04C94B7301BAF /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		5909D6FAD055452CBD9EFAA6 /* libRNLocalize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNLocalize.a; sourceTree = "<group>"; };
@@ -582,6 +591,7 @@
 				E836BF212702491495AC3DEF /* libRNDeviceInfo.a in Frameworks */,
 				E0B50F700FD44EFCA6E637A6 /* libRCTContacts.a in Frameworks */,
 				C886F70FA3984632BB17F200 /* libRNLocalize.a in Frameworks */,
+				9421EAD4BDBA41FBA1F51C46 /* libRNReactNativeTimezone.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -787,6 +797,7 @@
 				A055A6CCDDC6492CA7374C0E /* RNDeviceInfo.xcodeproj */,
 				65F834D052F34A49BEC77FFA /* RCTContacts.xcodeproj */,
 				4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */,
+				4DE85AD77A7A408D98D3ECC4 /* RNReactNativeTimezone.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -896,6 +907,7 @@
 				219081EE7F43476DBA7D9938 /* libRCTContacts.a */,
 				5909D6FAD055452CBD9EFAA6 /* libRNLocalize.a */,
 				0CA564DDBD1A4EF2BAEDC8CE /* libRNLocalize-tvOS.a */,
+				218CCE14DBF345E0BF323BBB /* libRNReactNativeTimezone.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -929,6 +941,14 @@
 			isa = PBXGroup;
 			children = (
 				E65898DA212C9445001B6AD1 /* libRNFirebase.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E659744124665A3000AB7B07 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E659744524665A3000AB7B07 /* libRNReactNativeTimezone.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1172,6 +1192,10 @@
 				{
 					ProductGroup = E6E3DC1C243A50AD002586D6 /* Products */;
 					ProjectRef = 4CAA385D1E2F4EF3852AE2EE /* RNLocalize.xcodeproj */;
+				},
+				{
+					ProductGroup = E659744124665A3000AB7B07 /* Products */;
+					ProjectRef = 4DE85AD77A7A408D98D3ECC4 /* RNReactNativeTimezone.xcodeproj */;
 				},
 				{
 					ProductGroup = E6282B2E2113A39A004B0733 /* Products */;
@@ -1473,6 +1497,13 @@
 			remoteRef = E65898D9212C9445001B6AD1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		E659744524665A3000AB7B07 /* libRNReactNativeTimezone.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNReactNativeTimezone.a;
+			remoteRef = E659744424665A3000AB7B07 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		E66038BC235CA43E00F08671 /* libRNDeviceInfo.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1705,12 +1736,14 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = mainTestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1743,12 +1776,14 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = mainTestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1794,6 +1829,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = mainTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1835,6 +1871,7 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = mainTest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1871,11 +1908,13 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1918,11 +1957,13 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1964,11 +2005,13 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2010,11 +2053,13 @@
 					"$(SRCROOT)/../node_modules/react-native-device-info/ios/RNDeviceInfo/**",
 					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts/**",
 					"$(SRCROOT)/../node_modules/react-native-localize/ios",
+					"$(SRCROOT)/../node_modules/react-native-timezone/ios",
 				);
 				INFOPLIST_FILE = "mainTest-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

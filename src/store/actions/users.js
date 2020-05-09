@@ -279,7 +279,7 @@ export const saveFirebaseToken = access_token => {
       })
       .then(response => response.json())
       .then(json => {
-        console.log(json);
+        //do nothing 
       })
       .catch(e => console.log(e));
   };
@@ -857,7 +857,7 @@ export function selectContact(contactId) {
   }
 }
 
-export const saveTimeZone = timeZone => {
+export const saveTimeZone = (timeZone, timeZoneOffset) => {
   return dispatch => {
     dispatch(uiStartLoading());
     let access_token;
@@ -873,6 +873,7 @@ export const saveTimeZone = timeZone => {
           method: "POST",
           body: JSON.stringify({
             time_zone: timeZone,
+            time_zone_offset: timeZoneOffset,
             access_token: access_token
           }),
           headers: { "content-type": "application/json" }
@@ -894,7 +895,7 @@ export const saveTimeZone = timeZone => {
 }
 
 
-export const sendInvite = phoneNumbers => {
+export const sendInvite = nameAndNumber => {
   return dispatch => {
     dispatch(uiStartLoading());
     let access_token;
@@ -909,7 +910,7 @@ export const sendInvite = phoneNumbers => {
         return fetch(`${HOST}/api/v1/send_invite_to_catch_up`, {
           method: "POST",
           body: JSON.stringify({
-            phone_numbers: phoneNumbers,
+            name_and_number: nameAndNumber,
             access_token: access_token
           }),
           headers: { "content-type": "application/json" }

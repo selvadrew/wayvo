@@ -38,8 +38,6 @@ class Contacts extends Component {
         this.props.getContactsFromStorage()
     }
 
-
-
     static navigatorStyle = {
         navBarHidden: false,
         statusBarColor: colors.darkBlue,
@@ -126,15 +124,22 @@ class Contacts extends Component {
 
     sendInvitePressed = () => {
         let arr = []
+        let newArr = []
         this.props.syncedContacts.forEach(function (contact) {
             if (contact.selected) {
+                fullname = contact.givenName + " " + contact.familyName
                 contact.phoneNumbers.forEach(function (details) {
                     arr.push(details.number)
+                    newArr.push({ fullname: fullname, phoneNumber: details.number })
                 });
             }
         });
-        this.props.onSendInvite(arr)
+        this.props.onSendInvite(newArr)
         this.props.navigator.pop()
+
+        console.log(newArr)
+        // {fullname: "Anna Haro", phoneNumber: "555-522-8243"}
+        // need to change SendNotificationToCatchUpJob in api 
     }
 
     // add checkbox type thing 
@@ -233,7 +238,7 @@ const mapDispatchToProps = dispatch => {
         onSaveContacts: contacts => dispatch(saveContacts(contacts)),
         onSelectContact: contact => dispatch(selectContact(contact)),
         getContactsFromStorage: () => dispatch(getContactsFromStorage()),
-        onSendInvite: (phoneNumbers) => dispatch(sendInvite(phoneNumbers))
+        onSendInvite: nameAndNumber => dispatch(sendInvite(nameAndNumber))
     };
 };
 

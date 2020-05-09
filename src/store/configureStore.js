@@ -12,6 +12,9 @@ import activeGroupsReducer from "./reducers/activeGroups";
 import customGroupsReducer from "./reducers/customGroups";
 import plansReducer from "./reducers/plans";
 import activePlansReducer from "./reducers/activePlans";
+import calendarsReducer from "./reducers/calendars";
+import upcomingsReducer from "./reducers/upcomings"
+
 
 const rootReducer = combineReducers({
   users: usersReducer,
@@ -23,7 +26,9 @@ const rootReducer = combineReducers({
   active_groups: activeGroupsReducer,
   custom_groups: customGroupsReducer,
   plans: plansReducer,
-  active_plans: activePlansReducer
+  active_plans: activePlansReducer,
+  calendar: calendarsReducer,
+  upcoming: upcomingsReducer
 });
 
 let composeEnhancers = compose;

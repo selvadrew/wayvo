@@ -14,7 +14,13 @@ import {
   START_LOADING_PLANS,
   STOP_LOADING_PLANS,
   START_LOADING_CHATS,
-  STOP_LOADING_CHATS
+  STOP_LOADING_CHATS,
+  START_LOADING_CALENDAR,
+  STOP_LOADING_CALENDAR,
+  START_LOADING_UPCOMING,
+  STOP_LOADING_UPCOMING,
+  START_LOADING_FRIENDS_CALENDAR,
+  STOP_LOADING_FRIENDS_CALENDAR,
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -27,7 +33,10 @@ const initialState = {
   error: null,
   isLoadingGroups: false,
   isLoadingPlans: false,
-  isLoadingChats: false
+  isLoadingChats: false,
+  isLoadingCalendar: false,
+  isLoadingUpcoming: false,
+  isLoadingFriendsCalendar: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -119,6 +128,37 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingChats: false
+      };
+    case START_LOADING_CALENDAR:
+      return {
+        ...state,
+        isLoadingCalendar: true
+      };
+    case STOP_LOADING_CALENDAR:
+      return {
+        ...state,
+        isLoadingCalendar: false
+      };
+    case START_LOADING_UPCOMING:
+      return {
+        ...state,
+        isLoadingUpcoming: true
+      };
+    case STOP_LOADING_UPCOMING:
+      return {
+        ...state,
+        isLoadingUpcoming: false
+      };
+
+    case START_LOADING_FRIENDS_CALENDAR:
+      return {
+        ...state,
+        isLoadingFriendsCalendar: true
+      };
+    case STOP_LOADING_FRIENDS_CALENDAR:
+      return {
+        ...state,
+        isLoadingFriendsCalendar: false
       };
 
     default:

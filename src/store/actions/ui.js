@@ -14,7 +14,13 @@ import {
   START_LOADING_PLANS,
   STOP_LOADING_PLANS,
   START_LOADING_CHATS,
-  STOP_LOADING_CHATS
+  STOP_LOADING_CHATS,
+  START_LOADING_CALENDAR,
+  STOP_LOADING_CALENDAR,
+  START_LOADING_UPCOMING,
+  STOP_LOADING_UPCOMING,
+  START_LOADING_FRIENDS_CALENDAR,
+  STOP_LOADING_FRIENDS_CALENDAR,
 } from "./actionTypes";
 
 export const uiStartLoading = () => {
@@ -112,5 +118,41 @@ export const startLoadingChats = () => {
 export const stopLoadingChats = () => {
   return {
     type: STOP_LOADING_CHATS
+  };
+};
+
+export const startLoadingCalendar = () => {
+  return {
+    type: START_LOADING_CALENDAR
+  };
+};
+
+export const stopLoadingCalendar = () => {
+  return {
+    type: STOP_LOADING_CALENDAR
+  };
+};
+
+export const startLoadingUpcoming = () => {
+  return {
+    type: START_LOADING_UPCOMING
+  };
+};
+
+export const stopLoadingUpcoming = () => {
+  return {
+    type: STOP_LOADING_UPCOMING
+  };
+};
+
+export const startLoadingFriendsCalendar = () => {
+  return {
+    type: START_LOADING_FRIENDS_CALENDAR
+  };
+};
+
+export const stopLoadingFriendsCalendar = () => {
+  return {
+    type: STOP_LOADING_FRIENDS_CALENDAR
   };
 };

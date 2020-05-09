@@ -82,9 +82,9 @@ class ActiveFriendsScreen extends Component {
   };
 
   componentDidMount() {
-    this.props.onLoadActiveFriends();
-    this.props.onLoadActivePlans();
-    this.props.onLoadActiveGroups();
+    // this.props.onLoadActiveFriends();
+    // this.props.onLoadActivePlans();
+    // this.props.onLoadActiveGroups();
   }
 
   onClickFriend = (id, fullname, phone_number, ios) => {

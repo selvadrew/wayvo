@@ -3,6 +3,7 @@ package com.maintest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rntimezone.RNReactNativeTimezonePackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
