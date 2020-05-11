@@ -29,7 +29,6 @@ class Upcoming extends Component {
         super(props);
     }
     state = {
-        // remember to save the day in the state of booking calendar screen, so its the same when selected option is sent to api
     };
 
     componentDidMount() {
@@ -45,35 +44,46 @@ class Upcoming extends Component {
         statusBarColor: colors.darkBlue
     };
 
-    scheduleInvitation = (invitation_id, user_id, ) => {
-        this.props.onGetCalendar(false, invitation_id, user_id)
+    scheduleInvitation = (invitation_id, user_id) => {
+        this.props.onGetCalendar(false, invitation_id, user_id) // loads current user calendar before getting friends calendar
+        this.props.navigator.push({
+            screen: "awesome-places.FriendsCalendar",
+            backButtonTitle: "",
+            title: "Andrew's Availability",
+            passProps: {
+                invitation_id: invitation_id,
+                user_id: user_id
+            }
+        });
     }
 
     render() {
         return (
-            <View style={{ flex: 1 }}>
-                <StatusBar
-                    barStyle="light-content"
-                    backgroundColor={colors.darkBlue}
-                />
+            <ScrollView style={styles.scrollContainer}>
                 <SafeAreaView style={{ backgroundColor: colors.darkBlue, flex: 1 }}>
-                    <View style={{ flexDirection: 'row', backgroundColor: colors.darkBlue }}>
-                        <Text style={styles.header}>
-                            {/* Update your availability so friends can schedule a call with you. Select as many time slots as you want. */}
-                            Upcoming calls
-                        </Text>
-                    </View>
-
-                    <View style={styles.whiteView}>
-                        <WaitingForMe
-                            invitations={this.props.waitingForMe} //sending to friendslist component 
-                            onItemSelected={this.scheduleInvitation} //receiving from friendslist component 
+                    <View style={{ flex: 1 }}>
+                        <StatusBar
+                            barStyle="light-content"
+                            backgroundColor={colors.darkBlue}
                         />
-                    </View>
 
+                        <View style={{ flexDirection: 'row', backgroundColor: colors.darkBlue }}>
+                            <Text style={styles.header}>
+                                {/* Update your availability so friends can schedule a call with you. Select as many time slots as you want. */}
+                                Upcoming calls
+                            </Text>
+                        </View>
+
+                        <View style={styles.whiteView}>
+                            <WaitingForMe
+                                invitations={this.props.waitingForMe} //sending to friendslist component 
+                                onItemSelected={this.scheduleInvitation} //receiving from friendslist component 
+                            />
+                        </View>
+
+                    </View >
                 </SafeAreaView>
-
-            </View >
+            </ScrollView>
         );
     }
 }
@@ -98,6 +108,11 @@ const mapDispatchToProps = dispatch => {
 };
 
 const styles = StyleSheet.create({
+    scrollContainer: {
+        //padding: 20,
+        backgroundColor: colors.darkBlue,
+        width: "100%"
+    },
     container: {
         backgroundColor: "red",
         flex: 1

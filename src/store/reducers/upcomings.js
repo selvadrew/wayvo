@@ -1,5 +1,5 @@
 import {
-    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR
+    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -29,6 +29,11 @@ const reducer = (state = initialState, action) => {
                     todayOptions: action.todayOptions,
                     tomorrowOptions: action.tomorrowOptions
                 }
+            };
+        case CLEAR_FRIENDS_CALENDAR:
+            return {
+                ...state,
+                friendsCalendar: null
             };
         default:
             return state;

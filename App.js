@@ -39,6 +39,7 @@ import InviteFriends from "./src/screens/Plans/InviteFriends";
 import Contacts from "./src/screens/PhoneScreen/Contacts";
 import Calendar from "./src/screens/Calendar/Calendar";
 import Upcoming from "./src/screens/Upcoming/Upcoming";
+import FriendsCalendar from "./src/screens/Upcoming/FriendsCalendar"
 
 
 import { YellowBox } from 'react-native';
@@ -295,6 +296,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.Upcoming",
   () => Upcoming,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.FriendsCalendar",
+  () => FriendsCalendar,
   store,
   Provider
 );

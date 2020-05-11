@@ -43,7 +43,6 @@ class Calendar extends Component {
     };
 
     // save in async each time and then reload from async with error message if theres an error in backend 
-    // 
 
 
     timeSelectedToday = id => {

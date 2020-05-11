@@ -5,7 +5,7 @@ import { Alert } from "react-native";
 import authTab from "../../screens/MainTabs/authTab";
 
 import {
-    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR
+    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR
 } from "./actionTypes";
 
 import {
@@ -14,7 +14,6 @@ import {
     startLoadingFriendsCalendar,
     stopLoadingFriendsCalendar
 } from "../../store/actions/ui";
-import { getCalendar } from "./calendars";
 
 // updates all 4 calendar tings 
 export const getUpcomingData = (day, id, time, status) => {
@@ -143,4 +142,9 @@ export const loadFriendsCalendar = (invitation_id, updated_at, todayOptions, tom
 };
 
 // remember to save the day in the state of booking calendar screen, so its the same when selected option is sent to api 
-// need to clear friendsCalendar reducer when pressing back 
+
+export const clearFriendsCalendar = () => {
+    return {
+        type: CLEAR_FRIENDS_CALENDAR,
+    }
+}
