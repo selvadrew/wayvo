@@ -37,6 +37,7 @@ import PlanSendInvite from "./src/screens/Plans/PlanSendInvite";
 import PlanChat from "./src/screens/Plans/PlanChat";
 import InviteFriends from "./src/screens/Plans/InviteFriends";
 import Contacts from "./src/screens/PhoneScreen/Contacts";
+import Invite from "./src/screens/PhoneScreen/Invite";
 import Calendar from "./src/screens/Calendar/Calendar";
 import Upcoming from "./src/screens/Upcoming/Upcoming";
 import FriendsCalendar from "./src/screens/Upcoming/FriendsCalendar"
@@ -282,6 +283,13 @@ Navigation.registerComponent(
 Navigation.registerComponent(
   "awesome-places.Contacts",
   () => Contacts,
+  store,
+  Provider
+);
+
+Navigation.registerComponent(
+  "awesome-places.Invite",
+  () => Invite,
   store,
   Provider
 );

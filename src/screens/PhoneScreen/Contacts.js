@@ -30,8 +30,6 @@ import ContactsList from "../../components/ContactsList/ContactsList";
 import { Touchable } from "../../components/Touchable/Touchable";
 
 
-
-
 class Contacts extends Component {
 
     componentWillUnmount() {
@@ -182,9 +180,8 @@ class Contacts extends Component {
                 <ScrollView >
                     <View style={styles.mainContent}>
                         <Text style={styles.header}>
-                            Your selected friends will be notified and given
-                            access to your calendar so they can schedule a call with you.
-                            We'll let them know you want to catch up!
+                            Invite friends to view your calendar and schedule a call with you.
+                            We'll send them a notification or sms to let them know you want to catch up!
                         </Text>
                         {stateOfContacts}
                     </View>

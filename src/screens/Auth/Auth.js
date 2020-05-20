@@ -13,7 +13,8 @@ import {
   TouchableWithoutFeedback,
   ActivityIndicator,
   TextInput,
-  Keyboard
+  Keyboard,
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
 import GotIt from "../../components/UI/GotItButton";
@@ -26,6 +27,7 @@ import SplashScreen from "react-native-splash-screen";
 
 import colors from "../../utils/styling";
 import { schoolEmailSignup, signUpError } from "../../store/actions/users";
+
 
 
 class AuthScreen extends Component {
@@ -343,7 +345,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(loginWithFacebook(facebookAccessToken)),
   onAutoSignIn: () => dispatch(authAutoSignIn()),
   onAddPhoneNumber: phoneNumber => dispatch(schoolEmailSignup(phoneNumber)),
-  // onAddPhoneNumber: phoneNumber => dispatch(savePhoneNumber(phoneNumber))
 });
 
 export default connect(

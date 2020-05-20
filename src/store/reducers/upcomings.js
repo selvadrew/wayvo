@@ -1,5 +1,5 @@
 import {
-    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR
+    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR, SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -7,7 +7,8 @@ const initialState = {
     upcomingBookedCalls: null,
     waitingForFriends: null,
     waitingForTextedFriends: null,
-    friendsCalendar: null
+    friendsCalendar: null,
+    booked: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,8 +34,14 @@ const reducer = (state = initialState, action) => {
         case CLEAR_FRIENDS_CALENDAR:
             return {
                 ...state,
-                friendsCalendar: null
+                friendsCalendar: null,
+                booked: false
             };
+        case SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR:
+            return {
+                ...state,
+                booked: true
+            }
         default:
             return state;
     }

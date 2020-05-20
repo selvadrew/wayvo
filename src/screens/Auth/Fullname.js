@@ -7,16 +7,34 @@ import {
   Button,
   ActivityIndicator,
   Keyboard,
-  Platform
+  Platform,
+  AsyncStorage
 } from "react-native";
 import TextBox from "../../components/TextBox/TextBox";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 import GotIt from "../../components/UI/GotItButton";
 
-import { saveFullname } from "../../store/actions/users";
+import { saveFullname, saveTimeZone } from "../../store/actions/users";
+import * as RNLocalize from "react-native-localize";
 
 class Fullname extends Component {
+
+  componentDidMount() {
+    //check if users timezone is saved in async
+    // if not saved, get it and save in db 
+    // RNLocalize.getTimeZone()
+    AsyncStorage.getItem("timezone").then(timeZone => {
+      currentTimeZone = RNLocalize.getTimeZone()
+      timeZoneOffset = new Date().getTimezoneOffset() / -1
+      if (timeZone !== currentTimeZone) {
+        this.props.onSaveTimeZone(currentTimeZone, timeZoneOffset)
+        AsyncStorage.setItem("timezone", currentTimeZone);
+      }
+    })
+  }
+
+
   static navigatorStyle = {
     navBarHidden: true
   };
@@ -55,7 +73,7 @@ class Fullname extends Component {
     Keyboard.dismiss();
 
     this.props.onSaveName(
-      this.concatenateName(this.state.first, this.state.last)
+      this.concatenateName(this.state.first, this.state.last), this.state.first, this.state.last
     );
   };
 
@@ -205,7 +223,9 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onSaveName: fullname => dispatch(saveFullname(fullname))
+    onSaveName: (fullname, first, last) => dispatch(saveFullname(fullname, first, last)),
+    onSaveTimeZone: (timeZone, timeZoneOffset) => dispatch(saveTimeZone(timeZone, timeZoneOffset))
+
   };
 };
 

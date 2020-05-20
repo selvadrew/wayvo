@@ -4,17 +4,17 @@ import colors from "../../utils/styling";
 
 const startTabs = () => {
   Promise.all([
-    Icon.getImageSource("ios-people", 35),
-    Icon.getImageSource("md-hand", 35),
+    Icon.getImageSource("ios-list", 35),
+    Icon.getImageSource("md-add", 35),
     // Icon.getImageSource("ios-radio-button-on", 35),
-    Icon.getImageSource("ios-flash", 35),
+    Icon.getImageSource("ios-calendar", 35),
     Icon.getImageSource("ios-school", 35)
   ]).then(sources => {
     Navigation.startTabBasedApp({
       tabs: [
         {
-          screen: "awesome-places.PhoneScreen",
-          label: "Wave",
+          screen: "awesome-places.Invite",
+          label: "Invite",
           //title: "Phone",
           icon: sources[1]
         },
@@ -26,7 +26,7 @@ const startTabs = () => {
         },
         {
           screen: "awesome-places.Upcoming",
-          label: "Live",
+          label: "Upcoming",
           //title: "Active Friends",
           icon: sources[0]
         }

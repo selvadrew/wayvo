@@ -261,6 +261,8 @@ class PhoneScreen extends Component {
     this.props.getContactsFromStorage()
 
     //check if users timezone is saved in async
+    // this is run in auth tab too so we can load calendar accordingly on sign up 
+    // this is run here too in case user changes time zone when phone is opened up
     // if not saved, get it and save in db 
     // RNLocalize.getTimeZone()
     AsyncStorage.getItem("timezone").then(timeZone => {

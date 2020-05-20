@@ -21,7 +21,7 @@ import { setCalendarWithData, allTimes } from "../../utils";
 import { showFriendsCalendar } from "./upcomings";
 
 // alert is true or false for if there needs to be a "Your calendar is now up to date"
-export const getCalendar = (updateAlert, invitation_id, user_id) => {
+export const getCalendar = (updateAlert, invitation_id) => {
     return dispatch => {
         if (invitation_id) {
             dispatch(startLoadingFriendsCalendar())
@@ -82,7 +82,7 @@ export const getCalendar = (updateAlert, invitation_id, user_id) => {
                     }
 
                     if (invitation_id) {
-                        dispatch(showFriendsCalendar(invitation_id, user_id, setCalendarWithData(json.todays_schedule, arrayPosition),
+                        dispatch(showFriendsCalendar(invitation_id, setCalendarWithData(json.todays_schedule, arrayPosition),
                             setCalendarWithData(json.tomorrows_schedule, 0)))
                     }
 
@@ -144,7 +144,6 @@ export const timeSelected = (day, id, time, status) => {
                     if (json.get_calendar) {
                         dispatch(getCalendar(true))
                     }
-
                 }
             })
             .catch(e => {

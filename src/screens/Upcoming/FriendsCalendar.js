@@ -19,7 +19,7 @@ import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import colors from "../../utils/styling";
-import { clearFriendsCalendar } from "../../store/actions/upcomings";
+import { clearFriendsCalendar, bookFriendsCalendar } from "../../store/actions/upcomings";
 import FriendsCalendarList from "../../components/FriendsCalendar/FriendsCalendarList";
 import { getCalendar } from "../../store/actions/calendars";
 
@@ -38,7 +38,6 @@ class FriendsCalendar extends Component {
     componentDidMount() {
         this.setState({
             day: new Date().getDate()
-            // check that its not more than 15 minutes too 
         })
     }
 
@@ -54,41 +53,83 @@ class FriendsCalendar extends Component {
 
     timeSelectedToday = time => {
         if (this.state.day === new Date().getDate()) {
-            alert(time)
+            this.props.onBookFriendsCalendar(1, time, this.props.invitation_id, this.props.friendsCalendar.updated_at)
         } else {
             // if todays date is not the same as when this screen was loaded 
-            this.props.onGetCalendar(false, this.props.invitation_id, this.props.user_id)
+            this.props.onGetCalendar(false, this.props.invitation_id)
+            Alert.alert("Please select again", "The previous calendar was out of date")
+        }
+    }
+
+    timeSelectedTomorrow = time => {
+        if (this.state.day === new Date().getDate()) {
+            // (day, time, invitation_id, updated_at)
+            this.props.onBookFriendsCalendar(2, time, this.props.invitation_id, this.props.friendsCalendar.updated_at)
+        } else {
+            // if todays date is not the same as when this screen was loaded 
+            this.props.onGetCalendar(false, this.props.invitation_id)
             Alert.alert("Please select again", "The previous calendar was out of date")
         }
     }
 
     render() {
+        calendarDates = null
         if (this.props.isLoadingFriendsCalendar) {
             calendarContent = <ActivityIndicator color="#444" style={styles.spinner} />
+        } else if (this.props.booked) {
+            calendarContent = (
+                <View>
+                    <Text>Booked</Text>
+                </View>
+            )
+        } else if (this.props.friendsCalendar.todayOptions.length + this.props.friendsCalendar.tomorrowOptions.length === 0) {
+            calendarContent = (
+                <View>
+                    <Text>All times taken</Text>
+                </View>
+            )
         } else {
             calendarContent = (
-                <View style={styles.addWrapperTimes}>
-                    <View style={styles.daysTimes}>
-                        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                            <FriendsCalendarList
-                                day={this.props.friendsCalendar.todayOptions} //sending to friendslist component 
-                                onItemSelected={this.timeSelectedToday} //receiving from friendslist component 
-                            />
-                        </ScrollView>
-                    </View>
-
-                    <View style={styles.daysTimes}>
-                        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-                            <FriendsCalendarList
-                                day={this.props.friendsCalendar.tomorrowOptions} //sending to friendslist component 
-                                onItemSelected={this.timeSelectedTomorrow} //receiving from friendslist component 
-                            />
-                        </ScrollView>
+                <View style={styles.topRow}>
+                    <View style={styles.addWrapper}>
+                        <View style={styles.days}>
+                            <Text style={styles.daysText}>
+                                Today
+                            </Text>
+                        </View>
+                        <View style={styles.days}>
+                            <Text style={styles.daysText}>
+                                Tomorrow
+                            </Text>
+                        </View>
                     </View>
                 </View>
-            );
+            )
+            calendarDates = (
+                <View style={styles.scrollView}>
+                    <View style={styles.addWrapperTimes}>
+                        <View style={styles.daysTimes}>
+                            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                                <FriendsCalendarList
+                                    day={this.props.friendsCalendar.todayOptions} //sending to friendslist component 
+                                    onItemSelected={this.timeSelectedToday} //receiving from friendslist component 
+                                />
+                            </ScrollView>
+                        </View>
 
+                        <View style={styles.daysTimes}>
+                            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+                                <FriendsCalendarList
+                                    day={this.props.friendsCalendar.tomorrowOptions} //sending to friendslist component 
+                                    onItemSelected={this.timeSelectedTomorrow} //receiving from friendslist component 
+                                />
+                            </ScrollView>
+                        </View>
+                    </View>
+                </View>
+            )
         }
+
         return (
             <View style={styles.container}>
                 <StatusBar
@@ -96,26 +137,8 @@ class FriendsCalendar extends Component {
                     backgroundColor={colors.blueColor}
                 />
 
-
-                <View style={styles.topRow}>
-                    <View style={styles.addWrapper}>
-                        <View style={styles.days}>
-                            <Text style={styles.daysText}>
-                                Today
-                                </Text>
-                        </View>
-                        <View style={styles.days}>
-                            <Text style={styles.daysText}>
-                                Tomorrow
-                                </Text>
-                        </View>
-                    </View>
-                </View>
-
-                <View style={styles.scrollView}>
-                    {calendarContent}
-                </View>
-
+                {calendarContent}
+                {calendarDates}
 
             </View>
         );
@@ -124,7 +147,6 @@ class FriendsCalendar extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "red",
         flex: 1
     },
     callStatusWrapper: {
@@ -210,6 +232,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         friendsCalendar: state.upcoming.friendsCalendar,
+        booked: state.upcoming.booked,
         isLoadingFriendsCalendar: state.ui.isLoadingFriendsCalendar
     };
 };
@@ -217,7 +240,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onClearFriendsCalendar: () => dispatch(clearFriendsCalendar()),
-        onGetCalendar: (updateAlert, invitation_id, user_id) => dispatch(getCalendar(updateAlert, invitation_id, user_id))
+        onGetCalendar: (updateAlert, invitation_id) => dispatch(getCalendar(updateAlert, invitation_id)),
+        onBookFriendsCalendar: (day, time, invitation_id, updated_at) => dispatch(bookFriendsCalendar(day, time, invitation_id, updated_at))
     };
 };
 

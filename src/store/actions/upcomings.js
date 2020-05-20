@@ -5,7 +5,7 @@ import { Alert } from "react-native";
 import authTab from "../../screens/MainTabs/authTab";
 
 import {
-    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR
+    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR, SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR
 } from "./actionTypes";
 
 import {
@@ -14,6 +14,9 @@ import {
     startLoadingFriendsCalendar,
     stopLoadingFriendsCalendar
 } from "../../store/actions/ui";
+import { getCalendar } from "./calendars";
+
+
 
 // updates all 4 calendar tings 
 export const getUpcomingData = (day, id, time, status) => {
@@ -74,7 +77,7 @@ export const updateUpcomingData = (waitingForMe, upcomingBookedCalls, waitingFor
 // this gets called when the user chooses to view the calendar of someone who invited them to catch up 
 // This is called from within the get calendar action because showfriendscalendar needs the most up to date current users calendar
 //  for example, the current "dont shows" may have changed by the time the user views the friends calendar so it needs to be updated first 
-export const showFriendsCalendar = (invitation_id, user_id, todaysSchedule, tomorrowsSchedule) => {
+export const showFriendsCalendar = (invitation_id, todaysSchedule, tomorrowsSchedule) => {
     return dispatch => {
         dispatch(startLoadingFriendsCalendar())
         let access_token;
@@ -91,8 +94,7 @@ export const showFriendsCalendar = (invitation_id, user_id, todaysSchedule, tomo
                     method: "POST",
                     body: JSON.stringify({
                         access_token: access_token,
-                        invitation_id: invitation_id,
-                        user_id: user_id
+                        invitation_id: invitation_id
                     }),
                     headers: { "content-type": "application/json" }
                 });
@@ -120,7 +122,6 @@ export const showFriendsCalendar = (invitation_id, user_id, todaysSchedule, tomo
                     dispatch(loadFriendsCalendar(invitation_id, json.updated_at, todayOptions, tomorrowOptions))
                     dispatch(stopLoadingFriendsCalendar())
                 } else {
-                    Alert.alert("Oops, we couldn't connect, please try again");
                     dispatch(stopLoadingFriendsCalendar())
                 }
             })
@@ -141,10 +142,65 @@ export const loadFriendsCalendar = (invitation_id, updated_at, todayOptions, tom
     };
 };
 
-// remember to save the day in the state of booking calendar screen, so its the same when selected option is sent to api 
 
 export const clearFriendsCalendar = () => {
     return {
         type: CLEAR_FRIENDS_CALENDAR,
+    }
+}
+
+
+export const bookFriendsCalendar = (day, time, invitation_id, updated_at) => {
+    return dispatch => {
+        dispatch(startLoadingFriendsCalendar())
+        let access_token;
+        dispatch(
+            authGetToken()
+        )
+            .catch(() => {
+                alert("Not authenticated");
+                dispatch(stopLoadingFriendsCalendar())
+            })
+            .then(token => {
+                access_token = token;
+                return fetch(`${HOST}/api/v1/book_friends_calendar`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        access_token: access_token,
+                        day: day,
+                        time: time,
+                        invitation_id: invitation_id,
+                        updated_at: updated_at
+                    }),
+                    headers: { "content-type": "application/json" }
+                });
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log(json)
+                if (json.is_success) {
+                    dispatch(successfullyBookedFriendsCalendar())
+                    dispatch(stopLoadingFriendsCalendar())
+                    dispatch(getUpcomingData())
+                } else {
+                    dispatch(stopLoadingFriendsCalendar())
+                    if (json.reload) {
+                        dispatch(getCalendar(false, invitation_id))
+                        Alert.alert("Please select again", "The previous calendar was out of date")
+                    }
+                }
+            })
+            .catch(e => {
+                Alert.alert("Oops, we couldn't connect, please try again");
+                console.log(e)
+                dispatch(stopLoadingFriendsCalendar())
+            });
+    };
+};
+
+
+export const successfullyBookedFriendsCalendar = () => {
+    return {
+        type: SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR,
     }
 }

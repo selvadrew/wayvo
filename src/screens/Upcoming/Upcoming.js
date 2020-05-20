@@ -45,7 +45,7 @@ class Upcoming extends Component {
     };
 
     scheduleInvitation = (invitation_id, user_id) => {
-        this.props.onGetCalendar(false, invitation_id, user_id) // loads current user calendar before getting friends calendar
+        this.props.onGetCalendar(false, invitation_id) // loads current user calendar before getting friends calendar
         this.props.navigator.push({
             screen: "awesome-places.FriendsCalendar",
             backButtonTitle: "",
@@ -95,15 +95,15 @@ const mapStateToProps = state => {
         waitingForFriends: state.upcoming.waitingForFriends,
         waitingForTextedFriends: state.upcoming.waitingForTextedFriends,
         todaysSchedule: state.calendar.todays_schedule,
-        tomorrowsSchedule: state.calendar.tomorrows_schedule
+        tomorrowsSchedule: state.calendar.tomorrows_schedule,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         onGetUpcomingData: () => dispatch(getUpcomingData()),
-        onShowFriendsCalendar: (invitation_id, user_id, todaysSchedule, tomorrowsSchedule) => dispatch(showFriendsCalendar(invitation_id, user_id, todaysSchedule, tomorrowsSchedule)),
-        onGetCalendar: (updateAlert, invitation_id, user_id) => dispatch(getCalendar(updateAlert, invitation_id, user_id))
+        onShowFriendsCalendar: (invitation_id, todaysSchedule, tomorrowsSchedule) => dispatch(showFriendsCalendar(invitation_id, todaysSchedule, tomorrowsSchedule)),
+        onGetCalendar: (updateAlert, invitation_id) => dispatch(getCalendar(updateAlert, invitation_id))
     };
 };
 

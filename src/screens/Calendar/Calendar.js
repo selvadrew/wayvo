@@ -106,7 +106,7 @@ class Calendar extends Component {
                     <View style={{ flexDirection: 'row', backgroundColor: colors.darkBlue }}>
                         <Text style={styles.header}>
                             {/* Update your availability so friends can schedule a call with you. Select as many time slots as you want. */}
-                            Set time aside for family and friends
+                            Set time aside for your friends
                         </Text>
                     </View>
 

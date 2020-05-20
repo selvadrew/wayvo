@@ -394,7 +394,7 @@ export const authAutoSignIn = () => {
   };
 };
 
-export const saveFullname = fullname => {
+export const saveFullname = (fullname, first, last) => {
   return dispatch => {
     dispatch(uiStartLoading());
     let access_token;
@@ -409,6 +409,8 @@ export const saveFullname = fullname => {
           method: "POST",
           body: JSON.stringify({
             fullname: fullname,
+            first_name: first,
+            last_name: last,
             access_token: access_token
           }),
           headers: { "content-type": "application/json" }
@@ -422,6 +424,8 @@ export const saveFullname = fullname => {
             usernameTab();
           }, 1000);
           AsyncStorage.setItem("pp:fullname", json.fullname);
+          AsyncStorage.setItem("pp:firstName", json.first_name);
+          AsyncStorage.setItem("pp:lastName", json.last_name);
         } else {
           dispatch(uiStopLoading());
           alert("Something went wrong. Please try again.");
