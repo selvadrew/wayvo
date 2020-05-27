@@ -41,11 +41,31 @@ export const getUpcomingData = (day, id, time, status) => {
             .then(response => response.json())
             .then(json => {
                 if (json.is_success) {
-                    // waiting_for_me
-                    // upcoming_booked_calls 
-                    // waiting_for_friends 
-                    // waiting_for_texted_friends 
-                    dispatch(updateUpcomingData(json.waiting_for_me, json.upcoming_booked_calls, json.waiting_for_friends, json.waiting_for_texted_friends))
+                    dispatch(getCalendar(false))
+                    today = new Date()
+                    dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+                    monthNames = ["January", "February", "March", "April", "May", "June",
+                        "July", "August", "September", "October", "November", "December"]
+
+                    day = dayNames[today.getDay()]
+                    month = monthNames[today.getMonth()]
+                    date = today.getDate()
+
+                    //https://stackoverflow.com/questions/13627308/add-st-nd-rd-and-th-ordinal-suffix-to-a-number/13627586
+                    s = ["th", "st", "nd", "rd"]
+                    v = date % 100
+                    dateWithSuffix = date + (s[(v - 20) % 10] || s[v] || s[0])
+
+                    display_date = `${day}, ${month} ${dateWithSuffix}`
+
+
+                    dispatch(updateUpcomingData(
+                        json.waiting_for_me,
+                        json.upcoming_booked_calls,
+                        json.waiting_for_friends,
+                        json.waiting_for_texted_friends,
+                        display_date
+                    ))
                     dispatch(stopLoadingUpcoming())
 
                 } else {
@@ -63,13 +83,14 @@ export const getUpcomingData = (day, id, time, status) => {
 
 
 
-export const updateUpcomingData = (waitingForMe, upcomingBookedCalls, waitingForFriends, waitingForTextedFriends) => {
+export const updateUpcomingData = (waitingForMe, upcomingBookedCalls, waitingForFriends, waitingForTextedFriends, display_date) => {
     return {
         type: STORE_UPCOMING_DATA,
         waitingForMe,
         upcomingBookedCalls,
         waitingForFriends,
-        waitingForTextedFriends
+        waitingForTextedFriends,
+        display_date
     };
 };
 
@@ -182,6 +203,7 @@ export const bookFriendsCalendar = (day, time, invitation_id, updated_at) => {
                     dispatch(successfullyBookedFriendsCalendar())
                     dispatch(stopLoadingFriendsCalendar())
                     dispatch(getUpcomingData())
+                    dispatch(getCalendar(false))
                 } else {
                     dispatch(stopLoadingFriendsCalendar())
                     if (json.reload) {

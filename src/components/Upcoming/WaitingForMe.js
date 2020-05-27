@@ -18,7 +18,7 @@ const waitingForMe = props => {
                 <WaitingForMeItem
                     fullname={info.item.fullname}
                     // status={info.item.status}
-                    onItemPressed={() => props.onItemSelected(info.item.invitation_id, info.item.user_id)}
+                    onItemPressed={() => props.onItemSelected(info.item.invitation_id, info.item.user_id, info.item.first_name)}
                 />
             )}
             keyExtractor={(item, index) => item.invitation_id.toString()}

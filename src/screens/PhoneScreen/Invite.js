@@ -35,7 +35,7 @@ import { outgoingCustomGroupCall } from "../../store/actions/customGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getActivePlans } from "../../store/actions/activePlans";
 import { getFriendRequests } from "../../store/actions/friends";
-import { getPhoneNumber, getUserInfo, getContactsFromStorage, saveTimeZone } from "../../store/actions/users";
+import { getPhoneNumber, getUserInfo, getContactsFromDB, saveTimeZone, saveContactByUsername, deleteContact } from "../../store/actions/users";
 import {
     getUserGroups,
     checkIfUserLiveGroups
@@ -52,7 +52,7 @@ import { AsyncStorage } from "react-native";
 import ModalGroupsList from "../../components/GroupsList/ModalGroupsList";
 import { getActiveGroups } from "../../store/actions/activeGroups";
 
-import { saveContacts, selectContact, sendInvite } from "../../store/actions/users";
+import { savePhoneContacts, selectContact, sendInvite } from "../../store/actions/users";
 import RNContacts from 'react-native-contacts';
 import { PermissionsAndroid } from "react-native";
 
@@ -60,9 +60,11 @@ import { normalizeContacts, sortContacts } from "../../utils/index";
 
 import ContactsList from "../../components/ContactsList/ContactsList";
 import { Touchable } from "../../components/Touchable/Touchable";
+import DialogInput from 'react-native-dialog-input';
 
 
 import * as RNLocalize from "react-native-localize";
+import { getCalendar } from "../../store/actions/calendars";
 
 
 class Invite extends Component {
@@ -263,7 +265,7 @@ class Invite extends Component {
 
         // alert(Dimensions.get("window").height);
 
-        this.props.getContactsFromStorage()
+        this.props.getContactsFromDB()
 
         //check if users timezone is saved in async
         // this is run in auth tab too so we can load calendar accordingly on sign up 
@@ -339,7 +341,8 @@ class Invite extends Component {
 
     state = {
         selectedContactIds: [],
-        timeZone: null
+        timeZone: null,
+        isDialogVisible: false
     };
 
     appSettings = () => {
@@ -361,6 +364,93 @@ class Invite extends Component {
         );
     };
 
+    //Alert.alert("Protip", "Press and hold on a contact to delete")
+    onAddPersonButton = () => {
+        if (Platform.OS === 'ios') {
+            Alert.alert(
+                "How would you like to add your friends?",
+                "",
+                [
+                    {
+                        text: "Sync from contact list",
+                        onPress: () => this.getContacts()
+                    },
+                    {
+                        text: "Add by username",
+                        onPress: () => {
+                            if (Platform.OS === "ios") {
+                                Alert.prompt(
+                                    "Enter your friend's Wayvo username",
+                                    "",
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            onPress: () => console.log("Cancel Pressed"),
+                                            // style: "cancel"
+                                        },
+                                        {
+                                            text: "Add",
+                                            onPress: textInput => this.props.onAddFriend(textInput)
+                                        }
+                                    ],
+                                )
+                            } else {
+                                this.setState({
+                                    isDialogVisible: true
+                                })
+                            }
+                        }
+                    },
+                    {
+                        text: "Cancel",
+                        onPress: () => console.log("cancelled"),
+                        style: "default"
+                    }
+                ],
+                { cancelable: true }
+            );
+        } else {
+            Alert.alert(
+                "How would you like to add your friends?",
+                "",
+                [
+                    {
+                        text: "Add by username",
+                        onPress: () => {
+                            if (Platform.OS === "ios") {
+                                Alert.prompt(
+                                    "Enter your friend's Wayvo username",
+                                    "",
+                                    [
+                                        {
+                                            text: "Cancel",
+                                            onPress: () => console.log("Cancel Pressed"),
+                                            // style: "cancel"
+                                        },
+                                        {
+                                            text: "Add",
+                                            onPress: textInput => this.props.onAddFriend(textInput)
+                                        }
+                                    ],
+                                )
+                            } else {
+                                this.setState({
+                                    isDialogVisible: true
+                                })
+                            }
+                        }
+                    },
+                    {
+                        text: "Sync from contact list",
+                        onPress: () => this.getContacts()
+                    }
+                ],
+                { cancelable: true }
+            );
+        }
+    }
+
+
     getContacts = () => {
         if (Platform.OS === "ios") {
             RNContacts.getAllWithoutPhotos((err, contacts) => {
@@ -371,7 +461,7 @@ class Invite extends Component {
                     // throw err;
                 } else {
                     console.log("contacts worked")
-                    this.props.onSaveContacts(sortContacts(normalizeContacts(contacts)))
+                    this.props.onSavePhoneContacts(contacts)
                 }
             })
         } else {
@@ -386,7 +476,7 @@ class Invite extends Component {
                             alert("permissionDenied")
                             // error
                         } else {
-                            this.props.onSaveContacts(sortContacts(normalizeContacts(contacts)))
+                            this.props.onSavePhoneContacts(contacts)
                         }
                     })
                 })
@@ -396,36 +486,82 @@ class Invite extends Component {
 
     contactSelectedHandler = id => {
         this.props.onSelectContact(id)
-        this.storeSelectedContactIds(id)
+        // this.storeSelectedContactIds(id)
     };
 
-    storeSelectedContactIds = id => {
-        const index = this.state.selectedContactIds.indexOf(id);
-        if (index > -1) {
-            this.state.selectedContactIds.splice(index, 1)
-        } else {
-            this.state.selectedContactIds.push(id)
-        }
+    // storeSelectedContactIds = id => {
+    //     const index = this.props.selectedContactIds.indexOf(id);
+    //     if (index > -1) {
+    //         this.props.selectedContactIds.splice(index, 1)
+    //     } else {
+    //         this.props.selectedContactIds.push(id)
+    //     }
+    // }
 
-        console.log(this.state.selectedContactIds)
+    onDeleteContact = (id, from_username) => {
+        this.props.removeContact(id, from_username)
     }
 
     sendInvitePressed = () => {
-        let arr = []
-        let newArr = []
-        this.props.syncedContacts.forEach(function (contact) {
-            if (contact.selected) {
-                fullname = contact.givenName + " " + contact.familyName
-                contact.phoneNumbers.forEach(function (details) {
-                    arr.push(details.number)
-                    newArr.push({ fullname: fullname, phoneNumber: details.number })
-                });
+        // this checks what to cut out from todays times before counting how many free times are selected 
+        arrayHour = 0
+        arrayMin = 0
+        timeNow = new Date()
+        currentHour = timeNow.getHours()
+        // if the time is between 0-7(12am to 7am) show all the times for today 
+        if (currentHour > 7) {
+            // gets the top of the hour in the array 
+            arrayHour = currentHour * 2 - 16
+            // if we need to bump one for being past 50/20 min 
+            if (timeNow.getMinutes() > 50) {
+                arrayMin = 2
+            } else if (timeNow.getMinutes() > 20) {
+                arrayMin = 1
             }
-        });
-        this.props.onSendInvite(newArr)
-        this.props.navigator.pop()
+        }
+        arrayPosition = arrayHour + arrayMin
 
-        console.log(newArr)
+        let newTodayArray = this.props.todaysSchedule.slice(arrayPosition)
+
+        count = 0
+        this.props.tomorrowsSchedule.forEach(element => {
+            if (element.status === "free") {
+                count += 1
+            }
+        })
+        newTodayArray.forEach(element => {
+            if (element.status === "free") {
+                count += 1
+            }
+        })
+
+        if (this.props.selectedContactIds.length > count) {
+            alert("pick more dude")
+            this.props.onGetCalendar(false)
+        } else {
+            // double check contact is selected - there is a bug with longpress in contactlistitem.js 
+            if (this.props.selectedContactIds.length > 0) {
+                // check contact is selected and create format to send to backend 
+                let arr = []
+                let newArr = []
+                this.props.syncedContacts.forEach(function (contact) {
+                    if (contact.selected) {
+                        fullname = contact.givenName + " " + contact.familyName
+                        contact.phoneNumbers.forEach(function (details) {
+                            arr.push(details.number)
+                            newArr.push({ fullname: fullname, phoneNumber: details.number })
+                        });
+                    }
+                });
+                this.props.onSendInvite(newArr)
+
+                console.log(this.props.selectedContactIds)
+            } else {
+                Alert.alert("", "Please select at least one friend to send an invite to")
+            }
+
+        }
+
         // {fullname: "Anna Haro", phoneNumber: "555-522-8243"}
         // need to change SendNotificationToCatchUpJob in api 
     }
@@ -436,52 +572,87 @@ class Invite extends Component {
         let stateOfContacts = null;
         let sendInviteButton = null
 
-        if (this.props.syncedContacts === null) {
-            if (this.props.isLoading) {
-                stateOfContacts = <ActivityIndicator />;
-            } else {
+        if (this.props.isLoadingFriends) {
+            stateOfContacts = <ActivityIndicator />;
+        } else {
+            if (this.props.syncedContacts.length === 0) {
                 stateOfContacts = <Button
                     onPress={() => this.getContacts()}
                     title="Sync Contacts"
                 />
+            } else {
+                stateOfContacts = (
+                    <View style={this.props.selectedContactIds.length > 0 ? styles.setMargin : null}>
+                        <ContactsList
+                            contacts={this.props.syncedContacts} //sending to friendslist component 
+                            onItemSelected={this.contactSelectedHandler} //receiving from friendslist component 
+                            onDeleteContactSelected={this.onDeleteContact}
+                        />
+                    </View>
+                )
             }
-        } else {
-            stateOfContacts = (
-                <View style={this.state.selectedContactIds.length > 0 ? styles.setMargin : null}>
-                    <ContactsList
-                        contacts={this.props.syncedContacts} //sending to friendslist component 
-                        onItemSelected={this.contactSelectedHandler} //receiving from friendslist component 
-                    />
-                </View>
-            )
         }
 
-        if (this.state.selectedContactIds.length > 0) {
-            sendInviteButton = (
-                <Touchable onPress={() => this.sendInvitePressed()}>
+
+        if (this.props.selectedContactIds.length > 0) {
+            if (this.props.isLoading) {
+                sendInviteButton = (
                     <View style={styles.overlay}>
-                        <Text style={styles.sendInviteText}>SEND INVITE TO CATCH UP</Text>
+                        <Text style={styles.sendInviteText}>SENDING...</Text>
                     </View>
-                </Touchable>
-            )
+                )
+            } else {
+                sendInviteButton = (
+                    <Touchable onPress={() => this.sendInvitePressed()}>
+                        <View style={styles.overlay}>
+                            <Text style={styles.sendInviteText}>SEND INVITE TO CATCH UP</Text>
+                        </View>
+                    </Touchable>
+                )
+            }
         }
 
         return (
-            <ScrollView
+            <View
                 contentContainerStyle={{ flexGrow: 1 }}
                 style={styles.container}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={this.props.isLoading}
-                        onRefresh={() => {
-                            // this.props.getLastCall();
-                            // this.props.checkIfUserLiveGroups();
-                        }}
-                    />
-                }
+            // refreshControl={
+            //     <RefreshControl
+            //         refreshing={this.props.isLoading}
+            //         onRefresh={() => {
+            //             // this.props.getLastCall();
+            //             // this.props.checkIfUserLiveGroups();
+            //         }}
+            //     />
+            // }
             >
-                <StatusBar barStyle="light-content" backgroundColor={colors.darkBlue} />
-                <SafeAreaView style={{ flex: 1, backgroundColor: colors.darkBlue }}>
+                <StatusBar barStyle="light-content" backgroundColor={colors.blueColor} />
+                <SafeAreaView style={{ flex: 1, backgroundColor: colors.blueColor }}>
+
+                    <DialogInput isDialogVisible={this.state.isDialogVisible}
+                        title={"Enter your friend's Wayvo username"}
+                        // message={""}
+                        hintInput={""}
+                        submitInput={inputText => {
+                            this.props.onAddFriend(inputText)
+                            this.setState({
+                                isDialogVisible: false
+                            })
+                        }}
+                        closeDialog={() => {
+                            this.setState({
+                                isDialogVisible: false
+                            })
+                        }}
+                        textInputProps={{ autoCorrect: false, autoCapitalize: false }}
+                        dialogStyle={{
+                            opacity: 1,
+                            // backgroundColor: "red"
+                        }}
+                    >
+                    </DialogInput>
+
+
                     <View style={styles.navBarWrapper}>
                         <View style={styles.navBarContent}>
                             <View style={styles.usernameView}>
@@ -504,7 +675,7 @@ class Invite extends Component {
                             <View style={styles.infoButton}>
                                 <TouchableWithoutFeedback
                                     style={styles.usernameButton}
-                                    onPress={() => this.getContacts()}
+                                    onPress={() => this.onAddPersonButton()}
                                 >
                                     <View style={{ paddingLeft: 15, padding: 10 }}>
                                         <Icon
@@ -512,7 +683,7 @@ class Invite extends Component {
                                             name={
                                                 Platform.OS === "ios"
                                                     ? "md-person-add"
-                                                    : "md-information-circle-outline"
+                                                    : "md-person-add"
                                             }
                                             color="#f5f5f5"
                                         //color={colors.yellowColor}
@@ -527,7 +698,7 @@ class Invite extends Component {
                         <View style={styles.mainContent}>
                             <Text style={styles.header}>
                                 Invite friends to view your calendar and schedule a call.
-                                We'll send them a notification or sms to let them know you want to catch up!
+                                Wayvo will send them a notification or sms to let them know you want to catch up!
                                 {/* with a link to your calendar */}
                             </Text>
                             {stateOfContacts}
@@ -537,7 +708,7 @@ class Invite extends Component {
 
                     {sendInviteButton}
                 </SafeAreaView>
-            </ScrollView>
+            </View>
         );
     }
 }
@@ -545,7 +716,8 @@ class Invite extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#0088CA"
+        // backgroundColor: "#0088CA"
+        backgroundColor: "#fff"
     },
     // begin styling from old contacts 
     mainContent: {
@@ -567,13 +739,13 @@ const styles = StyleSheet.create({
         width: "100%",
         alignItems: "center",
         padding: 10,
-        backgroundColor: colors.orange
+        backgroundColor: colors.greenColor
     },
     setMargin: {
         marginBottom: 50
     },
     sendInviteText: {
-        color: "#444",
+        color: "#fff",
         fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
         fontWeight: "600",
         fontFamily: Platform.OS === "android" ? "Roboto" : null
@@ -718,7 +890,7 @@ const styles = StyleSheet.create({
     },
     navBarWrapper: {
         height: 70,
-        backgroundColor: colors.darkBlue
+        backgroundColor: colors.blueColor
     },
     navBarContent: {
         flex: 1,
@@ -738,7 +910,7 @@ const styles = StyleSheet.create({
     container2: {
         flex: 1,
         paddingBottom: 10,
-        backgroundColor: "#F0F1F5"
+        backgroundColor: "#Fff"
     },
     hello: {
         alignItems: "center",
@@ -1025,7 +1197,11 @@ const mapStateToProps = state => {
         can_say_hello_groups: state.groups.can_say_hello_groups,
 
         syncedContacts: state.users.contacts,
-        isLoading: state.ui.isLoading
+        isLoading: state.ui.isLoading,
+        isLoadingFriends: state.ui.isLoadingFriends,
+        todaysSchedule: state.calendar.todays_schedule,
+        tomorrowsSchedule: state.calendar.tomorrows_schedule,
+        selectedContactIds: state.users.selectedContactIds
     };
 };
 
@@ -1049,11 +1225,13 @@ const mapDispatchToProps = dispatch => {
             dispatch(setGroupForPlan(id, value, type)),
         onSaveTimeZone: (timeZone, timeZoneOffset) => dispatch(saveTimeZone(timeZone, timeZoneOffset)),
 
-        onSaveContacts: contacts => dispatch(saveContacts(contacts)),
+        onSavePhoneContacts: contacts => dispatch(savePhoneContacts(contacts)),
         onSelectContact: contact => dispatch(selectContact(contact)),
-        getContactsFromStorage: () => dispatch(getContactsFromStorage()),
-        onSendInvite: nameAndNumber => dispatch(sendInvite(nameAndNumber))
-
+        getContactsFromDB: () => dispatch(getContactsFromDB()),
+        onSendInvite: nameAndNumber => dispatch(sendInvite(nameAndNumber)),
+        onAddFriend: username => dispatch(saveContactByUsername(username)),
+        removeContact: (id, from_username) => dispatch(deleteContact(id, from_username)),
+        onGetCalendar: updateAlert => dispatch(getCalendar(updateAlert)),
     };
 };
 

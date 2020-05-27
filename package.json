@@ -15,6 +15,7 @@
     "react-native-contacts": "4.0.3",
     "react-native-countdown-component": "^2.1.0",
     "react-native-device-info": "^4.0.1",
+    "react-native-dialog-input": "^1.0.7",
     "react-native-dropdownalert": "^3.7.0",
     "react-native-easy-toast": "^1.1.0",
     "react-native-fbsdk": "^0.8.0",

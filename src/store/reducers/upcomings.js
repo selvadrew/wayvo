@@ -3,12 +3,13 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-    waitingForMe: null,
-    upcomingBookedCalls: null,
-    waitingForFriends: null,
-    waitingForTextedFriends: null,
+    waitingForMe: [],
+    upcomingBookedCalls: [],
+    waitingForFriends: [],
+    waitingForTextedFriends: [],
     friendsCalendar: null,
-    booked: false
+    booked: false,
+    date: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +20,8 @@ const reducer = (state = initialState, action) => {
                 waitingForMe: action.waitingForMe,
                 upcomingBookedCalls: action.upcomingBookedCalls,
                 waitingForFriends: action.waitingForFriends,
-                waitingForTextedFriends: action.waitingForTextedFriends
+                waitingForTextedFriends: action.waitingForTextedFriends,
+                date: action.display_date
             };
         case STORE_FRIENDS_CALENDAR:
             return {

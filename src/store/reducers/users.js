@@ -6,7 +6,8 @@ import {
   LOGIN_ERROR,
   SUBMITTED,
   STORE_CONTACTS,
-  SELECT_CONTACT
+  SELECT_CONTACT,
+  CLEAR_SELECTED_CONTACTS
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -26,7 +27,8 @@ const initialState = {
   submitted: null,
   user_id: null,
   nextScreen: null,
-  contacts: null
+  contacts: [],
+  selectedContactIds: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -80,20 +82,32 @@ const reducer = (state = initialState, action) => {
     case STORE_CONTACTS:
       return {
         ...state,
-        contacts: action.contacts
+        contacts: action.contacts,
+        selectedContactIds: []
       };
     case SELECT_CONTACT:
+      const index = state.selectedContactIds.indexOf(action.contactId)
+      if (index > -1) {
+        state.selectedContactIds.splice(index, 1)
+      } else {
+        state.selectedContactIds.push(action.contactId)
+      }
       return {
         ...state,
         contacts: state.contacts.map(
           contact =>
-            contact.contactId === action.contactId
-              ? // transform the one with a matching id
-              { ...contact, selected: !contact.selected }
-              : // otherwise return original friend
-              contact
+            contact.contactId === action.contactId ? { ...contact, selected: !contact.selected } : contact
         )
       };
+    case CLEAR_SELECTED_CONTACTS:
+      return {
+        ...state,
+        contacts: state.contacts.map(
+          contact =>
+            contact.selected === true ? { ...contact, selected: false } : contact
+        ),
+        selectedContactIds: []
+      }
     default:
       return state;
   }

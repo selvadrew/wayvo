@@ -46,15 +46,15 @@ export const addFriend = username => {
       .then(json => {
         if (json.is_success) {
           //Alert.alert(`${json.fullname} is now a friend.`);
-          dispatch(
-            insertFriend(
-              json.id,
-              json.fullname,
-              json.username,
-              json.phone_number
-            )
-          );
-          dispatch(getFriends());
+          // dispatch(
+          //   insertFriend(
+          //     json.id,
+          //     json.fullname,
+          //     json.username,
+          //     json.phone_number
+          //   )
+          // );
+          // dispatch(getFriends());
           // temporary!!!!!!!
           dispatch(stopLoadingFriends());
           dispatch(stopAddingFriend());

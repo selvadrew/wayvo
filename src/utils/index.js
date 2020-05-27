@@ -68,7 +68,8 @@ export function normalizeContacts(contacts) {
       givenName: contact.givenName || "",
       familyName: contact.familyName || "",
       phoneNumbers: contact.phoneNumbers || null,
-      selected: false
+      selected: false,
+      from_username: contact.from_username || false
     };
   });
 }
@@ -79,6 +80,16 @@ export function sortContacts(normalizedContacts) {
       x.givenName.localeCompare(y.givenName)
     )
   })
+}
+
+
+export function firstNameOwnership(firstName) {
+  formattedName = firstName + "'s"
+  if (firstName.slice(-1) === "s") {
+    formattedName = firstName + "'"
+  }
+
+  return formattedName
 }
 
 export function setCalendarWithData(schedule, arrayPosition) {

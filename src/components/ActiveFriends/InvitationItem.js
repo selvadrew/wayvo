@@ -11,15 +11,14 @@ import {
 import colors from "../../utils/styling";
 import ActiveHelloButton from "../../components/UI/ActiveHelloButton";
 
-const activeList = props => (
+const invitationItem = props => (
   <View onPress={props.onItemPressed}>
     <View style={styles.listItem}>
       <Text style={styles.names}>
-        {props.firstName} {"\n"}
-        {props.time} {props.day}
+        {props.fullname}
       </Text>
       <View style={styles.placeButton}>
-        <ActiveHelloButton onPress={props.onItemPressed} buttonText="Start Call" />
+        <ActiveHelloButton onPress={props.onItemPressed} buttonText="Open" />
       </View>
     </View>
   </View>
@@ -50,4 +49,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default activeList;
+export default invitationItem;

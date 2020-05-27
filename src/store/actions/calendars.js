@@ -18,7 +18,7 @@ import {
     startLoadingFriendsCalendar
 } from "../../store/actions/ui";
 import { setCalendarWithData, allTimes } from "../../utils";
-import { showFriendsCalendar } from "./upcomings";
+import { showFriendsCalendar, getUpcomingData } from "./upcomings";
 
 // alert is true or false for if there needs to be a "Your calendar is now up to date"
 export const getCalendar = (updateAlert, invitation_id) => {
@@ -79,6 +79,7 @@ export const getCalendar = (updateAlert, invitation_id) => {
                     dispatch(stopLoadingCalendar());
                     if (updateAlert) {
                         Alert.alert("Your calendar is now up to date")
+                        dispatch(getUpcomingData())
                     }
 
                     if (invitation_id) {

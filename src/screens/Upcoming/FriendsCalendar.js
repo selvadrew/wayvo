@@ -43,17 +43,38 @@ class FriendsCalendar extends Component {
 
     componentWillUnmount() {
         this.props.onClearFriendsCalendar()
+        if (!this.props.booked && !(this.props.friendsCalendar.todayOptions.length + this.props.friendsCalendar.tomorrowOptions.length === 0)) {
+            Alert.alert("Can't pick a time?", `Don't worry, we'll notify you once ${this.props.first_name} calendar is updated`)
+        }
     }
 
     state = {
         // check that its the same date before sending request 
-        day: null
+        day: null,
+        showNahWorry: true
     };
 
 
     timeSelectedToday = time => {
         if (this.state.day === new Date().getDate()) {
-            this.props.onBookFriendsCalendar(1, time, this.props.invitation_id, this.props.friendsCalendar.updated_at)
+            Alert.alert(
+                `Catch up with ${this.props.first_name_singular} at ${time} today?`,
+                ``,
+                [
+                    {
+                        text: "Pick another time",
+                        onPress: () => { console.log("s") },
+                        style: "default"
+                    },
+                    {
+                        text: "Confirm",
+                        onPress: () => { this.props.onBookFriendsCalendar(1, time, this.props.invitation_id, this.props.friendsCalendar.updated_at) },
+                        style: "cancel"
+                    }
+                ],
+                { cancelable: true }
+            );
+
         } else {
             // if todays date is not the same as when this screen was loaded 
             this.props.onGetCalendar(false, this.props.invitation_id)
@@ -63,8 +84,26 @@ class FriendsCalendar extends Component {
 
     timeSelectedTomorrow = time => {
         if (this.state.day === new Date().getDate()) {
+            Alert.alert(
+                `Catch up with ${this.props.first_name_singular} at ${time} tomorrow?`,
+                ``,
+                [
+                    {
+                        text: "Pick another time",
+                        onPress: () => { console.log("s") },
+                        style: "default"
+                    },
+                    {
+                        text: "Confirm",
+                        onPress: () => { this.props.onBookFriendsCalendar(2, time, this.props.invitation_id, this.props.friendsCalendar.updated_at) },
+                        style: "cancel"
+                    }
+                ],
+                { cancelable: true }
+            );
+
             // (day, time, invitation_id, updated_at)
-            this.props.onBookFriendsCalendar(2, time, this.props.invitation_id, this.props.friendsCalendar.updated_at)
+            // this.props.onBookFriendsCalendar(2, time, this.props.invitation_id, this.props.friendsCalendar.updated_at)
         } else {
             // if todays date is not the same as when this screen was loaded 
             this.props.onGetCalendar(false, this.props.invitation_id)
@@ -79,13 +118,19 @@ class FriendsCalendar extends Component {
         } else if (this.props.booked) {
             calendarContent = (
                 <View>
-                    <Text>Booked</Text>
+                    <Text>
+                        Woohoo, you've been successfully added to {this.props.first_name} calendar.
+                        Wayvo will send you a reminder(notification) 15 minutes before your call.
+                    </Text>
                 </View>
             )
         } else if (this.props.friendsCalendar.todayOptions.length + this.props.friendsCalendar.tomorrowOptions.length === 0) {
             calendarContent = (
                 <View>
-                    <Text>All times taken</Text>
+                    <Text>
+                        Oh no, it looks like all of {this.props.first_name} availability is taken.
+                        Wayvo will notify you once {this.props.first_name} calendar is updated!
+                    </Text>
                 </View>
             )
         } else {

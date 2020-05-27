@@ -6,18 +6,21 @@ import startTabs from "../../screens/MainTabs/startMainTabs";
 import phoneNumberTab from "../../screens/MainTabs/phoneNumberTab";
 import authTab from "../../screens/MainTabs/authTab";
 import firebase from "react-native-firebase";
-import { uiStartLoading, uiStopLoading } from "../../store/actions/ui";
+import { uiStartLoading, uiStopLoading, startLoadingFriends, stopLoadingFriends } from "../../store/actions/ui";
 import {
   USERNAME_ERROR,
   STORE_PHONE_NUMBER,
   SIGNUP_ERROR,
   LOGIN_ERROR,
   STORE_CONTACTS,
-  SELECT_CONTACT
+  SELECT_CONTACT,
+  CLEAR_SELECTED_CONTACTS
 } from "./actionTypes";
 import { CLEAR_FRIENDS } from "../actions/friends";
 import { CLEAR_ACTIVE_FRIENDS } from "../actions/activeFriends";
 import { CLEAR_CONNECTED } from "../actions/actionTypes";
+import { normalizeContacts, sortContacts } from "../../utils";
+import { getUpcomingData } from "./upcomings";
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 
@@ -786,19 +789,62 @@ export const sendFeedback = description => {
   };
 };
 
-export const saveContacts = contacts => {
+export const getContactsFromDB = () => {
   return dispatch => {
-    dispatch(uiStartLoading());
+    dispatch(startLoadingFriends())
     let access_token;
     dispatch(authGetToken())
       .catch(() => {
         alert("No valid token found!");
-        dispatch(uiStopLoading());
+        dispatch(stopLoadingFriends())
       })
       .then(token => {
         access_token = token;
 
-        return fetch(`${HOST}/api/v1/save_contacts`, {
+        return fetch(`${HOST}/api/v1/get_contacts_from_db`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          contactList = sortContacts(normalizeContacts(json.merged_contacts))
+          dispatch(storeContacts(contactList))
+          AsyncStorage.setItem("contacts", JSON.stringify(contactList));
+          dispatch(stopLoadingFriends())
+        } else {
+          Alert.alert("Oops, we couldn't connect, please try again");
+          dispatch(stopLoadingFriends())
+          console.log("success failed");
+          dispatch(getContactsFromStorage())
+        }
+      })
+      .catch(e => {
+        dispatch(stopLoadingFriends())
+        Alert.alert("Oops, we couldn't connect, please try again");
+        console.log(e)
+        dispatch(getContactsFromStorage())
+      });
+  };
+};
+
+export const savePhoneContacts = contacts => {
+  return dispatch => {
+    dispatch(startLoadingFriends())
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(stopLoadingFriends())
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/save_phone_contacts`, {
           method: "POST",
           body: JSON.stringify({
             contacts: contacts,
@@ -810,23 +856,111 @@ export const saveContacts = contacts => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          dispatch(storeContacts(contacts))
-          AsyncStorage.setItem("contacts", JSON.stringify(contacts));
-          dispatch(uiStopLoading());
+          contactList = sortContacts(normalizeContacts(json.merged_contacts))
+          dispatch(storeContacts(contactList))
+          AsyncStorage.setItem("contacts", JSON.stringify(contactList));
+          dispatch(stopLoadingFriends())
+          Alert.alert("Protip", "Press and hold on a contact to remove them")
         } else {
           Alert.alert("Oops, we couldn't connect, please try again");
-          dispatch(uiStopLoading());
+          dispatch(stopLoadingFriends())
           console.log("success failed");
+          dispatch(getContactsFromStorage())
         }
       })
       .catch(e => {
-        console.log("success failed");
-        dispatch(uiStopLoading());
+        dispatch(stopLoadingFriends())
         Alert.alert("Oops, we couldn't connect, please try again");
+        console.log(e)
+        dispatch(getContactsFromStorage())
       });
   };
 };
 
+export const saveContactByUsername = username => {
+  return dispatch => {
+    dispatch(startLoadingFriends())
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(stopLoadingFriends())
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/save_username_contact`, {
+          method: "POST",
+          body: JSON.stringify({
+            username: username,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          contactList = sortContacts(normalizeContacts(json.merged_contacts))
+          dispatch(storeContacts(contactList))
+          AsyncStorage.setItem("contacts", JSON.stringify(contactList));
+          dispatch(stopLoadingFriends())
+        } else {
+          Alert.alert(json.error_message, "");
+          dispatch(stopLoadingFriends())
+          console.log("success failed")
+          dispatch(getContactsFromStorage())
+        }
+      })
+      .catch(e => {
+        dispatch(stopLoadingFriends())
+        Alert.alert("Oops, we couldn't connect, please try again");
+        dispatch(getContactsFromStorage())
+      });
+  };
+};
+
+export const deleteContact = (id, from_username) => {
+  return dispatch => {
+    dispatch(startLoadingFriends())
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+        dispatch(stopLoadingFriends())
+      })
+      .then(token => {
+        access_token = token;
+        return fetch(`${HOST}/api/v1/delete_contact`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token,
+            contactID: id,
+            from_username: from_username
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          contactList = sortContacts(normalizeContacts(json.merged_contacts))
+          dispatch(storeContacts(contactList))
+          AsyncStorage.setItem("contacts", JSON.stringify(contactList));
+          dispatch(stopLoadingFriends())
+        } else {
+          Alert.alert("Oops, we couldn't connect, please try again");
+          dispatch(stopLoadingFriends())
+          console.log("success failed")
+          dispatch(getContactsFromStorage())
+        }
+      })
+      .catch(e => {
+        dispatch(stopLoadingFriends())
+        Alert.alert("Oops, we couldn't connect, please try again");
+        dispatch(getContactsFromStorage())
+      });
+  };
+};
 
 export function storeContacts(contacts) {
   return {
@@ -838,16 +972,20 @@ export function storeContacts(contacts) {
 
 export const getContactsFromStorage = () => {
   return dispatch => {
+    dispatch(startLoadingFriends())
     return AsyncStorage.getItem("contacts")
       .then(response => {
         if (response !== "false") {
-          console.log("getting contacts")
+          console.log("getting contacts from async")
           dispatch(storeContacts(JSON.parse(response)))
+          dispatch(stopLoadingFriends())
         } else {
+          dispatch(stopLoadingFriends())
           console.log("contacts not synced yet")
         }
       })
       .catch(e => {
+        dispatch(stopLoadingFriends())
         console.log("error on contacts from storage");
       });
   };
@@ -923,8 +1061,10 @@ export const sendInvite = nameAndNumber => {
       .then(response => response.json())
       .then(json => {
         if (json.is_success) {
-          alert("success")
+          dispatch(getUpcomingData())
           dispatch(uiStopLoading());
+          dispatch(clearSelectedContacts())
+
         } else {
           Alert.alert("Oops, we couldn't connect, please try again");
           dispatch(uiStopLoading());
@@ -938,3 +1078,8 @@ export const sendInvite = nameAndNumber => {
   };
 }
 
+export function clearSelectedContacts() {
+  return {
+    type: CLEAR_SELECTED_CONTACTS
+  }
+}

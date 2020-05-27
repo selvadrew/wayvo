@@ -36,10 +36,10 @@ class Calendar extends Component {
 
     static navigatorStyle = {
         navBarNoBorder: true,
-        navBarBackgroundColor: colors.darkBlue,
+        navBarBackgroundColor: colors.blueColor,
         navBarButtonColor: "#ffffff",
         navBarHidden: true,
-        statusBarColor: colors.darkBlue
+        statusBarColor: colors.blueColor
     };
 
     // save in async each time and then reload from async with error message if theres an error in backend 
@@ -52,7 +52,7 @@ class Calendar extends Component {
         } else if (selected.status === "free") {
             this.props.onTimeSelected(1, id, selected.time, "busy", this.props.todaysSchedule, this.props.tomorrowsSchedule)
         } else {
-            Alert.alert("Scheduled Call")
+            Alert.alert("Time set aside for a friend", "Check the Upcoming tab for more info")
         }
     }
 
@@ -71,7 +71,7 @@ class Calendar extends Component {
         let calendarContent = null
         if (this.props.isLoadingCalendar) {
             calendarContent = <ActivityIndicator color="#444" style={styles.spinner} />
-        } else {
+        } else if (!this.props.isLoadingCalendar && this.props.todaysSchedule.length > 0) {
             calendarContent = (
                 <View style={styles.addWrapperTimes}>
                     <View style={styles.daysTimes}>
@@ -93,19 +93,18 @@ class Calendar extends Component {
                     </View>
                 </View>
             );
-
         }
 
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar
                     barStyle="light-content"
-                    backgroundColor={colors.darkBlue}
+                    backgroundColor={colors.blueColor}
                 />
-                <SafeAreaView style={{ backgroundColor: colors.darkBlue, flex: 1 }}>
-                    <View style={{ flexDirection: 'row', backgroundColor: colors.darkBlue }}>
+                <SafeAreaView style={{ backgroundColor: colors.blueColor, flex: 1 }}>
+                    <View style={{ flexDirection: 'row', backgroundColor: colors.blueColor }}>
                         <Text style={styles.header}>
-                            {/* Update your availability so friends can schedule a call with you. Select as many time slots as you want. */}
+                            {/* REMEMBER TO UPDATE UPCOMING.JS - IT USES SAME WORDS SO THE HEIGHT IS THE SAME FOR BLUE AREA  */}
                             Set time aside for your friends
                         </Text>
                     </View>
@@ -166,11 +165,11 @@ const styles = StyleSheet.create({
     navBarWrapper: {
         flex: 1,
         // minHeight: 150,
-        backgroundColor: colors.darkBlue
+        backgroundColor: colors.blueColor
     },
     navBarContent: {
         flex: 1,
-        backgroundColor: colors.darkBlue,
+        backgroundColor: colors.blueColor,
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
@@ -182,11 +181,11 @@ const styles = StyleSheet.create({
         color: "#fff",
         padding: 15,
         fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
-        // textAlign: "center",
+        textAlign: "center",
         fontWeight: "500",
         // textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
-        backgroundColor: colors.darkBlue
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        backgroundColor: colors.blueColor
     },
     topRow: {
         flexDirection: "row",

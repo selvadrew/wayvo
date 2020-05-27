@@ -21,6 +21,9 @@ const contactsList = props => {
                     onItemPressed={() => {
                         props.onItemSelected(info.item.contactId)
                     }}
+                    onDeleteContactPressed={() => {
+                        props.onDeleteContactSelected(info.item.contactId, info.item.from_username)
+                    }}
                 />
             )}
             keyExtractor={(item, index) => item.contactId}

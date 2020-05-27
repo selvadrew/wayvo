@@ -5,8 +5,8 @@ import {
 } from "../actions/actionTypes";
 
 const initialState = {
-    todays_schedule: {},
-    tomorrows_schedule: {}
+    todays_schedule: [],
+    tomorrows_schedule: []
 };
 
 const reducer = (state = initialState, action) => {

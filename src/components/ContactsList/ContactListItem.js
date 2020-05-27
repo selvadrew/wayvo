@@ -6,14 +6,38 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    Platform
+    Platform,
+    Alert
 } from "react-native";
 import colors from "../../utils/styling";
 
 const contactListItem = props => (
-    <TouchableOpacity onPress={() => {
-        props.onItemPressed()
-    }}>
+    <TouchableOpacity
+        onPress={() => { props.onItemPressed() }}
+        delayLongPress={700}
+        onLongPress={() => {
+            if (props.status === true) {
+                props.onItemPressed()
+            }
+            Alert.alert(
+                "",
+                `Are you sure you want to remove ${props.userName} from your friends list?`,
+                [
+                    {
+                        text: "Cancel",
+                        onPress: () => { console.log("s") },
+                        style: "default"
+                    },
+                    {
+                        text: "Remove",
+                        onPress: () => { props.onDeleteContactPressed() },
+                        style: "destructive"
+                    }
+                ],
+                { cancelable: true }
+            );
+        }}
+    >
         <View style={props.status === true ? styles.listItem : styles.listItem}>
             <Text style={props.status === true ? styles.names : styles.grayName}>
                 {props.userName}
@@ -47,10 +71,10 @@ const styles = StyleSheet.create({
         fontFamily: Platform.OS === "android" ? "Roboto" : null
     },
     grayName: {
-        color: "#333",
+        color: "black",
         fontWeight: "bold",
         fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     }
 });
 
