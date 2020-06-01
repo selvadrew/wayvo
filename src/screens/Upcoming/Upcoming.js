@@ -28,6 +28,8 @@ import InvitationReceived from "../../components/ActiveFriends/InvitationReceive
 import NotificationInvitationSent from "../../components/ActiveFriends/NotificationInvitationSent";
 import call from "react-native-phone-call";
 import { Facetime } from "react-native-openanything";
+import firebase from "react-native-firebase";
+
 
 
 
@@ -35,11 +37,67 @@ class Upcoming extends Component {
     constructor(props) {
         super(props);
     }
+
+    getNotificationStatus = () => {
+        ////////////////// permissions
+        firebase
+            .messaging()
+            .hasPermission()
+            .then(enabled => {
+                if (enabled) {
+                    this.setState({
+                        androidNotificationsEnabled: true
+                    });
+                } else {
+                    this.setState({
+                        androidNotificationsEnabled: false
+                    });
+                }
+            });
+
+        firebase
+            .messaging()
+            .requestPermission()
+            .then(() => {
+                this.setState({
+                    notificationsEnabled: true
+                });
+            })
+            .catch(error => {
+                this.setState({
+                    notificationsEnabled: false
+                });
+            });
+        //// end permissions
+    }
+    appSettings = () => {
+        Linking.openURL("app-settings:");
+        // change tab so when they come back, it refreshes
+        this.props.navigator.switchToTab({
+            tabIndex: 0
+        });
+    };
+
+    checkNotificationSetting = () => {
+        if (Platform.OS === "ios" && !this.state.notificationsEnabled) {
+
+            this.getNotificationStatus()
+
+        } else if (Platform.OS === "android" && !this.state.androidNotificationsEnabled) {
+            if (!this.state.androidNotificationsEnabled) {
+                this.getNotificationStatus()
+            }
+        }
+    }
+
     state = {
+        notificationsEnabled: true,
+        androidNotificationsEnabled: true
     };
 
     componentDidMount() {
         this.props.onGetUpcomingData()
+        this.getNotificationStatus()
     }
 
     static navigatorStyle = {
@@ -49,7 +107,6 @@ class Upcoming extends Component {
         navBarHidden: true,
         statusBarColor: colors.blueColor
     };
-
 
 
     // for ios 
@@ -121,7 +178,7 @@ class Upcoming extends Component {
             }
 
         } else {
-            Alert.alert(`${firstName} isn't expecting a call yet`, `Check back${day} at ${timeOfCall} to start this call`)
+            Alert.alert(`${firstName} is not expecting a call yet`, `Check back${day} at ${timeOfCall} to start this call`)
         }
 
     }
@@ -129,9 +186,10 @@ class Upcoming extends Component {
     render() {
         invitationsReceived = null
         invitationsSent = null
+        upcomingCallsView = null
         if (this.props.waitingForMe.length > 0) {
             invitationsReceived = (
-                <View>
+                <View style={styles.upcomingWrapper}>
                     <View style={styles.titleWrapper2}>
                         <Text style={styles.titleText}>
                             Invitations Received
@@ -165,6 +223,65 @@ class Upcoming extends Component {
             )
         }
 
+
+        let notificationsDisabled = null
+        if (Platform.OS === "ios" && !this.state.notificationsEnabled) {
+            notificationsDisabled = (
+                <Text style={styles.notificationExplain} onPress={this.appSettings}>
+                    Allow notifications{" "}
+                    <Text style={styles.openAppSettingsText}>here </Text>
+                    if you want to be notified when a friend schedules a call with you. Or if you want a reminder for upcoming calls.
+              </Text>
+            );
+        } else if (Platform.OS === "android" && !this.state.androidNotificationsEnabled) {
+            notificationsDisabled = (
+                <Text style={styles.notificationExplain}>
+                    Allow notifications in app settings if you want to be notified when a friend schedules a call with you. Or if you want a reminder for upcoming calls.
+              </Text>
+            );
+        }
+
+
+        // no invitations sent - no invitations received 
+        if (!this.props.isLoadingUpcoming && (this.props.upcomingBookedCalls.length + this.props.waitingForMe.length + this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length === 0)) {
+            upcomingCallsView = (
+                <Text style={styles.upcomingInfoText}>
+                    {/* Once you Invite friends to catch up, they'll be able to join one of the many times you've set aside for them in your Calendar(the green selections). */}
+                    Start inviting friends to catch up! Once a friend joins your Calendar, you'll see the details of your upcoming call with them here.
+                    {"\n"}{"\n"}
+                    {/* Protip: Try to set multiple times aside in your Calendar before sending invites so your friends can choose what works best for them (they'll see all the green selections in your Calendar). */}
+                    Protip: To make it easier for your friends to choose a time that works best for them, set multiple times aside in your Calendar before sending invites (your friends will see all the green selections in your Calendar).
+                    {/* Once you invite friends to catch up, they'll be able to join your Calendar through one of your many green times selected. */}
+                    {/* Once you Invite friends to catch up, they'll see all the green selections in your Calendar and be able to join you for a call today or tomorrow.
+                    You'll see the all details of the call here when it's finalized. */}
+                </Text>
+            )
+            // yes invitations sent - no invitations received 
+        } else if (!this.props.isLoadingUpcoming && this.props.upcomingBookedCalls.length === 0 && ((this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length) > 0) && this.props.waitingForMe.length === 0) {
+            upcomingCallsView = (
+                <Text style={styles.upcomingInfoText}>
+                    Once the friends you've invited view and join your Calendar, you'll see the details of your upcoming calls with them here.
+                    {"\n"}{"\n"}
+                    Protip: Keep multiple times aside in your calendar to make it easier for your friends to choose what works best for them (your friends will see all the green selections in your Calendar).
+                    {/* Protip: Try to keep multiple times aside in your Calendar so your friends can choose what works best for them (they'll see all the green selections in your Calendar). */}
+                </Text>
+            )
+            // yes invitations received - everything else doesnt matter 
+        } else if (!this.props.isLoadingUpcoming && this.props.upcomingBookedCalls.length === 0 && this.props.waitingForMe.length > 0) {
+            upcomingCallsView = (
+                <Text style={styles.upcomingInfoText}>
+                    Once you open the invitation you've received and finalize a time to catch up, you'll see the details of the call here.
+                </Text>
+            )
+        } else {
+            upcomingCallsView = (
+                <CallStatus
+                    upcomingCalls={this.props.upcomingBookedCalls}
+                    onItemSelected={this.startCall}
+                />
+            )
+        }
+
         return (
             <View style={{ flex: 1 }}>
                 <StatusBar
@@ -188,7 +305,8 @@ class Upcoming extends Component {
                                         this.props.isLoadingUpcoming
                                     }
                                     onRefresh={() => {
-                                        this.props.onGetUpcomingData()
+                                        this.props.onGetUpcomingData(),
+                                            this.checkNotificationSetting()
                                     }}
                                 />
                             }
@@ -196,15 +314,14 @@ class Upcoming extends Component {
 
 
                             {/********  UPCOMING CALLS  ********/}
-                            <View style={styles.titleWrapper}>
-                                <Text style={styles.titleText}>
-                                    Upcoming Calls
-                                </Text>
+                            <View style={styles.upcomingWrapper}>
+                                <View style={styles.titleWrapper}>
+                                    <Text style={styles.titleText}>
+                                        Upcoming Calls
+                                    </Text>
+                                </View>
+                                {upcomingCallsView}
                             </View>
-                            <CallStatus
-                                upcomingCalls={this.props.upcomingBookedCalls}
-                                onItemSelected={this.startCall}
-                            />
 
 
                             {/********  INVITATIONS RECEIVED  ********/}
@@ -213,7 +330,7 @@ class Upcoming extends Component {
                             {/********  INVITATIONS SENT  ********/}
                             {invitationsSent}
 
-
+                            {notificationsDisabled}
                         </ScrollView>
                     </View >
 
@@ -266,6 +383,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
         flex: 1
     },
+    upcomingWrapper: {
+        marginBottom: 10
+    },
     titleWrapper: {
         flexDirection: "column",
         // backgroundColor: colors.orange
@@ -278,7 +398,7 @@ const styles = StyleSheet.create({
         // borderBottomWidth: 0.5,
         borderTopWidth: 0.5,
         borderColor: "#eee",
-        marginTop: 30
+        paddingTop: 10
     },
     titleText: {
         // textAlign: "center",
@@ -287,7 +407,7 @@ const styles = StyleSheet.create({
         // color: colors.blueColor,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontWeight: "600",
-        fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
+        fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
 
     },
     callStatusWrapper: {
@@ -295,6 +415,27 @@ const styles = StyleSheet.create({
         marginTop: 0,
         flex: 1
     },
+    notificationExplain: {
+        // textAlign: "center",
+        padding: 10,
+        marginTop: 20,
+        color: "black",
+        // color: colors.blueColor,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontWeight: "400",
+        fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
+    },
+    openAppSettingsText: {
+        color: colors.blueColor
+    },
+    upcomingInfoText: {
+        paddingTop: 5,
+        paddingHorizontal: 15,
+        paddingBottom: 10,
+        // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontWeight: "200",
+        fontSize: 15
+    }
 });
 
 export default connect(

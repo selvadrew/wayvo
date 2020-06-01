@@ -42,13 +42,13 @@ const styles = StyleSheet.create({
     //#ccdfff
     fontWeight: "bold",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   grayName: {
     color: colors.darkBlue,
     fontWeight: "bold",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

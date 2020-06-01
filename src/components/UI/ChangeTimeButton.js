@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   timeText: {
     paddingTop: 30,
     fontSize: 25,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "white",
     textAlign: "center"
   },

@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     flexDirection: "row",
     fontSize: Dimensions.get("window").width > 330 ? 17 : 15,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

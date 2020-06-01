@@ -52,7 +52,7 @@ class Calendar extends Component {
         } else if (selected.status === "free") {
             this.props.onTimeSelected(1, id, selected.time, "busy", this.props.todaysSchedule, this.props.tomorrowsSchedule)
         } else {
-            Alert.alert("Time set aside for a friend", "Check the Upcoming tab for more info")
+            Alert.alert("Woohoo, this time has been successfully set aside for a friend", "Check the Upcoming tab for more info")
         }
     }
 
@@ -63,7 +63,7 @@ class Calendar extends Component {
         } else if (selected.status === "free") {
             this.props.onTimeSelected(2, id, selected.time, "busy", this.props.todaysSchedule, this.props.tomorrowsSchedule)
         } else {
-            Alert.alert("Scheduled Call")
+            Alert.alert("Woohoo, this time has been successfully set aside for a friend", "Check the Upcoming tab for more info")
         }
     }
 
@@ -183,9 +183,9 @@ const styles = StyleSheet.create({
         fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
         textAlign: "center",
         fontWeight: "500",
-        // textAlign: "center",
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-        backgroundColor: colors.blueColor
+        backgroundColor: colors.blueColor,
+        // letterSpacing: 1
     },
     topRow: {
         flexDirection: "row",
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     },
     daysText: {
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     },
     scrollView: {

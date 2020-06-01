@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     color: "#444",
     fontWeight: "600",
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     //fontWeight: "bold"
   },
   textInput: {
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: Dimensions.get("window").width > 330 ? 16 : 15,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginBottom: 20
   },
   successFeedback: {
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "bold",
     marginTop: 30,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

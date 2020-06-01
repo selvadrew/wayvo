@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: colors.darkBlue,
     fontWeight: "700",
     marginBottom: 15
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginBottom: 25,
     borderRadius: 3,
     letterSpacing: 1
@@ -198,14 +198,14 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     borderRadius: 3,
     letterSpacing: 1,
     marginBottom: 25
   },
   inputTitle: {
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "700",
     marginBottom: 5,
     color: "#555"
@@ -215,14 +215,14 @@ const styles = StyleSheet.create({
   },
   searchedGroupHeader: {
     color: colors.pinkColor,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontSize: 18,
     marginBottom: 5,
     fontWeight: "600"
   },
   searchedGroupText: {
     fontSize: 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginBottom: 15,
     color: "#333"
   },

@@ -44,7 +44,7 @@ class FriendsCalendar extends Component {
     componentWillUnmount() {
         this.props.onClearFriendsCalendar()
         if (!this.props.booked && !(this.props.friendsCalendar.todayOptions.length + this.props.friendsCalendar.tomorrowOptions.length === 0)) {
-            Alert.alert("Can't pick a time?", `Don't worry, we'll notify you once ${this.props.first_name} calendar is updated`)
+            Alert.alert("Can't pick a time?", `Don't worry, Wayvo will notify you once ${this.props.first_name} calendar is updated`)
         }
     }
 
@@ -117,18 +117,18 @@ class FriendsCalendar extends Component {
             calendarContent = <ActivityIndicator color="#444" style={styles.spinner} />
         } else if (this.props.booked) {
             calendarContent = (
-                <View>
-                    <Text>
+                <View style={styles.wrapperSelectionFeedback}>
+                    <Text style={styles.textSelectionFeedback}>
                         Woohoo, you've been successfully added to {this.props.first_name} calendar.
-                        Wayvo will send you a reminder(notification) 15 minutes before your call.
+                        Wayvo will send you a reminder 15 minutes before your call.
                     </Text>
                 </View>
             )
         } else if (this.props.friendsCalendar.todayOptions.length + this.props.friendsCalendar.tomorrowOptions.length === 0) {
             calendarContent = (
-                <View>
-                    <Text>
-                        Oh no, it looks like all of {this.props.first_name} availability is taken.
+                <View style={styles.wrapperSelectionFeedback}>
+                    <Text style={styles.textSelectionFeedback}>
+                        Oh no, it looks like all of {this.props.first_name} availability has been taken.
                         Wayvo will notify you once {this.props.first_name} calendar is updated!
                     </Text>
                 </View>
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
         // textAlign: "center",
         fontWeight: "500",
         // textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         backgroundColor: colors.darkBlue
     },
     topRow: {
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     },
     daysText: {
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
     },
     scrollView: {
@@ -271,6 +271,22 @@ const styles = StyleSheet.create({
     daysTextTimes: {
         textAlign: "center"
     },
+    wrapperSelectionFeedback: {
+        padding: 10,
+        flex: 1,
+        alignItems: "center",
+        flexDirection: "row",
+    },
+    textSelectionFeedback: {
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontWeight: "500",
+        fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+        color: "#444",
+        textAlign: "center",
+        padding: 20
+
+
+    }
 
 });
 

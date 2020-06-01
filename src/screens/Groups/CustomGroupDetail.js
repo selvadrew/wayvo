@@ -246,13 +246,13 @@ const styles = StyleSheet.create({
     color: "#333",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "500"
   },
   firstName: {
     color: colors.blueColor,
     fontSize: 30,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     textAlign: "center",
     fontWeight: "700",
     marginBottom: 20
@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
   justMet: {
     color: "#333",
     fontSize: 25,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     textAlign: "center",
     fontWeight: "700",
     marginBottom: 20
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
   lastName: {
     color: colors.pinkColor,
     fontSize: 30,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     textAlign: "center",
     fontWeight: "700"
   },
@@ -286,14 +286,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "500",
     textAlign: "center",
     marginBottom: 10
   },
   note: {
     fontSize: 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
 
   ////
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "#444"
   },
   usernameText: {

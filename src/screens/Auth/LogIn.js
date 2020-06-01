@@ -108,7 +108,7 @@ class LogIn extends Component {
             </Text>
           </View>
           <View style={styles.listItemWrapper}>
-            <Text style={styles.listItem}>- Not contain any whitespace</Text>
+            <Text style={styles.listItem}>- Not contain any spaces</Text>
           </View>
         </View>
       );
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   topText: {
     fontSize: 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "600",
     textAlign: "center",
     color: "#444"
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     borderRadius: 5,
     borderColor: "#333",
     //textAlign: "center",
@@ -218,12 +218,12 @@ const styles = StyleSheet.create({
   listHeader: {
     fontSize: 18,
     color: "#333",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   listItem: {
     fontSize: 16,
     color: "#333",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   listItemWrapper: {
     marginTop: 5

@@ -26,7 +26,7 @@
 // export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://83e28298.ngrok.io"
+export const HOST = "https://9d1971e1e37b.ngrok.io"
 
 
 
@@ -69,7 +69,7 @@ twilio post request -Phone Numbers / Manage Numbers / Active Numbers /
 https://www.twilio.com/console/phone-numbers/PNa45f5e2391a4a72151a489706af425cd
 
 
-rails g migration AddFirstNameToUsers first_name:string 
+rails g migration AddLastViewedToInvitations last_viewed:timestamp 
 rails g migration AddLastNameToUsers last_name:string 
 
 
@@ -84,6 +84,8 @@ npx react-native-clean-project clean-project-auto
   519  history
 
 
+openssl error 
+brew reinstall postgresql
 
 
 

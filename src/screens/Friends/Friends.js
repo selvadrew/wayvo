@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,

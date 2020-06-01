@@ -837,7 +837,7 @@ class PhoneScreen extends Component {
                 size={40}
                 digitStyle={{ backgroundColor: colors.yellowColor }}
                 digitTxtColor="#333"
-                digitTxtStyle={{ color: "#333", fontFamily: Platform.OS === "android" ? "Roboto" : null }}
+                digitTxtStyle={{ color: "#333", fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold" }}
                 timeLabelStyle={{ color: "#fff" }}
                 timeTxtColor="#FFF"
                 timeToShow={["M", "S"]}
@@ -1072,7 +1072,7 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     letterSpacing: 0.5,
     paddingBottom: 8,
     color: "#333",
@@ -1157,7 +1157,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontWeight: Platform.OS === "ios" ? "700" : "600",
     paddingHorizontal: 15,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   rightText1: {
     fontSize: 28,
@@ -1165,7 +1165,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     fontWeight: Platform.OS === "ios" ? "700" : "600",
     paddingHorizontal: 15,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   newHelloWrapper: {
     flex: 1,
@@ -1313,20 +1313,20 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingVertical: 5,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   timeExplanation: {
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 17 : 17,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     paddingHorizontal: 15
   },
   timeExplanationBig: {
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     paddingHorizontal: 20
   },
   countdown: {
@@ -1340,7 +1340,7 @@ const styles = StyleSheet.create({
   },
   usernameText: {
     fontSize: 25,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "#fff",
     //marginTop: Platform.OS === "ios" ? 20 : 0,
     padding: 10,
@@ -1350,7 +1350,7 @@ const styles = StyleSheet.create({
   usernameStyle: {
     color: colors.usernameColor,
     fontWeight: "bold",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontSize: 40
     //marginTop: Platform.OS === "ios" ? 20 : 0
   },
@@ -1386,20 +1386,20 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blueColor,
     textAlign: "center",
     letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   timeNumber: {
     //color: colors.yellowColor,
     fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
     fontWeight: "700",
     letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   timeNumberSelect: {
     color: "#555",
     fontWeight: "900",
     fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     backgroundColor: colors.yellowColor
   },
   connectedWrapper: {
@@ -1410,7 +1410,7 @@ const styles = StyleSheet.create({
     color: "#797E88",
     fontSize: 16,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginTop: 5
   },
   notificationText: {
@@ -1419,7 +1419,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontWeight: "400",
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   notificationHere: {
     color: colors.greenColor,
@@ -1427,12 +1427,12 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   activeInfo: {
     color: "#fff",
     fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "400"
     //textAlign: "center"
   },
@@ -1441,7 +1441,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "900",
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   weeklyWrapper: {
     //margin: 10,

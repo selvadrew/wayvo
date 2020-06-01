@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontWeight: "bold",
         fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     grayName: {
         color: "#777",
         fontWeight: "bold",
         fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         textAlign: "center",
 
     }

@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,
@@ -371,7 +371,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   friendsHeaderWrapper2: {
     borderBottomWidth: 1,
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     color: colors.darkBlue,
     padding: 10,
     fontSize: 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "500"
   },
   uniWrapper2: {

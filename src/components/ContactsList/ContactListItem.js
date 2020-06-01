@@ -21,7 +21,7 @@ const contactListItem = props => (
             }
             Alert.alert(
                 "",
-                `Are you sure you want to remove ${props.userName} from your friends list?`,
+                `Are you sure you want to delete ${props.userName} from your friends list?`,
                 [
                     {
                         text: "Cancel",
@@ -29,7 +29,7 @@ const contactListItem = props => (
                         style: "default"
                     },
                     {
-                        text: "Remove",
+                        text: "Delete",
                         onPress: () => { props.onDeleteContactPressed() },
                         style: "destructive"
                     }
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         //#ccdfff
         fontWeight: "bold",
         fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     grayName: {
         color: "black",

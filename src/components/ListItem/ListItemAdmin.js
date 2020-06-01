@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     fontWeight: "500",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   listItem: {
     flexDirection: "row",
@@ -82,13 +82,13 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "500",
     fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   blockednames: {
     color: "#333",
     fontWeight: "500",
     fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

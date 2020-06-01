@@ -112,11 +112,11 @@ class OptionScreen extends Component {
                   style={styles.logo}
                 />
               </View>
-              <Text style={[styles.logoutText]}>About Wayvo</Text>
+              <Text style={[styles.logoutText]}>How it Works</Text>
             </View>
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={() => this.topicsScreen()}>
+          {/* <TouchableWithoutFeedback onPress={() => this.topicsScreen()}>
             <View style={styles.iconWrapper}>
               <View style={styles.imageWrapper}>
                 <Image
@@ -126,7 +126,7 @@ class OptionScreen extends Component {
               </View>
               <Text style={[styles.logoutText]}>Topics</Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
 
           <TouchableWithoutFeedback onPress={() => this.feedbackScreen()}>
             <View style={styles.iconWrapper}>
@@ -140,7 +140,7 @@ class OptionScreen extends Component {
             </View>
           </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={() => this.phoneNumberScreen()}>
+          {/* <TouchableWithoutFeedback onPress={() => this.phoneNumberScreen()}>
             <View style={styles.iconWrapper}>
               <View style={styles.imageWrapper}>
                 <Image
@@ -156,7 +156,7 @@ class OptionScreen extends Component {
             <View>
               <Text style={[styles.logoutText]}>Logout</Text>
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableWithoutFeedback> */}
         </View>
       </View>
     );
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     width: 300,
     fontWeight: "600",
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     textAlign: "center",
     marginBottom: 20
   },
@@ -199,14 +199,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.blueColor,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   username: {
     fontWeight: "bold",
     fontSize: 25,
     color: colors.pinkColor,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   iconWrapper: {
     width: "100%",
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     borderColor: "#444",
     borderRadius: 0,
     letterSpacing: 1,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   imageWrapper: {
     width: "30%",

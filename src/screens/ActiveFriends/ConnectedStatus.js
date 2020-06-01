@@ -184,14 +184,14 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 28 : 24,
     color: "#fff",
     marginBottom: 40,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   failText: {
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 28,
     color: "#808080",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   deleteButton: {
     alignItems: "center"

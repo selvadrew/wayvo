@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     color: "#444",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     // backgroundColor: colors.greenColor,
     fontWeight: "600",
     marginBottom: 20,
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   questionText: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     color: colors.darkBlue,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "600",
     letterSpacing: 0.6
   }

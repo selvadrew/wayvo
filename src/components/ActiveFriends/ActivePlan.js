@@ -238,14 +238,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "500",
     fontSize: Dimensions.get("window").width > 330 ? 18 : 17,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     letterSpacing: 1,
     width: "50%"
   },
   colorText: {
     color: colors.yellowColor,
     fontWeight: "700",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   placeButton: {
     // width: "50%",

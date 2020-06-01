@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     color: colors.darkBlue,
     fontWeight: "700",
     marginBottom: 15,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     // textAlign: "center"
   },
   textInput: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     padding: 10,
     textAlignVertical: "top",
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginBottom: 25,
     borderRadius: 3,
     letterSpacing: 1
@@ -174,14 +174,14 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     borderRadius: 3,
     letterSpacing: 1,
     marginBottom: 25
   },
   inputTitle: {
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "700",
     marginBottom: 5,
     color: "#555"
@@ -195,11 +195,11 @@ const styles = StyleSheet.create({
     color: colors.pinkColor,
     textAlign: "center",
     marginBottom: 25,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   createdGroupText: {
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginBottom: 15
   },
   secretUsernameText: {

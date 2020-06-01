@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     padding: 10,
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontWeight: "500"
   },
   listItem: {
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     color: "#333",
     fontWeight: "500",
     fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

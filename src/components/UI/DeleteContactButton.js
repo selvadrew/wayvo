@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     borderColor: "#555",
     color: "gray",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.blueColor,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   username: {
     fontWeight: "bold",
@@ -176,7 +176,7 @@ const styles = StyleSheet.create({
     color: colors.pinkColor,
     textAlign: "center",
     marginBottom: 25,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   deleteButton: {
     alignItems: "center"
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 18 : 17,
     color: "#333",
     paddingLeft: 8,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   switch: {
     marginRight: 8

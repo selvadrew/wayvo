@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     width: "80%",
     color: "#fff",
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginLeft: 15,
     letterSpacing: 1
   },

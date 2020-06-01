@@ -20,7 +20,7 @@ import {
     Animated,
     Modal,
     TouchableHighlight,
-    TouchableOpacity
+    TouchableOpacity,
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -536,8 +536,28 @@ class Invite extends Component {
         })
 
         if (this.props.selectedContactIds.length > count) {
-            alert("pick more dude")
             this.props.onGetCalendar(false)
+
+            friends = this.props.selectedContactIds.length == 1 ? "friend" : "friends"
+            openings = this.props.selectedContactIds.length == 1 ? "time" : "times"
+
+
+            Alert.alert(
+                `Set more time aside in your calendar to send this invite`,
+                `You invited ${this.props.selectedContactIds.length} ${friends} but have less than ${this.props.selectedContactIds.length} ${openings} set aside in your calendar`,
+                [
+                    {
+                        text: "View Calendar",
+                        onPress: () => {
+                            this.props.navigator.switchToTab({
+                                tabIndex: 1
+                            });
+                        }
+                    },
+                ],
+                { cancelable: false }
+            );
+
         } else {
             // double check contact is selected - there is a bug with longpress in contactlistitem.js 
             if (this.props.selectedContactIds.length > 0) {
@@ -554,6 +574,11 @@ class Invite extends Component {
                     }
                 });
                 this.props.onSendInvite(newArr)
+                setTimeout(() => {
+                    this.props.navigator.switchToTab({
+                        tabIndex: 2
+                    });
+                }, 500);
 
                 console.log(this.props.selectedContactIds)
             } else {
@@ -605,7 +630,9 @@ class Invite extends Component {
                 sendInviteButton = (
                     <Touchable onPress={() => this.sendInvitePressed()}>
                         <View style={styles.overlay}>
-                            <Text style={styles.sendInviteText}>SEND INVITE TO CATCH UP</Text>
+                            <Text style={styles.sendInviteText}>
+                                SEND INVITE TO CATCH UP
+                            </Text>
                         </View>
                     </Touchable>
                 )
@@ -697,8 +724,10 @@ class Invite extends Component {
 
                         <View style={styles.mainContent}>
                             <Text style={styles.header}>
-                                Invite friends to view your calendar and schedule a call.
-                                Wayvo will send them a notification or sms to let them know you want to catch up!
+                                {/* Invite friends to view your calendar and schedule a 1-on-1 call with you.
+                                Wayvo will send each friend a notification or sms to let them know you want to catch up! */}
+                                Invite friends to view and join your Calendar for a 1-on-1 call today or tomorrow.
+                                Wayvo will send each friend a notification or sms to let them know you want to catch up!
                                 {/* with a link to your calendar */}
                             </Text>
                             {stateOfContacts}
@@ -724,31 +753,31 @@ const styles = StyleSheet.create({
         padding: 20
     },
     header: {
-        fontSize: Dimensions.get("window").width > 330 ? 14 : 13,
+        fontSize: Dimensions.get("window").width > 330 ? 15 : 13,
         marginBottom: 10,
-        color: "#444",
-        fontWeight: "600",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        color: "#333",
+        fontWeight: "400",
+        // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
         //fontWeight: "bold"
     },
     overlay: {
         position: 'absolute',
         bottom: 0,
-        flexDirection: "column",
-        height: 40,
+        flexDirection: "row",
+        height: 50,
         width: "100%",
         alignItems: "center",
-        padding: 10,
-        backgroundColor: colors.greenColor
+        justifyContent: "center",
+        backgroundColor: colors.greenColor,
     },
     setMargin: {
         marginBottom: 50
     },
     sendInviteText: {
         color: "#fff",
-        fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
-        fontWeight: "600",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
+        fontWeight: "400",
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     },
     // end styling from old contacts 
 
@@ -787,7 +816,7 @@ const styles = StyleSheet.create({
     },
     modalTitle: {
         fontSize: 20,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         letterSpacing: 0.5,
         paddingBottom: 8,
         color: "#333",
@@ -872,7 +901,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         fontWeight: Platform.OS === "ios" ? "700" : "600",
         paddingHorizontal: 15,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     rightText1: {
         fontSize: 28,
@@ -880,7 +909,7 @@ const styles = StyleSheet.create({
         letterSpacing: 1,
         fontWeight: Platform.OS === "ios" ? "700" : "600",
         paddingHorizontal: 15,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     newHelloWrapper: {
         flex: 1,
@@ -1026,20 +1055,20 @@ const styles = StyleSheet.create({
         padding: 15,
         paddingVertical: 5,
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     timeExplanation: {
         color: "#fff",
         fontSize: Dimensions.get("window").width > 330 ? 17 : 17,
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         paddingHorizontal: 15
     },
     timeExplanationBig: {
         color: "#fff",
         fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         paddingHorizontal: 20
     },
     countdown: {
@@ -1053,7 +1082,7 @@ const styles = StyleSheet.create({
     },
     usernameText: {
         fontSize: 25,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         color: "#fff",
         //marginTop: Platform.OS === "ios" ? 20 : 0,
         padding: 10,
@@ -1063,7 +1092,7 @@ const styles = StyleSheet.create({
     usernameStyle: {
         color: colors.usernameColor,
         fontWeight: "bold",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontSize: 40
         //marginTop: Platform.OS === "ios" ? 20 : 0
     },
@@ -1099,20 +1128,20 @@ const styles = StyleSheet.create({
         backgroundColor: colors.blueColor,
         textAlign: "center",
         letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     timeNumber: {
         //color: colors.yellowColor,
         fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
         fontWeight: "700",
         letterSpacing: Dimensions.get("window").width > 330 ? 0.9 : 0.6,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     timeNumberSelect: {
         color: "#555",
         fontWeight: "900",
         fontSize: Dimensions.get("window").width > 330 ? 20 : 17,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         backgroundColor: colors.yellowColor
     },
     connectedWrapper: {
@@ -1123,7 +1152,7 @@ const styles = StyleSheet.create({
         color: "#797E88",
         fontSize: 16,
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         marginTop: 5
     },
     notificationText: {
@@ -1132,7 +1161,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontWeight: "400",
         letterSpacing: 0.5,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     notificationHere: {
         color: colors.greenColor,
@@ -1140,12 +1169,12 @@ const styles = StyleSheet.create({
         fontWeight: "700",
         textAlign: "center",
         letterSpacing: 0.5,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     activeInfo: {
         color: "#fff",
         fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontWeight: "400"
         //textAlign: "center"
     },
@@ -1154,7 +1183,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "900",
         textAlign: "center",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     weeklyWrapper: {
         //margin: 10,

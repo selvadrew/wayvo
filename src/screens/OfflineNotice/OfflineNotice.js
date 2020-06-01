@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   offlineText: {
     color: "#fff",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

@@ -453,7 +453,7 @@ const styles = StyleSheet.create({
   fewMinutes: {
     color: "#FFF",
     fontSize: 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     flexDirection: "row",
     flex: 1,
     justifyContent: "center",
@@ -473,7 +473,7 @@ const styles = StyleSheet.create({
   buttonTextYellow: {
     textAlign: "center",
     fontSize: 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "#333",
     padding: 10,
     paddingHorizontal: 15
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
   buttonText: {
     textAlign: "center",
     fontSize: 20,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "#fff",
     padding: 10
   },
@@ -516,7 +516,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   friendsHeaderWrapper: {
     borderBottomWidth: 1,
@@ -558,7 +558,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   headerWrapper: {
     borderBottomWidth: 1,
@@ -572,7 +572,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     color: "#fff",
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginTop: 5
   },
   infoTwo: {
@@ -599,7 +599,7 @@ const styles = StyleSheet.create({
   },
   moreInfo: {
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     marginTop: 10
   }
 });

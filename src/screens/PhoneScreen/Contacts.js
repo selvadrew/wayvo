@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         color: "#444",
         fontWeight: "600",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
         //fontWeight: "bold"
     },
     overlay: {
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         color: "#444",
         fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
         fontWeight: "600",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     }
 });
 

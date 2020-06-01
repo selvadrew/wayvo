@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
     flexDirection: "row",
     fontWeight: "bold",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     // textShadowColor: "#888",
     // textShadowOffset: { width: -3, height: 3 },
     // textShadowRadius: 1
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: Dimensions.get("window").width > 330 ? 40 : 35,
     fontWeight: "bold",
     color: "#333",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   }
 });
 

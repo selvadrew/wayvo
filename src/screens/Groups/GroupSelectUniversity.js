@@ -421,7 +421,7 @@ const styles = StyleSheet.create({
     fontSize: 25,
     padding: 10,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   headerWrapper: {
     borderBottomWidth: 1,
@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 25,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   main: {
     textAlign: "center",
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     fontSize: 25,
     letterSpacing: 0.5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   backArrow: {
     paddingHorizontal: 10,
@@ -459,7 +459,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: "#fff",
     padding: 5,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     fontSize: 14
   },
   circleWrapper: {
@@ -495,7 +495,7 @@ const styles = StyleSheet.create({
     width: 300,
     fontWeight: "600",
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     textAlign: "center",
     marginBottom: 20
   },
@@ -505,14 +505,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     color: colors.blueColor,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   username: {
     fontWeight: "bold",
     fontSize: 25,
     color: colors.pinkColor,
     textAlign: "center",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   iconWrapper: {
     width: "100%",
@@ -539,7 +539,7 @@ const styles = StyleSheet.create({
     borderColor: "#444",
     borderRadius: 0,
     letterSpacing: 1,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   imageWrapper: {
     width: "30%",

@@ -16,7 +16,9 @@ const activeList = props => (
     <View style={styles.listItem}>
       <Text style={styles.names}>
         {props.firstName} {"\n"}
-        {props.time} {props.day}
+        <Text style={styles.date}>
+          {props.time} {props.day}
+        </Text>
       </Text>
       <View style={styles.placeButton}>
         <ActiveHelloButton onPress={props.onItemPressed} buttonText="Start Call" />
@@ -31,17 +33,27 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     padding: 11,
+    paddingTop: 5,
+    paddingLeft: 15,
     // borderBottomWidth: 1,
     // borderBottomColor: "#eee",
     flex: 1
   },
   names: {
-    color: "#444",
+    color: colors.blueColor,
     fontWeight: "bold",
-    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     width: "60%",
     marginRight: 10,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
+  },
+  date: {
+    color: colors.blueColor,
+    fontWeight: "bold",
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    width: "60%",
+    marginRight: 10,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   placeButton: {
     width: "40%",

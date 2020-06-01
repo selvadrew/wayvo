@@ -36,9 +36,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         borderTopColor: "#999",
     },
-    noBg: {
-        borderTopColor: "#999",
-    },
     yesBg: {
         borderTopColor: colors.greenColor,
         backgroundColor: colors.greenColor

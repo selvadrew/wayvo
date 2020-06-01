@@ -860,7 +860,7 @@ export const savePhoneContacts = contacts => {
           dispatch(storeContacts(contactList))
           AsyncStorage.setItem("contacts", JSON.stringify(contactList));
           dispatch(stopLoadingFriends())
-          Alert.alert("Protip", "Press and hold on a contact to remove them")
+          Alert.alert("Successfully synced", "PROTIP: Press and hold on a contact to delete them")
         } else {
           Alert.alert("Oops, we couldn't connect, please try again");
           dispatch(stopLoadingFriends())
@@ -904,6 +904,7 @@ export const saveContactByUsername = username => {
           dispatch(storeContacts(contactList))
           AsyncStorage.setItem("contacts", JSON.stringify(contactList));
           dispatch(stopLoadingFriends())
+          Alert.alert(json.success_message, "");
         } else {
           Alert.alert(json.error_message, "");
           dispatch(stopLoadingFriends())
@@ -1064,6 +1065,8 @@ export const sendInvite = nameAndNumber => {
           dispatch(getUpcomingData())
           dispatch(uiStopLoading());
           dispatch(clearSelectedContacts())
+
+          // Alert.alert("Successfully sent", "Invited friends will now be able to view your calendar and schedule a call with you. Keep your calendar up to date.")
 
         } else {
           Alert.alert("Oops, we couldn't connect, please try again");

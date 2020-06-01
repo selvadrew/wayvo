@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         letterSpacing: 0.5,
         color: "#fff",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     icon: {
         marginRight: 15
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
         color: "#444",
         letterSpacing: 2,
         fontWeight: "500",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     imageAndLogo: {
         // flex: 1,
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "gray",
         paddingBottom: 20,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     continueText: {
         fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     },
     termsText: {
         color: colors.blueColor, //"#007B7F",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     emailContainer: {
         flex: 1,
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         letterSpacing: 0.5,
         color: "#fff",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     touchgreen: {
         justifyContent: "center",
@@ -274,7 +274,7 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 50,
         fontSize: 18,
-        fontFamily: Platform.OS === "android" ? "Roboto" : null,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         borderRadius: 5,
         borderColor: "#333",
         //textAlign: "center",
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     listHeader: {
         fontSize: 18,
         color: "#333",
-        fontFamily: Platform.OS === "android" ? "Roboto" : null
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
 });
 

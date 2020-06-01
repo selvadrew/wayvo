@@ -164,14 +164,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     textAlign: "center",
     color: "#444",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   bottomText: {
     fontSize: 18,
     fontWeight: "400",
     textAlign: "center",
     color: "#555",
-    fontFamily: Platform.OS === "android" ? "Roboto" : null
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   inputButtonWrapper: {
     flex: 5,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 50,
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     borderRadius: 5,
     borderColor: "#333",
     //textAlign: "center",
@@ -203,12 +203,12 @@ const styles = StyleSheet.create({
   },
   listHeader: {
     fontSize: 18,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "#333"
   },
   listItem: {
     fontSize: 16,
-    fontFamily: Platform.OS === "android" ? "Roboto" : null,
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     color: "#333"
   },
   listItemWrapper: {
