@@ -184,6 +184,14 @@ class Upcoming extends Component {
     }
 
     render() {
+        // if theres an invitation received that hasnt been opened/scheduled yet 
+        if (this.props.waitingForMe.length + this.props.upcomingBookedCalls.length > 0) {
+            this.props.navigator.switchToTab({
+                tabIndex: 2
+            });
+        }
+
+
         invitationsReceived = null
         invitationsSent = null
         upcomingCallsView = null
@@ -247,10 +255,10 @@ class Upcoming extends Component {
             upcomingCallsView = (
                 <Text style={styles.upcomingInfoText}>
                     {/* Once you Invite friends to catch up, they'll be able to join one of the many times you've set aside for them in your Calendar(the green selections). */}
-                    Start inviting friends to catch up! Once a friend joins your Calendar, you'll see the details of your upcoming call with them here.
+                    Start inviting friends to catch up! Then, once a friend joins your Calendar for a phone call today or tomorrow, you'll see the details here.
                     {"\n"}{"\n"}
                     {/* Protip: Try to set multiple times aside in your Calendar before sending invites so your friends can choose what works best for them (they'll see all the green selections in your Calendar). */}
-                    Protip: To make it easier for your friends to choose a time that works best for them, set multiple times aside in your Calendar before sending invites (your friends will see all the green selections in your Calendar).
+                    Protip: To make it easy for your friends to choose a time that works best for them, set multiple times aside in your Calendar before sending invites (friends will see all the green selections in your Calendar).
                     {/* Once you invite friends to catch up, they'll be able to join your Calendar through one of your many green times selected. */}
                     {/* Once you Invite friends to catch up, they'll see all the green selections in your Calendar and be able to join you for a call today or tomorrow.
                     You'll see the all details of the call here when it's finalized. */}
@@ -260,9 +268,9 @@ class Upcoming extends Component {
         } else if (!this.props.isLoadingUpcoming && this.props.upcomingBookedCalls.length === 0 && ((this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length) > 0) && this.props.waitingForMe.length === 0) {
             upcomingCallsView = (
                 <Text style={styles.upcomingInfoText}>
-                    Once the friends you've invited view and join your Calendar, you'll see the details of your upcoming calls with them here.
+                    Once the friends you've sent an invitation to view and join your Calendar, you'll see the details here.
                     {"\n"}{"\n"}
-                    Protip: Keep multiple times aside in your calendar to make it easier for your friends to choose what works best for them (your friends will see all the green selections in your Calendar).
+                    Protip: Keep multiple times aside in your calendar to make it easy for your friends to choose what works best for them (friends will see all the green selections in your Calendar).
                     {/* Protip: Try to keep multiple times aside in your Calendar so your friends can choose what works best for them (they'll see all the green selections in your Calendar). */}
                 </Text>
             )

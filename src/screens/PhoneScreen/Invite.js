@@ -21,6 +21,7 @@ import {
     Modal,
     TouchableHighlight,
     TouchableOpacity,
+    AppState
 } from "react-native";
 import HelloButton from "../../components/UI/HelloButton";
 import ChangeTime from "../../components/UI/ChangeTimeButton";
@@ -35,7 +36,7 @@ import { outgoingCustomGroupCall } from "../../store/actions/customGroups";
 import { getActiveFriends } from "../../store/actions/activeFriends";
 import { getActivePlans } from "../../store/actions/activePlans";
 import { getFriendRequests } from "../../store/actions/friends";
-import { getPhoneNumber, getUserInfo, getContactsFromDB, saveTimeZone, saveContactByUsername, deleteContact } from "../../store/actions/users";
+import { getPhoneNumber, getUserInfo, getContactsFromDB, saveTimeZone, saveContactByUsername, deleteContact, logActiveUser } from "../../store/actions/users";
 import {
     getUserGroups,
     checkIfUserLiveGroups
@@ -65,15 +66,16 @@ import DialogInput from 'react-native-dialog-input';
 
 import * as RNLocalize from "react-native-localize";
 import { getCalendar } from "../../store/actions/calendars";
+import { getUpcomingData } from "../../store/actions/upcomings";
 
 
 class Invite extends Component {
     componentDidMount() {
         const channel = new firebase.notifications.Android.Channel(
-            "Friends",
-            "Friends Say Hello",
+            "Calendar",
+            "Calendar Events",
             firebase.notifications.Android.Importance.Max
-        ).setDescription("Friends Say Hello");
+        ).setDescription("Calendar Events");
         firebase.notifications().android.createChannel(channel);
 
         // the listener returns a function you can use to unsubscribe
@@ -93,7 +95,7 @@ class Invite extends Component {
                         //.setVisibility(notification.VISIBILITY_PUBLIC)
                         .android.setAutoCancel(true)
                         .android.setShowWhen(true)
-                        .android.setChannelId("Friends") // e.g. the id you chose above
+                        .android.setChannelId("Calendar") // e.g. the id you chose above
                         .android.setSmallIcon("@mipmap/small_launcher")
                         //.android.setLargeIcon("@mipmap/ic_launcher")
                         .android.setColor(colors.greenColor) // you can set a color here
@@ -126,9 +128,7 @@ class Invite extends Component {
                 //listens for notifications
                 // Process your notification as required
                 // ANDROID: Remote notifications do not contain the channel ID. You will have to specify this manually if you'd like to re-display the notification.
-                this.props.onLoadActiveFriends();
-                this.props.onLoadActivePlans();
-                this.props.onLoadActiveGroups();
+                this.props.onGetUpcomingData()
             });
         this.notificationListener = firebase
             .notifications()
@@ -145,50 +145,33 @@ class Invite extends Component {
                 const action = notificationOpen.action;
                 // Get information about the notification that was opened
                 const notification: Notification = notificationOpen.notification;
-                this.props.onLoadActiveFriends();
-                this.props.onLoadActivePlans();
-                this.props.onLoadActiveGroups();
-                console.log(action);
 
-                //outgoing call notification
-                if (notification.data.outgoing) {
+                this.props.onGetUpcomingData()
+                // this.props.getContactsFromDB() need to test if this should be running - if the below doesnt work 
+
+                // INVITE
+                if (notification.data.invite) {
                     this.props.navigator.switchToTab({
-                        tabIndex: 3
+                        tabIndex: 0
                     });
+                    this.props.getContactsFromDB()
                 }
 
-                // friend request notification
-                if (notification.data.friend) {
+                // CALENDAR
+                if (notification.data.calendar) {
                     this.props.navigator.switchToTab({
                         tabIndex: 1
                     });
-                    this.props.onLoadFriendRequests();
                 }
 
-                // group tab notification
-                if (notification.data.group) {
+                // UPCOMING
+                if (notification.data.upcoming) {
                     this.props.navigator.switchToTab({
                         tabIndex: 2
                     });
-                    this.props.getUserGroups();
+                    this.props.onGetUpcomingData()
                 }
 
-                // someone accepted say hello
-                if (notification.data.expect_call) {
-                    this.props.navigator.switchToTab({
-                        tabIndex: 0
-                    });
-                    this.props.getLastCall();
-                    Alert.alert(`Expect a call shortly. A friend Said Hello Back!`);
-                }
-
-                if (notification.data.expect_group_call) {
-                    this.props.navigator.switchToTab({
-                        tabIndex: 0
-                    });
-                    this.props.checkIfUserLiveGroups();
-                    Alert.alert("Expect a call shortly. Someone Said Hello Back!");
-                }
             });
 
         /// app closed
@@ -203,51 +186,35 @@ class Invite extends Component {
                     // Get information about the notification that was opened
                     const notification: Notification = notificationOpen.notification;
 
-                    //outgoing call notification
-                    if (notification.data.outgoing) {
+                    // INVITE
+                    if (notification.data.invite) {
                         this.props.navigator.switchToTab({
-                            tabIndex: 3
+                            tabIndex: 0
                         });
+                        this.props.getContactsFromDB()
                     }
 
-                    // friend request notification
-                    if (notification.data.friend) {
+                    // CALENDAR
+                    if (notification.data.calendar) {
                         this.props.navigator.switchToTab({
                             tabIndex: 1
                         });
-                        this.props.onLoadFriendRequests();
                     }
 
-                    // group tab notification
-                    if (notification.data.group) {
+                    // UPCOMING
+                    if (notification.data.upcoming) {
                         this.props.navigator.switchToTab({
                             tabIndex: 2
                         });
-                        this.props.getUserGroups();
+                        this.props.onGetUpcomingData()
                     }
 
-                    // someone accepted say hello
-                    if (notification.data.expect_call) {
-                        this.props.navigator.switchToTab({
-                            tabIndex: 0
-                        });
-                        this.props.getLastCall();
-                        Alert.alert(`Expect a call shortly. A friend Said Hello Back!`);
-                    }
-
-                    if (notification.data.expect_group_call) {
-                        this.props.navigator.switchToTab({
-                            tabIndex: 0
-                        });
-                        this.props.checkIfUserLiveGroups();
-                        Alert.alert("Expect a call shortly. Someone Said Hello Back!");
-                    }
                 }
             })
             .catch(err => alert(err));
 
         // this.props.getLastCall();
-        this.props.checkIfUserLiveGroups();
+        // this.props.checkIfUserLiveGroups();
         //this.props.storePhoneNumber();
         if (Platform.OS === "ios") {
             this.props.getUserInfo(true);
@@ -261,7 +228,7 @@ class Invite extends Component {
             }, 2500);
         }
 
-        this.props.getUserGroups();
+        // this.props.getUserGroups();
 
         // alert(Dimensions.get("window").height);
 
@@ -280,6 +247,8 @@ class Invite extends Component {
                 AsyncStorage.setItem("timezone", currentTimeZone);
             }
         })
+
+        AppState.addEventListener('change', this._handleAppStateChange);
 
     } //did mount end
 
@@ -301,7 +270,16 @@ class Invite extends Component {
 
         // this is where you unsubscribe
         this.unsubscribeFromNotificationListener();
+
+        AppState.removeEventListener('change', this._handleAppStateChange);
+
     }
+    //https://aboutreact.com/react-native-appstate/
+    _handleAppStateChange = nextAppState => {
+        if (nextAppState === 'active') {
+            this.props.onLogActiveUser()
+        }
+    };
 
     optionScreen = () => {
         this.props.navigator.push({
@@ -342,8 +320,11 @@ class Invite extends Component {
     state = {
         selectedContactIds: [],
         timeZone: null,
-        isDialogVisible: false
+        isDialogVisible: false,
+        appState: AppState.currentState
     };
+
+
 
     appSettings = () => {
         Alert.alert(
@@ -601,13 +582,61 @@ class Invite extends Component {
             stateOfContacts = <ActivityIndicator />;
         } else {
             if (this.props.syncedContacts.length === 0) {
-                stateOfContacts = <Button
-                    onPress={() => this.getContacts()}
-                    title="Sync Contacts"
-                />
+                stateOfContacts = (
+                    <View style={styles.noContactsButtonWrapper}>
+                        <Button
+                            onPress={() => this.getContacts()}
+                            title="Add friends from contact list"
+                        />
+                        <Button
+                            onPress={() => {
+                                if (Platform.OS === "ios") {
+                                    Alert.prompt(
+                                        "Enter your friend's Wayvo username",
+                                        "",
+                                        [
+                                            {
+                                                text: "Cancel",
+                                                onPress: () => console.log("Cancel Pressed"),
+                                                // style: "cancel"
+                                            },
+                                            {
+                                                text: "Add",
+                                                onPress: textInput => this.props.onAddFriend(textInput)
+                                            }
+                                        ],
+                                    )
+                                } else {
+                                    this.setState({
+                                        isDialogVisible: true
+                                    })
+                                }
+                            }}
+                            title="Add friends by username"
+                        />
+                    </View>
+                )
             } else {
                 stateOfContacts = (
                     <View style={this.props.selectedContactIds.length > 0 ? styles.setMargin : null}>
+
+                        <View style={styles.relationshipButtonView}>
+                            <TouchableOpacity
+                                onPress={() => { alert("hi") }}
+                                style={styles.relationshipButton}
+                            >
+                                <Text style={styles.relationshipButtonText}>
+                                    {"   "} Relationships {"   "}
+                                    {/* <Icon
+                                            size={20}
+                                            name="ios-arrow-forward"
+                                            color="#f5f5f5"
+                                        ></Icon> */}
+                                </Text>
+
+                            </TouchableOpacity>
+                        </View>
+
                         <ContactsList
                             contacts={this.props.syncedContacts} //sending to friendslist component 
                             onItemSelected={this.contactSelectedHandler} //receiving from friendslist component 
@@ -730,6 +759,7 @@ class Invite extends Component {
                                 Wayvo will send each friend a notification or sms to let them know you want to catch up!
                                 {/* with a link to your calendar */}
                             </Text>
+
                             {stateOfContacts}
                         </View>
 
@@ -748,7 +778,7 @@ const styles = StyleSheet.create({
         // backgroundColor: "#0088CA"
         backgroundColor: "#fff"
     },
-    // begin styling from old contacts 
+    // begin styling from old contacts
     mainContent: {
         padding: 20
     },
@@ -779,7 +809,7 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     },
-    // end styling from old contacts 
+    // end styling from old contacts
 
     modalWrapper: {
         backgroundColor: "rgba(0,0,0,0.7)",
@@ -1202,8 +1232,23 @@ const styles = StyleSheet.create({
     weeklyText: {
         fontSize: 20
     },
-    pizza: {
-        transform: [{ rotate: '180deg' }]
+    noContactsButtonWrapper: {
+        marginTop: 15
+    },
+    relationshipButtonView: {
+        alignItems: "flex-end",
+
+    },
+    relationshipButton: {
+        backgroundColor: colors.orange,
+        borderRadius: 20,
+
+    },
+    relationshipButtonText: {
+        color: "#fff",
+        padding: 7,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontSize: 15,
     }
 });
 
@@ -1261,6 +1306,8 @@ const mapDispatchToProps = dispatch => {
         onAddFriend: username => dispatch(saveContactByUsername(username)),
         removeContact: (id, from_username) => dispatch(deleteContact(id, from_username)),
         onGetCalendar: updateAlert => dispatch(getCalendar(updateAlert)),
+        onGetUpcomingData: () => dispatch(getUpcomingData()),
+        onLogActiveUser: () => dispatch(logActiveUser())
     };
 };
 

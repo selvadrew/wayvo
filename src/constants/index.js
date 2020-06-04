@@ -26,7 +26,7 @@
 // export const HOST = "http://10.0.2.125:3000";
 // export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://9d1971e1e37b.ngrok.io"
+export const HOST = "https://ecf5a7734fa8.ngrok.io"
 
 
 
@@ -54,7 +54,7 @@ WSS
 -- new os- command can be run globally 
 ngrok http 8080
     - $ cd downloads
-- $ ./ngrok http 3000
+- $ ngrok http 3000
 
 RNN custom start cause of bug 
 - $ react-native start -- --reset-cache
@@ -70,7 +70,7 @@ https://www.twilio.com/console/phone-numbers/PNa45f5e2391a4a72151a489706af425cd
 
 
 rails g migration AddLastViewedToInvitations last_viewed:timestamp 
-rails g migration AddLastNameToUsers last_name:string 
+rails g migration AddLastActiveToUsers last_active:timestamp 
 
 
 run this if the firebase pod problem comes up again 

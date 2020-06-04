@@ -69,7 +69,9 @@ export function normalizeContacts(contacts) {
       familyName: contact.familyName || "",
       phoneNumbers: contact.phoneNumbers || null,
       selected: false,
-      from_username: contact.from_username || false
+      from_username: contact.from_username || false,
+      last_connected: contact.last_connected,
+      relationship_days: contact.relationship_days
     };
   });
 }

@@ -33,7 +33,10 @@ const contactsList = props => {
 
 const styles = StyleSheet.create({
     listContainer: {
-        width: "100%"
+        width: "100%",
+        marginTop: 11,
+        borderTopWidth: 1,
+        borderTopColor: "#eee"
     }
 });
 

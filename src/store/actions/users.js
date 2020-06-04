@@ -102,6 +102,7 @@ export function schoolEmailSignup(phoneNumber) {
         } else {
           dispatch(uiStopLoading());
           dispatch(signUpError(json.error));
+          Alert.alert(json.error)
         }
       })
       .catch(e => {
@@ -1085,4 +1086,32 @@ export function clearSelectedContacts() {
   return {
     type: CLEAR_SELECTED_CONTACTS
   }
+}
+
+
+export const logActiveUser = () => {
+  return dispatch => {
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        console.log("No valid token found!");
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/log_active_user`, {
+          method: "POST",
+          body: JSON.stringify({
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        console.log("logged user active")
+      })
+      .catch(e => {
+      });
+  };
 }
