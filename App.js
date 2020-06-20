@@ -36,7 +36,7 @@ import PlanExplodingOffer from "./src/screens/Plans/PlanExplodingOffer";
 import PlanSendInvite from "./src/screens/Plans/PlanSendInvite";
 import PlanChat from "./src/screens/Plans/PlanChat";
 import InviteFriends from "./src/screens/Plans/InviteFriends";
-import Contacts from "./src/screens/PhoneScreen/Contacts";
+import Relationships from "./src/screens/PhoneScreen/Relationships";
 import Invite from "./src/screens/PhoneScreen/Invite";
 import Calendar from "./src/screens/Calendar/Calendar";
 import Upcoming from "./src/screens/Upcoming/Upcoming";
@@ -281,8 +281,8 @@ Navigation.registerComponent(
 );
 
 Navigation.registerComponent(
-  "awesome-places.Contacts",
-  () => Contacts,
+  "awesome-places.Relationships",
+  () => Relationships,
   store,
   Provider
 );

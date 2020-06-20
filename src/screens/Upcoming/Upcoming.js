@@ -14,14 +14,15 @@ import {
     Button,
     PermissionsAndroid,
     TouchableOpacity,
-    Alert
+    Alert,
+    TouchableWithoutFeedback
 } from "react-native";
 import { connect } from "react-redux";
 import colors from "../../utils/styling";
 
 import { getUpcomingData, showFriendsCalendar } from "../../store/actions/upcomings";
 import WaitingForMe from "../../components/Upcoming/WaitingForMe";
-import { getCalendar } from "../../store/actions/calendars";
+import { getCalendar, updateCalendarGreen } from "../../store/actions/calendars";
 import { firstNameOwnership } from "../../utils";
 import CallStatus from "../../components/ActiveFriends/CallStatus";
 import InvitationReceived from "../../components/ActiveFriends/InvitationReceived";
@@ -29,6 +30,8 @@ import NotificationInvitationSent from "../../components/ActiveFriends/Notificat
 import call from "react-native-phone-call";
 import { Facetime } from "react-native-openanything";
 import firebase from "react-native-firebase";
+import Icon from "react-native-vector-icons/Ionicons";
+
 
 
 
@@ -36,6 +39,7 @@ import firebase from "react-native-firebase";
 class Upcoming extends Component {
     constructor(props) {
         super(props);
+        this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
     }
 
     getNotificationStatus = () => {
@@ -92,7 +96,11 @@ class Upcoming extends Component {
 
     state = {
         notificationsEnabled: true,
-        androidNotificationsEnabled: true
+        androidNotificationsEnabled: true,
+        hasContacts: true,
+        hasSetRelationship: true,
+        hasCalendarTimeSelected: true,
+        displayNames: null
     };
 
     componentDidMount() {
@@ -183,18 +191,113 @@ class Upcoming extends Component {
 
     }
 
-    render() {
-        // if theres an invitation received that hasnt been opened/scheduled yet 
-        if (this.props.waitingForMe.length + this.props.upcomingBookedCalls.length > 0) {
-            this.props.navigator.switchToTab({
-                tabIndex: 2
-            });
-        }
+    onNavigatorEvent = event => {
+        if (event.type === "ScreenChangedEvent") {
+            if (event.id === "willAppear") {
+                // check if user has contacts 
+                if (this.props.syncedContacts.length === 0) {
+                    this.setState({
+                        hasContacts: false,
+                        hasSetRelationship: false
+                    })
+                } else {
+                    // check if user has set relationship 
+                    relationshipDays = 0
+                    // check which contacts have relationships that are set 
+                    weekly = []
+                    biWeekly = []
+                    monthly = []
+                    bimonthly = []
+                    trimonthly = []
+                    this.props.syncedContacts.forEach(element => {
+                        if (element["relationship_days"] < 100) {
+                            relationshipDays += element["relationship_days"]
+                            switch (element["relationship_days"]) {
+                                case 7:
+                                    weekly.push(element["givenName"])
+                                    break;
+                                case 14:
+                                    weekly.push(element["givenName"])
+                                    break;
+                                case 30:
+                                    weekly.push(element["givenName"])
+                                    break;
+                                case 60:
+                                    weekly.push(element["givenName"])
+                                    break;
+                                case 90:
+                                    weekly.push(element["givenName"])
+                                    break;
+                            }
+                        }
+                    });
+                    allRelationshipNames = weekly.concat(biWeekly, monthly, bimonthly, trimonthly)
+                    firstThreeNames = allRelationshipNames.slice(0, 3)
+                    if (firstThreeNames.length === 1) {
+                        displayNames = firstThreeNames[0]
+                    } else if (firstThreeNames.length === 2) {
+                        displayNames = firstThreeNames[0] + " and " + firstThreeNames[1]
+                    } else {
+                        displayNames = firstThreeNames[0] + ", " + firstThreeNames[1] + " and " + firstThreeNames[2]
+                    }
 
+                    if (relationshipDays > 0) {
+                        this.setState({
+                            hasSetRelationship: true,
+                            hasContacts: true,
+                            displayNames: displayNames
+                        })
+                    } else {
+                        this.setState({
+                            hasSetRelationship: false,
+                            hasContacts: true,
+                            displayNames: displayNames
+                        })
+                    }
+                }
+
+                //calendar 
+                count = 0
+                this.props.todaysSchedule.forEach(element => {
+                    if (element["status"] === "free") {
+                        count++
+                    }
+                })
+                this.props.tomorrowsSchedule.forEach(element => {
+                    if (element["status"] === "free") {
+                        count++
+                    }
+                })
+                // has to be 2 or greater since they are deselecting - since the count includes the deselected one 
+                status = count > 0 ? true : false
+                this.setState({
+                    hasCalendarTimeSelected: status
+                })
+
+            }
+        }
+    };
+
+    changeTabFromToDo = (completed, tab) => {
+        if (!completed) {
+            this.props.navigator.switchToTab({
+                tabIndex: tab
+            });
+            if (tab === 0) {
+                Alert.alert("", "Once you have synced your contacts, tap on a friend's name to select how often you want to catch-up with them")
+            } else {
+                Alert.alert("Select as many times as you can")
+            }
+        }
+    }
+
+    render() {
 
         invitationsReceived = null
         invitationsSent = null
+        invitationsSentText = null
         upcomingCallsView = null
+        notSetup = null
         if (this.props.waitingForMe.length > 0) {
             invitationsReceived = (
                 <View style={styles.upcomingWrapper}>
@@ -211,14 +314,113 @@ class Upcoming extends Component {
             )
         }
 
+        if (this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length === 0) {
+            invitationsSentText = (
+                <Text style={styles.upcomingInfoText}>
+                    In 10 minutes, Wayvo will invite {this.state.displayNames} to schedule a call with you! The 10 minute delay is to give you a chance to make any final additions to your Calendar before friends view it and choose a time.
+                   {"\n"}{"\n"}
+                    Once your Calendar is fully up to date, you can close the Wayvo App - you will receive a notification when the invitation is sent.
+                </Text>
+            )
+        }
+
+        checkMark = (
+            <Icon
+                size={30}
+                name={"ios-checkmark-circle-outline"}
+                color={colors.greenColor}
+                iconStyle={{ display: "none" }}
+            />
+        )
+        xMark = (
+            <Icon
+                size={30}
+                name={"ios-close-circle-outline"}
+                color={colors.pinkColor}
+                iconStyle={{ display: "none" }}
+            />
+        )
+
+        contactsMark = this.state.hasContacts ? checkMark : xMark
+        relationshipsMark = this.state.hasSetRelationship ? checkMark : xMark
+        calendarMark = this.state.hasCalendarTimeSelected ? checkMark : xMark
+
+
+
+        // if all the following is true, dont show this 
+        if (!(this.state.hasCalendarTimeSelected && this.state.hasContacts && this.state.hasSetRelationship)) {
+            notSetup = (
+                <View style={{ marginTop: 10 }}>
+                    <View style={styles.redHeaderWrapper}>
+                        <Text style={styles.upcomingInfoTextRed}>
+                            Send friends an invitation to schedule a call with you by completing the following:
+                        </Text>
+                    </View>
+                    <View style={styles.redWrapper}>
+
+                        <TouchableWithoutFeedback onPress={() => this.changeTabFromToDo(this.state.hasContacts, 0)}>
+                            <View style={styles.bulletsWrapper}>
+                                <View style={styles.iconWrapper}>
+                                    {contactsMark}
+                                </View>
+                                <View style={styles.instructionsWrapper}>
+                                    <Text style={styles.bulletText}>
+                                        Add friends from your contact list
+                                </Text>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                        <TouchableWithoutFeedback onPress={() => this.changeTabFromToDo(this.state.hasSetRelationship, 0)}>
+                            <View style={styles.bulletsWrapper}>
+                                <View style={styles.iconWrapper}>
+                                    {relationshipsMark}
+                                </View>
+                                <View style={styles.instructionsWrapper}>
+                                    <Text style={styles.bulletText}>
+                                        {/* Select and manage the relationships of 2 or more friends you never want to lose touch with or want to get to know better */}
+                                        Select all the friends you want to stay in touch with in the Relationships tab and choose how often you want to catch-up with them
+                                        {/* Select friends in the Relationships tab and choose how often you want to catch-up with them */}
+                                    </Text>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                        <TouchableWithoutFeedback onPress={() => this.changeTabFromToDo(this.state.hasCalendarTimeSelected, 1)}>
+                            <View style={styles.bulletsWrapper}>
+                                <View style={styles.iconWrapper}>
+                                    {calendarMark}
+                                </View>
+                                <View style={styles.instructionsWrapper}>
+                                    <Text style={styles.bulletText}>
+                                        Suggest at least 5 times in your Calendar that friends can choose from to schedule a call with you
+                                </Text>
+                                </View>
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                    </View>
+                    {/* <Text>
+                        {this.state.hasContacts.toString()}
+                        {this.state.hasSetRelationship.toString()}
+                        {this.state.hasCalendarTimeSelected.toString()}
+                    </Text> */}
+                </View>
+
+
+            )
+        }
+
+        // if (this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length > 0 || (this.state.hasCalendarTimeSelected && this.state.hasContacts && this.state.hasSetRelationship)) {
         if (this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length > 0) {
             invitationsSent = (
-                <View>
+                <View style={{ marginBottom: 10 }}>
                     <View style={styles.titleWrapper2}>
                         <Text style={styles.titleText}>
                             Invitations Sent
-                                </Text>
+                        </Text>
                     </View>
+
                     <NotificationInvitationSent
                         invitations={this.props.waitingForFriends}
                         onItemSelected={this.scheduleInvitation}
@@ -227,6 +429,19 @@ class Upcoming extends Component {
                         invitations={this.props.waitingForTextedFriends}
                         onItemSelected={this.scheduleInvitation}
                     />
+                    {/* {invitationsSentText} */}
+
+                    {/* dont show add friends here, say add more friends, and leave calendar  */}
+                    {/* {notSetup} */}
+                </View>
+            )
+        }
+
+        notSetupInstructions = null
+        if (!(this.state.hasCalendarTimeSelected && this.state.hasContacts && this.state.hasSetRelationship)) {
+            notSetupInstructions = (
+                <View style={styles.titleWrapper2}>
+                    {notSetup}
                 </View>
             )
         }
@@ -249,36 +464,37 @@ class Upcoming extends Component {
             );
         }
 
+        // Set how often you want to catch-up with each friend and update your Calendar. Then, check back here in 10 minutes to see who Wayvo invited to catch-up. 
 
         // no invitations sent - no invitations received 
         if (!this.props.isLoadingUpcoming && (this.props.upcomingBookedCalls.length + this.props.waitingForMe.length + this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length === 0)) {
             upcomingCallsView = (
                 <Text style={styles.upcomingInfoText}>
-                    {/* Once you Invite friends to catch up, they'll be able to join one of the many times you've set aside for them in your Calendar(the green selections). */}
-                    Start inviting friends to catch up! Then, once a friend joins your Calendar for a phone call today or tomorrow, you'll see the details here.
-                    {"\n"}{"\n"}
-                    {/* Protip: Try to set multiple times aside in your Calendar before sending invites so your friends can choose what works best for them (they'll see all the green selections in your Calendar). */}
-                    Protip: To make it easy for your friends to choose a time that works best for them, set multiple times aside in your Calendar before sending invites (friends will see all the green selections in your Calendar).
-                    {/* Once you invite friends to catch up, they'll be able to join your Calendar through one of your many green times selected. */}
-                    {/* Once you Invite friends to catch up, they'll see all the green selections in your Calendar and be able to join you for a call today or tomorrow.
-                    You'll see the all details of the call here when it's finalized. */}
+                    No scheduled calls yet
+
+                    {/* {"\n"}{"\n"} */}
+
+                    {/* Protip: The more times you suggest from your Calendar, the easier it will be for your friends to choose a time that works best for them (friends will see all the green selections in your Calendar). */}
+
                 </Text>
             )
             // yes invitations sent - no invitations received 
         } else if (!this.props.isLoadingUpcoming && this.props.upcomingBookedCalls.length === 0 && ((this.props.waitingForFriends.length + this.props.waitingForTextedFriends.length) > 0) && this.props.waitingForMe.length === 0) {
             upcomingCallsView = (
                 <Text style={styles.upcomingInfoText}>
-                    Once the friends you've sent an invitation to view and join your Calendar, you'll see the details here.
-                    {"\n"}{"\n"}
-                    Protip: Keep multiple times aside in your calendar to make it easy for your friends to choose what works best for them (friends will see all the green selections in your Calendar).
-                    {/* Protip: Try to keep multiple times aside in your Calendar so your friends can choose what works best for them (they'll see all the green selections in your Calendar). */}
+                    {/* No scheduled calls yet */}
+                    {/* {"\n"}{"\n"} */}
+                    When the friends you've invited view your Calendar and schedule a call, you'll see the details here
+                    {/* {"\n"}{"\n"} */}
+
+                    {/* Protip: The more times you set aside in your Calendar, the easier it will be for your friends to choose a time that works best for them (friends will see all the green selections in your Calendar). */}
                 </Text>
             )
             // yes invitations received - everything else doesnt matter 
         } else if (!this.props.isLoadingUpcoming && this.props.upcomingBookedCalls.length === 0 && this.props.waitingForMe.length > 0) {
             upcomingCallsView = (
                 <Text style={styles.upcomingInfoText}>
-                    Once you open the invitation you've received and finalize a time to catch up, you'll see the details of the call here.
+                    No scheduled calls yet
                 </Text>
             )
         } else {
@@ -338,6 +554,8 @@ class Upcoming extends Component {
                             {/********  INVITATIONS SENT  ********/}
                             {invitationsSent}
 
+                            {notSetupInstructions}
+
                             {notificationsDisabled}
                         </ScrollView>
                     </View >
@@ -358,7 +576,11 @@ const mapStateToProps = state => {
         todaysSchedule: state.calendar.todays_schedule,
         tomorrowsSchedule: state.calendar.tomorrows_schedule,
         isLoadingUpcoming: state.ui.isLoadingUpcoming,
-        date: state.upcoming.date
+        date: state.upcoming.date,
+        todaysSchedule: state.calendar.todays_schedule,
+        tomorrowsSchedule: state.calendar.tomorrows_schedule,
+        calendarHasGreen: state.calendar.calendarHasGreen,
+        syncedContacts: state.users.contacts,
     };
 };
 
@@ -366,7 +588,8 @@ const mapDispatchToProps = dispatch => {
     return {
         onGetUpcomingData: () => dispatch(getUpcomingData()),
         onShowFriendsCalendar: (invitation_id, todaysSchedule, tomorrowsSchedule) => dispatch(showFriendsCalendar(invitation_id, todaysSchedule, tomorrowsSchedule)),
-        onGetCalendar: (updateAlert, invitation_id) => dispatch(getCalendar(updateAlert, invitation_id))
+        onGetCalendar: (updateAlert, invitation_id) => dispatch(getCalendar(updateAlert, invitation_id)),
+        onUpdateCalendarGreen: boolean => dispatch(updateCalendarGreen(boolean))
     };
 };
 
@@ -380,7 +603,7 @@ const styles = StyleSheet.create({
         flex: 1, flexWrap: 'wrap',
         color: "#fff",
         padding: 15,
-        fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
+        fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
         textAlign: "center",
         fontWeight: "500",
         // textAlign: "center",
@@ -404,7 +627,7 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         // backgroundColor: colors.orange
         // borderBottomWidth: 0.5,
-        borderTopWidth: 0.5,
+        borderTopWidth: 1.5,
         borderColor: "#eee",
         paddingTop: 10
     },
@@ -415,7 +638,7 @@ const styles = StyleSheet.create({
         // color: colors.blueColor,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontWeight: "600",
-        fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
+        fontSize: Dimensions.get("window").width > 330 ? 25 : 22,
 
     },
     callStatusWrapper: {
@@ -431,7 +654,7 @@ const styles = StyleSheet.create({
         // color: colors.blueColor,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
         fontWeight: "400",
-        fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
+        fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
     },
     openAppSettingsText: {
         color: colors.blueColor
@@ -441,9 +664,61 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
         paddingBottom: 10,
         // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-        fontWeight: "200",
-        fontSize: 15
+        fontWeight: "400",
+        color: "#777",
+        fontSize: 16
+    },
+    invitationsSentText: {
+        paddingTop: 5,
+        paddingHorizontal: 15,
+        // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontWeight: "400",
+        color: "#777",
+        fontSize: 16
+    },
+    upcomingInfoTextRed: {
+        paddingTop: 5,
+        paddingHorizontal: 15,
+        paddingBottom: 10,
+        // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontWeight: "600",
+        color: "#333",
+        fontSize: 17
+    },
+    redWrapper: {
+        // backgroundColor: colors.pinkColor,
+        marginLeft: 15,
+        marginRight: 15
+    },
+    redBulletsWrapper: {
+        backgroundColor: colors.pinkColor,
+        marginBottom: 20,
+        padding: 10,
+        borderRadius: 5,
+    },
+    bulletsWrapper: {
+        // backgroundColor: colors.greenColor,
+        marginBottom: 20,
+        // padding: 10,
+        borderRadius: 5,
+        flexDirection: "row",
+        alignItems: "center",
+        width: "100%",
+    },
+    bulletText: {
+        color: "#777",
+        fontSize: 16,
+        fontWeight: "500",
+        // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+    },
+    instructionsWrapper: {
+        width: "85%"
+    },
+    iconWrapper: {
+        width: "15%",
+        alignItems: "center",
     }
+
 });
 
 export default connect(

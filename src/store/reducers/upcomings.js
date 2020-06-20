@@ -1,5 +1,5 @@
 import {
-    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR, SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR
+    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR, SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR, TIME_TO_CATCH_UP_LIST, UPDATE_CONTACT_INDEX
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -9,7 +9,10 @@ const initialState = {
     waitingForTextedFriends: [],
     friendsCalendar: null,
     booked: false,
-    date: ""
+    date: "",
+    newUser: false,
+    contactsToCatchUpWith: [],
+    contactIndex: 0
 };
 
 const reducer = (state = initialState, action) => {
@@ -21,7 +24,8 @@ const reducer = (state = initialState, action) => {
                 upcomingBookedCalls: action.upcomingBookedCalls,
                 waitingForFriends: action.waitingForFriends,
                 waitingForTextedFriends: action.waitingForTextedFriends,
-                date: action.display_date
+                date: action.display_date,
+                newUser: action.new_user
             };
         case STORE_FRIENDS_CALENDAR:
             return {
@@ -43,6 +47,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 booked: true
+            }
+        case TIME_TO_CATCH_UP_LIST:
+            return {
+                ...state,
+                contactsToCatchUpWith: action.contactsToCatchUpWith,
+                contactIndex: 0
+            }
+        case UPDATE_CONTACT_INDEX:
+            return {
+                ...state,
+                contactIndex: state.contactIndex + action.contactIndex
             }
         default:
             return state;

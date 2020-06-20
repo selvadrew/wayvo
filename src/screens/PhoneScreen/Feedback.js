@@ -18,8 +18,8 @@ import { sendFeedback } from "../../store/actions/users";
 class Feedback extends Component {
   static navigatorStyle = {
     navBarHidden: false,
-    statusBarColor: colors.darkBlue,
-    navBarBackgroundColor: colors.darkBlue,
+    statusBarColor: colors.blueColor,
+    navBarBackgroundColor: colors.blueColor,
     navBarButtonColor: "#fff",
     navBarTextColor: "#fff"
   };
@@ -77,7 +77,7 @@ class Feedback extends Component {
       content = (
         //no feedback sent yet
         <View>
-          <Text style={styles.header}>Let us know how we can improve </Text>
+          <Text style={styles.header}>How can we improve your Wayvo experience?</Text>
           <TextInput
             onChangeText={text => this.setState({ text })}
             value={this.state.text}
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
     marginBottom: 20,
-    color: "#444",
+    color: "#111",
     fontWeight: "600",
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"

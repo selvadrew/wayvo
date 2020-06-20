@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
         backgroundColor: colors.greenColor
     },
     callBg: {
-        borderTopColor: colors.blueColor,
-        backgroundColor: colors.blueColor
+        borderTopColor: colors.orange,
+        backgroundColor: colors.orange
     },
     colorNames: {
         color: "#fff"
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     timeText: {
         color: "#777",
         fontWeight: "bold",
-        fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+        fontSize: Dimensions.get("window").width > 330 ? 21 : 19,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     }
 });

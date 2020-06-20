@@ -12,7 +12,7 @@ import colors from "../../utils/styling";
 import ActiveHelloButton from "../../components/UI/ActiveHelloButton";
 
 const activeList = props => (
-  <View onPress={props.onItemPressed}>
+  <View>
     <View style={styles.listItem}>
       <Text style={styles.names}>
         {props.firstName} {"\n"}
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
   names: {
     color: colors.blueColor,
     fontWeight: "bold",
-    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 18,
     width: "60%",
     marginRight: 10,
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"

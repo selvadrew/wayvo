@@ -60,6 +60,8 @@ import { PermissionsAndroid } from "react-native";
 import { normalizeContacts, sortContacts } from "../../utils/index";
 
 import ContactsList from "../../components/ContactsList/ContactsList";
+import ActiveHelloButton from "../../components/UI/ActiveHelloButton";
+
 import { Touchable } from "../../components/Touchable/Touchable";
 import DialogInput from 'react-native-dialog-input';
 
@@ -252,13 +254,13 @@ class Invite extends Component {
 
     } //did mount end
 
-    appSettings = () => {
-        Linking.openURL("app-settings:");
-        // change tab so when they come back, it refreshes
-        this.props.navigator.switchToTab({
-            tabIndex: 1
-        });
-    };
+    // appSettings = () => {
+    //     Linking.openURL("app-settings:");
+    //     // change tab so when they come back, it refreshes
+    //     this.props.navigator.switchToTab({
+    //         tabIndex: 1
+    //     });
+    // };
 
     componentWillUnmount() {
         //listen for notifications
@@ -276,6 +278,7 @@ class Invite extends Component {
     }
     //https://aboutreact.com/react-native-appstate/
     _handleAppStateChange = nextAppState => {
+        console.log(nextAppState)
         if (nextAppState === 'active') {
             this.props.onLogActiveUser()
         }
@@ -307,6 +310,13 @@ class Invite extends Component {
 
     };
 
+    missionScreen = () => {
+        this.props.navigator.push({
+            screen: "awesome-places.Mission",
+            backButtonTitle: ""
+        });
+    };
+
     static navigatorStyle = {
         navBarHidden: true,
         navBarBackgroundColor: "#0088CA",
@@ -328,7 +338,7 @@ class Invite extends Component {
 
     appSettings = () => {
         Alert.alert(
-            "Please give Wayvo access to your contacts in app settings to use this feature",
+            "You need to give Wayvo access to your contacts in app settings to use this feature",
             "",
             [
                 {
@@ -464,20 +474,26 @@ class Invite extends Component {
         }
     }
 
+    // used to handle the contact selector 
+    // contactSelectedHandler = (id, from_username, givenName, relationship_days, last_connected) => {
+    //     this.props.onSelectContact(id)
+    // };
 
-    contactSelectedHandler = id => {
-        this.props.onSelectContact(id)
-        // this.storeSelectedContactIds(id)
-    };
+    contactSelectedHandler = (id, from_username, givenName, relationship_days, last_connected) => {
+        this.props.navigator.push({
+            screen: "awesome-places.Relationships",
+            title: "Manage Relationship",
+            backButtonTitle: "",
+            passProps: {
+                id: id,
+                from_username: from_username,
+                givenName: givenName,
+                relationship_days: relationship_days,
+                last_connected: last_connected
+            }
+        });
+    }
 
-    // storeSelectedContactIds = id => {
-    //     const index = this.props.selectedContactIds.indexOf(id);
-    //     if (index > -1) {
-    //         this.props.selectedContactIds.splice(index, 1)
-    //     } else {
-    //         this.props.selectedContactIds.push(id)
-    //     }
-    // }
 
     onDeleteContact = (id, from_username) => {
         this.props.removeContact(id, from_username)
@@ -568,8 +584,8 @@ class Invite extends Component {
 
         }
 
-        // {fullname: "Anna Haro", phoneNumber: "555-522-8243"}
-        // need to change SendNotificationToCatchUpJob in api 
+        // [{fullname: "Andrew Selvadurai", phoneNumber: "6475542523"}]
+
     }
 
 
@@ -584,11 +600,10 @@ class Invite extends Component {
             if (this.props.syncedContacts.length === 0) {
                 stateOfContacts = (
                     <View style={styles.noContactsButtonWrapper}>
-                        <Button
-                            onPress={() => this.getContacts()}
-                            title="Add friends from contact list"
-                        />
-                        <Button
+                        <View style={{ marginBottom: 20 }}>
+                            <ActiveHelloButton onPress={() => this.getContacts()} buttonText="Add friends from contact list" />
+                        </View>
+                        {/* <ActiveHelloButton
                             onPress={() => {
                                 if (Platform.OS === "ios") {
                                     Alert.prompt(
@@ -612,30 +627,13 @@ class Invite extends Component {
                                     })
                                 }
                             }}
-                            title="Add friends by username"
-                        />
+                            buttonText="Add friends by username"
+                        /> */}
                     </View>
                 )
             } else {
                 stateOfContacts = (
                     <View style={this.props.selectedContactIds.length > 0 ? styles.setMargin : null}>
-
-                        <View style={styles.relationshipButtonView}>
-                            <TouchableOpacity
-                                onPress={() => { alert("hi") }}
-                                style={styles.relationshipButton}
-                            >
-                                <Text style={styles.relationshipButtonText}>
-                                    {"   "} Relationships {"   "}
-                                    {/* <Icon
-                                            size={20}
-                                            name="ios-arrow-forward"
-                                            color="#f5f5f5"
-                                        ></Icon> */}
-                                </Text>
-
-                            </TouchableOpacity>
-                        </View>
 
                         <ContactsList
                             contacts={this.props.syncedContacts} //sending to friendslist component 
@@ -666,6 +664,32 @@ class Invite extends Component {
                     </Touchable>
                 )
             }
+        }
+
+        let howItWorks = null
+        if (this.props.syncedContacts.length > 0) {
+            howItWorks = (
+                <View>
+                    <Text style={styles.mainHeader}>
+                        Choose how often you want to catch-up with each friend.{" "}
+                        <Text style={styles.learnMore} onPress={() => this.missionScreen()}>
+                            How it works.
+                        </Text>
+                    </Text>
+
+                </View>
+            )
+        } else {
+            howItWorks = (
+                <View>
+                    <Text style={styles.mainHeader}>
+                        Add friends to get started.{" "}
+                        <Text style={styles.learnMore} onPress={() => this.missionScreen()}>
+                            How it works.
+                        </Text>
+                    </Text>
+                </View>
+            )
         }
 
         return (
@@ -752,13 +776,7 @@ class Invite extends Component {
                     <ScrollView style={styles.container2}>
 
                         <View style={styles.mainContent}>
-                            <Text style={styles.header}>
-                                {/* Invite friends to view your calendar and schedule a 1-on-1 call with you.
-                                Wayvo will send each friend a notification or sms to let them know you want to catch up! */}
-                                Invite friends to view and join your Calendar for a 1-on-1 call today or tomorrow.
-                                Wayvo will send each friend a notification or sms to let them know you want to catch up!
-                                {/* with a link to your calendar */}
-                            </Text>
+                            {howItWorks}
 
                             {stateOfContacts}
                         </View>
@@ -781,6 +799,24 @@ const styles = StyleSheet.create({
     // begin styling from old contacts
     mainContent: {
         padding: 20
+    },
+    mainHeader: {
+        fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+        fontWeight: "600",
+        color: "#000",
+        // fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        marginBottom: 20,
+        letterSpacing: 0.1
+        // textAlign: "center"
+    },
+    learnMore: {
+        // textAlign: "left",
+        // marginBottom: 20,
+        // marginTop: 5,
+        color: "#000",
+        textDecorationLine: "underline",
+        textDecorationColor: "#000",
+
     },
     header: {
         fontSize: Dimensions.get("window").width > 330 ? 15 : 13,
@@ -990,16 +1026,7 @@ const styles = StyleSheet.create({
                 ? 80 + (Dimensions.get("window").height * 2) / 9
                 : 60 + (Dimensions.get("window").height * 2) / 9
     },
-    learnMore: {
-        position: "absolute",
-        zIndex: 100,
-        backgroundColor: "rgba(0,0,0,0.90)",
-        width: "100%",
-        height: "100%",
-        justifyContent: "flex-start",
-        marginTop: 80,
-        textAlign: "right"
-    },
+
     tapDescription: {
         position: "absolute",
         zIndex: 100,

@@ -21,6 +21,8 @@ import {
   STOP_LOADING_UPCOMING,
   START_LOADING_FRIENDS_CALENDAR,
   STOP_LOADING_FRIENDS_CALENDAR,
+  START_LOADING_PLUS_BUTTON,
+  STOP_LOADING_PLUS_BUTTON
 } from "./actionTypes";
 
 export const uiStartLoading = () => {
@@ -154,5 +156,17 @@ export const startLoadingFriendsCalendar = () => {
 export const stopLoadingFriendsCalendar = () => {
   return {
     type: STOP_LOADING_FRIENDS_CALENDAR
+  };
+};
+
+export const startLoadingPlusButton = () => {
+  return {
+    type: START_LOADING_PLUS_BUTTON
+  };
+};
+
+export const stopLoadingPlusButton = () => {
+  return {
+    type: STOP_LOADING_PLUS_BUTTON
   };
 };

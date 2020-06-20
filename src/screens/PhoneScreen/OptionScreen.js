@@ -23,8 +23,8 @@ import phoneNumberTab from "../MainTabs/phoneNumberTab";
 class OptionScreen extends Component {
   static navigatorStyle = {
     navBarHidden: false,
-    statusBarColor: colors.darkBlue,
-    navBarBackgroundColor: colors.darkBlue,
+    statusBarColor: colors.blueColor,
+    navBarBackgroundColor: colors.blueColor,
     navBarButtonColor: "#fff",
     navBarTextColor: "#fff"
   };
@@ -105,6 +105,18 @@ class OptionScreen extends Component {
 
         <View style={styles.bottomBox}>
           <TouchableWithoutFeedback onPress={() => this.missionScreen()}>
+            {/* <View style={styles.iconWrapper}>
+              <View style={styles.imageWrapper}>
+                <Image
+                  source={require("../../assets/Wayvo-Icon.png")}
+                  style={styles.logo}
+                />
+              </View> */}
+            <Text style={[styles.logoutText]}>How Wayvo Works</Text>
+            {/* </View> */}
+          </TouchableWithoutFeedback>
+
+          {/* <TouchableWithoutFeedback onPress={() => this.topicsScreen()}>
             <View style={styles.iconWrapper}>
               <View style={styles.imageWrapper}>
                 <Image
@@ -112,47 +124,31 @@ class OptionScreen extends Component {
                   style={styles.logo}
                 />
               </View>
-              <Text style={[styles.logoutText]}>How it Works</Text>
-            </View>
-          </TouchableWithoutFeedback>
-
-          {/* <TouchableWithoutFeedback onPress={() => this.topicsScreen()}>
-            <View style={styles.iconWrapper}>
-              <View style={styles.imageWrapper}>
-                <Image
-                  source={require("../../assets/List-Icon.png")}
-                  style={styles.logo}
-                />
-              </View>
-              <Text style={[styles.logoutText]}>Topics</Text>
+            <Text style={[styles.logoutText]}>FAQ's</Text>
             </View>
           </TouchableWithoutFeedback> */}
 
+          {/* <TouchableWithoutFeedback onPress={() => this.topicsScreen()}>
+
+            <Text style={[styles.logoutText]}>FAQ's</Text>
+
+          </TouchableWithoutFeedback> */}
+
           <TouchableWithoutFeedback onPress={() => this.feedbackScreen()}>
-            <View style={styles.iconWrapper}>
+            {/* <View style={styles.iconWrapper}>
               <View style={styles.imageWrapper}>
                 <Image
                   source={require("../../assets/Heart-Icon.png")}
                   style={styles.logo}
                 />
-              </View>
-              <Text style={[styles.logoutText]}>Feedback</Text>
-            </View>
+              </View> */}
+            <Text style={[styles.logoutText]}>Send Feedback</Text>
+            {/* </View> */}
           </TouchableWithoutFeedback>
 
-          {/* <TouchableWithoutFeedback onPress={() => this.phoneNumberScreen()}>
-            <View style={styles.iconWrapper}>
-              <View style={styles.imageWrapper}>
-                <Image
-                  source={require("../../assets/Phone-Icon.png")}
-                  style={styles.logo}
-                />
-              </View>
-              <Text style={[styles.logoutText]}>Phone Number</Text>
-            </View>
-          </TouchableWithoutFeedback>
 
-          <TouchableWithoutFeedback onPress={() => this.logoutPrompt()}>
+
+          {/* <TouchableWithoutFeedback onPress={() => this.logoutPrompt()}>
             <View>
               <Text style={[styles.logoutText]}>Logout</Text>
             </View>
@@ -178,7 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   bottomBox: {
-    flex: 3,
+    flex: 2,
     alignItems: "center",
     justifyContent: "flex-start",
     flexDirection: "column"
@@ -196,14 +192,14 @@ const styles = StyleSheet.create({
 
   name: {
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 28,
     color: colors.blueColor,
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
   },
   username: {
     fontWeight: "bold",
-    fontSize: 25,
+    fontSize: 28,
     color: colors.pinkColor,
     textAlign: "center",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
@@ -223,13 +219,14 @@ const styles = StyleSheet.create({
     width: "70%",
     fontWeight: "500",
     fontSize: Dimensions.get("window").width > 330 ? 23 : 20,
-    //textAlign: "center",
+    textAlign: "center",
     //marginBottom: 20,
     //borderWidth: 1,
     borderColor: "#444",
     borderRadius: 0,
     letterSpacing: 1,
-    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
+    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+    marginBottom: 25
   },
   imageWrapper: {
     width: "30%",

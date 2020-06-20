@@ -14,7 +14,7 @@ const startTabs = () => {
       tabs: [
         {
           screen: "awesome-places.Invite",
-          label: "Invite",
+          label: "Relationships",
           //title: "Phone",
           icon: sources[1]
         },

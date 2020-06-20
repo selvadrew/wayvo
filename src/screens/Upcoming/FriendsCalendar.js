@@ -58,7 +58,7 @@ class FriendsCalendar extends Component {
     timeSelectedToday = time => {
         if (this.state.day === new Date().getDate()) {
             Alert.alert(
-                `Catch up with ${this.props.first_name_singular} at ${time} today?`,
+                `Catch-up with ${this.props.first_name_singular} over a phone call at ${time} today?`,
                 ``,
                 [
                     {
@@ -85,7 +85,7 @@ class FriendsCalendar extends Component {
     timeSelectedTomorrow = time => {
         if (this.state.day === new Date().getDate()) {
             Alert.alert(
-                `Catch up with ${this.props.first_name_singular} at ${time} tomorrow?`,
+                `Catch-up with ${this.props.first_name_singular} over a phone call at ${time} tomorrow?`,
                 ``,
                 [
                     {

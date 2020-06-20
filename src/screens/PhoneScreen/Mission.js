@@ -20,8 +20,8 @@ import { Dropdown } from 'react-native-material-dropdown';
 class Mission extends Component {
   static navigatorStyle = {
     navBarHidden: false,
-    statusBarColor: colors.darkBlue,
-    navBarBackgroundColor: colors.darkBlue,
+    statusBarColor: colors.blueColor,
+    navBarBackgroundColor: colors.blueColor,
     navBarButtonColor: "#fff",
     navBarTextColor: "#fff"
   };
@@ -29,116 +29,7 @@ class Mission extends Component {
     super(props);
   }
 
-  state = {
-    learnMoreIndex: null
-  };
-
-  onChangeTextPress = (value, index) => {
-    this.setState({
-      learnMoreIndex: index
-    })
-  }
-
   render() {
-    let data = [{
-      value: 'Start a plan ',
-    }, {
-      value: 'Make a new friend ',
-    }, {
-      value: 'Catch up with a friend ',
-    }, {
-      value: 'Groups ',
-    }, {
-      value: 'Live ',
-    }];
-
-    let learnMoreText = null
-    switch (this.state.learnMoreIndex) {
-      case 0://start a plan 
-        learnMoreText = (
-          <View>
-            <Text style={styles.learnMoreText}>
-              Plans can be started with students from your program, residence, school club, cultural group, interest group, or friend groups.
-            </Text>
-            <Text style={styles.learnMoreText2}>
-              Once you select a group, you can <Text style={styles.toGroupsText}>start a plan</Text> to grab food, group study, hang out, or party. Wayvo will notify everyone in the group and automatically create a group chat with all the students who want to join the plan, so you can all finalize the details together before meeting up.
-            </Text>
-            <Text style={styles.learnMoreText2}>
-              Starting a plan is the best way to make new friends and connect with existing friends in-person every day.
-            </Text>
-            <Text style={styles.learnMoreText3}>
-              Note: You can only start or join plans with groups you're in. Learn more about Wayvo <Text style={styles.toGroupsText}>groups</Text> by selecting it above.
-            </Text>
-          </View>
-        )
-        break
-      case 1://make a new friend
-        learnMoreText = (
-          <View>
-            <Text style={styles.learnMoreText}>
-              You can <Text style={styles.toGroupsText}>make a new friend</Text>{" "}
-              over a voice or video call from your program, residence, school club, cultural group, interest group, or mutual friend groups.
-          </Text>
-            <Text style={styles.learnMoreText2}>
-              For example, if you choose to make a new friend from your program,
-                  Wayvo will notify everyone in your program you haven't - the first one to respond gets to call you.
-          </Text>
-            <Text style={styles.learnMoreText2}>
-              It's the best way to make a new friend when you have some spare time, like when you're commuting to school or taking a study break.
-          </Text>
-            <Text style={styles.learnMoreText3}>
-              Note: You can only make a new friend from groups you're in. Learn more about Wayvo <Text style={styles.toGroupsText}>groups</Text> by selecting it above.
-          </Text>
-          </View>
-        )
-        break
-      case 2://catch up with a friend 
-        learnMoreText = (
-          <View>
-            <Text style={styles.learnMoreText}>
-              Don't lose touch with the awesome people you meet through the <Text style={styles.toGroupsText}>start a plan</Text> or <Text style={styles.toGroupsText}>make a new friend</Text> features. After you meet people in person or over a call, add them to your Friends List.
-            </Text>
-            <Text style={styles.learnMoreText2}>
-              When you press <Text style={styles.toGroupsText}>catch up with a friend</Text>, it's like saying hello to all your friends at once. We'll send everyone on your Friends List a notification and the first one to respond gets to call you.
-            </Text>
-            <Text style={styles.learnMoreText2}>
-              It's a great way to check up on a friend or make their day.
-            </Text>
-          </View>
-        )
-        break
-      case 3://groups
-        learnMoreText = (
-          <View>
-            <Text style={styles.learnMoreText}>
-              When you get verified at your school, you automatically get added to two groups - your program and graduating class.
-              You'll be able to <Text style={styles.toGroupsText}>make a new friend</Text> or <Text style={styles.toGroupsText}>start a plan</Text> with other verified members from these groups.
-            </Text>
-
-            <Text style={styles.learnMoreText2}>
-              It’ll be up to you to find more groups you want to join,
-              or to create your own group to bring friends or people with similar interests together (e.g., entrepreneurship). If you create your own group, let others know through social media so they can join.
-            </Text>
-          </View>
-        )
-        break
-      case 4://Live
-        learnMoreText = (
-          <View>
-            <Text style={styles.learnMoreText}>
-              The Live screen is where you'll see group members and friends when they press{" "}
-              <Text style={styles.toGroupsText}>start a plan</Text>, <Text style={styles.toGroupsText}>make a new friend</Text>, or <Text style={styles.toGroupsText}>catch up with a friend</Text>.
-            </Text>
-            <Text style={styles.learnMoreText2}>
-              When you receive a notification, quickly go to the Live screen, so you can join a plan or get connected on a call before it's too late.
-            </Text>
-          </View>
-        )
-        break
-      default:
-        learnMoreText = null
-        break
-    }
 
     return (
       <ScrollView
@@ -147,21 +38,42 @@ class Mission extends Component {
       >
         <View style={styles.wrapper}>
           <Text style={styles.header}>
-            Wayvo helps university students connect with new and existing friends every day.
+            How Wayvo Works
           </Text>
-          <Dropdown
-            label='Select a feature to learn more '
-            data={data}
-            itemCount={5}
-            itemColor="#333"
-            baseColor={colors.darkBlue}
-            textColor="#333"
-            onChangeText={(value, index) => this.onChangeTextPress(value, index)}
-            dropdownPosition={0}
-          />
-          <View style={styles.learnMoreTextWrapper}>
-            {learnMoreText}
+          {/* <Text style={styles.subtitle}>
+            Wayvo is an automated personal assistant that schedules phone calls for you with all the people you care about
+          </Text> */}
+
+          <View style={styles.numberedItemWrapper}>
+            <View style={styles.bulletTextWrapper}>
+              <Text style={styles.blueText}>You do this once</Text>
+            </View>
+            <View style={styles.bulletTextWrapper}>
+              <Text style={styles.bulletText}>Choose how often you want to catch-up with each friend (once a week, once a month, etc). For example, if you choose once a month, you'll be able to invite that friend to schedule a call with you today and then again after 30 days. </Text>
+            </View>
           </View>
+
+          <View style={styles.numberedItemWrapper}>
+            <View style={styles.bulletTextWrapper}>
+              <Text style={styles.blueText}>You do this every day</Text>
+            </View>
+            <View style={styles.bulletTextWrapper}>
+              <Text style={styles.bulletText}>Update your Calendar and send friends an invitation to schedule a 1-on-1 call with you.</Text>
+            </View>
+          </View>
+
+          <View style={styles.numberedItemWrapper}>
+            <View style={styles.bulletTextWrapper}>
+              <Text style={styles.blueText}>And Wayvo manages the rest</Text>
+            </View>
+            <View style={styles.bulletTextWrapper}>
+              <Text style={styles.bulletText}>
+                Wayvo will help your friends choose a time in your Calendar to schedule a call with you. Wayvo will notify you once a call is scheduled and 15 minutes before the call as well.
+                </Text>
+            </View>
+          </View>
+
+
         </View>
       </ScrollView>
     );
@@ -182,38 +94,58 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   header: {
-    fontSize: Dimensions.get("window").width > 330 ? 21 : 18,
-    color: "#444",
+    fontSize: Dimensions.get("window").width > 330 ? 24 : 22,
+    color: "#111",
     fontWeight: "500",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-    letterSpacing: 0.5
-  },
-  learnMoreText: {
-    fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-    fontSize: 18,
     letterSpacing: 0.5,
+    textAlign: "center",
+    marginBottom: 35
+  },
+  subtitle: {
+    fontSize: Dimensions.get("window").width > 330 ? 16 : 14,
     color: "#333",
-  },
-  learnMoreText2: {
-    marginTop: 10,
+    fontWeight: "400",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-    fontSize: 18,
     letterSpacing: 0.5,
-    color: "#333",
+    textAlign: "center",
+    marginBottom: 35
   },
-  learnMoreText3: {
-    marginTop: 10,
+  numberedItemWrapper: {
+    fontSize: Dimensions.get("window").width > 330 ? 22 : 20,
+    color: "#111",
+    fontWeight: "500",
     fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-    fontSize: 13,
-    letterSpacing: 0.5,
-    color: "#444",
+    // flexDirection: "row",
+    // alignItems: "center",
+    // width: "100%",
     marginBottom: 30
+    // padding: 11
   },
-  toGroupsText: {
-    color: colors.blueColor
+  bulletNumberWrapper: {
+    width: "10%",
   },
-  learnMoreTextWrapper: {
-    marginTop: 10
+  bulletNumber: {
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 18,
+    color: "#111",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    // textAlign: "center"
+    // fontWeight: "900"
+  },
+  bulletTextWrapper: {
+    // width: "90%",
+  },
+  blueText: {
+    fontSize: Dimensions.get("window").width > 330 ? 20 : 16,
+    color: colors.blueColor,
+    fontWeight: "600",
+    marginBottom: 3
+    // textDecorationLine: "underline"
+  },
+  bulletText: {
+    fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+    color: "#111",
   }
 });
 

@@ -5,14 +5,17 @@ import { Alert } from "react-native";
 import authTab from "../../screens/MainTabs/authTab";
 
 import {
-    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR, SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR
+    STORE_UPCOMING_DATA, STORE_FRIENDS_CALENDAR, CLEAR_FRIENDS_CALENDAR, SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR, TIME_TO_CATCH_UP_LIST,
+    UPDATE_CONTACT_INDEX
 } from "./actionTypes";
 
 import {
     startLoadingUpcoming,
     stopLoadingUpcoming,
     startLoadingFriendsCalendar,
-    stopLoadingFriendsCalendar
+    stopLoadingFriendsCalendar,
+    startLoadingPlusButton,
+    stopLoadingPlusButton
 } from "../../store/actions/ui";
 import { getCalendar } from "./calendars";
 
@@ -64,7 +67,8 @@ export const getUpcomingData = (day, id, time, status) => {
                         json.upcoming_booked_calls,
                         json.waiting_for_friends,
                         json.waiting_for_texted_friends,
-                        display_date
+                        display_date,
+                        json.new_user
                     ))
                     dispatch(stopLoadingUpcoming())
 
@@ -83,14 +87,15 @@ export const getUpcomingData = (day, id, time, status) => {
 
 
 
-export const updateUpcomingData = (waitingForMe, upcomingBookedCalls, waitingForFriends, waitingForTextedFriends, display_date) => {
+export const updateUpcomingData = (waitingForMe, upcomingBookedCalls, waitingForFriends, waitingForTextedFriends, display_date, new_user) => {
     return {
         type: STORE_UPCOMING_DATA,
         waitingForMe,
         upcomingBookedCalls,
         waitingForFriends,
         waitingForTextedFriends,
-        display_date
+        display_date,
+        new_user
     };
 };
 
@@ -224,5 +229,58 @@ export const bookFriendsCalendar = (day, time, invitation_id, updated_at) => {
 export const successfullyBookedFriendsCalendar = () => {
     return {
         type: SUCCESSFULLY_BOOKED_FRIENDS_CALENDAR,
+    }
+}
+
+
+export const getTimeToCatchUpList = () => {
+    return dispatch => {
+        dispatch(startLoadingPlusButton())
+        let access_token;
+        dispatch(authGetToken())
+            .catch(() => {
+                alert("Not authenticated");
+                dispatch(stopLoadingPlusButton())
+            })
+            .then(token => {
+                access_token = token;
+                return fetch(`${HOST}/api/v1/time_to_catch_up`, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        access_token: access_token,
+                    }),
+                    headers: { "content-type": "application/json" }
+                });
+            })
+            .then(response => response.json())
+            .then(json => {
+                if (json.is_success) {
+                    dispatch(storeTimeToCatchUpList(json.contacts_to_catch_up_with))
+                    dispatch(stopLoadingPlusButton())
+                } else {
+                    dispatch(stopLoadingPlusButton())
+                }
+            })
+            .catch(e => {
+                // Alert.alert("Oops, we couldn't connect, please try again");
+                console.log(e)
+                dispatch(stopLoadingPlusButton())
+            });
+    };
+};
+
+
+
+export const storeTimeToCatchUpList = (contactsToCatchUpWith) => {
+    return {
+        type: TIME_TO_CATCH_UP_LIST,
+        contactsToCatchUpWith
+    }
+}
+
+export const contactIndex = (contactIndex) => {
+    return {
+        type: UPDATE_CONTACT_INDEX,
+        contactIndex
     }
 }

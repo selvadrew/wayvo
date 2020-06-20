@@ -866,7 +866,7 @@ class PhoneScreen extends Component {
             <TouchableWithoutFeedback
               onPress={() => this.setModalVisible(false)}
             >
-              <Icon size={30} name={"md-close-circle"} color={"#555"} />
+              <Icon size={30} name={"md-close-circle"} color={"#999"} />
             </TouchableWithoutFeedback>
           </View>
           <View style={styles.verifiedWrapper}>

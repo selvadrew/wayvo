@@ -21,6 +21,8 @@ import {
   STOP_LOADING_UPCOMING,
   START_LOADING_FRIENDS_CALENDAR,
   STOP_LOADING_FRIENDS_CALENDAR,
+  START_LOADING_PLUS_BUTTON,
+  STOP_LOADING_PLUS_BUTTON
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -36,7 +38,8 @@ const initialState = {
   isLoadingChats: false,
   isLoadingCalendar: false,
   isLoadingUpcoming: false,
-  isLoadingFriendsCalendar: false
+  isLoadingFriendsCalendar: false,
+  isLoadingPlusButton: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -159,6 +162,16 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingFriendsCalendar: false
+      };
+    case START_LOADING_PLUS_BUTTON:
+      return {
+        ...state,
+        isLoadingPlusButton: true
+      };
+    case STOP_LOADING_PLUS_BUTTON:
+      return {
+        ...state,
+        isLoadingPlusButton: false
       };
 
     default:

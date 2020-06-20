@@ -7,7 +7,8 @@ import {
   SUBMITTED,
   STORE_CONTACTS,
   SELECT_CONTACT,
-  CLEAR_SELECTED_CONTACTS
+  CLEAR_SELECTED_CONTACTS,
+  SET_RELATIONSHIP
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -28,7 +29,8 @@ const initialState = {
   user_id: null,
   nextScreen: null,
   contacts: [],
-  selectedContactIds: []
+  selectedContactIds: [],
+  test: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -108,6 +110,15 @@ const reducer = (state = initialState, action) => {
         ),
         selectedContactIds: []
       }
+    case SET_RELATIONSHIP:
+      return {
+        ...state,
+        contacts: state.contacts.map(
+          contact =>
+            contact.contactId === action.id ? { ...contact, relationship_days: action.days } : contact
+        )
+
+      };
     default:
       return state;
   }

@@ -71,7 +71,8 @@ export function normalizeContacts(contacts) {
       selected: false,
       from_username: contact.from_username || false,
       last_connected: contact.last_connected,
-      relationship_days: contact.relationship_days
+      relationship_days: contact.relationship_days,
+      can_send_invite: contact.can_send_invite
     };
   });
 }

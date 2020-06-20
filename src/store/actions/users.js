@@ -6,7 +6,7 @@ import startTabs from "../../screens/MainTabs/startMainTabs";
 import phoneNumberTab from "../../screens/MainTabs/phoneNumberTab";
 import authTab from "../../screens/MainTabs/authTab";
 import firebase from "react-native-firebase";
-import { uiStartLoading, uiStopLoading, startLoadingFriends, stopLoadingFriends } from "../../store/actions/ui";
+import { uiStartLoading, uiStopLoading, startLoadingFriends, stopLoadingFriends, startLoadingPlusButton } from "../../store/actions/ui";
 import {
   USERNAME_ERROR,
   STORE_PHONE_NUMBER,
@@ -14,13 +14,14 @@ import {
   LOGIN_ERROR,
   STORE_CONTACTS,
   SELECT_CONTACT,
-  CLEAR_SELECTED_CONTACTS
+  CLEAR_SELECTED_CONTACTS,
+  SET_RELATIONSHIP
 } from "./actionTypes";
 import { CLEAR_FRIENDS } from "../actions/friends";
 import { CLEAR_ACTIVE_FRIENDS } from "../actions/activeFriends";
 import { CLEAR_CONNECTED } from "../actions/actionTypes";
 import { normalizeContacts, sortContacts } from "../../utils";
-import { getUpcomingData } from "./upcomings";
+import { getUpcomingData, getTimeToCatchUpList } from "./upcomings";
 
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 
@@ -1001,6 +1002,52 @@ export function selectContact(contactId) {
   }
 }
 
+export function saveRelationshipChange(id, from_username, days) {
+  return {
+    type: SET_RELATIONSHIP,
+    id,
+    from_username,
+    days
+  }
+}
+
+export const setRelationship = (id, from_username, days) => {
+  return dispatch => {
+    dispatch(startLoadingPlusButton())
+    dispatch(saveRelationshipChange(id, from_username, days));
+    let access_token;
+    dispatch(authGetToken())
+      .catch(() => {
+        alert("No valid token found!");
+      })
+      .then(token => {
+        access_token = token;
+
+        return fetch(`${HOST}/api/v1/set_relationship`, {
+          method: "POST",
+          body: JSON.stringify({
+            id: id,
+            from_username: from_username,
+            days: days,
+            access_token: access_token
+          }),
+          headers: { "content-type": "application/json" }
+        });
+      })
+      .then(response => response.json())
+      .then(json => {
+        if (json.is_success) {
+          dispatch(getTimeToCatchUpList())
+        } else {
+
+        }
+      })
+      .catch(e => {
+        console.log("failed");
+      });
+  };
+}
+
 export const saveTimeZone = (timeZone, timeZoneOffset) => {
   return dispatch => {
     dispatch(uiStartLoading());
@@ -1066,8 +1113,12 @@ export const sendInvite = nameAndNumber => {
           dispatch(getUpcomingData())
           dispatch(uiStopLoading());
           dispatch(clearSelectedContacts())
+          dispatch(getTimeToCatchUpList())
 
-          // Alert.alert("Successfully sent", "Invited friends will now be able to view your calendar and schedule a call with you. Keep your calendar up to date.")
+          Alert.alert(
+            "Successfully sent",
+            `${nameAndNumber[0].fullname} can now view your calendar and schedule a call with you. See Upcoming tab for more info.`
+          )
 
         } else {
           Alert.alert("Oops, we couldn't connect, please try again");

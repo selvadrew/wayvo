@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import colors from "../../utils/styling";
 
+let list = { 7: "Weekly", 14: "2 weeks", 30: "Monthly", 60: "2 Months", 90: "3 months" }
 const contactListItem = props => (
     <TouchableOpacity
         onPress={() => { props.onItemPressed() }}
@@ -38,15 +39,32 @@ const contactListItem = props => (
             );
         }}
     >
-        <View style={props.status === true ? styles.listItem : styles.listItem}>
-            <Text style={props.status === true ? styles.names : styles.grayName}>
-                {props.userName}
-            </Text>
+        <View style={styles.listItem}>
+            <View style={styles.nameWrapper}>
+
+                <Text style={props.status === true ? styles.names : styles.grayName}>
+                    {props.userName}
+                </Text>
+
+            </View>
+
+            {/* why is it 100? see utils/index.js */}
+            <View style={props.relationshipDays === 100 || props.relationshipDays === 0 ? styles.dontShow : styles.relationshipButtonView}>
+                <View style={styles.relationshipButton}>
+                    <Text style={styles.relationshipButtonText}>
+                        {list[props.relationshipDays]}
+                    </Text>
+                </View>
+            </View>
         </View>
     </TouchableOpacity>
+
 );
 
 const styles = StyleSheet.create({
+    dontShow: {
+        display: "none"
+    },
     listItem: {
         flexDirection: "row",
         alignItems: "center",
@@ -67,14 +85,33 @@ const styles = StyleSheet.create({
         color: colors.darkBlue,
         //#ccdfff
         fontWeight: "bold",
-        fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+        fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     grayName: {
         color: "black",
         fontWeight: "bold",
         fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
-        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+    },
+    nameWrapper: {
+        width: "60%"
+    },
+    relationshipButtonView: {
+        alignItems: "flex-end",
+        width: "40%",
+    },
+    relationshipButton: {
+        backgroundColor: colors.orange,
+        borderRadius: 20,
+        paddingLeft: 5,
+        paddingRight: 5
+    },
+    relationshipButtonText: {
+        color: "#fff",
+        padding: 7,
+        fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
+        fontSize: 15,
     }
 });
 

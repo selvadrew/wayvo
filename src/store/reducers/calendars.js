@@ -1,12 +1,14 @@
 import {
     STORE_CALENDAR,
     UPDATE_SELECTED_TIME_TODAY,
-    UPDATE_SELECTED_TIME_TOMORROW
+    UPDATE_SELECTED_TIME_TOMORROW,
+    CALENDAR_HAS_ONE_GREEN
 } from "../actions/actionTypes";
 
 const initialState = {
     todays_schedule: [],
-    tomorrows_schedule: []
+    tomorrows_schedule: [],
+    calendarHasGreen: true
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,7 +17,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 todays_schedule: action.todays_schedule,
-                tomorrows_schedule: action.tomorrows_schedule
+                tomorrows_schedule: action.tomorrows_schedule,
+                calendarHasGreen: action.selected
             };
         case UPDATE_SELECTED_TIME_TODAY:
             return {
@@ -38,6 +41,13 @@ const reducer = (state = initialState, action) => {
                             time
                 ),
             };
+
+        case CALENDAR_HAS_ONE_GREEN:
+            return {
+                ...state,
+                calendarHasGreen: action.calendarHasGreen
+            };
+
 
         default:
             return state;

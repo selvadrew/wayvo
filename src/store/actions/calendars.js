@@ -9,7 +9,8 @@ export const OUTGOING_CALL = "OUTGOING_CALL";
 import {
     STORE_CALENDAR,
     UPDATE_SELECTED_TIME_TODAY,
-    UPDATE_SELECTED_TIME_TOMORROW
+    UPDATE_SELECTED_TIME_TOMORROW,
+    CALENDAR_HAS_ONE_GREEN
 } from "./actionTypes";
 
 import {
@@ -73,7 +74,8 @@ export const getCalendar = (updateAlert, invitation_id) => {
 
                     dispatch(storeUsersCalendar(
                         setCalendarWithData(json.todays_schedule, arrayPosition),
-                        setCalendarWithData(json.tomorrows_schedule, 0)
+                        setCalendarWithData(json.tomorrows_schedule, 0),
+                        json.selected
                     ))
 
                     dispatch(stopLoadingCalendar());
@@ -100,11 +102,12 @@ export const getCalendar = (updateAlert, invitation_id) => {
     };
 };
 
-export const storeUsersCalendar = (todays_schedule, tomorrows_schedule) => {
+export const storeUsersCalendar = (todays_schedule, tomorrows_schedule, selected) => {
     return {
         type: STORE_CALENDAR,
         todays_schedule,
-        tomorrows_schedule
+        tomorrows_schedule,
+        selected
     };
 };
 
@@ -169,4 +172,11 @@ export const updateSelectedTimeTomorrow = (id, status) => {
         status
     };
 };
+
+export const updateCalendarGreen = calendarHasGreen => {
+    return {
+        type: CALENDAR_HAS_ONE_GREEN,
+        calendarHasGreen
+    }
+}
 
