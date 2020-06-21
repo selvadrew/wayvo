@@ -58,7 +58,7 @@ class Mission extends Component {
               <Text style={styles.blueText}>You do this every day</Text>
             </View>
             <View style={styles.bulletTextWrapper}>
-              <Text style={styles.bulletText}>Update your Calendar and send friends an invitation to schedule a 1-on-1 call with you.</Text>
+              <Text style={styles.bulletText}>Update your Calendar, see which friends it's time to catch up with, and send them an invitation to schedule a 1-on-1 call with you.</Text>
             </View>
           </View>
 
@@ -68,7 +68,7 @@ class Mission extends Component {
             </View>
             <View style={styles.bulletTextWrapper}>
               <Text style={styles.bulletText}>
-                Wayvo will help your friends choose a time in your Calendar to schedule a call with you. Wayvo will notify you once a call is scheduled and 15 minutes before the call as well.
+                Wayvo will help your friends choose a time in your Calendar and schedule a call with you. Wayvo will notify you once a call is scheduled and 15 minutes before the call as well.
                 </Text>
             </View>
           </View>

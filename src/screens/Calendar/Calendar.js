@@ -199,15 +199,29 @@ class Calendar extends Component {
         if (this.props.index > 0) {
             leftButton = (
                 <TouchableWithoutFeedback onPress={() => this.rightButtonPressed(-1)}>
-                    <Icon size={30} name={"ios-arrow-back"} color={"#999"} />
+                    <View style={styles.buttonWrapperLeft}>
+                        <Icon size={30} name={"ios-arrow-back"} color={"#999"} />
+                    </View>
                 </TouchableWithoutFeedback>
+            )
+        } else {
+            leftButton = (
+                <View style={styles.buttonWrapperLeft}>
+                </View>
             )
         }
         if (this.props.timeToCatchUpWith.length > 1 && (this.props.timeToCatchUpWith.length > (this.props.index + 1))) {
             rightButton = (
                 <TouchableWithoutFeedback onPress={() => this.rightButtonPressed(1)}>
-                    <Icon size={30} name={"ios-arrow-forward"} color={"#999"} />
+                    <View style={styles.buttonWrapperRight}>
+                        <Icon size={30} name={"ios-arrow-forward"} color={"#999"} />
+                    </View>
                 </TouchableWithoutFeedback>
+            )
+        } else {
+            rightButton = (
+                <View style={styles.buttonWrapperRight}>
+                </View>
             )
         }
 
@@ -236,15 +250,15 @@ class Calendar extends Component {
 
 
                             <View style={styles.nameButtonsWrapper}>
-                                <View style={styles.buttonWrapperLeft}>
-                                    {leftButton}
-                                </View>
+
+                                {leftButton}
+
                                 <View style={styles.nameWrapper}>
                                     {fullname}
                                 </View>
-                                <View style={styles.buttonWrapperRight}>
-                                    {rightButton}
-                                </View>
+
+                                {rightButton}
+
                             </View>
 
                             <View style={styles.sendInviteWrapper}>
@@ -431,7 +445,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         padding: 15,
         // paddingBottom: 0,
-        fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
+        fontSize: Dimensions.get("window").width > 330 ? 20 : 16,
         textAlign: "center",
         fontWeight: "500",
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",

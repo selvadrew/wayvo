@@ -453,13 +453,13 @@ class Upcoming extends Component {
                 <Text style={styles.notificationExplain} onPress={this.appSettings}>
                     Allow notifications{" "}
                     <Text style={styles.openAppSettingsText}>here </Text>
-                    if you want to be notified when a friend schedules a call with you. Or if you want a reminder for upcoming calls.
+                    if you want to be notified when friends invite you to schedule a call with them.
               </Text>
             );
         } else if (Platform.OS === "android" && !this.state.androidNotificationsEnabled) {
             notificationsDisabled = (
                 <Text style={styles.notificationExplain}>
-                    Allow notifications in app settings if you want to be notified when a friend schedules a call with you. Or if you want a reminder for upcoming calls.
+                    Allow notifications in app settings if you want to be notified when friends invite you to schedule a call with them.
               </Text>
             );
         }

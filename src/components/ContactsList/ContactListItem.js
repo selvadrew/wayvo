@@ -85,13 +85,13 @@ const styles = StyleSheet.create({
         color: colors.darkBlue,
         //#ccdfff
         fontWeight: "bold",
-        fontSize: Dimensions.get("window").width > 330 ? 19 : 16,
+        fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold"
     },
     grayName: {
         color: "black",
         fontWeight: "bold",
-        fontSize: Dimensions.get("window").width > 330 ? 18 : 16,
+        fontSize: Dimensions.get("window").width > 330 ? 19 : 17,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
     },
     nameWrapper: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
         color: "#fff",
         padding: 7,
         fontFamily: Platform.OS === "android" ? "Roboto" : "Arial Rounded MT Bold",
-        fontSize: 15,
+        fontSize: 18,
     }
 });
 

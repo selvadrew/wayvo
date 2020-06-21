@@ -156,6 +156,7 @@ class EmailCode extends Component {
                             autoCapitalize="none"
                             autoCorrect={false}
                             keyboardType="email-address"
+                            keyboardType="numeric"
                         />
                     </View>
                     {createButton}

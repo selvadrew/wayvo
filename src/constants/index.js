@@ -11,6 +11,7 @@
 // react-native run-ios --simulator 'iPad Air 2'
 
 // to generate the release APK
+// change version codes in build.gradle 
 // $ cd android
 // $ ./gradlew assembleRelease
 // android/app/build/outputs/apk/release
@@ -24,9 +25,9 @@
 // 192.168.0.16 - sunview
 
 // export const HOST = "http://10.0.2.125:3000";
-// export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
+export const HOST = "https://sheltered-escarpment-63295.herokuapp.com/";
 
-export const HOST = "https://ecf5a7734fa8.ngrok.io"
+// export const HOST = "https://ecf5a7734fa8.ngrok.io"
 
 
 
