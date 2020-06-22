@@ -93,7 +93,20 @@ class AuthScreen extends Component {
     }
 
     Keyboard.dismiss();
-    this.props.onAddPhoneNumber(this.state.userName.trim());
+
+    AsyncStorage.getItem("smsCount").then(smsCount => {
+      if (smsCount === null) {
+        AsyncStorage.setItem("smsCount", "1");
+        this.props.onAddPhoneNumber(this.state.userName.trim());
+      } else {
+        if (parseInt(smsCount) < 6) {
+          AsyncStorage.setItem("smsCount", (parseInt(smsCount) + 1).toString());
+          this.props.onAddPhoneNumber(this.state.userName.trim());
+        } else {
+          Alert.alert("Your device has been blocked", "Please contact hello@wayvo.app for help")
+        }
+      }
+    })
   };
 
 
